@@ -101,7 +101,7 @@ public class Zone implements IZone
 		Random r = new Random();
 		for(int i = 0; i < this.cards.size(); i++)
 		{
-			moveCardToIndex(i, r.nextInt(this.cards.size()));
+			moveCardToIndex(i, r.nextInt(this.cards.size()+1));
 		}
 	}
 
