@@ -5,8 +5,6 @@ import java.util.List;
 import spell.Card;
 import zone.ZonePick;
 
-
-//NOT FINISHED !!
 public class CardArrayRequestEvent
 {
 	private final int nbCard;
