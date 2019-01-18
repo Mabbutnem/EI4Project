@@ -42,6 +42,13 @@ public class Zone implements IZone
 		Zone.cardArrayRequestListener = cardArrayRequestListener;
 	}
 	
+	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
+	protected Card[] removeByChoice(int nbCard, ZonePick zonePick)
+	{
+		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, zonePick, cards);
+		return cardArrayRequestListener.removeAndGetCardArray(e);
+	}
+	
 	
 
 	public void add(Card[] cards) {
@@ -88,9 +95,50 @@ public class Zone implements IZone
 		if(zonePick == null) { throw new IllegalArgumentException("zonePick ne peut pas être null");}
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
-		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, zonePick, getCards());
+		Card[] cardArray = null;
+		List<Card> removedCards = new LinkedList<Card>();
+		int i = 0;
 		
-		return cardArrayRequestListener.getCardArray(e);
+		switch(zonePick)
+		{
+		case TOP:
+			while(i<nbCard&&!cards.isEmpty())
+			{
+				removedCards.add(cards.remove(cards.size()-1));
+				i++;
+			}
+			cardArray = removedCards.toArray(new Card[0]);
+			break;
+			
+		case BOTTOM:
+			while(i<nbCard&&!cards.isEmpty())
+			{
+				removedCards.add(cards.remove(0));
+				i++;
+			}
+			cardArray = removedCards.toArray(new Card[0]);
+			break;
+			
+		case RANDOM:
+			Random r = new Random();
+			while(i<nbCard&&!cards.isEmpty())
+			{
+				removedCards.add(cards.remove(r.nextInt(cards.size())));
+				i++;
+			}
+			cardArray = removedCards.toArray(new Card[0]);
+			break;
+			
+		case CHOICE:
+			cardArray = removeByChoice(nbCard, zonePick);
+			break;
+			
+		default:
+			break;
+		}
+		
+		
+		return cardArray;
 	}
 
 	public ZoneType getZoneType() {
