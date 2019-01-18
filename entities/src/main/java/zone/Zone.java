@@ -24,6 +24,8 @@ public class Zone implements IZone
 		if(cardArrayRequestListener == null) { throw new NotInitialisedContextException("cardArrayRequestListener"
 				+ "n'a pas été initialisé (en static)");}
 		
+		if(cards == null) { cards = new Card[0];}
+		
 		if(zoneType == null) { throw new IllegalArgumentException("zoneType ne peut pas être null");}
 		
 		if(defaultZonePick == null) { throw new IllegalArgumentException("defaultZonePick ne peut pas être null");}
@@ -31,7 +33,7 @@ public class Zone implements IZone
 		if(defaultZonePick == ZonePick.DEFAULT) { throw new IllegalArgumentException("defaultZonePick ne peut pas être DEFAULT");}
 		
 		this.cards = new LinkedList<Card>();
-		add(cards);
+		add(cards, ZonePick.TOP);
 		this.zoneType = zoneType;
 		this.defaultZonePick = defaultZonePick;
 	}
