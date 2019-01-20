@@ -3,9 +3,6 @@ package test_event;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,7 +16,7 @@ import zone.ZonePick;
 public class TestCardArrayRequestEvent
 {
 	private CardArrayRequestEvent e;
-	private List<Card> cards;
+	private Card[] cards;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -31,11 +28,13 @@ public class TestCardArrayRequestEvent
 
 	@Before
 	public void setUp() throws Exception {
-		cards = new LinkedList<Card>();
-		for(int i = 0; i < 5; i++)
-		{
-			cards.add(mock(Card.class));
-		}
+		cards = new Card[]
+				{
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class)
+				};
 		e = new CardArrayRequestEvent(3, ZonePick.RANDOM, cards);
 	}
 
@@ -62,11 +61,11 @@ public class TestCardArrayRequestEvent
 
 	@Test
 	public final void testGetCards() {
-		List<Card> expected = cards;
-		List<Card> result = e.getCards();
-		for(int i = 0; i < expected.size(); i++)
+		Card[] expected = cards;
+		Card[] result = e.getCards();
+		for(int i = 0; i < expected.length; i++)
 		{
-			assertEquals(expected.get(i), result.get(i));
+			assertEquals(expected[i], result[i]);
 		}
 	}
 

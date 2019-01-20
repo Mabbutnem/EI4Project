@@ -1,7 +1,5 @@
 package event;
 
-import java.util.List;
-
 import spell.Card;
 import zone.ZonePick;
 
@@ -9,9 +7,9 @@ public class CardArrayRequestEvent
 {
 	private final int nbCard;
 	private final ZonePick zonePick;
-	private final List<Card> cards;
+	private final Card[] cards;
 	
-	public CardArrayRequestEvent(int nbCard, ZonePick zonePick, List<Card> cards)
+	public CardArrayRequestEvent(int nbCard, ZonePick zonePick, Card[] cards)
 	{
 		this.nbCard = nbCard;
 		this.zonePick = zonePick;
@@ -26,7 +24,7 @@ public class CardArrayRequestEvent
 		return zonePick;
 	}
 
-	public List<Card> getCards() {
+	public Card[] getCards() {
 		return cards;
 	}
 	

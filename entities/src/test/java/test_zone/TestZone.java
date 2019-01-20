@@ -21,7 +21,7 @@ final class MockedCardArrayRequestListener implements ICardArrayRequestListener
 {
 	public MockedCardArrayRequestListener() {}
 	
-	public Card[] removeAndGetCardArray(CardArrayRequestEvent e)
+	public Card[] getCardArray(CardArrayRequestEvent e)
 	{
 		return new Card[0];
 	}

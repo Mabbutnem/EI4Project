@@ -47,8 +47,13 @@ public class Zone implements IZone
 	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
 	protected Card[] removeByChoice(int nbCard, ZonePick zonePick)
 	{
-		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, zonePick, cards);
-		return cardArrayRequestListener.removeAndGetCardArray(e);
+		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, zonePick, cards.toArray(new Card[0]));
+		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
+		for(Card c : removedCards)
+		{
+			cards.remove(c);
+		}
+		return removedCards;
 	}
 	
 	

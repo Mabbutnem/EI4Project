@@ -7,5 +7,5 @@ import spell.Card;
 
 public interface ICardArrayRequestListener extends EventListener
 {
-	public Card[] removeAndGetCardArray(CardArrayRequestEvent e);
+	public Card[] getCardArray(CardArrayRequestEvent e);
 }
