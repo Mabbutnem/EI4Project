@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import event.CardArrayRequestEvent;
 import spell.Card;
-import zone.ZonePick;
 
 public class TestCardArrayRequestEvent
 {
@@ -35,7 +34,7 @@ public class TestCardArrayRequestEvent
 						mock(Card.class),
 						mock(Card.class)
 				};
-		e = new CardArrayRequestEvent(3, ZonePick.RANDOM, cards);
+		e = new CardArrayRequestEvent(3, cards);
 	}
 
 	@After
@@ -49,13 +48,6 @@ public class TestCardArrayRequestEvent
 	public final void testGetNbCard() {
 		int expected = 3;
 		int result = e.getNbCard();
-		assertEquals(expected, result);
-	}
-
-	@Test
-	public final void testGetZonePick() {
-		ZonePick expected = ZonePick.RANDOM;
-		ZonePick result = e.getZonePick();
 		assertEquals(expected, result);
 	}
 

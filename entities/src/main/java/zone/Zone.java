@@ -47,7 +47,7 @@ public class Zone implements IZone
 	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
 	protected Card[] removeByChoice(int nbCard, ZonePick zonePick)
 	{
-		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, zonePick, cards.toArray(new Card[0]));
+		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
 		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
 		for(Card c : removedCards)
 		{
@@ -102,8 +102,8 @@ public class Zone implements IZone
 		if(zonePick == null) { throw new IllegalArgumentException("zonePick ne peut pas être null");}
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
-		Card[] cardArray = null;
-		List<Card> removedCards = new LinkedList<Card>();
+		Card[] removedCards = null;
+		List<Card> removedCardsList = new LinkedList<Card>();
 		int i = 0;
 		
 		switch(zonePick)
@@ -111,33 +111,33 @@ public class Zone implements IZone
 		case TOP:
 			while(i<nbCard&&!cards.isEmpty())
 			{
-				removedCards.add(cards.remove(cards.size()-1));
+				removedCardsList.add(cards.remove(cards.size()-1));
 				i++;
 			}
-			cardArray = removedCards.toArray(new Card[0]);
+			removedCards = removedCardsList.toArray(new Card[0]);
 			break;
 			
 		case BOTTOM:
 			while(i<nbCard&&!cards.isEmpty())
 			{
-				removedCards.add(cards.remove(0));
+				removedCardsList.add(cards.remove(0));
 				i++;
 			}
-			cardArray = removedCards.toArray(new Card[0]);
+			removedCards = removedCardsList.toArray(new Card[0]);
 			break;
 			
 		case RANDOM:
 			Random r = new Random();
 			while(i<nbCard&&!cards.isEmpty())
 			{
-				removedCards.add(cards.remove(r.nextInt(cards.size())));
+				removedCardsList.add(cards.remove(r.nextInt(cards.size())));
 				i++;
 			}
-			cardArray = removedCards.toArray(new Card[0]);
+			removedCards = removedCardsList.toArray(new Card[0]);
 			break;
 			
 		case CHOICE:
-			cardArray = removeByChoice(nbCard, zonePick);
+			removedCards = removeByChoice(nbCard, zonePick);
 			break;
 			
 		default:
@@ -145,7 +145,16 @@ public class Zone implements IZone
 		}
 		
 		
-		return cardArray;
+		return removedCards;
+	}
+
+	public Card[] removeAll() {
+		Card[] removedCards = cards.toArray(new Card[0]);
+		while(!cards.isEmpty())
+		{
+			cards.remove(0);
+		}
+		return removedCards;
 	}
 
 	public ZoneType getZoneType() {
@@ -156,7 +165,7 @@ public class Zone implements IZone
 		Random r = new Random();
 		for(int i = 0; i < this.cards.size(); i++)
 		{
-			moveCardToIndex(i, r.nextInt(this.cards.size()+1));
+			moveCardToIndex(i, r.nextInt(this.cards.size()));
 		}
 	}
 

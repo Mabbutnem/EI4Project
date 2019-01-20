@@ -3,6 +3,10 @@ package test_zone;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,13 +21,22 @@ import zone.Zone;
 import zone.ZonePick;
 import zone.ZoneType;
 
-final class MockedCardArrayRequestListener implements ICardArrayRequestListener
+final class TOPCardArrayRequestListener implements ICardArrayRequestListener
 {
-	public MockedCardArrayRequestListener() {}
+	public TOPCardArrayRequestListener() {}
 	
 	public Card[] getCardArray(CardArrayRequestEvent e)
 	{
-		return new Card[0];
+		List<Card> choosenCards = new LinkedList<Card>();
+		
+		int i = 0;
+		while(i<e.getNbCard()&&i<e.getCards().length)
+		{
+			choosenCards.add(e.getCards()[e.getCards().length-1 - i]);
+			i++;
+		}
+		
+		return choosenCards.toArray(new Card[0]);
 	}
 	
 }
@@ -56,7 +69,7 @@ public class TestZone
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayRequestListener(new MockedCardArrayRequestListener());
+		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
 		
 		addedCards = new Card[]
 				{
@@ -85,7 +98,7 @@ public class TestZone
 	
 
 	@Test
-	public final void testZoneExceptionCardsEmpty() {
+	public final void testZoneCardsEmpty() {
 		int expected = 0;
 		
 		zone = new Zone(null, ZoneType.BURN, ZonePick.TOP);
@@ -129,14 +142,57 @@ public class TestZone
 	}
 
 	@Test
-	public final void testAddCardArray() {
-		fail("Not yet implemented");
+	public final void testAdd() {
+		zone.add(addedCards);
+
+		//Ici, default est TOP
+		Card[] expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+					card4,
+					card5,
+					card6,
+					card7,
+					card8,	
+				};
+		Card[] result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
 	}
 
 	@Test
 	public final void testAddTOP() {
 		zone.add(addedCards, ZonePick.TOP);
 		
+		Card[] expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+					card4,
+					card5,
+					card6,
+					card7,
+					card8,	
+				};
+		Card[] result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+	}
+	
+	@Test
+	public final void testAddDEFAULT() {
+		zone.add(addedCards, ZonePick.DEFAULT);
+		
+		//Ici, default est TOP
 		Card[] expected = new Card[]
 				{
 					card1,
@@ -179,6 +235,24 @@ public class TestZone
 		}
 	}
 	
+	@Test
+	public final void testAddRANDOM() {
+		zone.add(addedCards, ZonePick.RANDOM);
+		
+		int expected = 8;
+		int result = zone.getCards().length;
+		
+		assertEquals(expected, result);
+		for(Card c : cards)
+		{
+			assertTrue(Arrays.asList(zone.getCards()).contains(c));
+		}
+		for(Card c : addedCards)
+		{
+			assertTrue(Arrays.asList(zone.getCards()).contains(c));
+		}
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testAddException1()
 	{
@@ -201,28 +275,252 @@ public class TestZone
 	}
 
 	@Test
-	public final void testRemoveInt() {
-		fail("Not yet implemented");
+	public final void testRemove() {
+
+		//Ici, default est TOP
+		Card[] expected = new Card[]
+				{
+					card5,
+					card4,
+				};
+		Card[] result = zone.remove(2);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+				};
+		result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
 	}
 
 	@Test
-	public final void testRemoveIntZonePick() {
-		fail("Not yet implemented");
+	public final void testRemoveTOP() {
+
+		Card[] expected = new Card[]
+				{
+					card5,
+					card4,
+				};
+		Card[] result = zone.remove(2, ZonePick.TOP);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+				};
+		result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+	}
+	
+	@Test
+	public final void testRemoveDEFAULT() {
+		//Ici, default est TOP
+		Card[] expected = new Card[]
+				{
+					card5,
+					card4,
+				};
+		Card[] result = zone.remove(2, ZonePick.DEFAULT);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+				
+		expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+				};
+		result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+	}
+	
+	@Test
+	public final void testRemoveBOTTOM() {
+		Card[] expected = new Card[]
+				{
+					card1,
+					card2,
+				};
+		Card[] result = zone.remove(2, ZonePick.BOTTOM);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		
+		expected = new Card[]
+				{
+					card3,
+					card4,
+					card5,
+				};
+		result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+	}
+	
+	@Test
+	public final void testRemoveRANDOM() {
+		Card[] removedCards = zone.remove(2, ZonePick.RANDOM);
+		
+		int expected = 3;
+		int result = zone.getCards().length;
+		assertEquals(expected, result);
+		
+		for(Card c : removedCards)
+		{
+			Arrays.asList(cards).contains(c);
+		}
+		for(Card c : zone.getCards())
+		{
+			Arrays.asList(cards).contains(c);
+		}
+		
+	}
+	
+	@Test
+	public final void testRemoveCHOICE() {
+		
+		//Ici, CardArrayRequestListener choisi les cartes comme un "TOP"
+		Card[] expected = new Card[]
+				{
+					card5,
+					card4,
+				};
+		Card[] result = zone.remove(2, ZonePick.CHOICE);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		expected = new Card[]
+				{
+					card1,
+					card2,
+					card3,
+				};
+		result = zone.getCards();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveException1()
+	{
+		//on ne peut pas enlever 0 cartes
+		zone.remove(0);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveException2()
+	{
+		//on ne peut pas enlever moins de 0 cartes
+		zone.remove(-3);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveException3()
+	{
+		//on ne peut pas enlever 0 cartes
+		zone.remove(0, ZonePick.RANDOM);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveException4()
+	{
+		//on ne peut pas enlever moins de 0 cartes
+		zone.remove(-3, ZonePick.RANDOM);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveException5()
+	{
+		//zonePick ne peut pas être null
+		zone.remove(7, null);
+	}
+	
+	@Test
+	public final void testRemoveAll()
+	{
+		Card[] expected = cards;
+		Card[] result = zone.removeAll();
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		int expected2 = 0;
+		int result2 = zone.getCards().length;
+		assertEquals(expected2, result2);
 	}
 
 	@Test
 	public final void testGetZoneType() {
-		fail("Not yet implemented");
+		ZoneType expected = ZoneType.BURN;
+		ZoneType result = zone.getZoneType();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testShuffle() {
-		fail("Not yet implemented");
+		
+		zone.shuffle();
+		
+		int expected = 5;
+		int result = zone.getCards().length;
+		assertEquals(expected, result);
+		
+		for(Card c : zone.getCards())
+		{
+			Arrays.asList(cards).contains(c);
+		}
 	}
 
 	@Test
 	public final void testGetCards() {
-		fail("Not yet implemented");
+		Card[] expected = cards;
+		Card[] result = zone.getCards();
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
 	}
 
 	@Test
@@ -237,7 +535,21 @@ public class TestZone
 
 	@Test
 	public final void testMoveCardToIndex() {
-		fail("Not yet implemented");
+		zone.moveCardToIndex(1, 3);
+		
+		Card[] expected = new Card[]
+				{
+						card1,
+						card3,
+						card4,
+						card2,
+						card5
+				};
+		Card[] result = zone.getCards();
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
 	}
 
 }
