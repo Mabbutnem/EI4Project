@@ -13,7 +13,7 @@ public class CastZone
 	
 	public CastZone()
 	{
-		spells = new PriorityQueue<ISpell>();
+		spells = new PriorityQueue<>();
 	}
 	
 	
