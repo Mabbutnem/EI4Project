@@ -44,18 +44,6 @@ public class Zone implements IZone
 		Zone.cardArrayRequestListener = cardArrayRequestListener;
 	}
 	
-	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
-	protected Card[] removeByChoice(int nbCard, ZonePick zonePick)
-	{
-		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
-		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
-		for(Card c : removedCards)
-		{
-			cards.remove(c);
-		}
-		return removedCards;
-	}
-	
 	
 
 	public void add(Card[] cards) {
@@ -102,49 +90,78 @@ public class Zone implements IZone
 		if(zonePick == null) { throw new IllegalArgumentException("zonePick ne peut pas être null");}
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
-		Card[] removedCards = null;
+		if(nbCard >= cards.size())
+		{
+			return removeAll();
+		}
+		else
+		{
+			switch (zonePick) {
+			case TOP:
+				return removeByTop(nbCard);
+
+			case BOTTOM:
+				return removeByBottom(nbCard);
+
+			case RANDOM:
+				return removeByRandom(nbCard);
+
+			case CHOICE:
+				return removeByChoice(nbCard);
+
+			default:
+				return new Card[0];
+			}
+		}
+	}
+	
+	private Card[] removeByTop(int nbCard)
+	{
 		List<Card> removedCardsList = new LinkedList<Card>();
 		int i = 0;
 		
-		switch(zonePick)
-		{
-		case TOP:
-			while(i<nbCard&&!cards.isEmpty())
-			{
-				removedCardsList.add(cards.remove(cards.size()-1));
-				i++;
-			}
-			removedCards = removedCardsList.toArray(new Card[0]);
-			break;
-			
-		case BOTTOM:
-			while(i<nbCard&&!cards.isEmpty())
-			{
-				removedCardsList.add(cards.remove(0));
-				i++;
-			}
-			removedCards = removedCardsList.toArray(new Card[0]);
-			break;
-			
-		case RANDOM:
-			Random r = new Random();
-			while(i<nbCard&&!cards.isEmpty())
-			{
-				removedCardsList.add(cards.remove(r.nextInt(cards.size())));
-				i++;
-			}
-			removedCards = removedCardsList.toArray(new Card[0]);
-			break;
-			
-		case CHOICE:
-			removedCards = removeByChoice(nbCard, zonePick);
-			break;
-			
-		default:
-			break;
+		while (i < nbCard) {
+			removedCardsList.add(cards.remove(cards.size() - 1));
+			i++;
 		}
+		return removedCardsList.toArray(new Card[0]);
+	}
+	
+	private Card[] removeByBottom(int nbCard)
+	{
+		List<Card> removedCardsList = new LinkedList<Card>();
+		int i = 0;
 		
+		while (i < nbCard) {
+			removedCardsList.add(cards.remove(0));
+			i++;
+		}
+		return removedCardsList.toArray(new Card[0]);
+	}
+	
+	private Card[] removeByRandom(int nbCard)
+	{
+		List<Card> removedCardsList = new LinkedList<Card>();
+		int i = 0;
 		
+		Random r = new Random();
+		
+		while (i < nbCard) {
+			removedCardsList.add(cards.remove(r.nextInt(cards.size())));
+			i++;
+		}
+		return removedCardsList.toArray(new Card[0]);
+	}
+	
+	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
+	protected Card[] removeByChoice(int nbCard)
+	{
+		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
+		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
+		for(Card c : removedCards)
+		{
+			cards.remove(c);
+		}
 		return removedCards;
 	}
 

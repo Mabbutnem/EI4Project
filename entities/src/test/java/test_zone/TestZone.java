@@ -30,7 +30,7 @@ final class TOPCardArrayRequestListener implements ICardArrayRequestListener
 		List<Card> choosenCards = new LinkedList<Card>();
 		
 		int i = 0;
-		while(i<e.getNbCard()&&i<e.getCards().length)
+		while(i<e.getNbCard())
 		{
 			choosenCards.add(e.getCards()[e.getCards().length-1 - i]);
 			i++;
@@ -438,6 +438,38 @@ public class TestZone
 		{
 			assertEquals(expected[i], result[i]);
 		}
+	}
+	
+	@Test
+	public final void testRemoveNbCardGreaterThanCards()
+	{
+		Card[] expected = cards;
+		Card[] result = zone.remove(7);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		int expected2 = 0;
+		int result2 = zone.getCards().length;
+		assertEquals(expected2, result2);
+	}
+	
+	@Test
+	public final void testRemoveNbCardGreaterThanCardsWithOption()
+	{
+		Card[] expected = cards;
+		Card[] result = zone.remove(7, ZonePick.CHOICE);
+		
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i]);
+		}
+		
+		int expected2 = 0;
+		int result2 = zone.getCards().length;
+		assertEquals(expected2, result2);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
