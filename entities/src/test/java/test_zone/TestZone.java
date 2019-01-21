@@ -1,7 +1,7 @@
 package test_zone;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -414,6 +414,7 @@ public class TestZone
 	public final void testRemoveCHOICE() {
 		
 		//Ici, CardArrayRequestListener choisi les cartes comme un "TOP"
+		//De plus, les cartes sont toutes révelées pour que l'utilisateur puisse voir leur contenu
 		Card[] expected = new Card[]
 				{
 					card5,
@@ -424,6 +425,8 @@ public class TestZone
 		for(int i = 0; i < expected.length; i++)
 		{
 			assertEquals(expected[i], result[i]);
+			verify(result[i], times(1)).setRevealed(true);
+			verifyNoMoreInteractions(result[i]);
 		}
 		
 		expected = new Card[]
@@ -437,7 +440,11 @@ public class TestZone
 		for(int i = 0; i < expected.length; i++)
 		{
 			assertEquals(expected[i], result[i]);
+			verify(result[i], times(1)).setRevealed(true);
+			verifyNoMoreInteractions(result[i]);
 		}
+		
+		
 	}
 	
 	@Test
@@ -557,12 +564,22 @@ public class TestZone
 
 	@Test
 	public final void testHideCards() {
-		fail("Not yet implemented");
+		zone.hideCards();
+		for(Card c : zone.getCards())
+		{
+			verify(c, times(1)).setRevealed(false);
+			verifyNoMoreInteractions(c);
+		}
 	}
 
 	@Test
 	public final void testRevealCards() {
-		fail("Not yet implemented");
+		zone.revealCards();
+		for(Card c : zone.getCards())
+		{
+			verify(c, times(1)).setRevealed(true);
+			verifyNoMoreInteractions(c);
+		}
 	}
 
 	@Test

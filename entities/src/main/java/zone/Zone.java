@@ -32,7 +32,7 @@ public class Zone implements IZone
 		if(defaultZonePick == ZonePick.CHOICE) { throw new IllegalArgumentException("defaultZonePick ne peut pas être CHOICE");}
 		if(defaultZonePick == ZonePick.DEFAULT) { throw new IllegalArgumentException("defaultZonePick ne peut pas être DEFAULT");}
 		
-		this.cards = new LinkedList<Card>();
+		this.cards = new LinkedList<>();
 		add(cards, ZonePick.TOP);
 		this.zoneType = zoneType;
 		this.defaultZonePick = defaultZonePick;
@@ -117,7 +117,7 @@ public class Zone implements IZone
 	
 	private Card[] removeByTop(int nbCard)
 	{
-		List<Card> removedCardsList = new LinkedList<Card>();
+		List<Card> removedCardsList = new LinkedList<>();
 		int i = 0;
 		
 		while (i < nbCard) {
@@ -129,7 +129,7 @@ public class Zone implements IZone
 	
 	private Card[] removeByBottom(int nbCard)
 	{
-		List<Card> removedCardsList = new LinkedList<Card>();
+		List<Card> removedCardsList = new LinkedList<>();
 		int i = 0;
 		
 		while (i < nbCard) {
@@ -141,7 +141,7 @@ public class Zone implements IZone
 	
 	private Card[] removeByRandom(int nbCard)
 	{
-		List<Card> removedCardsList = new LinkedList<Card>();
+		List<Card> removedCardsList = new LinkedList<>();
 		int i = 0;
 		
 		Random r = new Random();
@@ -156,6 +156,7 @@ public class Zone implements IZone
 	//A Override pour la classe dérivée AutoHideZone qui devra effectuer un mélange après le choix des cartes
 	protected Card[] removeByChoice(int nbCard)
 	{
+		revealCards();
 		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
 		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
 		for(Card c : removedCards)
@@ -167,10 +168,7 @@ public class Zone implements IZone
 
 	public Card[] removeAll() {
 		Card[] removedCards = cards.toArray(new Card[0]);
-		while(!cards.isEmpty())
-		{
-			cards.remove(0);
-		}
+		cards.clear();
 		return removedCards;
 	}
 
@@ -191,13 +189,11 @@ public class Zone implements IZone
 	}
 
 	public void hideCards() {
-		// TODO Auto-generated method stub
-		
+		cards.forEach(c->c.setRevealed(false));
 	}
 
 	public void revealCards() {
-		// TODO Auto-generated method stub
-		
+		cards.forEach(c->c.setRevealed(true));
 	}
 	
 	public void moveCardToIndex(int sourceIndex, int destIndex) {
