@@ -84,8 +84,8 @@ public class TestAutoRevealZone
 	@Test
 	public final void testShuffle()
 	{
-		zone.add(addedCards);
-		for(Card c : addedCards)
+		zone.shuffle();
+		for(Card c : zone.getCards())
 		{
 			verify(c, atLeastOnce()).setRevealed(true);
 			verifyNoMoreInteractions(c);
