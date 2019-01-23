@@ -14,7 +14,7 @@ public class Target
 		if(type == null) {throw new IllegalArgumentException("type ne peut pas être null");}
 		
 		//Vérifier qu'il n'y a pas 2(ou +) contraintes du même type, exemple : [NOTYOU, NOTALLY, NOTYOU]
-		ArrayList<TargetConstraint> alc = new ArrayList<TargetConstraint>();
+		ArrayList<TargetConstraint> alc = new ArrayList<>();
 		for(TargetConstraint c : constraints)
 		{
 			if(alc.contains(c))
