@@ -100,13 +100,9 @@ public class TestZone
 	@Test
 	public final void testZoneCardsEmpty() {
 		int expected = 0;
-		
-		zone = new Zone(null, ZoneType.BURN, ZonePick.TOP);
-		int result = zone.getCards().length;
-		assertEquals(expected, result);
 
 		zone = new Zone(new Card[0], ZoneType.BURN, ZonePick.TOP);
-		result = zone.getCards().length;
+		int result = zone.getCards().length;
 		assertEquals(expected, result);
 	}
 	
@@ -139,6 +135,12 @@ public class TestZone
 	public final void testZoneException5() {
 		//zonePick par default ne peut pas être default, il faut en choisir un vrai par default !!
 		zone = new Zone(cards, ZoneType.BURN, ZonePick.DEFAULT);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testZoneException6() {
+		//cards ne peut pas être null
+		zone = new Zone(null, ZoneType.BURN, ZonePick.DEFAULT);
 	}
 
 	@Test

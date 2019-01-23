@@ -24,7 +24,7 @@ public class Zone implements IZone
 		if(cardArrayRequestListener == null) { throw new NotInitialisedContextException("cardArrayRequestListener"
 				+ "n'a pas été initialisé (en static)");}
 		
-		if(cards == null) { cards = new Card[0];}
+		if(cards == null) { throw new IllegalArgumentException("cards ne peut pas être null");}
 		
 		if(zoneType == null) { throw new IllegalArgumentException("zoneType ne peut pas être null");}
 		
