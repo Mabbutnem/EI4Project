@@ -44,6 +44,15 @@ public class TestTarget
 	
 	
 	
+	@Test
+	public final void testTargetTargetConstraintEmpty()
+	{
+		target = new Target(new TargetConstraint[0], TargetType.CHOICE);
+		int expected = 0;
+		int result = target.getConstraints().length;
+		assertEquals(expected, result);
+	}
+	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testTargetException1()
 	{
@@ -52,12 +61,6 @@ public class TestTarget
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testTargetException2()
-	{
-		target = new Target(new TargetConstraint[0], TargetType.CHOICE);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public final void testTargetException3()
 	{
 		constraints = new TargetConstraint[]
 				{
@@ -70,7 +73,7 @@ public class TestTarget
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public final void testTargetException4()
+	public final void testTargetException3()
 	{
 		target = new Target(constraints, null);
 	}

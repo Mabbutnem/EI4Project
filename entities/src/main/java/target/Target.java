@@ -11,8 +11,6 @@ public class Target
 	{
 		if(constraints == null) {throw new IllegalArgumentException("constraints ne peut pas être null");}
 		
-		if(constraints.length == 0) {throw new IllegalArgumentException("constraints ne peut pas être vide");}
-		
 		if(type == null) {throw new IllegalArgumentException("type ne peut pas être null");}
 		
 		//Vérifier qu'il n'y a pas 2(ou +) contraintes du même type, exemple : [NOTYOU, NOTALLY, NOTYOU]
