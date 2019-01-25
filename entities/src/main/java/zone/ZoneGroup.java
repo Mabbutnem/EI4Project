@@ -21,6 +21,8 @@ public class ZoneGroup
 	@Autowired
 	private Zone voidZ; 
 	
+	
+	
 	public ZoneGroup(@Assisted Card[] cards)
 	{
 		deck = new AutoHideZone(cards, ZoneType.DECK, ZonePick.TOP);
@@ -30,6 +32,8 @@ public class ZoneGroup
 		banish = new Zone(new Card[0], ZoneType.BANISH, ZonePick.TOP);
 		voidZ = new Zone(new Card[0], ZoneType.VOID, ZonePick.TOP);
 	}
+	
+	
 	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 
 	{
@@ -75,6 +79,8 @@ public class ZoneGroup
 	
 	private Zone getZone(ZoneType zoneType)
 	{
+		if(zoneType == null) {throw new IllegalArgumentException("ZoneType ne peut pas être null");}
+		
 		switch(zoneType) {
 		case DECK: return deck;
 		case HAND: return hand;
@@ -82,7 +88,7 @@ public class ZoneGroup
 		case BURN: return burn;
 		case BANISH: return banish;
 		case VOID: return voidZ;
-		default: throw new IllegalArgumentException("ZoneType ne peut pas être null");
+		default: throw new IllegalArgumentException();
 		}
 	}
 

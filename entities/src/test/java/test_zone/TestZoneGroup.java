@@ -115,7 +115,10 @@ public class TestZoneGroup
 	public final void testZoneGroupCardsEmpty() {
 		cards = new Card[0];
 		zoneGroup = new ZoneGroup(cards);
-		verify(deck, times(1)).add(cards, ZonePick.DEFAULT);
+		
+		Card[] expected = cards;
+		Card[] result = zoneGroup.getCards(ZoneType.DECK);
+		assertArrayEquals(expected, result);
 	}
 
 	@Test
@@ -148,20 +151,20 @@ public class TestZoneGroup
 	public final void testTransferException1()
 	{
 		//source ne peut pas être null
-		zoneGroup.transfer(ZoneType.DECK, null, ZoneType.HAND, ZonePick.RANDOM, 3);
+		zoneGroup.transfer(null, ZonePick.TOP, ZoneType.HAND, ZonePick.RANDOM, 3);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testTransferException2()
 	{
 		//dest ne peut pas être null
-		zoneGroup.transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, null, 3);
+		zoneGroup.transfer(ZoneType.DECK, ZonePick.TOP, null, ZonePick.RANDOM, 3);
 	}
 
 	@Test
 	public final void testAdd() {
 		zoneGroup.add(addedCards, ZoneType.BURN);
-		verify(burn, times(1)).add(addedCards, ZonePick.DEFAULT);
+		verify(burn, times(1)).add(addedCards);
 		
 		zoneGroup.add(addedCards, ZoneType.BURN, ZonePick.TOP);
 		verify(burn, times(1)).add(addedCards, ZonePick.TOP);
@@ -188,9 +191,9 @@ public class TestZoneGroup
 						mock(Card.class),
 						mock(Card.class),
 				};
-		when(banish.remove(2, ZonePick.DEFAULT)).thenReturn(expected);
+		when(banish.remove(2)).thenReturn(expected);
 		Card[] result = zoneGroup.remove(2, ZoneType.BANISH);
-		verify(banish, times(1)).remove(2, ZonePick.DEFAULT);
+		verify(banish, times(1)).remove(2);
 		assertArrayEquals(expected, result);
 
 		
