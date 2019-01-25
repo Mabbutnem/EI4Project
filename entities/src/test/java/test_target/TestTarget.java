@@ -83,11 +83,7 @@ public class TestTarget
 	{
 		TargetConstraint[] expected = constraints;
 		TargetConstraint[] result = target.getConstraints();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 	@Test

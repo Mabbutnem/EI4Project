@@ -24,11 +24,7 @@ public class TestTargetConstraint {
 						TargetConstraint.NOTALLY.toString(),
 						TargetConstraint.NOTENEMY.toString(),
 				};
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 }

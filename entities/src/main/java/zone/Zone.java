@@ -118,11 +118,9 @@ public class Zone implements IZone
 	private Card[] removeByTop(int nbCard)
 	{
 		List<Card> removedCardsList = new LinkedList<>();
-		int i = 0;
 		
-		while (i < nbCard) {
+		for(int i = 0; i < nbCard; i++) {
 			removedCardsList.add(cards.remove(cards.size() - 1));
-			i++;
 		}
 		return removedCardsList.toArray(new Card[0]);
 	}
@@ -130,11 +128,9 @@ public class Zone implements IZone
 	private Card[] removeByBottom(int nbCard)
 	{
 		List<Card> removedCardsList = new LinkedList<>();
-		int i = 0;
 		
-		while (i < nbCard) {
+		for(int i = 0; i < nbCard; i++) {
 			removedCardsList.add(cards.remove(0));
-			i++;
 		}
 		return removedCardsList.toArray(new Card[0]);
 	}
@@ -142,13 +138,11 @@ public class Zone implements IZone
 	private Card[] removeByRandom(int nbCard)
 	{
 		List<Card> removedCardsList = new LinkedList<>();
-		int i = 0;
 		
 		Random r = new Random();
 		
-		while (i < nbCard) {
+		for(int i = 0; i < nbCard; i++) {
 			removedCardsList.add(cards.remove(r.nextInt(cards.size())));
-			i++;
 		}
 		return removedCardsList.toArray(new Card[0]);
 	}

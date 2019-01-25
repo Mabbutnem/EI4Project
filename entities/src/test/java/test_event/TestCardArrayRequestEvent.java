@@ -1,7 +1,7 @@
 package test_event;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,10 +55,7 @@ public class TestCardArrayRequestEvent
 	public final void testGetCards() {
 		Card[] expected = cards;
 		Card[] result = e.getCards();
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 }

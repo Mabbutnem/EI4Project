@@ -99,10 +99,7 @@ public class TestAutoHideZone
 						card4,
 				};
 		Card[] result = zone.remove(2, ZonePick.CHOICE);
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		
 		for(Card c : zone.getCards())

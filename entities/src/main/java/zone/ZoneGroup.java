@@ -1,24 +1,34 @@
 package zone;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.inject.assistedinject.Assisted;
+
 import spell.Card;
 
 public class ZoneGroup
 {
+	@Autowired
 	private AutoHideZone deck;
+	@Autowired
 	private AutoRevealZone hand;
+	@Autowired
 	private AutoRevealZone discard;
+	@Autowired
 	private AutoRevealZone burn;
+	@Autowired
 	private Zone banish;
+	@Autowired
 	private Zone voidZ; 
 	
-	public ZoneGroup(Card[] cards)
+	public ZoneGroup(@Assisted Card[] cards)
 	{
 		deck = new AutoHideZone(cards, ZoneType.DECK, ZonePick.TOP);
-		hand = new AutoRevealZone(null, ZoneType.HAND, ZonePick.TOP);
-		discard = new AutoRevealZone(null, ZoneType.DISCARD, ZonePick.TOP);
-		burn = new AutoRevealZone(null, ZoneType.BURN, ZonePick.TOP);
-		banish = new Zone(null, ZoneType.BANISH, ZonePick.TOP);
-		voidZ = new Zone(null, ZoneType.VOID, ZonePick.TOP);
+		hand = new AutoRevealZone(new Card[0], ZoneType.HAND, ZonePick.TOP);
+		discard = new AutoRevealZone(new Card[0], ZoneType.DISCARD, ZonePick.TOP);
+		burn = new AutoRevealZone(new Card[0], ZoneType.BURN, ZonePick.TOP);
+		banish = new Zone(new Card[0], ZoneType.BANISH, ZonePick.TOP);
+		voidZ = new Zone(new Card[0], ZoneType.VOID, ZonePick.TOP);
 	}
 	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 

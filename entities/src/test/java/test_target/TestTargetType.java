@@ -24,11 +24,7 @@ public class TestTargetType {
 						TargetType.AREA.toString(),
 						TargetType.YOU.toString(),
 				};
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 }

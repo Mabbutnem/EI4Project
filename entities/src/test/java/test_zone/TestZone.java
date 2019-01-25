@@ -29,11 +29,9 @@ final class TOPCardArrayRequestListener implements ICardArrayRequestListener
 	{
 		List<Card> choosenCards = new LinkedList<Card>();
 		
-		int i = 0;
-		while(i<e.getNbCard())
+		for(int i = 0; i < e.getNbCard(); i++)
 		{
 			choosenCards.add(e.getCards()[e.getCards().length-1 - i]);
-			i++;
 		}
 		
 		return choosenCards.toArray(new Card[0]);
@@ -160,11 +158,7 @@ public class TestZone
 					card8,	
 				};
 		Card[] result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 	@Test
@@ -183,11 +177,7 @@ public class TestZone
 					card8,	
 				};
 		Card[] result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -207,11 +197,7 @@ public class TestZone
 					card8,	
 				};
 		Card[] result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -230,11 +216,7 @@ public class TestZone
 					card5,	
 				};
 		Card[] result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -286,11 +268,7 @@ public class TestZone
 					card4,
 				};
 		Card[] result = zone.remove(2);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		expected = new Card[]
 				{
@@ -299,11 +277,7 @@ public class TestZone
 					card3,
 				};
 		result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 	@Test
@@ -315,11 +289,7 @@ public class TestZone
 					card4,
 				};
 		Card[] result = zone.remove(2, ZonePick.TOP);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		expected = new Card[]
 				{
@@ -328,11 +298,7 @@ public class TestZone
 					card3,
 				};
 		result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -344,11 +310,7 @@ public class TestZone
 					card4,
 				};
 		Card[] result = zone.remove(2, ZonePick.DEFAULT);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 				
 		expected = new Card[]
 				{
@@ -357,11 +319,7 @@ public class TestZone
 					card3,
 				};
 		result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -372,11 +330,7 @@ public class TestZone
 					card2,
 				};
 		Card[] result = zone.remove(2, ZonePick.BOTTOM);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		
 		expected = new Card[]
@@ -386,11 +340,7 @@ public class TestZone
 					card5,
 				};
 		result = zone.getCards();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test
@@ -423,10 +373,9 @@ public class TestZone
 					card4,
 				};
 		Card[] result = zone.remove(2, ZonePick.CHOICE);
-		
+		assertArrayEquals(expected, result);
 		for(int i = 0; i < expected.length; i++)
 		{
-			assertEquals(expected[i], result[i]);
 			verify(result[i], times(1)).setRevealed(true);
 			verifyNoMoreInteractions(result[i]);
 		}
@@ -438,10 +387,9 @@ public class TestZone
 					card3,
 				};
 		result = zone.getCards();
-		
+		assertArrayEquals(expected, result);
 		for(int i = 0; i < expected.length; i++)
 		{
-			assertEquals(expected[i], result[i]);
 			verify(result[i], times(1)).setRevealed(true);
 			verifyNoMoreInteractions(result[i]);
 		}
@@ -454,11 +402,7 @@ public class TestZone
 	{
 		Card[] expected = cards;
 		Card[] result = zone.remove(7);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		int expected2 = 0;
 		int result2 = zone.getCards().length;
@@ -470,11 +414,7 @@ public class TestZone
 	{
 		Card[] expected = cards;
 		Card[] result = zone.remove(7, ZonePick.CHOICE);
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		int expected2 = 0;
 		int result2 = zone.getCards().length;
@@ -521,11 +461,7 @@ public class TestZone
 	{
 		Card[] expected = cards;
 		Card[] result = zone.removeAll();
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 		
 		int expected2 = 0;
 		int result2 = zone.getCards().length;
@@ -558,10 +494,7 @@ public class TestZone
 	public final void testGetCards() {
 		Card[] expected = cards;
 		Card[] result = zone.getCards();
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 	@Test
@@ -597,10 +530,7 @@ public class TestZone
 						card5
 				};
 		Card[] result = zone.getCards();
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 }

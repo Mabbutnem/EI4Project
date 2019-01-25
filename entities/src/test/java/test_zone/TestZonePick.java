@@ -25,11 +25,7 @@ public class TestZonePick
 						ZonePick.DEFAULT.toString(),
 						ZonePick.BOTTOM.toString(),
 				};
-		
-		for(int i = 0; i < expected.length; i++)
-		{
-			assertEquals(expected[i], result[i]);
-		}
+		assertArrayEquals(expected, result);
 	}
 
 }
