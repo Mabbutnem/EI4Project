@@ -6,12 +6,18 @@ import com.google.common.base.Preconditions;
 import com.google.inject.assistedinject.Assisted;
 
 import event.ZoneGroupAddEvent;
+import listener.IMulliganListener;
 import listener.IZoneGroupAddListener;
 import spell.Card;
 
 public class ZoneGroup
 {
 	private static IZoneGroupAddListener zoneGroupAddListener;
+	
+	private static IMulliganListener mulliganListener;
+	
+	//A Modifier !!
+	private static int nbCardOpeningHand = 5;
 	
 	@Autowired
 	private AutoHideZone deck;
@@ -33,6 +39,9 @@ public class ZoneGroup
 		Preconditions.checkState(ZoneGroup.zoneGroupAddListener != null, "zoneGroupAddListener"
 				+ " was not initialised (in static)");
 		
+		Preconditions.checkState(ZoneGroup.mulliganListener != null, "mulliganListener"
+				+ " was not initialised (in static)");
+		
 		deck = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
 		
 		hand = new AutoRevealZone(new Card[0], ZoneType.HAND, ZonePick.TOP);
@@ -49,6 +58,10 @@ public class ZoneGroup
 
 	public static void setZoneGroupAddListener(IZoneGroupAddListener zoneGroupAddListener) {
 		ZoneGroup.zoneGroupAddListener = zoneGroupAddListener;
+	}
+	
+	public static void setMulliganListener(IMulliganListener mulliganListener) {
+		ZoneGroup.mulliganListener = mulliganListener;
 	}
 
 
@@ -67,9 +80,7 @@ public class ZoneGroup
 	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 
 	{
-		Card[] movingCards = getZone(source).remove(nbCard, sourcePick);
-		
-		add(movingCards, dest, destPick);
+		add(remove(nbCard, source, sourcePick), dest, destPick);
 	}
 	
 	public void add(Card[] cards, ZoneType zoneType, ZonePick zonePick) 
@@ -121,7 +132,14 @@ public class ZoneGroup
 	
 	public void mulligan()
 	{
-		//TODO
+		hand.add(deck.remove(ZoneGroup.nbCardOpeningHand, ZonePick.TOP)); //Draw nbCardOpeningHand cards
+		Card[] removedFromHand = ZoneGroup.mulliganListener.mulligan(hand.getCards());
+		deck.add(removedFromHand);
+		deck.shuffle();
+		if(removedFromHand.length > 0)
+		{
+			hand.add(deck.remove(removedFromHand.length, ZonePick.TOP));
+		}
 	}
 	
 	public void transform()
@@ -138,8 +156,6 @@ public class ZoneGroup
 		deck.add(voidZ.removeAll());
 		
 		deck.shuffle();
-		
-		mulligan();
 	}
 	
 	

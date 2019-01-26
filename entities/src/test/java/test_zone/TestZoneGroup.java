@@ -3,17 +3,22 @@ package test_zone;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import event.ZoneGroupAddEvent;
+import listener.IMulliganListener;
 import listener.IZoneGroupAddListener;
 import spell.Card;
 import zone.AutoHideZone;
@@ -31,6 +36,16 @@ class MockZoneGroupAddListener implements IZoneGroupAddListener
 	public void displayAddedCards(ZoneGroupAddEvent e) {}
 	
 }
+
+class MockMulliganListener implements IMulliganListener
+{
+	public MockMulliganListener() {}
+
+	@Override
+	public Card[] mulligan(Card[] cards) { return null; }
+}
+
+
 
 
 
@@ -57,7 +72,11 @@ public class TestZoneGroup
 	
 	private Card[] addedCards;
 	
+	@Captor
+	private ArgumentCaptor<Card[]> captor;
+	
 	private IZoneGroupAddListener zoneGroupAddListener;
+	private IMulliganListener mulliganListener;
 	
 
 	@BeforeClass
@@ -73,6 +92,8 @@ public class TestZoneGroup
 		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
 		
 		ZoneGroup.setZoneGroupAddListener(zoneGroupAddListener = mock(MockZoneGroupAddListener.class));
+		
+		ZoneGroup.setMulliganListener(mulliganListener = mock(MockMulliganListener.class));
 		
 		cards = new Card[]
 				{
@@ -129,6 +150,20 @@ public class TestZoneGroup
 		expected = new Card[0];
 		result = zoneGroup.getCards(ZoneType.VOID);
 		assertArrayEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testZoneGroupException1()
+	{
+		ZoneGroup.setZoneGroupAddListener(null);
+		zoneGroup = new ZoneGroup(cards);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testZoneGroupException2()
+	{
+		ZoneGroup.setMulliganListener(null);
+		zoneGroup = new ZoneGroup(cards);
 	}
 	
 	@Test
@@ -339,7 +374,6 @@ public class TestZoneGroup
 	@Test
 	public final void testTransform()
 	{
-		fail("TODO");
 		
 		Card[] deckCards = new Card[0];
 		when(deck.size()).thenReturn(87);
@@ -363,22 +397,63 @@ public class TestZoneGroup
 		
 		
 		
+		verify(deck, times(1)).size();
 		verify(deck, times(1)).remove(43);
 		verify(burn, times(1)).add(deckCards);
 		
 		verify(hand, times(1)).removeAll();
-		verify(deck, atLeastOnce()).add(discardCards);
-
 		verify(discard, times(1)).removeAll();
-		verify(deck, atLeastOnce()).add(discardCards);
-
 		verify(banish, times(1)).removeAll();
-		verify(deck, atLeastOnce()).add(banishCards);
-
 		verify(voidZ, times(1)).removeAll();
-		verify(deck, atLeastOnce()).add(voidCards);
+		
+		verify(deck, times(4)).add(captor.capture());
+		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), captor.getAllValues());
 		
 		verify(deck, times(1)).shuffle();
+	}
+	
+	@Test
+	public final void testTransformWithNoCardInDeckToBurn()
+	{
+		
+		Card[] deckCards = new Card[0];
+		when(deck.size()).thenReturn(1);
+		when(deck.remove(0)).thenReturn(deckCards); //NOT CALLED
+		
+		Card[] handCards = new Card[0];
+		when(hand.removeAll()).thenReturn(handCards);
+		
+		Card[] discardCards = new Card[0];
+		when(discard.removeAll()).thenReturn(discardCards);
+		
+		Card[] banishCards = new Card[0];
+		when(banish.removeAll()).thenReturn(banishCards);
+
+		Card[] voidCards = new Card[0];
+		when(voidZ.removeAll()).thenReturn(voidCards);
+		
+		
+		
+		zoneGroup.transform();
+		
+		
+
+		verify(deck, times(1)).size();
+		//verify(deck, times(1)).remove(0); NOT CALLED
+		//verify(burn, times(1)).add(deckCards); NOT CALLED
+		verifyNoMoreInteractions(burn);
+		
+		verify(hand, times(1)).removeAll();
+		verify(discard, times(1)).removeAll();
+		verify(banish, times(1)).removeAll();
+		verify(voidZ, times(1)).removeAll();
+		
+		verify(deck, times(4)).add(captor.capture());
+		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), captor.getAllValues());
+		
+		verify(deck, times(1)).shuffle();
+		
+		verifyNoMoreInteractions(deck);
 	}
 
 }
