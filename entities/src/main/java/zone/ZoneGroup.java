@@ -33,12 +33,16 @@ public class ZoneGroup
 		Preconditions.checkState(ZoneGroup.zoneGroupAddListener != null, "zoneGroupAddListener"
 				+ " was not initialised (in static)");
 		
-		deck = new AutoHideZone(cards, ZoneType.DECK, ZonePick.TOP);
+		deck = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
+		
 		hand = new AutoRevealZone(new Card[0], ZoneType.HAND, ZonePick.TOP);
 		discard = new AutoRevealZone(new Card[0], ZoneType.DISCARD, ZonePick.TOP);
 		burn = new AutoRevealZone(new Card[0], ZoneType.BURN, ZonePick.TOP);
+		
 		banish = new Zone(new Card[0], ZoneType.BANISH, ZonePick.TOP);
 		voidZ = new Zone(new Card[0], ZoneType.VOID, ZonePick.TOP);
+		
+		reset(cards);
 	}
 	
 	
@@ -49,6 +53,18 @@ public class ZoneGroup
 
 
 
+	public void reset(Card[] cards)
+	{
+		deck.removeAll();
+		hand.removeAll();
+		discard.removeAll();
+		burn.removeAll();
+		banish.removeAll();
+		voidZ.removeAll();
+		
+		deck.add(cards);
+	}
+	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 
 	{
 		Card[] movingCards = getZone(source).remove(nbCard, sourcePick);
@@ -78,6 +94,16 @@ public class ZoneGroup
 		return remove(nbCard, zoneType, ZonePick.DEFAULT);
 	}
 	
+	public void remove(Card card, ZoneType zoneType)
+	{
+		getZone(zoneType).remove(card);
+	}
+	
+	public int size(ZoneType zoneType)
+	{
+		return getZone(zoneType).size();
+	}
+	
 	public Card[] getCards(ZoneType zoneType) 
 	{ 
 		return getZone(zoneType).getCards();
@@ -92,6 +118,32 @@ public class ZoneGroup
 	{
 		getZone(zoneType).moveCardToIndex(sourceIndex, destIndex);
 	}
+	
+	public void mulligan()
+	{
+		//TODO
+	}
+	
+	public void transform()
+	{
+		int nbDeckCardToBurn = deck.size()/2;
+		if(nbDeckCardToBurn > 0)
+		{
+			burn.add(deck.remove(nbDeckCardToBurn));
+		}
+		
+		deck.add(hand.removeAll());
+		deck.add(discard.removeAll());
+		deck.add(banish.removeAll());
+		deck.add(voidZ.removeAll());
+		
+		deck.shuffle();
+		
+		mulligan();
+	}
+	
+	
+	
 	
 	private Zone getZone(ZoneType zoneType)
 	{

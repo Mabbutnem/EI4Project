@@ -488,6 +488,14 @@ public class TestZone
 		int result2 = zone.getCards().length;
 		assertEquals(expected2, result2);
 	}
+	
+	@Test
+	public final void testSize()
+	{
+		int expected = cards.length;
+		int result = zone.size();
+		assertEquals(expected, result);
+	}
 
 	@Test
 	public final void testGetZoneType() {

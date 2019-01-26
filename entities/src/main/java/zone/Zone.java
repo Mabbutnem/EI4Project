@@ -175,6 +175,11 @@ public class Zone implements IZone
 		cards.clear();
 		return removedCards;
 	}
+	
+	public int size()
+	{
+		return cards.size();
+	}
 
 	public ZoneType getZoneType() {
 		return zoneType;

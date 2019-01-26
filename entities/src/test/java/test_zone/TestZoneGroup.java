@@ -53,6 +53,7 @@ public class TestZoneGroup
 	private ZoneGroup zoneGroup;
 	
 	private Card[] cards;
+	private Card card;
 	
 	private Card[] addedCards;
 	
@@ -77,7 +78,7 @@ public class TestZoneGroup
 				{
 						mock(Card.class),
 						mock(Card.class),
-						mock(Card.class),
+						card = mock(Card.class),
 						mock(Card.class),
 						mock(Card.class),
 				};
@@ -100,7 +101,8 @@ public class TestZoneGroup
 	
 	
 
-	@Test
+	@Test //Ici on teste sans les mocks : 
+	//en effet, on veut vérifier si on appelle les bons constructeurs
 	public final void testZoneGroup() {
 		zoneGroup = new ZoneGroup(cards);
 		
@@ -127,6 +129,19 @@ public class TestZoneGroup
 		expected = new Card[0];
 		result = zoneGroup.getCards(ZoneType.VOID);
 		assertArrayEquals(expected, result);
+	}
+	
+	@Test
+	public final void testReset()
+	{
+		zoneGroup.reset(addedCards);
+		verify(deck, times(1)).removeAll();
+		verify(deck, times(1)).add(addedCards);
+		verify(hand, times(1)).removeAll();
+		verify(discard, times(1)).removeAll();
+		verify(burn, times(1)).removeAll();
+		verify(banish, times(1)).removeAll();
+		verify(voidZ, times(1)).removeAll();
 	}
 	
 	@Test
@@ -242,6 +257,35 @@ public class TestZoneGroup
 		//ZoneType ne peut pas être null
 		zoneGroup.remove(3, null, ZonePick.BOTTOM);
 	}
+	
+	@Test
+	public final void testRemoveCard()
+	{
+		zoneGroup.remove(card, ZoneType.HAND);
+		verify(hand, times(1)).remove(card);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveCardException()
+	{
+		//ZoneType ne peut pas être null
+		zoneGroup.remove(card, null);
+	}
+	
+	@Test
+	public final void testSize()
+	{
+		int expected = 97;
+		when(deck.size()).thenReturn(expected);
+		int result = zoneGroup.size(ZoneType.DECK);
+		assertEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testSizeException()
+	{
+		zoneGroup.size(null);
+	}
 
 	@Test
 	public final void testGetCards() {
@@ -284,6 +328,57 @@ public class TestZoneGroup
 	@Test (expected = IllegalArgumentException.class)
 	public final void testMoveCardToIndexException() {
 		zoneGroup.moveCardToIndex(null, 0, 2);
+	}
+	
+	@Test
+	public final void testMulligan()
+	{
+		fail("TODO");
+	}
+	
+	@Test
+	public final void testTransform()
+	{
+		fail("TODO");
+		
+		Card[] deckCards = new Card[0];
+		when(deck.size()).thenReturn(87);
+		when(deck.remove(43)).thenReturn(deckCards);
+		
+		Card[] handCards = new Card[0];
+		when(hand.removeAll()).thenReturn(handCards);
+		
+		Card[] discardCards = new Card[0];
+		when(discard.removeAll()).thenReturn(discardCards);
+		
+		Card[] banishCards = new Card[0];
+		when(banish.removeAll()).thenReturn(banishCards);
+
+		Card[] voidCards = new Card[0];
+		when(voidZ.removeAll()).thenReturn(voidCards);
+		
+		
+		
+		zoneGroup.transform();
+		
+		
+		
+		verify(deck, times(1)).remove(43);
+		verify(burn, times(1)).add(deckCards);
+		
+		verify(hand, times(1)).removeAll();
+		verify(deck, atLeastOnce()).add(discardCards);
+
+		verify(discard, times(1)).removeAll();
+		verify(deck, atLeastOnce()).add(discardCards);
+
+		verify(banish, times(1)).removeAll();
+		verify(deck, atLeastOnce()).add(banishCards);
+
+		verify(voidZ, times(1)).removeAll();
+		verify(deck, atLeastOnce()).add(voidCards);
+		
+		verify(deck, times(1)).shuffle();
 	}
 
 }
