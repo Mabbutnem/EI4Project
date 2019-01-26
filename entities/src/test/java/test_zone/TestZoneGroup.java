@@ -10,8 +10,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import event.ZoneGroupAddEvent;
+import listener.IZoneGroupAddListener;
 import spell.Card;
 import zone.AutoHideZone;
 import zone.AutoRevealZone;
@@ -19,6 +22,17 @@ import zone.Zone;
 import zone.ZoneGroup;
 import zone.ZonePick;
 import zone.ZoneType;
+
+class MockZoneGroupAddListener implements IZoneGroupAddListener
+{
+	public MockZoneGroupAddListener() {}
+
+	@Override
+	public void displayAddedCards(ZoneGroupAddEvent e) {}
+	
+}
+
+
 
 public class TestZoneGroup
 {
@@ -42,6 +56,8 @@ public class TestZoneGroup
 	
 	private Card[] addedCards;
 	
+	private IZoneGroupAddListener zoneGroupAddListener;
+	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -54,6 +70,8 @@ public class TestZoneGroup
 	@Before
 	public void setUp() throws Exception {
 		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
+		
+		ZoneGroup.setZoneGroupAddListener(zoneGroupAddListener = mock(MockZoneGroupAddListener.class));
 		
 		cards = new Card[]
 				{
@@ -164,10 +182,12 @@ public class TestZoneGroup
 	@Test
 	public final void testAdd() {
 		zoneGroup.add(addedCards, ZoneType.BURN);
-		verify(burn, times(1)).add(addedCards);
+		verify(burn, times(1)).add(addedCards, ZonePick.DEFAULT);
+		verify(zoneGroupAddListener, times(1)).displayAddedCards(Mockito.any()); //1er appel
 		
 		zoneGroup.add(addedCards, ZoneType.BURN, ZonePick.TOP);
 		verify(burn, times(1)).add(addedCards, ZonePick.TOP);
+		verify(zoneGroupAddListener, times(2)).displayAddedCards(Mockito.any()); //2eme appel
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -191,9 +211,9 @@ public class TestZoneGroup
 						mock(Card.class),
 						mock(Card.class),
 				};
-		when(banish.remove(2)).thenReturn(expected);
+		when(banish.remove(2, ZonePick.DEFAULT)).thenReturn(expected);
 		Card[] result = zoneGroup.remove(2, ZoneType.BANISH);
-		verify(banish, times(1)).remove(2);
+		verify(banish, times(1)).remove(2, ZonePick.DEFAULT);
 		assertArrayEquals(expected, result);
 
 		

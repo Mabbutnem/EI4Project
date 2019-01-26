@@ -456,6 +456,28 @@ public class TestZone
 	}
 	
 	@Test
+	public final void testRemoveCard()
+	{
+		zone.remove(card4);
+		
+		Card[] expected = new Card[]
+				{
+						card1,
+						card2,
+						card3,
+						card5,
+				};
+		Card[] result = zone.getCards();
+		assertArrayEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveCardException()
+	{
+		zone.remove(null);
+	}
+	
+	@Test
 	public final void testRemoveAll()
 	{
 		Card[] expected = cards;

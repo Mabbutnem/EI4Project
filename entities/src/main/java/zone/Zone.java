@@ -22,7 +22,7 @@ public class Zone implements IZone
 	
 	public Zone(Card[] cards, ZoneType zoneType, ZonePick defaultZonePick)
 	{
-		Preconditions.checkState(cardArrayRequestListener != null, "cardArrayRequestListener"
+		Preconditions.checkState(Zone.cardArrayRequestListener != null, "cardArrayRequestListener"
 				+ " was not initialised (in static)");
 
 		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
@@ -156,12 +156,18 @@ public class Zone implements IZone
 	{
 		revealCards();
 		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
-		Card[] removedCards = cardArrayRequestListener.getCardArray(e);
+		Card[] removedCards = Zone.cardArrayRequestListener.getCardArray(e);
 		for(Card c : removedCards)
 		{
 			cards.remove(c);
 		}
 		return removedCards;
+	}
+	
+	public void remove(Card card)
+	{
+		Preconditions.checkArgument(card != null, "card was null but expected not null");
+		cards.remove(card);
 	}
 
 	public Card[] removeAll() {
