@@ -23,11 +23,6 @@ public class CastZone
 		spells.add(spell);
 	}
 	
-	public boolean canCast()
-	{
-		return !spells.isEmpty();
-	}
-	
 	public ISpell cast()
 	{
 		return spells.poll();

@@ -2,6 +2,7 @@ package zone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.assistedinject.Assisted;
 
 import spell.Card;
@@ -79,7 +80,7 @@ public class ZoneGroup
 	
 	private Zone getZone(ZoneType zoneType)
 	{
-		if(zoneType == null) {throw new IllegalArgumentException("ZoneType ne peut pas être null");}
+		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
 		
 		switch(zoneType) {
 		case DECK: return deck;

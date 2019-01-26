@@ -2,6 +2,8 @@ package target;
 
 import java.util.ArrayList;
 
+import com.google.common.base.Preconditions;
+
 public class Target
 {
 	private TargetConstraint[] constraints;
@@ -9,9 +11,9 @@ public class Target
 	
 	public Target(TargetConstraint[] constraints, TargetType type)
 	{
-		if(constraints == null) {throw new IllegalArgumentException("constraints ne peut pas être null");}
-		
-		if(type == null) {throw new IllegalArgumentException("type ne peut pas être null");}
+		Preconditions.checkArgument(constraints != null, "constraints was null but expected not null");
+
+		Preconditions.checkArgument(type != null, "type was null but expected not null");
 		
 		//Vérifier qu'il n'y a pas 2(ou +) contraintes du même type, exemple : [NOTYOU, NOTALLY, NOTYOU]
 		ArrayList<TargetConstraint> alc = new ArrayList<>();
@@ -19,8 +21,8 @@ public class Target
 		{
 			if(alc.contains(c))
 			{
-				throw new IllegalArgumentException("constraints ne peut pas contenir 2(ou +) contraintes du"
-						+ " même type, exemple : [NOTYOU, NOTALLY, NOTYOU]");
+				throw new IllegalArgumentException("constraints contains 2(or more) same constraints but"
+						+ " can't contains 2(or more) same constraint, exemple : [NOTYOU, NOTALLY, NOTYOU]");
 			}
 			alc.add(c);
 		}

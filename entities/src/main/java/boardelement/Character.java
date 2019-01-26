@@ -1,11 +1,13 @@
 package boardelement;
 
+import com.google.common.base.Preconditions;
 
 //NOT FINISHED !!
 public abstract class Character implements IBoardElement
 {
-	private static final String LOSSEXCEPTIONMESSAGE = "loss ne peut pas être inférieur ou égal à 0";
-	private static final String GAINEXCEPTIONMESSAGE = "gain ne peut pas être inférieur ou égal à 0";
+	private static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
+	private static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
+	
 	
 	private int health;
 	private int armor;
@@ -40,21 +42,21 @@ public abstract class Character implements IBoardElement
 	
 	public void loseHealth(int loss)
 	{
-		if(loss <= 0) { throw new IllegalArgumentException(LOSSEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setHealth(getHealth() - loss);
 	}
 	
 	public void gainHealth(int gain)
 	{
-		if(gain <= 0) { throw new IllegalArgumentException(GAINEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setHealth(getHealth() + gain);
 	}
 	
 	public void inflictDamage(int damage)
 	{
-		if(damage <= 0) { throw new IllegalArgumentException("damage ne peut pas être inférieur ou égal à 0");}
+		Preconditions.checkArgument(damage > 0, "Damage was %s but expected strictly positive", damage);
 		
 		if(damage > getArmor())
 		{
@@ -79,14 +81,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseArmor(int loss)
 	{
-		if(loss <= 0) { throw new IllegalArgumentException(LOSSEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
 	
 		setArmor(getArmor() - loss);
 	}
 	
 	public void gainArmor(int gain)
 	{
-		if(gain <= 0) { throw new IllegalArgumentException(GAINEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setArmor(getArmor() + gain);
 	}
@@ -104,14 +106,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseMove(int loss)
 	{
-		if(loss <= 0) { throw new IllegalArgumentException(LOSSEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
 	
 		setMove(getMove() - loss);
 	}
 	
 	public void gainMove(int gain)
 	{
-		if(gain <= 0) { throw new IllegalArgumentException(GAINEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setMove(getMove() + gain);
 	}
@@ -131,14 +133,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseDash(int loss)
 	{
-		if(loss <= 0) { throw new IllegalArgumentException(LOSSEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setDash(getDash() - loss);
 	}
 	
 	public void gainDash(int gain)
 	{
-		if(gain <= 0) { throw new IllegalArgumentException(GAINEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setDash(getDash() + gain);
 	}
@@ -156,14 +158,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseRange(int loss)
 	{
-		if(loss <= 0) { throw new IllegalArgumentException(LOSSEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setRange(getRange() - loss);
 	}
 	
 	public void gainRange(int gain)
 	{
-		if(gain <= 0) { throw new IllegalArgumentException(GAINEXCEPTIONMESSAGE);}
+		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setRange(getRange() + gain);
 	}

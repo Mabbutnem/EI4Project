@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.common.base.Preconditions;
+
 import event.CardArrayRequestEvent;
-import exception.NotInitialisedContextException;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 
@@ -21,16 +22,18 @@ public class Zone implements IZone
 	
 	public Zone(Card[] cards, ZoneType zoneType, ZonePick defaultZonePick)
 	{
-		if(cardArrayRequestListener == null) { throw new NotInitialisedContextException("cardArrayRequestListener"
-				+ "n'a pas été initialisé (en static)");}
+		Preconditions.checkState(cardArrayRequestListener != null, "cardArrayRequestListener"
+				+ " was not initialised (in static)");
+
+		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
+
+		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
 		
-		if(cards == null) { throw new IllegalArgumentException("cards ne peut pas être null");}
-		
-		if(zoneType == null) { throw new IllegalArgumentException("zoneType ne peut pas être null");}
-		
-		if(defaultZonePick == null) { throw new IllegalArgumentException("defaultZonePick ne peut pas être null");}
-		if(defaultZonePick == ZonePick.CHOICE) { throw new IllegalArgumentException("defaultZonePick ne peut pas être CHOICE");}
-		if(defaultZonePick == ZonePick.DEFAULT) { throw new IllegalArgumentException("defaultZonePick ne peut pas être DEFAULT");}
+		Preconditions.checkArgument(defaultZonePick != null, "defaultZonePick was null but expected not null");
+		Preconditions.checkArgument(defaultZonePick != ZonePick.CHOICE, "defaultZonePick was"
+				+ " %s but expected not ZonePick.CHOICE", defaultZonePick);
+		Preconditions.checkArgument(defaultZonePick != ZonePick.DEFAULT, "defaultZonePick was"
+				+ " %s but expected not ZonePick.DEFAULT", defaultZonePick);
 		
 		this.cards = new LinkedList<>();
 		add(cards, ZonePick.TOP);
@@ -52,10 +55,11 @@ public class Zone implements IZone
 
 	public void add(Card[] cards, ZonePick zonePick)
 	{
-		if(cards == null) { throw new IllegalArgumentException("cards ne peut pas être null");}
+		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
 		
-		if(zonePick == null) { throw new IllegalArgumentException("zonePick ne peut pas être null");}
-		if(zonePick == ZonePick.CHOICE) { throw new IllegalArgumentException("zonePick ne peut pas être CHOICE");}
+		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
+		Preconditions.checkArgument(zonePick != ZonePick.CHOICE, "zonePick was"
+				+ " %s but expected not ZonePick.CHOICE", zonePick);
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
 		switch(zonePick)
@@ -85,9 +89,9 @@ public class Zone implements IZone
 
 	public Card[] remove(int nbCard, ZonePick zonePick)
 	{
-		if(nbCard <= 0)  { throw new IllegalArgumentException("nbCard ne peut pas être inférieur ou égal à 0");}
-		
-		if(zonePick == null) { throw new IllegalArgumentException("zonePick ne peut pas être null");}
+		Preconditions.checkArgument(nbCard > 0, "nbCard was %s but expected strictly positive", nbCard);
+
+		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
 		if(nbCard >= cards.size())

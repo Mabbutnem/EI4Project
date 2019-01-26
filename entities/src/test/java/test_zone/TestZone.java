@@ -14,7 +14,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import event.CardArrayRequestEvent;
-import exception.NotInitialisedContextException;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 import zone.Zone;
@@ -104,7 +103,7 @@ public class TestZone
 		assertEquals(expected, result);
 	}
 	
-	@Test (expected = NotInitialisedContextException.class)
+	@Test (expected = IllegalStateException.class)
 	public final void testZoneException1() {
 		//cardArrayRequestListener n'a pas été initialisé
 		Zone.setCardArrayRequestListener(null);
