@@ -14,12 +14,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import event.ZoneGroupAddEvent;
-import listener.IMulliganListener;
-import listener.IZoneGroupAddListener;
+import listener.IAnyNumberCardArrayRequestListener;
 import spell.Card;
 import zone.AutoHideZone;
 import zone.AutoRevealZone;
@@ -28,21 +25,12 @@ import zone.ZoneGroup;
 import zone.ZonePick;
 import zone.ZoneType;
 
-class MockZoneGroupAddListener implements IZoneGroupAddListener
-{
-	public MockZoneGroupAddListener() {}
-
-	@Override
-	public void displayAddedCards(ZoneGroupAddEvent e) {}
-	
-}
-
-class MockMulliganListener implements IMulliganListener
+class MockMulliganListener implements IAnyNumberCardArrayRequestListener
 {
 	public MockMulliganListener() {}
 
 	@Override
-	public Card[] mulligan(Card[] cards) { return null; }
+	public Card[] getCardArray(Card[] cards) { return null; }
 }
 
 
@@ -71,12 +59,17 @@ public class TestZoneGroup
 	private Card card;
 	
 	private Card[] addedCards;
-	
+
 	@Captor
-	private ArgumentCaptor<Card[]> captor;
+	private ArgumentCaptor<Integer> intCaptor;
+	@Captor
+	private ArgumentCaptor<ZonePick> zonePickCaptor;
+	@Captor
+	private ArgumentCaptor<Card[]> cardArrayCaptor;
+	@Captor
+	private ArgumentCaptor<Card> cardCaptor;
 	
-	private IZoneGroupAddListener zoneGroupAddListener;
-	private IMulliganListener mulliganListener;
+	private IAnyNumberCardArrayRequestListener anyNumberCardArrayRequestListener;
 	
 
 	@BeforeClass
@@ -91,9 +84,7 @@ public class TestZoneGroup
 	public void setUp() throws Exception {
 		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
 		
-		ZoneGroup.setZoneGroupAddListener(zoneGroupAddListener = mock(MockZoneGroupAddListener.class));
-		
-		ZoneGroup.setMulliganListener(mulliganListener = mock(MockMulliganListener.class));
+		ZoneGroup.setMulliganListener(anyNumberCardArrayRequestListener = mock(MockMulliganListener.class));
 		
 		cards = new Card[]
 				{
@@ -153,14 +144,7 @@ public class TestZoneGroup
 	}
 	
 	@Test (expected = IllegalStateException.class)
-	public final void testZoneGroupException1()
-	{
-		ZoneGroup.setZoneGroupAddListener(null);
-		zoneGroup = new ZoneGroup(cards);
-	}
-	
-	@Test (expected = IllegalStateException.class)
-	public final void testZoneGroupException2()
+	public final void testZoneGroupException()
 	{
 		ZoneGroup.setMulliganListener(null);
 		zoneGroup = new ZoneGroup(cards);
@@ -233,11 +217,9 @@ public class TestZoneGroup
 	public final void testAdd() {
 		zoneGroup.add(addedCards, ZoneType.BURN);
 		verify(burn, times(1)).add(addedCards, ZonePick.DEFAULT);
-		verify(zoneGroupAddListener, times(1)).displayAddedCards(Mockito.any()); //1er appel
 		
 		zoneGroup.add(addedCards, ZoneType.BURN, ZonePick.TOP);
 		verify(burn, times(1)).add(addedCards, ZonePick.TOP);
-		verify(zoneGroupAddListener, times(2)).displayAddedCards(Mockito.any()); //2eme appel
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -368,13 +350,123 @@ public class TestZoneGroup
 	@Test
 	public final void testMulligan()
 	{
-		fail("TODO");
+		//Initialisation des mocks
+		Card card1; Card card2;
+		Card[] fiveTopDeckCards = new Card[]
+				{
+						card1 = mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+						card2 = mock(Card.class),
+						mock(Card.class),
+				};
+		when(deck.remove(5, ZonePick.TOP)).thenReturn(fiveTopDeckCards);
+
+		when(hand.getCards()).thenReturn(fiveTopDeckCards);
+		
+		Card[] cardsToMulligan = new Card[]
+				{
+						card1,
+						card2,
+				};
+		when(anyNumberCardArrayRequestListener.getCardArray(fiveTopDeckCards)).thenReturn(cardsToMulligan);
+		
+		Card[] twoOtherTopDeckCards = new Card[]
+				{
+						mock(Card.class),
+						mock(Card.class),
+				};
+		when(deck.remove(2, ZonePick.TOP)).thenReturn(twoOtherTopDeckCards);
+		
+		
+		
+		zoneGroup.mulligan(5);
+		
+		
+
+		//Vérifications
+		verify(deck, times(2)).remove(intCaptor.capture(), zonePickCaptor.capture());
+		assertEquals(Arrays.asList(5, 2), intCaptor.getAllValues());
+		assertEquals(Arrays.asList(ZonePick.TOP, ZonePick.TOP), zonePickCaptor.getAllValues());
+		
+		verify(hand, times(2)).add(cardArrayCaptor.capture());
+		assertEquals(Arrays.asList(fiveTopDeckCards, twoOtherTopDeckCards), cardArrayCaptor.getAllValues());
+		
+		verify(hand, times(1)).getCards();
+		
+		verify(anyNumberCardArrayRequestListener, times(1)).getCardArray(fiveTopDeckCards);
+		
+		verify(hand, times(2)).remove(cardCaptor.capture());
+		assertEquals(Arrays.asList(card1, card2), cardCaptor.getAllValues());
+		
+		verify(deck, times(1)).add(cardsToMulligan);
+		
+		verify(deck, times(1)).shuffle();
+	}
+	
+	@Test
+	public final void testMulliganWithNoCardToMulligan()
+	{
+		//Initialisation des mocks
+		Card[] fiveTopDeckCards = new Card[]
+				{
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+				};
+		when(deck.remove(5, ZonePick.TOP)).thenReturn(fiveTopDeckCards);
+
+		when(hand.getCards()).thenReturn(fiveTopDeckCards);
+		
+		Card[] cardsToMulligan = new Card[0];
+		when(anyNumberCardArrayRequestListener.getCardArray(fiveTopDeckCards)).thenReturn(cardsToMulligan);
+		
+		Card[] twoOtherTopDeckCards = new Card[]
+				{
+						mock(Card.class),
+						mock(Card.class),
+				};
+		when(deck.remove(2, ZonePick.TOP)).thenReturn(twoOtherTopDeckCards); //NOT CALLED
+		
+		
+		
+		zoneGroup.mulligan(5);
+		
+		
+
+		//Vérifications
+		verify(deck, times(1)).remove(5, ZonePick.TOP); //ONE CALL
+		
+		verify(hand, times(1)).add(fiveTopDeckCards); //ONE CALL
+		
+		verify(hand, times(1)).getCards();
+		verifyNoMoreInteractions(hand);
+		
+		verify(anyNumberCardArrayRequestListener, times(1)).getCardArray(fiveTopDeckCards);
+		
+		//NOT CALLED
+		/*verify(hand, times(2)).remove(cardCaptor.capture());
+		assertEquals(Arrays.asList(card1, card2), cardCaptor.getAllValues());*/
+		
+		verify(deck, times(1)).add(cardsToMulligan);
+		
+		verify(deck, times(1)).shuffle();
+		
+		verifyNoMoreInteractions(deck);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testMulliganException()
+	{
+		zoneGroup.mulligan(0);
 	}
 	
 	@Test
 	public final void testTransform()
 	{
-		
+		//Initialisation des mocks
 		Card[] deckCards = new Card[0];
 		when(deck.size()).thenReturn(87);
 		when(deck.remove(43)).thenReturn(deckCards);
@@ -397,6 +489,7 @@ public class TestZoneGroup
 		
 		
 		
+		//Vérifications
 		verify(deck, times(1)).size();
 		verify(deck, times(1)).remove(43);
 		verify(burn, times(1)).add(deckCards);
@@ -406,8 +499,8 @@ public class TestZoneGroup
 		verify(banish, times(1)).removeAll();
 		verify(voidZ, times(1)).removeAll();
 		
-		verify(deck, times(4)).add(captor.capture());
-		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), captor.getAllValues());
+		verify(deck, times(4)).add(cardArrayCaptor.capture());
+		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), cardArrayCaptor.getAllValues());
 		
 		verify(deck, times(1)).shuffle();
 	}
@@ -415,7 +508,7 @@ public class TestZoneGroup
 	@Test
 	public final void testTransformWithNoCardInDeckToBurn()
 	{
-		
+		//Initialisation des mocks
 		Card[] deckCards = new Card[0];
 		when(deck.size()).thenReturn(1);
 		when(deck.remove(0)).thenReturn(deckCards); //NOT CALLED
@@ -438,6 +531,7 @@ public class TestZoneGroup
 		
 		
 
+		//Vérifications
 		verify(deck, times(1)).size();
 		//verify(deck, times(1)).remove(0); NOT CALLED
 		//verify(burn, times(1)).add(deckCards); NOT CALLED
@@ -448,8 +542,8 @@ public class TestZoneGroup
 		verify(banish, times(1)).removeAll();
 		verify(voidZ, times(1)).removeAll();
 		
-		verify(deck, times(4)).add(captor.capture());
-		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), captor.getAllValues());
+		verify(deck, times(4)).add(cardArrayCaptor.capture());
+		assertEquals(Arrays.asList(handCards, discardCards, banishCards, voidCards), cardArrayCaptor.getAllValues());
 		
 		verify(deck, times(1)).shuffle();
 		

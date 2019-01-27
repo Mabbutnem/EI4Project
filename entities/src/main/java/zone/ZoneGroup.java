@@ -5,19 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Preconditions;
 import com.google.inject.assistedinject.Assisted;
 
-import event.ZoneGroupAddEvent;
-import listener.IMulliganListener;
-import listener.IZoneGroupAddListener;
+import listener.IAnyNumberCardArrayRequestListener;
 import spell.Card;
 
 public class ZoneGroup
 {
-	private static IZoneGroupAddListener zoneGroupAddListener;
-	
-	private static IMulliganListener mulliganListener;
-	
-	//A Modifier !!
-	private static int nbCardOpeningHand = 5;
+	private static IAnyNumberCardArrayRequestListener anyNumberCardArrayRequestListener;
 	
 	@Autowired
 	private AutoHideZone deck;
@@ -36,10 +29,7 @@ public class ZoneGroup
 	
 	public ZoneGroup(@Assisted Card[] cards)
 	{
-		Preconditions.checkState(ZoneGroup.zoneGroupAddListener != null, "zoneGroupAddListener"
-				+ " was not initialised (in static)");
-		
-		Preconditions.checkState(ZoneGroup.mulliganListener != null, "mulliganListener"
+		Preconditions.checkState(ZoneGroup.anyNumberCardArrayRequestListener != null, "mulliganListener"
 				+ " was not initialised (in static)");
 		
 		deck = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
@@ -54,14 +44,8 @@ public class ZoneGroup
 		reset(cards);
 	}
 	
-	
-
-	public static void setZoneGroupAddListener(IZoneGroupAddListener zoneGroupAddListener) {
-		ZoneGroup.zoneGroupAddListener = zoneGroupAddListener;
-	}
-	
-	public static void setMulliganListener(IMulliganListener mulliganListener) {
-		ZoneGroup.mulliganListener = mulliganListener;
+	public static void setMulliganListener(IAnyNumberCardArrayRequestListener mulliganListener) {
+		ZoneGroup.anyNumberCardArrayRequestListener = mulliganListener;
 	}
 
 
@@ -85,8 +69,6 @@ public class ZoneGroup
 	
 	public void add(Card[] cards, ZoneType zoneType, ZonePick zonePick) 
 	{
-		ZoneGroup.zoneGroupAddListener.displayAddedCards(new ZoneGroupAddEvent(cards, zoneType, zonePick));
-		
 		getZone(zoneType).add(cards, zonePick);
 	}
 	
@@ -130,26 +112,37 @@ public class ZoneGroup
 		getZone(zoneType).moveCardToIndex(sourceIndex, destIndex);
 	}
 	
-	public void mulligan()
+	public void mulligan(int nbCard)
 	{
-		hand.add(deck.remove(ZoneGroup.nbCardOpeningHand, ZonePick.TOP)); //Draw nbCardOpeningHand cards
-		Card[] removedFromHand = ZoneGroup.mulliganListener.mulligan(hand.getCards());
-		deck.add(removedFromHand);
+		Preconditions.checkArgument(nbCard > 0, "nbCard was %s but expected strictly positive", nbCard);
+		
+		//Draw nbCard
+		hand.add(deck.remove(nbCard, ZonePick.TOP));
+		
+		//Return cardToMulligan in the deck
+		Card[] cardsToMulligan = ZoneGroup.anyNumberCardArrayRequestListener.getCardArray(hand.getCards());
+		for(Card c : cardsToMulligan) {hand.remove(c);}
+		deck.add(cardsToMulligan);
+		
 		deck.shuffle();
-		if(removedFromHand.length > 0)
+		
+		//Draw X cards, where X is the number of cards returned to the deck
+		if(cardsToMulligan.length > 0)
 		{
-			hand.add(deck.remove(removedFromHand.length, ZonePick.TOP));
+			hand.add(deck.remove(cardsToMulligan.length, ZonePick.TOP));
 		}
 	}
 	
 	public void transform()
 	{
+		//Burn half of your deck (rounded down)
 		int nbDeckCardToBurn = deck.size()/2;
 		if(nbDeckCardToBurn > 0)
 		{
 			burn.add(deck.remove(nbDeckCardToBurn));
 		}
 		
+		//return cards from all zone (except the burn zone) to your deck
 		deck.add(hand.removeAll());
 		deck.add(discard.removeAll());
 		deck.add(banish.removeAll());
