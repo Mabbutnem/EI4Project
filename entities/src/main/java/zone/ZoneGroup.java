@@ -151,6 +151,18 @@ public class ZoneGroup
 		deck.shuffle();
 	}
 	
+	public void unvoid()
+	{
+		//Return all the cards from the void zone in your hand
+		hand.add(voidZ.removeAll());
+	}
+	
+	public void unbanish()
+	{
+		//Return one random card from the banish zone in your hand
+		hand.add(banish.remove(1, ZonePick.RANDOM));
+	}
+	
 	
 	
 	

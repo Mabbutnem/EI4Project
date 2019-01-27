@@ -549,5 +549,47 @@ public class TestZoneGroup
 		
 		verifyNoMoreInteractions(deck);
 	}
+	
+	@Test
+	public final void testUnvoid()
+	{
+		//Initialisation des mocks
+		Card[] voidCards = new Card[]
+				{
+						mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
+				};
+		when(voidZ.removeAll()).thenReturn(voidCards);
+		
+		
+		zoneGroup.unvoid();
+		
+
+		//Vérifications
+		verify(voidZ, times(1)).removeAll();
+		
+		verify(hand, times(1)).add(voidCards);
+	}
+	
+	@Test
+	public final void testUnbanish()
+	{
+		//Initialisation des mocks
+		Card[] oneRandomBanishCard = new Card[]
+				{
+						mock(Card.class)
+				};
+		when(banish.remove(1, ZonePick.RANDOM)).thenReturn(oneRandomBanishCard);
+		
+		
+		zoneGroup.unbanish();
+		
+		
+		//Vérifications
+		verify(banish, times(1)).remove(1, ZonePick.RANDOM);
+
+		verify(hand, times(1)).add(oneRandomBanishCard);
+	}
 
 }

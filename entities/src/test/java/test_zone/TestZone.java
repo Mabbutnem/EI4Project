@@ -159,6 +159,16 @@ public class TestZone
 		Card[] result = zone.getCards();
 		assertArrayEquals(expected, result);
 	}
+	
+	@Test
+	public final void testAddWithEmptyCardArray() {
+		zone.add(new Card[0]);
+
+		//Ici, default est TOP
+		Card[] expected = cards;
+		Card[] result = zone.getCards();
+		assertArrayEquals(expected, result);
+	}
 
 	@Test
 	public final void testAddTOP() {
