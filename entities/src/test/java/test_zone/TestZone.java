@@ -4,8 +4,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,33 +11,30 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import event.CardArrayRequestEvent;
-import listener.ICardArrayRequestListener;
+import listener.ICardArrayDisplayListener;
 import spell.Card;
 import zone.Zone;
 import zone.ZonePick;
 import zone.ZoneType;
 
-final class TOPCardArrayRequestListener implements ICardArrayRequestListener
-{
-	public TOPCardArrayRequestListener() {}
-	
-	public Card[] getCardArray(CardArrayRequestEvent e)
-	{
-		List<Card> choosenCards = new LinkedList<Card>();
-		
-		for(int i = 0; i < e.getNbCard(); i++)
-		{
-			choosenCards.add(e.getCards()[e.getCards().length-1 - i]);
-		}
-		
-		return choosenCards.toArray(new Card[0]);
-	}
-	
-}
-
 public class TestZone
 {
+	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	{
+
+		@Override
+		public Card[] chooseCards(int nbCard, Card[] cards) { return null; }
+
+		@Override
+		public Card[] chooseCards(Card[] cards) { return null; }
+
+		@Override
+		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
+
+		@Override
+		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
+				ZonePick destPick) {}
+	}
 	
 	private Zone zone;
 	
@@ -55,6 +50,8 @@ public class TestZone
 	private Card card7;
 	private Card card8;
 	
+	private MockCardArrayDisplayListener cardArrayDisplayListener;
+	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -66,7 +63,7 @@ public class TestZone
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
+		Zone.setCardArrayDisplayListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
 		
 		addedCards = new Card[]
 				{
@@ -106,7 +103,7 @@ public class TestZone
 	@Test (expected = IllegalStateException.class)
 	public final void testZoneException1() {
 		//cardArrayRequestListener n'a pas été initialisé
-		Zone.setCardArrayRequestListener(null);
+		Zone.setCardArrayDisplayListener(null);
 		zone = new Zone(cards, ZoneType.BURN, ZonePick.TOP);
 	}
 	
@@ -373,37 +370,38 @@ public class TestZone
 	
 	@Test
 	public final void testRemoveCHOICE() {
+		//Préparation
+		when(cardArrayDisplayListener.chooseCards(2, cards)).thenReturn(new Card[]
+				{
+						card5,
+						card1,
+				});
 		
-		//Ici, CardArrayRequestListener choisi les cartes comme un "TOP"
-		//De plus, les cartes sont toutes révelées pour que l'utilisateur puisse voir leur contenu
+
+		//Vérification de la sortie
 		Card[] expected = new Card[]
 				{
 					card5,
-					card4,
+					card1,
 				};
 		Card[] result = zone.remove(2, ZonePick.CHOICE);
 		assertArrayEquals(expected, result);
-		for(int i = 0; i < expected.length; i++)
-		{
-			verify(result[i], times(1)).setRevealed(true);
-			verifyNoMoreInteractions(result[i]);
-		}
 		
+		//Vérification des cartes qu'il reste
 		expected = new Card[]
 				{
-					card1,
 					card2,
 					card3,
+					card4,
 				};
 		result = zone.getCards();
 		assertArrayEquals(expected, result);
-		for(int i = 0; i < expected.length; i++)
+		
+		//Vérification que toutes les cartes ont étés révélées (pour les afficher à l'utilisateur)
+		for(Card c : cards)
 		{
-			verify(result[i], times(1)).setRevealed(true);
-			verifyNoMoreInteractions(result[i]);
+			verify(c, times(1)).setRevealed(true);
 		}
-		
-		
 	}
 	
 	@Test
@@ -422,7 +420,7 @@ public class TestZone
 	public final void testRemoveNbCardGreaterThanCardsWithOption()
 	{
 		Card[] expected = cards;
-		Card[] result = zone.remove(7, ZonePick.CHOICE);
+		Card[] result = zone.remove(7, ZonePick.BOTTOM);
 		assertArrayEquals(expected, result);
 		
 		int expected2 = 0;

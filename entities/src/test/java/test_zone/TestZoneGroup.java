@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import listener.IAnyNumberCardArrayRequestListener;
+import listener.ICardArrayDisplayListener;
 import spell.Card;
 import zone.AutoHideZone;
 import zone.AutoRevealZone;
@@ -25,20 +25,25 @@ import zone.ZoneGroup;
 import zone.ZonePick;
 import zone.ZoneType;
 
-class MockMulliganListener implements IAnyNumberCardArrayRequestListener
-{
-	public MockMulliganListener() {}
-
-	@Override
-	public Card[] getCardArray(Card[] cards) { return null; }
-}
-
-
-
-
-
 public class TestZoneGroup
 {
+	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	{
+
+		@Override
+		public Card[] chooseCards(int nbCard, Card[] cards) { return null; }
+
+		@Override
+		public Card[] chooseCards(Card[] cards) { return null; }
+
+		@Override
+		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
+
+		@Override
+		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
+				ZonePick destPick) {}
+	}
+	
 	@Mock
 	private AutoHideZone deck;
 	@Mock
@@ -68,8 +73,8 @@ public class TestZoneGroup
 	private ArgumentCaptor<Card[]> cardArrayCaptor;
 	@Captor
 	private ArgumentCaptor<Card> cardCaptor;
-	
-	private IAnyNumberCardArrayRequestListener anyNumberCardArrayRequestListener;
+
+	private MockCardArrayDisplayListener cardArrayDisplayListener;
 	
 
 	@BeforeClass
@@ -82,9 +87,9 @@ public class TestZoneGroup
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayRequestListener(new TOPCardArrayRequestListener());
+		Zone.setCardArrayDisplayListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
 		
-		ZoneGroup.setMulliganListener(anyNumberCardArrayRequestListener = mock(MockMulliganListener.class));
+		ZoneGroup.setCardArrayDisplayListener(cardArrayDisplayListener);
 		
 		cards = new Card[]
 				{
@@ -146,7 +151,7 @@ public class TestZoneGroup
 	@Test (expected = IllegalStateException.class)
 	public final void testZoneGroupException()
 	{
-		ZoneGroup.setMulliganListener(null);
+		ZoneGroup.setCardArrayDisplayListener(null);
 		zoneGroup = new ZoneGroup(cards);
 	}
 	
@@ -369,7 +374,7 @@ public class TestZoneGroup
 						card1,
 						card2,
 				};
-		when(anyNumberCardArrayRequestListener.getCardArray(fiveTopDeckCards)).thenReturn(cardsToMulligan);
+		when(cardArrayDisplayListener.chooseCards(fiveTopDeckCards)).thenReturn(cardsToMulligan);
 		
 		Card[] twoOtherTopDeckCards = new Card[]
 				{
@@ -394,7 +399,7 @@ public class TestZoneGroup
 		
 		verify(hand, times(1)).getCards();
 		
-		verify(anyNumberCardArrayRequestListener, times(1)).getCardArray(fiveTopDeckCards);
+		verify(cardArrayDisplayListener, times(1)).chooseCards(fiveTopDeckCards);
 		
 		verify(hand, times(2)).remove(cardCaptor.capture());
 		assertEquals(Arrays.asList(card1, card2), cardCaptor.getAllValues());
@@ -421,7 +426,7 @@ public class TestZoneGroup
 		when(hand.getCards()).thenReturn(fiveTopDeckCards);
 		
 		Card[] cardsToMulligan = new Card[0];
-		when(anyNumberCardArrayRequestListener.getCardArray(fiveTopDeckCards)).thenReturn(cardsToMulligan);
+		when(cardArrayDisplayListener.chooseCards(fiveTopDeckCards)).thenReturn(cardsToMulligan);
 		
 		Card[] twoOtherTopDeckCards = new Card[]
 				{
@@ -444,7 +449,7 @@ public class TestZoneGroup
 		verify(hand, times(1)).getCards();
 		verifyNoMoreInteractions(hand);
 		
-		verify(anyNumberCardArrayRequestListener, times(1)).getCardArray(fiveTopDeckCards);
+		verify(cardArrayDisplayListener, times(1)).chooseCards(fiveTopDeckCards);
 		
 		//NOT CALLED
 		/*verify(hand, times(2)).remove(cardCaptor.capture());

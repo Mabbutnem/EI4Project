@@ -6,13 +6,12 @@ import java.util.Random;
 
 import com.google.common.base.Preconditions;
 
-import event.CardArrayRequestEvent;
-import listener.ICardArrayRequestListener;
+import listener.ICardArrayDisplayListener;
 import spell.Card;
 
 public class Zone implements IZone
 {
-	private static ICardArrayRequestListener cardArrayRequestListener;
+	private static ICardArrayDisplayListener cardArrayDisplayListener;
 	
 	private List<Card> cards;
 	private final ZoneType zoneType;
@@ -22,7 +21,7 @@ public class Zone implements IZone
 	
 	public Zone(Card[] cards, ZoneType zoneType, ZonePick defaultZonePick)
 	{
-		Preconditions.checkState(Zone.cardArrayRequestListener != null, "cardArrayRequestListener"
+		Preconditions.checkState(Zone.cardArrayDisplayListener != null, "cardArrayDisplayListener"
 				+ " was not initialised (in static)");
 
 		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
@@ -43,9 +42,11 @@ public class Zone implements IZone
 	
 	
 	
-	public static void setCardArrayRequestListener(ICardArrayRequestListener cardArrayRequestListener) {
-		Zone.cardArrayRequestListener = cardArrayRequestListener;
+	
+	public static void setCardArrayDisplayListener(ICardArrayDisplayListener cardArrayDisplayListener) {
+		Zone.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
+	
 	
 	
 
@@ -155,8 +156,7 @@ public class Zone implements IZone
 	protected Card[] removeByChoice(int nbCard)
 	{
 		revealCards();
-		CardArrayRequestEvent e = new CardArrayRequestEvent(nbCard, cards.toArray(new Card[0]));
-		Card[] removedCards = Zone.cardArrayRequestListener.getCardArray(e);
+		Card[] removedCards = Zone.cardArrayDisplayListener.chooseCards(nbCard, cards.toArray(new Card[0]));
 		for(Card c : removedCards)
 		{
 			cards.remove(c);

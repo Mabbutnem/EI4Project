@@ -7,8 +7,6 @@ import boardelement.Wizard;
 import game.Game;
 import spell.Card;
 import spell.ISpell;
-import spell.Incantation;
-import spell.Power;
 
 public class CastZone
 {
@@ -89,22 +87,18 @@ public class CastZone
 	
 	public void add(Card card, Wizard owner, ZoneType zoneType, ZonePick zonePick)
 	{
+		card.setRevealed(true);
 		spells.add(new SpellWithOwner(card, owner, zoneType, zonePick));
 	}
 	
 	public void add(Card card, Wizard owner)
 	{
-		spells.add(new SpellWithOwner(card, owner, ZoneType.DISCARD, ZonePick.DEFAULT));
+		add(card, owner, ZoneType.DISCARD, ZonePick.DEFAULT);
 	}
 	
-	public void add(Power power)
+	public void add(ISpell spell)
 	{
-		spells.add(new SpellWithOwner(power));
-	}
-	
-	public void add(Incantation incantation)
-	{
-		spells.add(new SpellWithOwner(incantation));
+		spells.add(new SpellWithOwner(spell));
 	}
 	
 	public boolean isEmpty()

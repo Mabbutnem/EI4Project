@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Preconditions;
 import com.google.inject.assistedinject.Assisted;
 
-import listener.IAnyNumberCardArrayRequestListener;
+import listener.ICardArrayDisplayListener;
 import spell.Card;
 
 public class ZoneGroup
 {
-	private static IAnyNumberCardArrayRequestListener anyNumberCardArrayRequestListener;
+	private static ICardArrayDisplayListener cardArrayDisplayListener;
 	
 	@Autowired
 	private AutoHideZone deck;
@@ -29,7 +29,7 @@ public class ZoneGroup
 	
 	public ZoneGroup(@Assisted Card[] cards)
 	{
-		Preconditions.checkState(ZoneGroup.anyNumberCardArrayRequestListener != null, "mulliganListener"
+		Preconditions.checkState(ZoneGroup.cardArrayDisplayListener != null, "cardArrayDisplayListener"
 				+ " was not initialised (in static)");
 		
 		deck = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
@@ -44,11 +44,15 @@ public class ZoneGroup
 		reset(cards);
 	}
 	
-	public static void setMulliganListener(IAnyNumberCardArrayRequestListener mulliganListener) {
-		ZoneGroup.anyNumberCardArrayRequestListener = mulliganListener;
+	
+
+	
+	public static void setCardArrayDisplayListener(ICardArrayDisplayListener cardArrayDisplayListener) {
+		ZoneGroup.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
 
 
+	
 
 	public void reset(Card[] cards)
 	{
@@ -119,8 +123,8 @@ public class ZoneGroup
 		//Draw nbCard
 		hand.add(deck.remove(nbCard, ZonePick.TOP));
 		
-		//Return cardToMulligan in the deck
-		Card[] cardsToMulligan = ZoneGroup.anyNumberCardArrayRequestListener.getCardArray(hand.getCards());
+		//Choose cards to mulligan and return them in the deck
+		Card[] cardsToMulligan = ZoneGroup.cardArrayDisplayListener.chooseCards(hand.getCards());
 		for(Card c : cardsToMulligan) {hand.remove(c);}
 		deck.add(cardsToMulligan);
 		
