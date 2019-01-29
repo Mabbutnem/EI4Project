@@ -1,7 +1,9 @@
 package zone;
 
-import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+import com.google.common.base.Preconditions;
 
 import boardelement.Wizard;
 import game.Game;
@@ -16,23 +18,20 @@ public class CastZone
 		private Wizard owner;
 		private ZoneType zoneType;
 		private ZonePick zonePick;
-		
-		
-		public SpellWithOwner(Card card, Wizard owner, ZoneType zoneType, ZonePick zonePick)
-		{
+
+		public SpellWithOwner(Card card, Wizard owner, ZoneType zoneType, ZonePick zonePick) {
 			this.spell = card;
 			this.zoneType = zoneType;
 			this.zonePick = zonePick;
 			this.owner = owner;
 		}
-		public SpellWithOwner(ISpell spell)
-		{
+
+		public SpellWithOwner(ISpell spell) {
 			this.spell = spell;
 			this.zoneType = null;
 			this.zonePick = null;
 			this.owner = null;
 		}
-
 
 		public ISpell getSpell() {
 			return spell;
@@ -41,87 +40,123 @@ public class CastZone
 		public ZoneType getZoneType() {
 			return zoneType;
 		}
+
 		public void setZoneType(ZoneType zoneType) {
 			this.zoneType = zoneType;
 		}
-		
+
 		public ZonePick getZonePick() {
 			return zonePick;
 		}
+
 		public void setZonePick(ZonePick zonePick) {
 			this.zonePick = zonePick;
 		}
-		
+
 		public Wizard getOwner() {
 			return owner;
 		}
 	}
-	
-	
-	
-	Queue<SpellWithOwner> spells;
-	
-	
-	
+
+	private Queue<SpellWithOwner> spells;
+
 	public CastZone()
 	{
-		spells = new PriorityQueue<>();
+		spells = new LinkedBlockingQueue<>();
 	}
-	
-	
-	
+
 	public ISpell getCurrentSpell()
 	{
-		return spells.peek().getSpell();
+		if (!isEmpty()) { return spells.peek().getSpell(); }
+		return null;
+	}
+
+	public ZoneType getCurrentZoneTypeDest()
+	{
+		if(!isEmpty()) { return spells.peek().getZoneType(); }
+		return null;
 	}
 	
 	public void setCurrentZoneTypeDest(ZoneType zoneType)
 	{
-		spells.peek().setZoneType(zoneType);
+		if (!isEmpty())
+		{
+			if(getCurrentSpell() instanceof Card)
+			{
+				Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
+			}
+			spells.peek().setZoneType(zoneType);
+		}
 	}
-	
-	public void setCurrentZoneTypeDest(ZonePick zonePick)
+
+	public ZonePick getCurrentZonePickDest()
 	{
-		spells.peek().setZonePick(zonePick);
+		if(!isEmpty()) { return spells.peek().getZonePick(); }
+		return null;
+	}
+
+	public void setCurrentZonePickDest(ZonePick zonePick)
+	{
+		if (!isEmpty())
+		{
+			if(getCurrentSpell() instanceof Card)
+			{
+				Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
+			}
+			spells.peek().setZonePick(zonePick);
+		}
 	}
 	
+	public Wizard getCurrentOwner()
+	{
+		if(!isEmpty()) { return spells.peek().getOwner(); }
+		return null;
+	}
+
 	public void add(Card card, Wizard owner, ZoneType zoneType, ZonePick zonePick)
 	{
+		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
+		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
+		
 		card.setRevealed(true);
 		spells.add(new SpellWithOwner(card, owner, zoneType, zonePick));
 	}
-	
+
 	public void add(Card card, Wizard owner)
 	{
 		add(card, owner, ZoneType.DISCARD, ZonePick.DEFAULT);
 	}
-	
+
 	public void add(ISpell spell)
 	{
 		spells.add(new SpellWithOwner(spell));
 	}
-	
+
 	public boolean isEmpty()
 	{
 		return spells.isEmpty();
 	}
-	
+
 	public void cast(Game game)
 	{
-		ISpell currentSpell = getCurrentSpell();
+		Preconditions.checkArgument(game != null, "game was null but expected not null");
 		
-		//Cast the spell
-		currentSpell.cast(game);
-		
-		//If it's a card, return it to its owner
-		if(currentSpell instanceof Card)
+		if (!isEmpty())
 		{
-			spells.peek().getOwner().getZoneGroup().add(
-					new Card[] {(Card) currentSpell},
-					spells.peek().getZoneType(),
-					spells.peek().getZonePick());
+			ISpell currentSpell = getCurrentSpell();
+
+			// Cast the spell
+			currentSpell.cast(game);
+
+			// If it's a card, return it to its owner
+			if (currentSpell instanceof Card)
+			{
+				getCurrentOwner().getZoneGroup().add(
+						new Card[] { (Card) currentSpell },
+						getCurrentZoneTypeDest(),
+						getCurrentZonePickDest());
+			}
 		}
-		
 	}
-	
+
 }
