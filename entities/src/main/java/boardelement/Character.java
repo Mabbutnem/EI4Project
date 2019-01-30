@@ -7,6 +7,7 @@ public abstract class Character implements IBoardElement
 {
 	private static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
 	private static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
+	private static final String DAMAGEILLEGALVALUEMESSAGE = "Damage was %s but expected strictly positive";
 	
 
 	private boolean alive;
@@ -74,18 +75,52 @@ public abstract class Character implements IBoardElement
 		setHealth(getHealth() + gain);
 	}
 	
-	public void inflictDamage(int damage)
+	public void inflictDirectDamage(int damage)
 	{
-		Preconditions.checkArgument(damage > 0, "Damage was %s but expected strictly positive", damage);
+		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
+		
+		loseHealth(damage);
+	}
+	
+	// return the direct damage dealth
+	public int inflictDamage(int damage)
+	{
+		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
 		
 		if(damage > getArmor())
 		{
-			loseHealth(damage);
+			inflictDirectDamage(damage);
+			return damage;
 		}
 		else
 		{
 			loseArmor(damage);
+			return 0;
 		}
+	}
+	
+	public int inflictAcidDamage(int damage)
+	{
+		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
+		
+		int armorLoss = Math.min(getArmor(), damage);
+		damage -= armorLoss;
+		loseArmor(armorLoss);
+		inflictDirectDamage(damage);
+		return damage;
+		
+		/*if(damage > getArmor())
+		{
+			damage -= getArmor();
+			setArmor(0);
+			inflictDirectDamage(damage);
+			return damage;
+		}
+		else
+		{
+			loseArmor(damage);
+			return 0;
+		}*/
 	}
 
 	
