@@ -2,6 +2,8 @@ package boardelement;
 
 import com.google.common.base.Preconditions;
 
+import listener.IGameListener;
+
 //NOT FINISHED !!
 public abstract class Character implements IBoardElement
 {
@@ -9,6 +11,7 @@ public abstract class Character implements IBoardElement
 	private static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
 	private static final String DAMAGEILLEGALVALUEMESSAGE = "Damage was %s but expected strictly positive";
 	
+	private static IGameListener gameListener;
 
 	private boolean alive;
 	private int health;
@@ -23,6 +26,9 @@ public abstract class Character implements IBoardElement
 	
 	public Character()
 	{
+		Preconditions.checkState(Character.gameListener != null, "gameListener"
+				+ " was not initialised (in static)");
+		
 		health = 0;
 		armor = 0;
 		move = 0;
@@ -34,13 +40,24 @@ public abstract class Character implements IBoardElement
 
 	
 	
-	
+
+	public static void setGameListener(IGameListener gameListener) {
+		Character.gameListener = gameListener;
+	}
+
+
+
+
 	public boolean isAlive() {
 		return alive;
 	}
 
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+		if(!isAlive())
+		{
+			Character.gameListener.clearBoard(this);
+		}
 	}
 
 
