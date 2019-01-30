@@ -8,7 +8,8 @@ public abstract class Character implements IBoardElement
 	private static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
 	private static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
 	
-	
+
+	private boolean alive;
 	private int health;
 	private int armor;
 	private int move;
@@ -27,17 +28,36 @@ public abstract class Character implements IBoardElement
 		dash = 0;
 		range = 0;
 		freeze = false;
+		setAlive(true);
 	}
 
 	
 	
 	
+	public boolean isAlive() {
+		return alive;
+	}
+
+	public void setAlive(boolean alive) {
+		this.alive = alive;
+	}
+
+
+
+
 	public int getHealth() {
 		return health;
 	}
 
 	public void setHealth(int health) {
 		this.health = Math.max(0, health);
+		checkDeath();
+	}
+	
+	protected void checkDeath() {
+		if(getHealth() == 0) {
+			setAlive(false);
+		}
 	}
 	
 	public void loseHealth(int loss)
