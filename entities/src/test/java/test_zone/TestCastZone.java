@@ -193,7 +193,11 @@ public class TestCastZone
 
 	@Test
 	public final void testAddCardWizardZoneTypeZonePick() {
-		fail("Not yet implemented");
+		castZone.add(card, owner, ZoneType.BURN, ZonePick.DEFAULT);
+		assertEquals(card, castZone.getCurrentSpell());
+		assertEquals(owner, castZone.getCurrentOwner());
+		assertEquals(ZoneType.BURN, castZone.getCurrentZoneTypeDest());
+		assertEquals(ZonePick.DEFAULT, castZone.getCurrentZonePickDest());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
