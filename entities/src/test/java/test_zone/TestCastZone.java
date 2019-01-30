@@ -1,19 +1,25 @@
 package test_zone;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import boardelement.Wizard;
+import game.Game;
 import spell.Card;
 import spell.ISpell;
 import spell.Power;
 import zone.CastZone;
+import zone.ZoneGroup;
 import zone.ZonePick;
 import zone.ZoneType;
 
@@ -22,9 +28,17 @@ public class TestCastZone
 	
 	private CastZone castZone;
 	
+	@Mock
 	private Card card;
+	@Mock
 	private Power power;
+	@Mock
 	private Wizard owner;
+	@Mock
+	private Game game;
+	
+	@Captor
+	private ArgumentCaptor<Card[]> cardArrayCaptor;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -39,9 +53,7 @@ public class TestCastZone
 	{
 		castZone = new CastZone();
 		
-		card = mock(Card.class);
-		power = mock(Power.class);
-		owner = mock(Wizard.class);
+	     MockitoAnnotations.initMocks(this);
 	}
 
 	@After
@@ -192,47 +204,135 @@ public class TestCastZone
 	}
 
 	@Test
-	public final void testAddCardWizardZoneTypeZonePick() {
+	public final void testAdd() {
+		//Initialisation
+		when(owner.getZoneGroup()).thenReturn(mock(ZoneGroup.class));
+
+		//Vérifications
 		castZone.add(card, owner, ZoneType.BURN, ZonePick.DEFAULT);
 		assertEquals(card, castZone.getCurrentSpell());
 		assertEquals(owner, castZone.getCurrentOwner());
 		assertEquals(ZoneType.BURN, castZone.getCurrentZoneTypeDest());
 		assertEquals(ZonePick.DEFAULT, castZone.getCurrentZonePickDest());
+		
+		
+		
+		castZone.add(power);
+		assertEquals(card, castZone.getCurrentSpell());
+		assertEquals(owner, castZone.getCurrentOwner());
+		assertEquals(ZoneType.BURN, castZone.getCurrentZoneTypeDest());
+		assertEquals(ZonePick.DEFAULT, castZone.getCurrentZonePickDest());
+		
+		
+		
+		castZone.cast(game);
+		assertEquals(power, castZone.getCurrentSpell());
+		assertEquals(null, castZone.getCurrentOwner());
+		assertEquals(null, castZone.getCurrentZoneTypeDest());
+		assertEquals(null, castZone.getCurrentZonePickDest());
+		
+		
+		
+		castZone.cast(game);
+		
+		castZone.add(card, owner);
+		assertEquals(card, castZone.getCurrentSpell());
+		assertEquals(owner, castZone.getCurrentOwner());
+		assertEquals(ZoneType.DISCARD, castZone.getCurrentZoneTypeDest());
+		assertEquals(ZonePick.DEFAULT, castZone.getCurrentZonePickDest());
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testAddCardWizardZoneTypeZonePickException1() {
-		fail("Not yet implemented");
+		castZone.add(null, owner, ZoneType.BURN, ZonePick.DEFAULT);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testAddCardWizardZoneTypeZonePickException2() {
-		fail("Not yet implemented");
+		castZone.add(card, null, ZoneType.BURN, ZonePick.DEFAULT);
 	}
-
-	@Test
-	public final void testAddCardWizard() {
-		fail("Not yet implemented");
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testAddCardWizardZoneTypeZonePickException3() {
+		castZone.add(card, owner, null, ZonePick.DEFAULT);
 	}
-
-	@Test
-	public final void testAddISpell() {
-		fail("Not yet implemented");
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testAddCardWizardZoneTypeZonePickException4() {
+		castZone.add(card, owner, ZoneType.BURN, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testAddCardWizardException1() {
+		castZone.add(null, owner);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testAddCardWizardException2() {
+		castZone.add(card, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testAddISpellException() {
+		castZone.add(null);
 	}
 
 	@Test
 	public final void testIsEmpty() {
-		fail("Not yet implemented");
+		boolean expected = true;
+		boolean result = castZone.isEmpty();
+		assertEquals(expected, result);
+		
+		castZone.add(power);
+		expected = false;
+		result = castZone.isEmpty();
+		assertEquals(expected, result);
 	}
 
 	@Test
-	public final void testCast() {
-		fail("Not yet implemented");
+	public final void testCast()
+	{
+		//Initialisation
+		castZone.add(card, owner, ZoneType.BURN, ZonePick.DEFAULT);
+		ZoneGroup ownerZoneGroup = mock(ZoneGroup.class);
+		when(owner.getZoneGroup()).thenReturn(ownerZoneGroup);
+		
+		
+		castZone.cast(game);
+		
+		
+		//Vérifications
+		verify(card, times(1)).cast(game);
+		verify(owner, times(1)).getZoneGroup();
+		verify(ownerZoneGroup, times(1)).add(cardArrayCaptor.capture(), eq(ZoneType.BURN), eq(ZonePick.DEFAULT));
+		assertArrayEquals(new Card[] {card}, cardArrayCaptor.getAllValues().get(0));
+		assertEquals(true, castZone.isEmpty());
+	}
+	
+	@Test
+	public final void testCastIfNotCard()
+	{
+		//Initialisation
+		castZone.add(power);
+		
+		
+		castZone.cast(game);
+		
+		
+		//Vérifications
+		verify(power, times(1)).cast(game);
+		assertEquals(true, castZone.isEmpty());
+	}
+	
+	@Test
+	public final void testCastIfIsEmpty()
+	{
+		castZone.cast(game);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testCastException() {
-		fail("Not yet implemented");
+		castZone.cast(null);
 	}
 
 }

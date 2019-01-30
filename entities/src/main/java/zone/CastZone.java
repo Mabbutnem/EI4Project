@@ -115,6 +115,8 @@ public class CastZone
 
 	public void add(Card card, Wizard owner, ZoneType zoneType, ZonePick zonePick)
 	{
+		Preconditions.checkArgument(card != null, "card was null but expected not null");
+		Preconditions.checkArgument(owner != null, "owner was null but expected not null");
 		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
 		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
 		
@@ -129,6 +131,8 @@ public class CastZone
 
 	public void add(ISpell spell)
 	{
+		Preconditions.checkArgument(spell != null, "spell was null but expected not null");
+		
 		spells.add(new SpellWithOwner(spell));
 	}
 
@@ -156,6 +160,9 @@ public class CastZone
 						getCurrentZoneTypeDest(),
 						getCurrentZonePickDest());
 			}
+			
+			// Delete the current SpellWithOwner
+			spells.poll();
 		}
 	}
 
