@@ -120,13 +120,7 @@ public abstract class Character implements IBoardElement
 	{
 		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
 		
-		int armorLoss = Math.min(getArmor(), damage);
-		damage -= armorLoss;
-		loseArmor(armorLoss);
-		inflictDirectDamage(damage);
-		return damage;
-		
-		/*if(damage > getArmor())
+		if(damage > getArmor())
 		{
 			damage -= getArmor();
 			setArmor(0);
@@ -137,7 +131,7 @@ public abstract class Character implements IBoardElement
 		{
 			loseArmor(damage);
 			return 0;
-		}*/
+		}
 	}
 
 	

@@ -1,7 +1,7 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -45,9 +45,7 @@ public class TestCharacter
 	@Before
 	public void setUp() throws Exception
 	{
-		gameListener = mock(MockGameListener.class);
-		Character.setGameListener(gameListener);
-		System.out.println(gameListener);
+		Character.setGameListener(gameListener = mock(MockGameListener.class));
 		character = new RealCharacter();
 		character.setHealth(75);
 		character.setArmor(23);
@@ -55,6 +53,7 @@ public class TestCharacter
 		character.setDash(8);
 		character.setRange(7);
 		character.setFreeze(false);
+		character.setAlive(true);
 	}
 
 	@After
@@ -64,9 +63,25 @@ public class TestCharacter
 	
 	@Test
 	public final void testIsAlive() {
-		boolean expected = false;
+		boolean expected = true;
 		boolean result = character.isAlive();
 		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testSetAlive() {
+		boolean expected = false;
+		character.setAlive(false);
+		boolean result = character.isAlive();
+		assertEquals(expected, result);
+		
+		verify(gameListener, times(1)).clearBoard(character);
+	}
+	
+	@Test
+	public final void testclearBoard() {
+		character.setAlive(false);
+		
 	}
 	
 
@@ -114,7 +129,7 @@ public class TestCharacter
 	@Test
 	public final void testInflictDirectDamage() {
 		int expected = 65;
-		character.inflictDirectDamage(-10);
+		character.inflictDirectDamage(10);
 		int result = character.getHealth();
 		assertEquals(expected, result);
 	}
