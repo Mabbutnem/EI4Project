@@ -12,7 +12,7 @@ public class ZoneGroup
 	private static ICardArrayDisplayListener cardArrayDisplayListener;
 	
 	@Autowired
-	private AutoHideZone deckZ;
+	private AutoHideZone deck;
 	@Autowired
 	private AutoRevealZone hand;
 	@Autowired
@@ -31,7 +31,7 @@ public class ZoneGroup
 		Preconditions.checkState(ZoneGroup.cardArrayDisplayListener != null, "cardArrayDisplayListener"
 				+ " was not initialised (in static)");
 		
-		deckZ = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
+		deck = new AutoHideZone(new Card[0], ZoneType.DECK, ZonePick.TOP);
 		
 		hand = new AutoRevealZone(new Card[0], ZoneType.HAND, ZonePick.TOP);
 		discard = new AutoRevealZone(new Card[0], ZoneType.DISCARD, ZonePick.TOP);
@@ -55,14 +55,14 @@ public class ZoneGroup
 
 	public void reset(Card[] cards)
 	{
-		deckZ.removeAll();
+		deck.removeAll();
 		hand.removeAll();
 		discard.removeAll();
 		burn.removeAll();
 		banish.removeAll();
 		voidZ.removeAll();
 		
-		deckZ.add(cards);
+		deck.add(cards);
 	}
 	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 
@@ -120,38 +120,38 @@ public class ZoneGroup
 		Preconditions.checkArgument(nbCard > 0, "nbCard was %s but expected strictly positive", nbCard);
 		
 		//Draw nbCard
-		hand.add(deckZ.remove(nbCard, ZonePick.TOP));
+		hand.add(deck.remove(nbCard, ZonePick.TOP));
 		
 		//Choose cards to mulligan and return them in the deck
 		Card[] cardsToMulligan = ZoneGroup.cardArrayDisplayListener.chooseCards(hand.getCards());
 		for(Card c : cardsToMulligan) {hand.remove(c);}
-		deckZ.add(cardsToMulligan);
+		deck.add(cardsToMulligan);
 		
-		deckZ.shuffle();
+		deck.shuffle();
 		
 		//Draw X cards, where X is the number of cards returned to the deck
 		if(cardsToMulligan.length > 0)
 		{
-			hand.add(deckZ.remove(cardsToMulligan.length, ZonePick.TOP));
+			hand.add(deck.remove(cardsToMulligan.length, ZonePick.TOP));
 		}
 	}
 	
 	public void transform()
 	{
 		//Burn half of your deck (rounded down)
-		int nbDeckCardToBurn = deckZ.size()/2;
+		int nbDeckCardToBurn = deck.size()/2;
 		if(nbDeckCardToBurn > 0)
 		{
-			burn.add(deckZ.remove(nbDeckCardToBurn));
+			burn.add(deck.remove(nbDeckCardToBurn));
 		}
 		
 		//return cards from all zone (except the burn zone) to your deck
-		deckZ.add(hand.removeAll());
-		deckZ.add(discard.removeAll());
-		deckZ.add(banish.removeAll());
-		deckZ.add(voidZ.removeAll());
+		deck.add(hand.removeAll());
+		deck.add(discard.removeAll());
+		deck.add(banish.removeAll());
+		deck.add(voidZ.removeAll());
 		
-		deckZ.shuffle();
+		deck.shuffle();
 	}
 	
 	public void unvoid()
@@ -174,7 +174,7 @@ public class ZoneGroup
 		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
 		
 		switch(zoneType) {
-		case DECK: return deckZ;
+		case DECK: return deck;
 		case HAND: return hand;
 		case DISCARD: return discard;
 		case BURN: return burn;
