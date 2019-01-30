@@ -3,7 +3,6 @@ package zone;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
-import com.google.inject.assistedinject.Assisted;
 
 import listener.ICardArrayDisplayListener;
 import spell.Card;
@@ -27,7 +26,7 @@ public class ZoneGroup
 	
 	
 	
-	public ZoneGroup(@Assisted Card[] cards)
+	public ZoneGroup(Card[] cards)
 	{
 		Preconditions.checkState(ZoneGroup.cardArrayDisplayListener != null, "cardArrayDisplayListener"
 				+ " was not initialised (in static)");
