@@ -1,12 +1,16 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import boardelement.Character;
+import listener.IGameListener;
 
 public class TestCharacter
 {
@@ -19,6 +23,13 @@ public class TestCharacter
 		public void resetRange() {}
 	}
 	
+	private class MockGameListener implements IGameListener{
+
+		@Override
+		public void clearBoard(Character character) {}
+	}
+	
+	private MockGameListener gameListener;
 	
 	private RealCharacter character;
 	
@@ -34,6 +45,9 @@ public class TestCharacter
 	@Before
 	public void setUp() throws Exception
 	{
+		gameListener = mock(MockGameListener.class);
+		Character.setGameListener(gameListener);
+		System.out.println(gameListener);
 		character = new RealCharacter();
 		character.setHealth(75);
 		character.setArmor(23);
@@ -48,7 +62,12 @@ public class TestCharacter
 	}
 
 	
-	
+	@Test
+	public final void testIsAlive() {
+		boolean expected = false;
+		boolean result = character.isAlive();
+		assertEquals(expected, result);
+	}
 	
 
 	@Test
@@ -91,12 +110,27 @@ public class TestCharacter
 	public final void testGainHealthException() {
 		character.gainHealth(-10);
 	}
+	
+	@Test
+	public final void testInflictDirectDamage() {
+		int expected = 65;
+		character.inflictDirectDamage(-10);
+		int result = character.getHealth();
+		assertEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testInflictDirectDamageException() {
+		character.inflictDirectDamage(-10);
+	}
 
 	@Test
 	public final void testInflictDamage() {
-		character.inflictDamage(5);
-		int expected = 75;
-		int result = character.getHealth();
+		int expected = 0;
+		int result = character.inflictDamage(5);
+		assertEquals(expected, result);
+		expected = 75;
+		result = character.getHealth();
 		assertEquals(expected, result);
 		expected = 18;
 		result = character.getArmor();
@@ -107,7 +141,9 @@ public class TestCharacter
 		character.setHealth(75);
 		character.setArmor(23);
 		
-		character.inflictDamage(30);
+		expected = 30;
+		result = character.inflictDamage(30);
+		assertEquals(expected, result);
 		expected = 45;
 		result = character.getHealth();
 		assertEquals(expected, result);
@@ -120,8 +156,38 @@ public class TestCharacter
 	public final void testInflictDamageException() {
 		character.inflictDamage(-10);
 	}
-
 	
+	@Test
+	public final void testInflictAcidDamage() {
+		int expected = 0;
+		int result = character.inflictAcidDamage(5);
+		assertEquals(expected, result);
+		expected = 75;
+		result = character.getHealth();
+		assertEquals(expected, result);
+		expected = 18;
+		result = character.getArmor();
+		assertEquals(expected, result);
+		
+		character.setHealth(75);
+		character.setArmor(23);
+		
+		expected = 5;
+		result = character.inflictAcidDamage(28);
+		assertEquals(expected, result);
+		expected = 70;
+		result = character.getHealth();
+		assertEquals(expected, result);
+		expected = 0;
+		result = character.getArmor();
+		assertEquals(expected, result);
+		
+	}
+
+	@Test (expected = IllegalArgumentException.class)
+	public final void testInflictAcidDamageException() {
+		character.inflictAcidDamage(-10);
+	}
 	
 	
 	@Test
