@@ -98,6 +98,8 @@ public class TestCharacter
 		int expected = 0;
 		int result = character.getHealth();
 		assertEquals(expected, result);
+		
+		verify(gameListener, times(1)).clearBoard(character);
 	}
 
 	@Test
