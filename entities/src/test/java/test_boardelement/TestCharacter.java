@@ -16,6 +16,11 @@ public class TestCharacter
 {
 	class RealCharacter extends boardelement.Character
 	{
+		public RealCharacter(int health, int armor, int move, int dash, int range)
+		{
+			super(health, armor, move, dash, range);
+		}
+
 		@Override
 		public void resetMove() {}
 
@@ -46,14 +51,7 @@ public class TestCharacter
 	public void setUp() throws Exception
 	{
 		Character.setGameListener(gameListener = mock(MockGameListener.class));
-		character = new RealCharacter();
-		character.setHealth(75);
-		character.setArmor(23);
-		character.setMove(5);
-		character.setDash(8);
-		character.setRange(7);
-		character.setFreeze(false);
-		character.setAlive(true);
+		character = new RealCharacter(75, 23, 5, 8, 7);
 	}
 
 	@After

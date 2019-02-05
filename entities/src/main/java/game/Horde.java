@@ -1,4 +1,4 @@
-package boardelement;
+package game;
 
 import java.util.Map;
 

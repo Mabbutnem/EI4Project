@@ -7,8 +7,8 @@ import listener.IGameListener;
 //NOT FINISHED !!
 public abstract class Character implements IBoardElement
 {
-	private static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
-	private static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
+	protected static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
+	protected static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
 	private static final String DAMAGEILLEGALVALUEMESSAGE = "Damage was %s but expected strictly positive";
 	
 	private static IGameListener gameListener;
@@ -24,18 +24,18 @@ public abstract class Character implements IBoardElement
 	
 	
 	
-	public Character()
+	public Character(int health, int armor, int move, int dash, int range)
 	{
 		Preconditions.checkState(Character.gameListener != null, "gameListener"
 				+ " was not initialised (in static)");
-		
-		health = 0;
-		armor = 0;
-		move = 0;
-		dash = 0;
-		range = 0;
-		freeze = false;
+
+		setFreeze(false);
 		setAlive(true);
+		setHealth(health);
+		setArmor(armor);
+		setMove(move);
+		setDash(dash);
+		setRange(range);
 	}
 
 	
