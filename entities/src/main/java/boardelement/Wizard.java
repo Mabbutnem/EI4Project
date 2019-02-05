@@ -1,11 +1,18 @@
 package boardelement;
 
+import spell.Card;
 import zone.ZoneGroup;
 
 public class Wizard extends Character
 {
 	private ZoneGroup zoneGroup;
 
+	
+	
+	public Wizard(WizardFactory wizardFactory, Card[] cards)
+	{
+	}
+	
 	
 	
 	@Override
