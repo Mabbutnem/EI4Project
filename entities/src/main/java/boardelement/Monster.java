@@ -1,5 +1,7 @@
 package boardelement;
 
+import spell.Incantation;
+
 public class Monster extends Character
 {
 	private String name;
@@ -8,6 +10,9 @@ public class Monster extends Character
 	private int baseMove;
 	private int baseRange;
 	private float rebornProbability;
+	
+	private Incantation[] incantations;
+	private float[] incantationProb;
 	
 	
 
