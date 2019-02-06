@@ -108,19 +108,37 @@ public class Monster extends Character
 	public float getRebornProbability() {
 		return rebornProbability;
 	}
+	
+	
+	
+	public Incantation[] getIncantation()
+	{
+		return incantations;
+	}
+	
+	public Incantation getRandomIncantation()
+	{
+		return incantations[Proba.getRandomIndexFrom(incantationProbabilities)];
+	}
+	
+	
+	
+	@Override
+	public void setHealth(int health)
+	{
+		super.setHealth(Math.min(health, maxHealth));
+	}
 
 
 
 	@Override
 	public void resetMove() {
-		// TODO Auto-generated method stub
-		
+		setMove(baseMove);
 	}
 
 	@Override
 	public void resetRange() {
-		// TODO Auto-generated method stub
-		
+		setRange(baseRange);
 	}
 
 }
