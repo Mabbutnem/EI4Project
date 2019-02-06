@@ -28,11 +28,17 @@ public class Wizard extends Character
 	//cards: all the cards from the JSON file
 	public Wizard(WizardFactory wizardFactory, Card[] cards)
 	{
-		super(wizardConstant.getMaxHealth(),
-			  wizardConstant.getInitArmor(), 
-			  wizardConstant.getBaseMove(),
-			  0,
-			  wizardConstant.getBaseMove());
+		super(0, 0, 0, 0, 0);
+		
+		Preconditions.checkState(wizardConstant != null, "wizardConstant was not initialised (in static)");
+		
+		Preconditions.checkArgument(wizardFactory != null, "wizard was null but expected not null");
+		Preconditions.checkArgument(cards != null, "wizard was null but expected not null");
+		
+		setHealth(wizardConstant.getMaxHealth());
+		setArmor(wizardConstant.getInitArmor());
+		resetRange();
+		resetMove();
 		resetMana();
 		
 		transformed = false;
@@ -51,6 +57,9 @@ public class Wizard extends Character
 	//cards: all the cards from the JSON file
 	private Card[] convertWizardFactoryCardsToArrayCards(WizardFactory wizardFactory, Card[] cards)
 	{
+		Preconditions.checkArgument(wizardFactory != null, "wizard was null but expected not null");
+		Preconditions.checkArgument(cards != null, "wizard was null but expected not null");
+		
 		//On transforme cards en cardsMap (plus facile de chercher les cartes dans une Map que dans un tableau)
 		Map<String, Card> cardsMap = new HashMap<>();
 		for(Card c : cards) { cardsMap.put(c.getName(), c); }
@@ -60,7 +69,7 @@ public class Wizard extends Character
 		//On ajoute les cartes dans lc comme spécifié par wizardFactory
 		for(String cardName : wizardFactory.getCards().keySet())
 		{
-			if(!cardsMap.containsKey(cardName)) { throw new IllegalArgumentException("a (or more) is missing from cards"); }
+			if(!cardsMap.containsKey(cardName)) { throw new IllegalArgumentException("a (or more) card is missing from cards"); }
 					
 			for(int i = 0; i < wizardFactory.getCards().get(cardName); i++)
 			{
