@@ -20,6 +20,7 @@ import listener.ICardArrayDisplayListener;
 import listener.IGameListener;
 import spell.Card;
 import spell.Power;
+import zone.Zone;
 import zone.ZoneGroup;
 import zone.ZonePick;
 import zone.ZoneType;
@@ -78,6 +79,7 @@ public class TestWizard
 	@Before
 	public void setUp() throws Exception
 	{
+		Zone.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
 		ZoneGroup.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
 		
 		WizardConstant wConstant = mock(WizardConstant.class);
@@ -174,8 +176,8 @@ public class TestWizard
 		for(Card c : w.getZoneGroup().getCards(ZoneType.DECK))
 		{
 			if(c.getName().equals("card1")) { nbCard1Result++;}
-			if(c.getName().equals("card2")) { nbCard2Result++;}
-			if(c.getName().equals("card3")) { nbCard3Result++;}
+			else if(c.getName().equals("card2")) { nbCard2Result++;}
+			else if(c.getName().equals("card3")) { nbCard3Result++;}
 		}
 		assertEquals(nbCard1Expected, nbCard1Result);
 		assertEquals(nbCard2Expected, nbCard2Result);
