@@ -56,6 +56,8 @@ public class TestWizard
 	
 	private WizardFactory wFactory;
 	
+	private WizardConstant wConstant;
+	
 	private Card[] cards; 
 	private Card card1;
 	private Card card2;
@@ -82,7 +84,7 @@ public class TestWizard
 		Zone.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
 		ZoneGroup.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
 		
-		WizardConstant wConstant = mock(WizardConstant.class);
+		wConstant = mock(WizardConstant.class);
 		Wizard.setWizardConstant(wConstant);
 		when(wConstant.getBaseMana()).thenReturn(20);
 		when(wConstant.getBaseMove()).thenReturn(5);
@@ -182,6 +184,25 @@ public class TestWizard
 		assertEquals(nbCard1Expected, nbCard1Result);
 		assertEquals(nbCard2Expected, nbCard2Result);
 		assertEquals(nbCard3Expected, nbCard3Result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testWizardException1()
+	{
+		w = new Wizard(null, cards);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testWizardException2()
+	{
+		w = new Wizard(wFactory, null);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testWizardException3()
+	{
+		Wizard.setWizardConstant(null);
+		w = new Wizard(wFactory, cards);
 	}
 	
 	@Test

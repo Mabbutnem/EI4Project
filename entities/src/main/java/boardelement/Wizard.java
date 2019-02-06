@@ -28,11 +28,10 @@ public class Wizard extends Character
 	//cards: all the cards from the JSON file
 	public Wizard(WizardFactory wizardFactory, Card[] cards)
 	{
-		super(1, 0, 0, 0, 0);
+		super(0);
 		Preconditions.checkState(wizardConstant != null, "wizardConstant was not initialised (in static)");
 		
 		Preconditions.checkArgument(wizardFactory != null, "wizardFactory was null but expected not null");
-		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
 		
 		setHealth(wizardConstant.getMaxHealth());
 		setArmor(wizardConstant.getInitArmor());
