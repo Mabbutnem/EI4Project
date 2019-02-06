@@ -161,6 +161,7 @@ public class TestZoneGroup
 		zoneGroup.reset(addedCards);
 		verify(deck, times(1)).removeAll();
 		verify(deck, times(1)).add(addedCards);
+		verify(deck, times(1)).shuffle();
 		verify(hand, times(1)).removeAll();
 		verify(discard, times(1)).removeAll();
 		verify(burn, times(1)).removeAll();

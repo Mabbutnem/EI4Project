@@ -32,8 +32,8 @@ public class Wizard extends Character
 		
 		Preconditions.checkState(wizardConstant != null, "wizardConstant was not initialised (in static)");
 		
-		Preconditions.checkArgument(wizardFactory != null, "wizard was null but expected not null");
-		Preconditions.checkArgument(cards != null, "wizard was null but expected not null");
+		Preconditions.checkArgument(wizardFactory != null, "wizardFactory was null but expected not null");
+		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
 		
 		setHealth(wizardConstant.getMaxHealth());
 		setArmor(wizardConstant.getInitArmor());
