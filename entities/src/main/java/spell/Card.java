@@ -5,6 +5,15 @@ public class Card extends ManaCostSpell
 	private String name;
 	private boolean revealed;
 
+	
+	
+	//Copy constructor
+	public Card(Card c)
+	{
+		this.name = c.getName();
+		this.revealed = c.isRevealed();
+	}
+	
 
 
 	public String getName() {

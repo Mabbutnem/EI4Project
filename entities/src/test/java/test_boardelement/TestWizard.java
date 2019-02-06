@@ -110,7 +110,44 @@ public class TestWizard
 	@Test
 	public final void testWizard()
 	{
-		w.getZoneGroup().getCards(ZoneType.DECK);
+		int expected = 30;
+		int result = w.getArmor();
+		assertEquals(expected, result);
+		
+		expected = 0;
+		result = w.getDash();
+		assertEquals(expected, result);
+		
+		expected = 70;
+		result = w.getHealth();
+		assertEquals(expected, result);
+		
+		expected = 20;
+		result = w.getMana();
+		assertEquals(expected, result);
+		
+		expected = 5;
+		result = w.getMove();
+		assertEquals(expected, result);
+		
+		expected = 9;
+		result = w.getRange();
+		assertEquals(expected, result);
+		
+		String expectedS = "sorcier";
+		String resultS = w.getName();
+		assertEquals(expectedS, resultS);
+		
+		Power expectedP = power;
+		Power resultP = w.getPower();
+		assertEquals(expectedP, resultP);
+
+		int nbCard1Expected = 2;
+		int nbCard2Expected = 3;
+		int nbCard3Expected = 1;
+		int nbCard1Result = 0;
+		int nbCard2Result = 0;
+		int nbCard3Result = 0;
 	}
 	
 	@Test

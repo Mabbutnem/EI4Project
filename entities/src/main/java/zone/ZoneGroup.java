@@ -63,6 +63,7 @@ public class ZoneGroup
 		voidZ.removeAll();
 		
 		deck.add(cards);
+		deck.shuffle();
 	}
 	
 	public void transfer(ZoneType source, ZonePick sourcePick, ZoneType dest, ZonePick destPick, int nbCard) 

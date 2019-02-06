@@ -1,24 +1,31 @@
-D:\projet EI4\EI4Project\entities\src\main\java\spell\Power.java
-D:\projet EI4\EI4Project\entities\src\main\java\game\Game.java
-D:\projet EI4\EI4Project\entities\src\main\java\boardelement\Character.java
-D:\projet EI4\EI4Project\entities\src\main\java\target\TargetType.java
-D:\projet EI4\EI4Project\entities\src\main\java\spell\Spell.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\Zone.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\CastZone.java
-D:\projet EI4\EI4Project\entities\src\main\java\spell\ISpell.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\AutoRevealZone.java
-D:\projet EI4\EI4Project\entities\src\main\java\boardelement\IBoardElement.java
-D:\projet EI4\EI4Project\entities\src\main\java\spell\Incantation.java
-D:\projet EI4\EI4Project\entities\src\main\java\boardelement\Wizard.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\IZone.java
-D:\projet EI4\EI4Project\entities\src\main\java\listener\ICardArrayDisplayListener.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\AutoHideZone.java
-D:\projet EI4\EI4Project\entities\src\main\java\boardelement\Monster.java
-D:\projet EI4\EI4Project\entities\src\main\java\target\Target.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\ZonePick.java
-D:\projet EI4\EI4Project\entities\src\main\java\boardelement\Corpse.java
-D:\projet EI4\EI4Project\entities\src\main\java\spell\ManaCostSpell.java
-D:\projet EI4\EI4Project\entities\src\main\java\target\TargetConstraint.java
-D:\projet EI4\EI4Project\entities\src\main\java\spell\Card.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\ZoneType.java
-D:\projet EI4\EI4Project\entities\src\main\java\zone\ZoneGroup.java
+F:\Projet\git\entities\src\main\java\constant\AllConstant.java
+F:\Projet\git\entities\src\main\java\spell\Card.java
+F:\Projet\git\entities\src\main\java\boardelement\Character.java
+F:\Projet\git\entities\src\main\java\zone\AutoHideZone.java
+F:\Projet\git\entities\src\main\java\game\Horde.java
+F:\Projet\git\entities\src\main\java\boardelement\Wizard.java
+F:\Projet\git\entities\src\main\java\game\Game.java
+F:\Projet\git\entities\src\main\java\zone\AutoRevealZone.java
+F:\Projet\git\entities\src\main\java\zone\IZone.java
+F:\Projet\git\entities\src\main\java\zone\Zone.java
+F:\Projet\git\entities\src\main\java\listener\IGameListener.java
+F:\Projet\git\entities\src\main\java\listener\ICardArrayDisplayListener.java
+F:\Projet\git\entities\src\main\java\spell\Power.java
+F:\Projet\git\entities\src\main\java\spell\Incantation.java
+F:\Projet\git\entities\src\main\java\boardelement\MonsterFactory.java
+F:\Projet\git\entities\src\main\java\constant\WizardConstant.java
+F:\Projet\git\entities\src\main\java\spell\ManaCostSpell.java
+F:\Projet\git\entities\src\main\java\target\TargetType.java
+F:\Projet\git\entities\src\main\java\zone\ZonePick.java
+F:\Projet\git\entities\src\main\java\game\Level.java
+F:\Projet\git\entities\src\main\java\zone\ZoneType.java
+F:\Projet\git\entities\src\main\java\zone\ZoneGroup.java
+F:\Projet\git\entities\src\main\java\boardelement\Monster.java
+F:\Projet\git\entities\src\main\java\zone\CastZone.java
+F:\Projet\git\entities\src\main\java\spell\Spell.java
+F:\Projet\git\entities\src\main\java\boardelement\IBoardElement.java
+F:\Projet\git\entities\src\main\java\boardelement\WizardFactory.java
+F:\Projet\git\entities\src\main\java\spell\ISpell.java
+F:\Projet\git\entities\src\main\java\target\Target.java
+F:\Projet\git\entities\src\main\java\boardelement\Corpse.java
+F:\Projet\git\entities\src\main\java\target\TargetConstraint.java

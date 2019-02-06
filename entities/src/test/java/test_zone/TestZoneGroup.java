@@ -125,7 +125,10 @@ public class TestZoneGroup
 		
 		Card[] expected = cards;
 		Card[] result = zoneGroup.getCards(ZoneType.DECK);
-		assertArrayEquals(expected, result);
+		for(Card c : expected)
+		{
+			assertTrue(Arrays.asList(result).contains(c));
+		}
 		
 		expected = new Card[0];
 		result = zoneGroup.getCards(ZoneType.HAND);
