@@ -30,8 +30,16 @@ public class MonsterFactory
 		Preconditions.checkArgument(initArmor >= 0, "initArmor was %s but expected positive", initArmor);
 		Preconditions.checkArgument(baseMove > 0, "baseMove was %s but expected strictly positive", baseMove);
 		Preconditions.checkArgument(baseRange > 0, "baseRange was %s but expected strictly positive", baseRange);
+		for(Map.Entry<String, Integer> entry : incantations.entrySet())
+		{
+			Preconditions.checkArgument(entry.getValue() > 0, "frequence of cast was %s but expected strictly positive", entry.getValue());
+		}
 		Preconditions.checkArgument(rebornProbability >= 0 && rebornProbability <= 1, "rebornProbability was %s but expected between 0 and 1", rebornProbability);
 		this.name = name;
+		this.maxHealth = maxHealth;
+		this.initArmor = initArmor;
+		this.baseMove = baseMove;
+		this.baseRange = baseRange;
 		this.incantations = incantations;
 		this.rebornProbability = rebornProbability;
 	}
