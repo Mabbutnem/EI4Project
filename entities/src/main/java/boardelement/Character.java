@@ -23,28 +23,14 @@ public abstract class Character implements IBoardElement
 	
 	
 	
-	public Character(int dash)
+	public Character()
 	{
 		Preconditions.checkState(Character.gameListener != null, "gameListener"
 				+ " was not initialised (in static)");
 		
 		setFreeze(false);
 		setAlive(true);
-		setDash(dash);
-	}
-	
-	public Character(int health, int armor, int move, int dash, int range)
-	{
-		Preconditions.checkState(Character.gameListener != null, "gameListener"
-				+ " was not initialised (in static)");
-
-		setFreeze(false);
-		setAlive(true);
-		setHealth(health);
-		setArmor(armor);
-		setMove(move);
-		setDash(dash);
-		setRange(range);
+		setDash(0);
 	}
 
 	

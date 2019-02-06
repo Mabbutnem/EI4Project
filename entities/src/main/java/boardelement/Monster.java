@@ -15,6 +15,11 @@ public class Monster extends Character
 	private float[] incantationProb;
 	
 	
+	
+	public Monster(MonsterFactory monsterFactory, Incantation[] incantations)
+	{
+		super();
+	}
 
 	public Monster(int health, int armor, int move, int dash, int range)
 	{
