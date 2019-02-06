@@ -74,7 +74,8 @@ public class Wizard extends Character
 					
 			for(int i = 0; i < wizardFactory.getCards().get(cardName); i++)
 			{
-				lc.add(cardsMap.get(cardName));
+				//Ajoute une COPIE de la carte
+				lc.add(new Card(cardsMap.get(cardName)));
 			}
 		}
 		
