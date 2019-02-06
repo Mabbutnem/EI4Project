@@ -14,7 +14,7 @@ public class Monster extends Character
 	private float rebornProbability;
 	
 	private Incantation[] incantations;
-	private float[] incantationProb;
+	private float[] incantationProbabilities;
 	
 	
 	

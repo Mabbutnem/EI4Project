@@ -24,19 +24,45 @@ public class Proba
 		float totalProbabilities = 0f;
 		for(int i = 0; i < frequencies.length; i++)
 		{
-			probabilities[i] = totalProbabilities + (float)frequencies[i] / total;
-			totalProbabilities += probabilities[i];
+			float currentProba = (float)frequencies[i] / total;
+			probabilities[i] = totalProbabilities + currentProba;
+			totalProbabilities += currentProba;
 		}
+		
+		probabilities[probabilities.length-1] = 1f;
 		
 		return probabilities;
 	}
 	
 	public static int getRandomIndexFrom(float[] probabilities)
 	{
+		Preconditions.checkArgument(probabilities != null,
+				"probabilities was null but expected not null");
+		
+		Preconditions.checkArgument(probabilities.length > 0,
+				"probabilities length was %s but expected strictly positive", probabilities.length);
+		
+		Preconditions.checkArgument(probabilities[0] >= 0f,
+				"first probability was %s but expected positive", probabilities[0]);
+		
+		Preconditions.checkArgument(probabilities[probabilities.length-1] == 1f, 
+				"last probability was %s but expected 1f", probabilities[probabilities.length-1]);
+		
+		if(probabilities.length > 1)
+		{
+			for(int i = 1; i < probabilities.length; i++)
+			{
+				Preconditions.checkArgument(probabilities[i-1] <= probabilities[i],
+						"probability %s (%s) was lower that probability %s (%s) but expected higher",
+						i, probabilities[i],
+						i-1, probabilities[i-1]);
+			}
+		}
+		
 		float randomNumber = r.nextFloat();
 		
 		int i = 0;
-		while(i < probabilities.length && randomNumber < probabilities[i] )
+		while(i < probabilities.length && randomNumber >= probabilities[i])
 		{
 			i++;
 		}
