@@ -16,17 +16,44 @@ import boardelement.Character;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import constant.WizardConstant;
+import listener.ICardArrayDisplayListener;
 import listener.IGameListener;
 import spell.Card;
 import spell.Power;
+import zone.ZoneGroup;
+import zone.ZonePick;
 import zone.ZoneType;
 
 public class TestWizard
 {
+	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	{
+
+		@Override
+		public Card[] chooseCards(int nbCard, Card[] cards) { return null; }
+
+		@Override
+		public Card[] chooseCards(Card[] cards) { return null; }
+
+		@Override
+		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
+
+		@Override
+		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
+				ZonePick destPick) {}
+	}
+	
+	private class MockGameListener implements IGameListener{
+
+		@Override
+		public void clearBoard(Character character) {}
+	}
+	
+	
+	
 	private Wizard w;
 	
 	private WizardFactory wFactory;
-	
 	
 	private Card[] cards; 
 	private Card card1;
@@ -37,12 +64,6 @@ public class TestWizard
 	private Map<String, Integer> cardsW;
 	private Power power;
 	private Power transformedPower;
-	
-	private class MockGameListener implements IGameListener{
-
-		@Override
-		public void clearBoard(Character character) {}
-	}
 	
 	private MockGameListener gameListener;
 
@@ -57,6 +78,8 @@ public class TestWizard
 	@Before
 	public void setUp() throws Exception
 	{
+		ZoneGroup.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
+		
 		WizardConstant wConstant = mock(WizardConstant.class);
 		Wizard.setWizardConstant(wConstant);
 		when(wConstant.getBaseMana()).thenReturn(20);
@@ -148,6 +171,15 @@ public class TestWizard
 		int nbCard1Result = 0;
 		int nbCard2Result = 0;
 		int nbCard3Result = 0;
+		for(Card c : w.getZoneGroup().getCards(ZoneType.DECK))
+		{
+			if(c.getName().equals("card1")) { nbCard1Result++;}
+			if(c.getName().equals("card2")) { nbCard2Result++;}
+			if(c.getName().equals("card3")) { nbCard3Result++;}
+		}
+		assertEquals(nbCard1Expected, nbCard1Result);
+		assertEquals(nbCard2Expected, nbCard2Result);
+		assertEquals(nbCard3Expected, nbCard3Result);
 	}
 	
 	@Test
