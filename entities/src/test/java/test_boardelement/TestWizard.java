@@ -11,6 +11,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import boardelement.Character;
 import boardelement.Wizard;
@@ -50,8 +53,10 @@ public class TestWizard
 		public void clearBoard(Character character) {}
 	}
 	
+	@Mock
+	private ZoneGroup zoneGroup;
 	
-	
+	@InjectMocks
 	private Wizard w;
 	
 	private WizardFactory wFactory;
@@ -122,7 +127,7 @@ public class TestWizard
 		when(wFactory.getCards()).thenReturn(cardsW);
 		
 		w = new Wizard(wFactory, cards);
-		
+		MockitoAnnotations.initMocks(this);
 	}
 
 	@After
@@ -137,6 +142,8 @@ public class TestWizard
 	@Test
 	public final void testWizard()
 	{
+		w = new Wizard(wFactory, cards);
+		
 		int expected = 30;
 		int result = w.getArmor();
 		assertEquals(expected, result);
@@ -217,6 +224,20 @@ public class TestWizard
 		w.setHealth(90);
 		result = w.getHealth();
 		assertEquals(expected, result);
+		
+		w.setHealth(-10);
+		boolean expectedB = true;
+		boolean resultB = w.isTransformed();
+		assertEquals(expectedB, resultB);
+		expected = 70;
+		result = w.getHealth();
+		assertEquals(expected, result);
+		
+		w.setHealth(-5);
+		expectedB = false;
+		resultB = w.isAlive();
+		assertEquals(expectedB, resultB);
+		verify(gameListener, times(1)).clearBoard(w);
 	}
 
 	@Test
@@ -244,16 +265,15 @@ public class TestWizard
 	@Test
 	public final void testGetWizardConstant() {
 		WizardConstant expected = wConstant;
-		WizardConstant result = w.getWizardConstant();
+		WizardConstant result = Wizard.getWizardConstant();
 		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testSetWizardConstant() {
-		when(wConstant.getMaxHealth()).thenReturn(10);
-		w.setWizardConstant(wConstant);
+		Wizard.setWizardConstant(wConstant);
 		WizardConstant expected = wConstant;
-		WizardConstant result = w.getWizardConstant();
+		WizardConstant result = Wizard.getWizardConstant();
 		assertEquals(expected, result);
 	}
 
@@ -275,12 +295,23 @@ public class TestWizard
 		w.transform();
 		result = w.isTransformed();
 		assertEquals(expected, result);
+		
+		int expectedI = 70;
+		int resultI = w.getHealth();
+		assertEquals(expectedI, resultI);
+		
+		verify(zoneGroup, times(1)).transform();
 	}
 
 	@Test
 	public final void testIsTransformed() {
 		boolean expected = false;
 		boolean result = w.isTransformed();
+		assertEquals(expected, result);
+		
+		w.transform();
+		expected = true;
+		result = w.isTransformed();
 		assertEquals(expected, result);
 	}
 
@@ -309,97 +340,68 @@ public class TestWizard
 
 	@Test
 	public final void testLoseMana() {
-
+		int expected = 15;
+		int result;
+		w.loseMana(5);
+		result = w.getMana();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGainMana() {
-		fail("Not yet implemented");
+		int expected = 30;
+		int result;
+		w.gainMana(10);
+		result = w.getMana();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testResetMana() {
-		fail("Not yet implemented");
+		int expected = 20;
+		int result;
+		w.setMana(4);
+		w.resetMana();
+		result = w.getMana();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGetPower() {
-		fail("Not yet implemented");
+		Power expected = power;
+		Power result = w.getPower();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGetZoneGroup() {
-		fail("Not yet implemented");
+		ZoneGroup expected = zoneGroup;
+		ZoneGroup result = w.getZoneGroup();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testResetCards() {
-		fail("Not yet implemented");
+		w = new Wizard(wFactory, cards);
+		
+		w.resetCards(wFactory, cards);
+		
+		int nbCard1Expected = 2;
+		int nbCard2Expected = 3;
+		int nbCard3Expected = 1;
+		int nbCard1Result = 0;
+		int nbCard2Result = 0;
+		int nbCard3Result = 0;
+		for(Card c : w.getZoneGroup().getCards(ZoneType.DECK))
+		{
+			if(c.getName().equals("card1")) { nbCard1Result++;}
+			else if(c.getName().equals("card2")) { nbCard2Result++;}
+			else if(c.getName().equals("card3")) { nbCard3Result++;}
+		}
+		assertEquals(nbCard1Expected, nbCard1Result);
+		assertEquals(nbCard2Expected, nbCard2Result);
+		assertEquals(nbCard3Expected, nbCard3Result);
 	}
 
-	@Test
-	public final void testSetAlive() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testObject() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testGetClass() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testHashCode() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testEquals() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testClone() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testToString() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testNotify() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testNotifyAll() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testWaitLong() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testWaitLongInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testWait() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public final void testFinalize() {
-		fail("Not yet implemented");
-	}
 
 }

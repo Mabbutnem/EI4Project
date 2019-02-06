@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.google.common.base.Preconditions;
 
 import constant.WizardConstant;
@@ -21,6 +23,7 @@ public class Wizard extends Character
 	private String name;
 	private Power basePower;
 	private Power transformedPower;
+	@Autowired
 	private ZoneGroup zoneGroup;
 
 	
