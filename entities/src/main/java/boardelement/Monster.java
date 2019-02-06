@@ -2,6 +2,14 @@ package boardelement;
 
 public class Monster extends Character
 {
+	private String name;
+	private int maxHealth;
+	private int initArmor;
+	private int baseMove;
+	private int baseRange;
+	private float rebornProbability;
+	
+	
 
 	public Monster(int health, int armor, int move, int dash, int range)
 	{

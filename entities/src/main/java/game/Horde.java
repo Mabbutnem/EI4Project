@@ -20,6 +20,7 @@ public class Horde
 	
 	
 	public Horde(String name, int cost, Map<String, Integer> monsters) {
+		Preconditions.checkArgument(name.length() > 0, "name length was %s but expected strictly positive", name.length());
 		Preconditions.checkArgument(cost > 0, "cost was %s but expected strictly positive", cost);
 		this.name = name;
 		this.cost = cost;

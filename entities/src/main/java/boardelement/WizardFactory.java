@@ -3,6 +3,7 @@ package boardelement;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.google.common.base.Preconditions;
 
 import spell.Power;
 
@@ -25,6 +26,7 @@ public class WizardFactory
 	
 	
 	public WizardFactory(String name, Power basePower, Power transformedPower, Map<String, Integer> cards) {
+		Preconditions.checkArgument(name.length() > 0, "name length was %s but expected strictly positive", name.length());
 		this.name = name;
 		this.basePower = basePower;
 		this.transformedPower = transformedPower;
