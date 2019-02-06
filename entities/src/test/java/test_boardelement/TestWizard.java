@@ -67,8 +67,6 @@ public class TestWizard
 	private Card card1;
 	private Card card2;
 	private Card card3;
-	private Card card4;
-	private Card card5;
 	private Map<String, Integer> cardsW;
 	private Power power;
 	private Power transformedPower;
@@ -102,8 +100,8 @@ public class TestWizard
 						card1 = mock(Card.class),
 						card2 = mock(Card.class),
 						card3 = mock(Card.class),
-						card4 = mock(Card.class),
-						card5 = mock(Card.class),
+						mock(Card.class),
+						mock(Card.class),
 				};
 		when(card1.getName()).thenReturn("card1");
 		when(card2.getName()).thenReturn("card2");
