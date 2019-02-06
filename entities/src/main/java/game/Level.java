@@ -19,7 +19,7 @@ public class Level
 	
 	
 	public Level(int difficulty, Map<String, Integer> hordes) {
-		Preconditions.checkState(difficulty > 0, "difficulty was %s but expected strictly positive", difficulty);
+		Preconditions.checkArgument(difficulty > 0, "difficulty was %s but expected strictly positive", difficulty);
 		this.difficulty = difficulty;
 		this.hordes = hordes;
 	}

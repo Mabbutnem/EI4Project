@@ -24,7 +24,7 @@ public class MonsterFactory
 
 
 	public MonsterFactory(String name, Map<String, Integer> incantations, float rebornProbability) {
-		Preconditions.checkState(rebornProbability >= 0 && rebornProbability <= 1, "rebornProbability was %s but expected between 0 and 1", rebornProbability);
+		Preconditions.checkArgument(rebornProbability >= 0 && rebornProbability <= 1, "rebornProbability was %s but expected between 0 and 1", rebornProbability);
 		this.name = name;
 		this.incantations = incantations;
 		this.rebornProbability = rebornProbability;

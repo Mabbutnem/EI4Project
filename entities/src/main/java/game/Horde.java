@@ -20,7 +20,7 @@ public class Horde
 	
 	
 	public Horde(String name, int cost, Map<String, Integer> monsters) {
-		Preconditions.checkState(cost > 0, "cost was %s but expected strictly positive", cost);
+		Preconditions.checkArgument(cost > 0, "cost was %s but expected strictly positive", cost);
 		this.name = name;
 		this.cost = cost;
 		this.monsters = monsters;
