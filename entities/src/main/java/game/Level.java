@@ -3,6 +3,7 @@ package game;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.google.common.base.Preconditions;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Level
@@ -16,6 +17,15 @@ public class Level
 	}
 	
 	
+	
+	public Level(int difficulty, Map<String, Integer> hordes) {
+		Preconditions.checkState(difficulty > 0, "difficulty was %s but expected strictly positive", difficulty);
+		this.difficulty = difficulty;
+		this.hordes = hordes;
+	}
+
+
+
 	public int getDifficulty() {
 		return difficulty;
 	}

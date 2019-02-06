@@ -3,6 +3,7 @@ package boardelement;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.google.common.base.Preconditions;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class MonsterFactory
@@ -18,6 +19,15 @@ public class MonsterFactory
 	
 	public MonsterFactory() {
 		//Empty constructor for jackson
+	}
+
+
+
+	public MonsterFactory(String name, Map<String, Integer> incantations, float rebornProbability) {
+		Preconditions.checkState(rebornProbability >= 0 && rebornProbability <= 1, "rebornProbability was %s but expected between 0 and 1", rebornProbability);
+		this.name = name;
+		this.incantations = incantations;
+		this.rebornProbability = rebornProbability;
 	}
 
 

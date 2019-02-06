@@ -3,6 +3,7 @@ package game;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.google.common.base.Preconditions;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Horde
@@ -17,6 +18,16 @@ public class Horde
 	}
 	
 	
+	
+	public Horde(String name, int cost, Map<String, Integer> monsters) {
+		Preconditions.checkState(cost > 0, "cost was %s but expected strictly positive", cost);
+		this.name = name;
+		this.cost = cost;
+		this.monsters = monsters;
+	}
+
+
+
 	public String getName() {
 		return name;
 	}

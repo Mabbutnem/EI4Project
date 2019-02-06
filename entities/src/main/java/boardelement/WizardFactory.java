@@ -19,9 +19,22 @@ public class WizardFactory
 	public WizardFactory() {
 		//Empty constructor for jackson
 	}
+	
+	
 
 	
 	
+	public WizardFactory(String name, Power basePower, Power transformedPower, Map<String, Integer> cards) {
+		this.name = name;
+		this.basePower = basePower;
+		this.transformedPower = transformedPower;
+		this.cards = cards;
+	}
+
+
+
+
+
 	public String getName() {
 		return name;
 	}
