@@ -1,5 +1,7 @@
 package boardelement;
 
+import com.google.common.base.Preconditions;
+
 import spell.Incantation;
 
 public class Monster extends Character
@@ -19,13 +21,47 @@ public class Monster extends Character
 	public Monster(MonsterFactory monsterFactory, Incantation[] incantations)
 	{
 		super();
+		
+		Preconditions.checkArgument(monsterFactory != null, "monsterFactory was null but expected not null");
+		
+		maxHealth = monsterFactory.getMaxHealth();
+		initArmor = monsterFactory.getInitArmor();
+		baseMove = monsterFactory.getBaseMove();
+		baseRange = monsterFactory.getBaseRange();
+		
+		setHealth(getMaxHealth());
+		setArmor(getInitArmor());
+		resetMove();
+		resetRange();
+	}
+	
+	
+	
+	public String getName() {
+		return name;
 	}
 
-	public Monster(int health, int armor, int move, int dash, int range)
-	{
-		super(health, armor, move, dash, range);
-		// TODO Auto-generated constructor stub
+	public int getMaxHealth() {
+		return maxHealth;
 	}
+
+	public int getInitArmor() {
+		return initArmor;
+	}
+
+	public int getBaseMove() {
+		return baseMove;
+	}
+
+	public int getBaseRange() {
+		return baseRange;
+	}
+
+	public float getRebornProbability() {
+		return rebornProbability;
+	}
+
+
 
 	@Override
 	public void resetMove() {
