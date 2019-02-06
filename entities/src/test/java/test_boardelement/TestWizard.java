@@ -207,62 +207,109 @@ public class TestWizard
 	
 	@Test
 	public final void testSetHealth() {
-		fail("Not yet implemented");
+		int expected = 60;
+		int result;
+		w.setHealth(60);
+		result = w.getHealth();
+		assertEquals(expected, result);
+		
+		expected = 70;
+		w.setHealth(90);
+		result = w.getHealth();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testResetMove() {
-		fail("Not yet implemented");
+		int expected = wConstant.getBaseMove();
+		int result;
+		
+		w.setMove(0);
+		w.resetMove();
+		result = w.getMove();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testResetRange() {
-		fail("Not yet implemented");
+		int expected = wConstant.getBaseRange();
+		int result;
+		
+		w.setRange(0);
+		w.resetRange();
+		result = w.getRange();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGetWizardConstant() {
-		fail("Not yet implemented");
+		WizardConstant expected = wConstant;
+		WizardConstant result = w.getWizardConstant();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testSetWizardConstant() {
-		fail("Not yet implemented");
+		when(wConstant.getMaxHealth()).thenReturn(10);
+		w.setWizardConstant(wConstant);
+		WizardConstant expected = wConstant;
+		WizardConstant result = w.getWizardConstant();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testUntransform() {
-		fail("Not yet implemented");
+		boolean expected = false;
+		boolean result;
+		
+		w.transform();
+		w.untransform();
+		result = w.isTransformed();
+		assertEquals(expected, result);		
 	}
 
 	@Test
 	public final void testTransform() {
-		fail("Not yet implemented");
+		boolean expected = true;
+		boolean result;
+		w.transform();
+		result = w.isTransformed();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testIsTransformed() {
-		fail("Not yet implemented");
+		boolean expected = false;
+		boolean result = w.isTransformed();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGetName() {
-		fail("Not yet implemented");
+		String expected = "sorcier";
+		String result = w.getName();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testGetMana() {
-		fail("Not yet implemented");
+		int expected = 20;
+		int result = w.getMana();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testSetMana() {
-		fail("Not yet implemented");
+		int expected = 25;
+		int result;
+		w.setMana(25);
+		result = w.getMana();
+		assertEquals(expected, result);
 	}
 
 	@Test
 	public final void testLoseMana() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test

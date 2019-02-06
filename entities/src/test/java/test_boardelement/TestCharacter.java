@@ -16,9 +16,9 @@ public class TestCharacter
 {
 	class RealCharacter extends boardelement.Character
 	{
-		public RealCharacter(int health, int armor, int move, int dash, int range)
+		public RealCharacter()
 		{
-			super(health, armor, move, dash, range);
+			super();
 		}
 
 		@Override
@@ -51,7 +51,11 @@ public class TestCharacter
 	public void setUp() throws Exception
 	{
 		Character.setGameListener(gameListener = mock(MockGameListener.class));
-		character = new RealCharacter(75, 23, 5, 8, 7);
+		character = new RealCharacter();
+		character.setHealth(75);
+		character.setArmor(23);
+		character.setMove(5);
+		character.setRange(7);
 	}
 
 	@After
@@ -295,7 +299,7 @@ public class TestCharacter
 	
 	@Test
 	public final void testGetDash() {
-		int expected = 8;
+		int expected = 0;
 		int result = character.getDash();
 		assertEquals(expected, result);
 	}
@@ -310,6 +314,7 @@ public class TestCharacter
 
 	@Test
 	public final void testLoseDash() {
+		character.setDash(8);
 		character.loseDash(5);
 		int expected = 3;
 		int result = character.getDash();
@@ -324,7 +329,7 @@ public class TestCharacter
 	@Test
 	public final void testGainDash() {
 		character.gainDash(2);
-		int expected = 10;
+		int expected = 2;
 		int result = character.getDash();
 		assertEquals(expected, result);
 	}

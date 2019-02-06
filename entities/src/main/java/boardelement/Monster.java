@@ -23,7 +23,7 @@ public class Monster extends Character
 
 	public Monster(int health, int armor, int move, int dash, int range)
 	{
-		super(health, armor, move, dash, range);
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
