@@ -1,7 +1,6 @@
 package test_game;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,9 +8,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import boardelement.WizardFactory;
 import game.Level;
-import spell.Power;
 
 public class TestLevel {
 
