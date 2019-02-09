@@ -70,4 +70,11 @@ public class Proba
 		return i;
 	}
 	
+	public static boolean willHappen(float probability)
+	{
+		Preconditions.checkArgument(probability >= 0 && probability <= 1,"probability was %s but expected between 0 and 1", probability);
+		
+		return r.nextFloat() < probability;
+	}
+	
 }

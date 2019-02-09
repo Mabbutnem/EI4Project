@@ -92,5 +92,53 @@ public class TestProba
 	{
 		Proba.getRandomIndexFrom(new float[] {-0.1f, 0.1f, 1f});
 	}
+	
+	@Test
+	public final void testWillHappenPredictable()
+	{
+		boolean expected = false;
+		boolean result = Proba.willHappen(0f);
+		assertEquals(expected, result);
+		
+		expected = true;
+		result = Proba.willHappen(1f);
+		assertEquals(expected, result);
+	}
+	
+	@Test 
+	public final void testWillHappenProportion()
+	{
+		int delta = 200;
+		
+		float probability = 0.5f;
+		int expected = 5000;
+		int result = 0;
+		for(int i = 0; i < 10000; i++)
+		{
+			if(Proba.willHappen(probability)) { result++; }
+		}
+		assertEquals(expected, result, delta);
+		
+		probability = 0.9f;
+		expected = 9000;
+		result = 0;
+		for(int i = 0; i < 10000; i++)
+		{
+			if(Proba.willHappen(probability)) { result++; }
+		}
+		assertEquals(expected, result, delta);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testWillHappenException1()
+	{
+		Proba.willHappen(-0.01f);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testWillHappenException2()
+	{
+		Proba.willHappen(1.01f);
+	}
 
 }

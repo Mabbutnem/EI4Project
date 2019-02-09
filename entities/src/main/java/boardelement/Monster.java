@@ -36,10 +36,7 @@ public class Monster extends Character
 		initArmor = monsterFactory.getInitArmor();
 		baseMove = monsterFactory.getBaseMove();
 		baseRange = monsterFactory.getBaseRange();
-		setHealth(getMaxHealth());
-		setArmor(getInitArmor());
-		resetMove();
-		resetRange();
+		reset();
 		
 		name = monsterFactory.getName();
 		rebornProbability = monsterFactory.getRebornProbability();
@@ -136,6 +133,14 @@ public class Monster extends Character
 
 
 
+	public void reset()
+	{
+		setHealth(getMaxHealth());
+		setArmor(getInitArmor());
+		resetMove();
+		resetRange();
+	}
+	
 	@Override
 	public void resetMove() {
 		setMove(baseMove);
