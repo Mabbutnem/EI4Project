@@ -49,7 +49,7 @@ public class TestMonsterFactory {
 		assertEquals(expectedI, resultI);
 		
 		Map<String, Integer> expectedM = incantations;
-		Map<String, Integer> resultM = mFactory.getIncantations();
+		Map<String, Integer> resultM = mFactory.getMapIncantationsFrequencies();
 		assertEquals(expectedM, resultM);
 		
 		float expectedF = 0.5f;

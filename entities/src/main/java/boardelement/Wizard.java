@@ -68,11 +68,11 @@ public class Wizard extends Character
 		List<Card> lc = new LinkedList<>();
 				
 		//On ajoute les cartes dans lc comme spécifié par wizardFactory
-		for(String cardName : wizardFactory.getCards().keySet())
+		for(String cardName : wizardFactory.getMapCardsQuantity().keySet())
 		{
 			if(!cardsMap.containsKey(cardName)) { throw new IllegalArgumentException("a (or more) card is missing from cards"); }
 					
-			for(int i = 0; i < wizardFactory.getCards().get(cardName); i++)
+			for(int i = 0; i < wizardFactory.getMapCardsQuantity().get(cardName); i++)
 			{
 				//Ajoute une COPIE de la carte
 				lc.add(new Card(cardsMap.get(cardName)));

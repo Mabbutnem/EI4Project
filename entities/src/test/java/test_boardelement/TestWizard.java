@@ -122,7 +122,7 @@ public class TestWizard
 		when(wFactory.getName()).thenReturn("sorcier");
 		when(wFactory.getBasePower()).thenReturn(power);
 		when(wFactory.getTransformedPower()).thenReturn(transformedPower);
-		when(wFactory.getCards()).thenReturn(cardsW);
+		when(wFactory.getMapCardsQuantity()).thenReturn(cardsW);
 		
 		w = new Wizard(wFactory, cards);
 		MockitoAnnotations.initMocks(this);

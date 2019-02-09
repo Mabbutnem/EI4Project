@@ -48,7 +48,7 @@ public class TestWizardFactory {
 		assertEquals(expectedP, resultP);
 		
 		Map<String, Integer> expectedM = cards;
-		Map<String, Integer> resultM = w.getCards();
+		Map<String, Integer> resultM = w.getMapCardsQuantity();
 		assertEquals(expectedM, resultM);
 	}
 	

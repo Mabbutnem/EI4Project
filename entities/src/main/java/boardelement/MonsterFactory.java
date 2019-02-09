@@ -13,7 +13,7 @@ public class MonsterFactory
 	private int initArmor;
 	private int baseMove;
 	private int baseRange;
-	private Map<String, Integer> incantations; //String:name of the incantation, Integer:frequence of cast
+	private Map<String, Integer> mapIncantationsFrequencies; //String:name of the incantation, Integer:frequence of cast
 	private float rebornProbability;
 	
 	
@@ -23,14 +23,14 @@ public class MonsterFactory
 	}
 	
 	public MonsterFactory(String name, int maxHealth, int initArmor, int baseMove, int baseRange, 
-			Map<String, Integer> incantations, float rebornProbability)
+			Map<String, Integer> mapIncantationsFrequencies, float rebornProbability)
 	{
 		Preconditions.checkArgument(name.length() > 0, "name length was %s but expected strictly positive", name.length());
 		Preconditions.checkArgument(maxHealth > 0, "maxHealth was %s but expected strictly positive", maxHealth);
 		Preconditions.checkArgument(initArmor >= 0, "initArmor was %s but expected positive", initArmor);
 		Preconditions.checkArgument(baseMove > 0, "baseMove was %s but expected strictly positive", baseMove);
 		Preconditions.checkArgument(baseRange > 0, "baseRange was %s but expected strictly positive", baseRange);
-		for(Map.Entry<String, Integer> entry : incantations.entrySet())
+		for(Map.Entry<String, Integer> entry : mapIncantationsFrequencies.entrySet())
 		{
 			Preconditions.checkArgument(entry.getValue() > 0, "frequence of cast was %s but expected strictly positive", entry.getValue());
 		}
@@ -40,7 +40,7 @@ public class MonsterFactory
 		this.initArmor = initArmor;
 		this.baseMove = baseMove;
 		this.baseRange = baseRange;
-		this.incantations = incantations;
+		this.mapIncantationsFrequencies = mapIncantationsFrequencies;
 		this.rebornProbability = rebornProbability;
 	}
 
@@ -66,8 +66,8 @@ public class MonsterFactory
 		return baseRange;
 	}
 
-	public Map<String, Integer> getIncantations() {
-		return incantations;
+	public Map<String, Integer> getMapIncantationsFrequencies() {
+		return mapIncantationsFrequencies;
 	}
 
 	public float getRebornProbability() {

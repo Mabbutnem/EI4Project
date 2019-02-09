@@ -55,7 +55,7 @@ public class Monster extends Character
 		List<Incantation> li = new LinkedList<>();
 		
 		//On ajoute les incantations dans li comme spécifié par monsterFactory
-		for(String incantationName : monsterFactory.getIncantations().keySet())
+		for(String incantationName : monsterFactory.getMapIncantationsFrequencies().keySet())
 		{
 			if(!incantationsMap.containsKey(incantationName)) { throw new IllegalArgumentException("a (or more) incantation is missing from incantations"); }
 
@@ -75,7 +75,7 @@ public class Monster extends Character
 		 */
 		incantationProbabilities = Proba.convertFrequencyToProbability( //...puis transforme ce dernier en tableau de probabilités
 				//Transforme la Map de fréquence en tableau de fréquence...
-				monsterFactory.getIncantations().values().stream().mapToInt(i->i).toArray()
+				monsterFactory.getMapIncantationsFrequencies().values().stream().mapToInt(i->i).toArray()
 				);
 		/*
 		 * 
@@ -111,7 +111,12 @@ public class Monster extends Character
 	
 	
 	
-	public Incantation[] getIncantation()
+	public float[] getIncantationProbabilities()
+	{
+		return incantationProbabilities;
+	}
+	
+	public Incantation[] getIncantations()
 	{
 		return incantations;
 	}

@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 public class Level
 {
 	private int difficulty;
-	private Map<String, Integer> hordes; //String:name of the horde, Integer:frequence of appearance
+	private Map<String, Integer> mapHordesProbabilities; //String:name of the horde, Integer:frequence of appearance
 	
 	
 	public Level() {
@@ -18,14 +18,14 @@ public class Level
 	
 	
 	
-	public Level(int difficulty, Map<String, Integer> hordes) {
+	public Level(int difficulty, Map<String, Integer> mapHordesProbabilities) {
 		Preconditions.checkArgument(difficulty > 0, "difficulty was %s but expected strictly positive", difficulty);
-		for(Map.Entry<String, Integer> entry : hordes.entrySet())
+		for(Map.Entry<String, Integer> entry : mapHordesProbabilities.entrySet())
 		{
 			Preconditions.checkArgument(entry.getValue() > 0, "frquence of appearance was %s but expected strictly positive", entry.getValue());
 		}
 		this.difficulty = difficulty;
-		this.hordes = hordes;
+		this.mapHordesProbabilities = mapHordesProbabilities;
 	}
 
 
@@ -33,7 +33,7 @@ public class Level
 	public int getDifficulty() {
 		return difficulty;
 	}
-	public Map<String, Integer> getHordes() {
-		return hordes;
+	public Map<String, Integer> getMapHordesProbabilities() {
+		return mapHordesProbabilities;
 	}
 }

@@ -39,7 +39,7 @@ public class TestHorde {
 		assertEquals(expectedI, resultI);
 		
 		Map<String, Integer> expectedM = monsters;
-		Map<String, Integer> resultM = h.getMonsters();
+		Map<String, Integer> resultM = h.getMapMonstersQuantity();
 		assertEquals(expectedM, resultM);
 	}
 	

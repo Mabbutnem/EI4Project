@@ -34,7 +34,7 @@ public class TestLevel {
 		assertEquals(expected, result);
 		
 		Map<String, Integer> expectedM = hordes;
-		Map<String, Integer> resultM = l.getHordes();
+		Map<String, Integer> resultM = l.getMapHordesProbabilities();
 		assertEquals(expectedM, resultM);
 	}
 	
