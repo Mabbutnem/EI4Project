@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import boardelement.Character;
+import boardelement.IBoardElement;
 import listener.IGameListener;
 
 public class TestCharacter
@@ -31,7 +32,7 @@ public class TestCharacter
 	private class MockGameListener implements IGameListener{
 
 		@Override
-		public void clearBoard(Character character) {}
+		public void clearBoard(IBoardElement boardElement) {}
 	}
 	
 	private MockGameListener gameListener;

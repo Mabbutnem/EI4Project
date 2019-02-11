@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import boardelement.Character;
+import boardelement.IBoardElement;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import constant.WizardConstant;
@@ -50,7 +51,7 @@ public class TestWizard
 	private class MockGameListener implements IGameListener{
 
 		@Override
-		public void clearBoard(Character character) {}
+		public void clearBoard(IBoardElement boardElement) {}
 	}
 	
 	@Mock
