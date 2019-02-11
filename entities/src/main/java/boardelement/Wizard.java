@@ -89,6 +89,13 @@ public class Wizard extends Character
 
 	
 	
+	public void mulligan()
+	{
+		zoneGroup.mulligan(wizardConstant.getNbInitCard());
+	}
+	
+	
+	
 	public void untransform()
 	{
 		transformed = false;
@@ -99,6 +106,7 @@ public class Wizard extends Character
 		transformed = true;
 		setHealth(wizardConstant.getMaxHealth());
 		zoneGroup.transform();
+		mulligan();
 	}
 	
 	public boolean isTransformed()

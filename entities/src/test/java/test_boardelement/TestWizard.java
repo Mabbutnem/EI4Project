@@ -95,6 +95,7 @@ public class TestWizard
 		when(wConstant.getBaseRange()).thenReturn(9);
 		when(wConstant.getInitArmor()).thenReturn(30);
 		when(wConstant.getMaxHealth()).thenReturn(70);
+		when(wConstant.getNbInitCard()).thenReturn(5);
 		
 		cards = new Card[]
 				{
@@ -275,6 +276,13 @@ public class TestWizard
 		WizardConstant result = Wizard.getWizardConstant();
 		assertEquals(expected, result);
 	}
+	
+	@Test
+	public final void mulligan()
+	{
+		w.mulligan();
+		verify(zoneGroup, times(1)).mulligan(5);
+	}
 
 	@Test
 	public final void testUntransform() {
@@ -300,6 +308,7 @@ public class TestWizard
 		assertEquals(expectedI, resultI);
 		
 		verify(zoneGroup, times(1)).transform();
+		verify(zoneGroup, times(1)).mulligan(5);
 	}
 
 	@Test
