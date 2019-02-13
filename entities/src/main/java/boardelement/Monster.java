@@ -155,6 +155,7 @@ public class Monster extends Character
 		setArmor(getInitArmor());
 		resetMove();
 		resetRange();
+		resetFreeze();
 	}
 	
 	@Override

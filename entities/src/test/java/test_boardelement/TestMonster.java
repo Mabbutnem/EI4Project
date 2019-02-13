@@ -141,22 +141,63 @@ public class TestMonster {
 		float resultF = m.getRebornProbability();
 		assertEquals(expectedF, resultF, 0.000001f);
 		
-		Incantation[] expectedI = new Incantation[] {inc1, inc2, inc3};
+		String[] expectedI = new String[] {"inc1", "inc2", "inc3"};
 		Incantation[] resultI = m.getIncantations();
-		for(Incantation i : expectedI) {
-			assertTrue(Arrays.asList(resultI).contains(i));
+		for(Incantation i : resultI) {
+			assertTrue(Arrays.asList(expectedI).contains(i.getName()));
 		}
 		
-		float[] expectedFF = new float[]
-				{
-						MapFreq.get(resultI[0].getName())/13f, 3/13f, 13/13f,
-				};
-		for(int i = 0; i<MapFreq.size();i++) { expectedFF[i] = MapFreq.get(resultI[i].getName())/13f; }
+		int[] frequencies = new int[3];
+		for(int i = 0; i<resultI.length;i++) { frequencies[i] = MapFreq.get(resultI[i].getName()); }
+		float[] expectedFF = Proba.convertFrequencyToProbability(frequencies);
 		float[] resultFF = m.getIncantationProbabilities();
 		for(int i = 0; i < expectedFF.length; i++)
 		{
 			assertEquals(expectedFF[i], resultFF[i], 0.000001f);
 		}
+		
+		boolean expectedB = false;
+		boolean resultB = m.hasPlayed();
+		assertEquals(expectedB, resultB);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void TestMonsterException1() {
+		m = new Monster(null, incantations);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void TestMonsterException2() {
+		m = new Monster(mFactory, null);
+	}
+	
+	@Test
+	public void TestSetPlayed() {
+		boolean expected = true;
+		boolean result;
+		
+		m.setPlayed(true);
+		result = m.hasPlayed();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void TestGetRandomIncantationPredictable()
+	{
+		MapFreq.clear();
+		MapFreq.put("inc1", 0);
+		MapFreq.put("inc2", 1);
+		MapFreq.put("inc3", 0);
+		m = new Monster(mFactory, incantations);
+
+		String expected = "inc2";
+		String result = m.getRandomIncantation().getName();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void TestGetRandomIncantationProportion() {
+		fail();
 	}
 
 }
