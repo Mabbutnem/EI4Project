@@ -159,6 +159,55 @@ public class Game implements IGameListener
 		}
 		
 		wizardsTurn = !wizardsTurn;
+		
+		nextMonsterIdx();
+	}
+	
+	public void nextMonsterIdx()
+	{
+		Preconditions.checkState(!isWizardsTurn(), "in order to fetch next monster's index, it has to be monster's turn");
+
+		boolean monsterFounded = false;
+		int i = 0;
+		while(i < board.length && !monsterFounded)
+		{
+			if(board[i] instanceof Monster)
+			{
+				Monster m = (Monster) board[i];
+				
+				if(!m.hasPlayed())
+				{
+					monsterFounded = true;
+					setCurrentCharacterIdx(i);
+					m.setPlayed(true);
+				}
+			}
+			
+			i++;
+		}
+		
+		if(!monsterFounded)
+		{
+			endMonstersTurn();
+		}
+	}
+	
+	private void endMonstersTurn()
+	{
+		for(int i = 0; i < board.length; i++)
+		{
+			if(board[i] instanceof Monster)
+			{
+				Monster m = (Monster) board[i];
+				
+				m.resetFreeze();
+				m.resetMove();
+				m.resetRange();
+				m.setPlayed(false);
+			}
+		}
+		
+		wizardsTurn = !wizardsTurn;
 	}
 
 
