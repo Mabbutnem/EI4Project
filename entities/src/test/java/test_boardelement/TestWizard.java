@@ -52,6 +52,9 @@ public class TestWizard
 
 		@Override
 		public void clearBoard(IBoardElement boardElement) {}
+
+		@Override
+		public void refreshRange(Character character) {}
 	}
 	
 	@Mock

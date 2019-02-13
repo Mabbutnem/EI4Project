@@ -70,10 +70,12 @@ public class Monster extends Character
 		/*
 		 * Probabilities
 		 */
-		incantationProbabilities = Proba.convertFrequencyToProbability( //...puis transforme ce dernier en tableau de probabilités
-				//Transforme la Map de fréquence en tableau de fréquence...
-				monsterFactory.getMapIncantationsFrequencies().values().stream().mapToInt(i->i).toArray()
-				);
+		int[] frequencies = new int[this.incantations.length];
+		for(int i = 0; i < this.incantations.length; i++)
+		{
+			frequencies[i] = monsterFactory.getMapIncantationsFrequencies().get(this.incantations[i].getName());
+		}
+		incantationProbabilities = Proba.convertFrequencyToProbability(frequencies);
 		/*
 		 * 
 		 */
