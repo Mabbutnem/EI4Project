@@ -18,8 +18,10 @@ public class Game implements IGameListener
 	
 	private boolean wizardsTurn;
 	private int currentCharacterIdx;
+	private boolean[] wizardsRange;
+	private boolean[] currentCharacterRange;
 	private IBoardElement[] board;
-	private List<Wizard> wizards;
+	//private List<Wizard> wizards;
 	private CastZone castZone;
 	private List<MonsterFactory> monsterToSpawn;
 	private int levelDifficulty;
@@ -58,8 +60,60 @@ public class Game implements IGameListener
 	
 	
 	
-	public Wizard[] getWizards() {
-		return wizards.toArray(new Wizard[0]);
+	public void resetCurrentCharacterRange()
+	{
+		for(int i = 0; i < currentCharacterRange.length; i++)
+		{
+			currentCharacterRange[i] = false;
+		}
+	}
+	
+	public void refreshCurrentCharacterRange()
+	{
+		resetCurrentCharacterRange();
+		
+		int range = getCurrentCharacter().getRange();
+		
+		for(int r = -range; r < range+1; r++)
+		{
+			if(indexInBoardBounds(currentCharacterIdx+r)) { currentCharacterRange[currentCharacterIdx+r] = true; }
+		}
+	}
+	
+	public boolean[] getCurrentCharacterRange() {
+		return currentCharacterRange;
+	}
+	
+	
+	
+	public void resetWizardsRange()
+	{
+		for(int i = 0; i < wizardsRange.length; i++)
+		{
+			wizardsRange[i] = false;
+		}
+	}
+	
+	public void refreshWizardsRange()
+	{
+		resetWizardsRange();
+		
+		for(int i = 0; i < board.length; i++)
+		{
+			if(board[i] instanceof Wizard)
+			{
+				int range = ((Wizard) board[i]).getRange();
+				
+				for(int r = -range; r < range+1; r++)
+				{
+					if(indexInBoardBounds(i+r)) { wizardsRange[i+r] = true; }
+				}
+			}
+		}
+	}
+	
+	public boolean[] getWizardsRange() {
+		return wizardsRange;
 	}
 
 
@@ -70,6 +124,7 @@ public class Game implements IGameListener
 
 	public void setBoard(IBoardElement[] board)
 	{
+		Preconditions.checkArgument(board != null, "board was null but expected not null");
 		Preconditions.checkArgument(board.length == gameConstant.getBoardLenght(), 
 				"board lenght was %s but expected %s", board.length, gameConstant.getBoardLenght());
 		
@@ -99,6 +154,14 @@ public class Game implements IGameListener
 	@Override
 	public void clearBoard(IBoardElement boardElement) {
 		// TODO Auto-generated method stub
+	}
+
+
+
+	@Override
+	public void refreshRange(Character character) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

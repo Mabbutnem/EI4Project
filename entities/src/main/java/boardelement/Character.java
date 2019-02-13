@@ -214,7 +214,13 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setRange(int range) {
+		int previousRange = this.range;
 		this.range = Math.max(0, range);
+		
+		if(previousRange != this.range)
+		{
+			Character.gameListener.refreshRange(this);
+		}
 	}
 	
 	public void loseRange(int loss)
