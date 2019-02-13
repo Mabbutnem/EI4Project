@@ -1,11 +1,14 @@
 package game;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
+import boardelement.Corpse;
 import boardelement.IBoardElement;
+import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import constant.GameConstant;
@@ -21,7 +24,7 @@ public class Game implements IGameListener
 	private boolean[] wizardsRange;
 	private boolean[] currentCharacterRange;
 	private IBoardElement[] board;
-	//private List<Wizard> wizards;
+	private List<Wizard> wizards;
 	private CastZone castZone;
 	private List<MonsterFactory> monsterToSpawn;
 	private int levelDifficulty;
@@ -98,7 +101,9 @@ public class Game implements IGameListener
 	{
 		resetWizardsRange();
 		
-		for(int i = 0; i < board.length; i++)
+		int i = 0;
+		int nbWizards = 0;
+		while(i < board.length && nbWizards < gameConstant.getNbWizard())
 		{
 			if(board[i] instanceof Wizard)
 			{
@@ -108,7 +113,11 @@ public class Game implements IGameListener
 				{
 					if(indexInBoardBounds(i+r)) { wizardsRange[i+r] = true; }
 				}
+				
+				nbWizards++;
 			}
+			
+			i++;
 		}
 	}
 	
@@ -136,6 +145,21 @@ public class Game implements IGameListener
 	public boolean isWizardsTurn() {
 		return wizardsTurn;
 	}
+	
+	public void endWizardsTurn()
+	{
+		Preconditions.checkState(isWizardsTurn(), "in order to end wizard's turn, it has to be wizard's turn");
+		
+		for(Wizard w : wizards)
+		{
+			w.resetFreeze();
+			w.resetMana();
+			w.resetMove();
+			w.resetRange();
+		}
+		
+		wizardsTurn = !wizardsTurn;
+	}
 
 
 
@@ -152,17 +176,74 @@ public class Game implements IGameListener
 
 
 	@Override
-	public void clearBoard(IBoardElement boardElement) {
-		// TODO Auto-generated method stub
-	}
-
-
-
-	@Override
-	public void refreshRange(Character character) {
-		// TODO Auto-generated method stub
+	public void clearBoard(IBoardElement boardElement)
+	{
+		int idx = getBoardElementIdx(boardElement);
+		
+		if(boardElement instanceof Corpse)
+		{
+			board[idx] = null;
+		}
+		
+		if(boardElement instanceof Character)
+		{
+			if(boardElement instanceof Monster)
+			{
+				board[idx] = new Corpse((Monster) boardElement);
+			}
+			
+			if(boardElement instanceof Wizard)
+			{
+				board[idx] = null;
+				wizards.remove(boardElement);
+			}
+			
+			refreshRange((Character) boardElement);
+		}
 		
 	}
+
+	@Override
+	public void refreshRange(Character character)
+	{
+		if(character instanceof Wizard) { refreshWizardsRange(); }
+		if(character == getCurrentCharacter()) { refreshCurrentCharacterRange(); }
+	}
 	
+	
+	
+	private void resetWizards()
+	{
+		int i = 0;
+		int nbWizards = 0;
+		while(i < board.length && nbWizards < gameConstant.getNbWizard())
+		{
+			if(board[i] instanceof Wizard)
+			{
+				wizards.add((Wizard) board[i]);
+				
+				nbWizards++;
+			}
+			
+			i++;
+		}
+	}
+	
+	
+	
+	private int getBoardElementIdx(IBoardElement boardElement)
+	{
+		Preconditions.checkArgument(boardElement != null, "boardElement was null but expected not null");
+		
+		int i = 0;
+		while(i < board.length && board[i] != boardElement)
+		{
+			i++;
+		}
+		
+		if(i >= board.length) { return -1; }
+		
+		return i;
+	}
 	
 }

@@ -12,6 +12,7 @@ import utility.Proba;
 
 public class Monster extends Character
 {
+	private boolean played;
 	private int maxHealth;
 	private int initArmor;
 	private int baseMove;
@@ -37,6 +38,7 @@ public class Monster extends Character
 		baseMove = monsterFactory.getBaseMove();
 		baseRange = monsterFactory.getBaseRange();
 		reset();
+		setPlayed(false);
 		
 		name = monsterFactory.getName();
 		rebornProbability = monsterFactory.getRebornProbability();
@@ -87,6 +89,18 @@ public class Monster extends Character
 	public String getName() {
 		return name;
 	}
+
+	
+	
+	public boolean hasPlayed() {
+		return played;
+	}
+
+	public void setPlayed(boolean played) {
+		this.played = played;
+	}
+
+
 
 	public int getMaxHealth() {
 		return maxHealth;
