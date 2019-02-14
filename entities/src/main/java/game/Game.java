@@ -1,6 +1,5 @@
 package game;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -44,8 +43,17 @@ public class Game implements IGameListener
 
 
 
+	//Current character
 	public Character getCurrentCharacter() {
 		return (Character) board[currentCharacterIdx];
+	}
+	
+	public void setCurrentCharacter(Character character) {
+		int idx = getBoardElementIdx(character);
+		
+		Preconditions.checkArgument(indexInBoardBounds(idx), "character was not found in the board");
+		
+		this.currentCharacterIdx = idx;
 	}
 
 	public void setCurrentCharacterIdx(int currentCharacterIdx)
@@ -56,14 +64,64 @@ public class Game implements IGameListener
 		this.currentCharacterIdx = currentCharacterIdx;
 	}
 	
-	private boolean indexInBoardBounds(int idx)
+	public boolean currentCharacterMoveLeft() //Return statement : can continue to go left or not
 	{
-		return idx >= 0 && idx < board.length;
+		int finalPosition = currentCharacterIdx-1;
+		
+		if(!indexInBoardBounds(finalPosition)) { return false; }
+		
+		Character c = getCurrentCharacter();
+
+		//If the character is a wizard and the final position contain a corpse, the wizard crushes the corpse
+		if(board[finalPosition] instanceof Corpse && c instanceof Wizard) 
+		{
+			board[finalPosition] = null;
+		}
+		
+		board[currentCharacterIdx] = board[finalPosition];
+		board[finalPosition] = c;
+		
+		c.loseMove(1);
+		
+		//If the character is a wizard, refresh the wizard's range
+		if(c instanceof Wizard) { refreshWizardsRange(); }
+		
+		refreshCurrentCharacterRange();
+		
+		return true;
+	}
+	
+	public boolean currentCharacterMoveRight() //Return statement : can continue to go right or not
+	{
+		int finalPosition = currentCharacterIdx+1;
+		
+		if(!indexInBoardBounds(finalPosition)) { return false; }
+		
+		Character c = getCurrentCharacter();
+
+		//If the character is a wizard and the final position contain a corpse, the wizard crushes the corpse
+		if(board[finalPosition] instanceof Corpse && c instanceof Wizard) 
+		{
+			board[finalPosition] = null;
+		}
+		
+		board[currentCharacterIdx] = board[finalPosition];
+		board[finalPosition] = c;
+		
+		c.loseMove(1);
+		
+		//If the character is a wizard, refresh the wizard's range
+		if(c instanceof Wizard) { refreshWizardsRange(); }
+		
+		refreshCurrentCharacterRange();
+		
+		return true;
 	}
 	
 	
 	
-	public void resetCurrentCharacterRange()
+	//The range array of the current character
+	private void resetCurrentCharacterRange()
 	{
 		for(int i = 0; i < currentCharacterRange.length; i++)
 		{
@@ -71,7 +129,7 @@ public class Game implements IGameListener
 		}
 	}
 	
-	public void refreshCurrentCharacterRange()
+	private void refreshCurrentCharacterRange()
 	{
 		resetCurrentCharacterRange();
 		
@@ -89,7 +147,8 @@ public class Game implements IGameListener
 	
 	
 	
-	public void resetWizardsRange()
+	//The range array of all wizards
+	private void resetWizardsRange()
 	{
 		for(int i = 0; i < wizardsRange.length; i++)
 		{
@@ -97,28 +156,21 @@ public class Game implements IGameListener
 		}
 	}
 	
-	public void refreshWizardsRange()
+	private void refreshWizardsRange()
 	{
 		resetWizardsRange();
 		
-		int i = 0;
-		int nbWizards = 0;
-		while(i < board.length && nbWizards < gameConstant.getNbWizard())
+		for(Wizard w : wizards)
 		{
-			if(board[i] instanceof Wizard)
-			{
-				int range = ((Wizard) board[i]).getRange();
-				
-				for(int r = -range; r < range+1; r++)
-				{
-					if(indexInBoardBounds(i+r)) { wizardsRange[i+r] = true; }
-				}
-				
-				nbWizards++;
-			}
+			int idx = getBoardElementIdx(w);
+			int range = w.getRange();
 			
-			i++;
+			for(int r = -range; r < range+1; r++)
+			{
+				if(indexInBoardBounds(idx+r)) { wizardsRange[idx+r] = true; }
+			}
 		}
+		
 	}
 	
 	public boolean[] getWizardsRange() {
@@ -127,6 +179,7 @@ public class Game implements IGameListener
 
 
 
+	//The board
 	public IBoardElement[] getBoard() {
 		return board;
 	}
@@ -138,10 +191,14 @@ public class Game implements IGameListener
 				"board lenght was %s but expected %s", board.length, gameConstant.getBoardLenght());
 		
 		this.board = board;
+		
+		refreshCurrentCharacterRange();
+		refreshWizardsRange();
 	}
 
+	
 
-
+	//The turns
 	public boolean isWizardsTurn() {
 		return wizardsTurn;
 	}
@@ -160,10 +217,20 @@ public class Game implements IGameListener
 		
 		wizardsTurn = !wizardsTurn;
 		
-		nextMonsterIdx();
+		nextMonster();
 	}
 	
-	public void nextMonsterIdx()
+	public void playMonstersTurnPart1()
+	{
+		
+	}
+	
+	public void playMonstersTurnPart2()
+	{
+		
+	}
+	
+	public void nextMonster()
 	{
 		Preconditions.checkState(!isWizardsTurn(), "in order to fetch next monster's index, it has to be monster's turn");
 
@@ -212,18 +279,21 @@ public class Game implements IGameListener
 
 
 
+	//Cast zone
 	public CastZone getCastZone() {
 		return castZone;
 	}
 
 
 
+	//Level Difficulty
 	public int getLevelDifficulty() {
 		return levelDifficulty;
 	}
 
 
 
+	//IGameListener Methods
 	@Override
 	public void clearBoard(IBoardElement boardElement)
 	{
@@ -261,6 +331,7 @@ public class Game implements IGameListener
 	
 	
 	
+	//Utility fonctions
 	private void resetWizards()
 	{
 		int i = 0;
@@ -278,7 +349,10 @@ public class Game implements IGameListener
 		}
 	}
 	
-	
+	private boolean indexInBoardBounds(int idx)
+	{
+		return idx >= 0 && idx < board.length;
+	}
 	
 	private int getBoardElementIdx(IBoardElement boardElement)
 	{
