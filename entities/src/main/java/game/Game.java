@@ -51,71 +51,14 @@ public class Game implements IGameListener
 	public void setCurrentCharacter(Character character) {
 		int idx = getBoardElementIdx(character);
 		
-		Preconditions.checkArgument(indexInBoardBounds(idx), "character was not found in the board");
-		
 		this.currentCharacterIdx = idx;
 	}
 
 	public void setCurrentCharacterIdx(int currentCharacterIdx)
 	{
-		Preconditions.checkArgument(indexInBoardBounds(currentCharacterIdx), "currentCharacterIdx was not in board bounds");
-		Preconditions.checkArgument(board[currentCharacterIdx] instanceof Character, "selected idx was not instanceof Character");
+		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
 		this.currentCharacterIdx = currentCharacterIdx;
-	}
-	
-	public boolean currentCharacterMoveLeft() //Return statement : can continue to go left or not
-	{
-		int finalPosition = currentCharacterIdx-1;
-		
-		if(!indexInBoardBounds(finalPosition)) { return false; }
-		
-		Character c = getCurrentCharacter();
-
-		//If the character is a wizard and the final position contain a corpse, the wizard crushes the corpse
-		if(board[finalPosition] instanceof Corpse && c instanceof Wizard) 
-		{
-			board[finalPosition] = null;
-		}
-		
-		board[currentCharacterIdx] = board[finalPosition];
-		board[finalPosition] = c;
-		
-		c.loseMove(1);
-		
-		//If the character is a wizard, refresh the wizard's range
-		if(c instanceof Wizard) { refreshWizardsRange(); }
-		
-		refreshCurrentCharacterRange();
-		
-		return true;
-	}
-	
-	public boolean currentCharacterMoveRight() //Return statement : can continue to go right or not
-	{
-		int finalPosition = currentCharacterIdx+1;
-		
-		if(!indexInBoardBounds(finalPosition)) { return false; }
-		
-		Character c = getCurrentCharacter();
-
-		//If the character is a wizard and the final position contain a corpse, the wizard crushes the corpse
-		if(board[finalPosition] instanceof Corpse && c instanceof Wizard) 
-		{
-			board[finalPosition] = null;
-		}
-		
-		board[currentCharacterIdx] = board[finalPosition];
-		board[finalPosition] = c;
-		
-		c.loseMove(1);
-		
-		//If the character is a wizard, refresh the wizard's range
-		if(c instanceof Wizard) { refreshWizardsRange(); }
-		
-		refreshCurrentCharacterRange();
-		
-		return true;
 	}
 	
 	
@@ -194,6 +137,33 @@ public class Game implements IGameListener
 		
 		refreshCurrentCharacterRange();
 		refreshWizardsRange();
+	}
+	
+	
+	
+	//The movements
+	public int elementaryMove(int characterIdx, int delta) //return statement : the actual delta you have done
+	{
+		Preconditions.checkArgument(indexCorrespondToCharacter(characterIdx), "characterIdx don't correspond to a character");
+		
+		int direction = (int)Math.signum(delta);
+		
+		//Tant que la position finale (characterIdx+delta) n'est pas dans le board, réduis le déplacement de 1
+		//Par exemple, si characterIdx = 1 et delta = -2, position finale = -1 : en dehors du tableau
+		//delta -= -1, delta += 1, delta = -1, position finale = 0 : OK
+		while(!indexInBoardBounds(characterIdx + delta)) { delta -= direction; }
+		
+		int finalPosition = characterIdx + delta;
+		Character c = (Character)board[characterIdx];
+		
+		//TODO
+		
+		return delta;
+	}
+	
+	public int elementaryMove(Character character, int delta)
+	{
+		return elementaryMove(getBoardElementIdx(character), delta);
 	}
 
 	
@@ -354,6 +324,11 @@ public class Game implements IGameListener
 		return idx >= 0 && idx < board.length;
 	}
 	
+	private boolean indexCorrespondToCharacter(int idx)
+	{
+		return indexInBoardBounds(currentCharacterIdx) && board[currentCharacterIdx] instanceof Character;
+	}
+	
 	private int getBoardElementIdx(IBoardElement boardElement)
 	{
 		Preconditions.checkArgument(boardElement != null, "boardElement was null but expected not null");
@@ -364,7 +339,7 @@ public class Game implements IGameListener
 			i++;
 		}
 		
-		if(i >= board.length) { return -1; }
+		Preconditions.checkState(i < board.length, "boardElement was not found in the board");
 		
 		return i;
 	}
