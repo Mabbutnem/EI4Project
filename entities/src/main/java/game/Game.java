@@ -72,7 +72,7 @@ public class Game implements IGameListener
 		}
 	}
 	
-	private void refreshCurrentCharacterRange()
+	public void refreshCurrentCharacterRange()
 	{
 		resetCurrentCharacterRange();
 		
@@ -99,7 +99,7 @@ public class Game implements IGameListener
 		}
 	}
 	
-	private void refreshWizardsRange()
+	public void refreshWizardsRange()
 	{
 		resetWizardsRange();
 		
@@ -135,8 +135,9 @@ public class Game implements IGameListener
 		
 		this.board = board;
 		
-		refreshCurrentCharacterRange();
-		refreshWizardsRange();
+		//TODO
+		//refreshCurrentCharacterRange();
+		//refreshWizardsRange();
 	}
 	
 	
@@ -153,10 +154,32 @@ public class Game implements IGameListener
 		//delta -= -1, delta += 1, delta = -1, position finale = 0 : OK
 		while(!indexInBoardBounds(characterIdx + delta)) { delta -= direction; }
 		
-		int finalPosition = characterIdx + delta;
-		Character c = (Character)board[characterIdx];
 		
-		//TODO
+		
+		int finalPosition = characterIdx + delta;
+		IBoardElement temporaryElement = board[characterIdx];
+		
+		//La 1ère fois, on place le premeir character sur la position finale.
+		//Puis, tant qu'il y a un character sur une position qui va être assigné (ou un corps si le character un monstre), il faut décaler ce character en direction de la case du premier character
+		//On s'arrete si il n'y a plus de character à décaler ou si on a atteint le premier character.
+		
+		//Par exemple
+		//situation initiale : wizard0         wizard1 monstre0 corpse0  null    null character
+		//                     (finalPosition)
+		//situation finale   : character       wizard0 wizard1  monstre0 corpse0 null null
+		int i = 0;
+		do
+		{
+			IBoardElement swapingElement = board[finalPosition+i];
+			board[finalPosition+i] = temporaryElement;
+			temporaryElement = (Character)swapingElement;
+			i-=direction;
+		}
+		while(finalPosition+i != characterIdx &&
+			  board[finalPosition+i] != null &&
+			  ( !(board[finalPosition+i] instanceof Corpse) || !(temporaryElement instanceof Wizard) ));
+		
+		board[finalPosition+i] = temporaryElement;
 		
 		return delta;
 	}
@@ -165,7 +188,6 @@ public class Game implements IGameListener
 	{
 		return elementaryMove(getBoardElementIdx(character), delta);
 	}
-
 	
 
 	//The turns
@@ -326,7 +348,7 @@ public class Game implements IGameListener
 	
 	private boolean indexCorrespondToCharacter(int idx)
 	{
-		return indexInBoardBounds(currentCharacterIdx) && board[currentCharacterIdx] instanceof Character;
+		return indexInBoardBounds(idx) && board[idx] instanceof Character;
 	}
 	
 	private int getBoardElementIdx(IBoardElement boardElement)
