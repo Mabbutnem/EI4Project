@@ -154,32 +154,34 @@ public class Game implements IGameListener
 		//delta -= -1, delta += 1, delta = -1, position finale = 0 : OK
 		while(!indexInBoardBounds(characterIdx + delta)) { delta -= direction; }
 		
+		if(delta == 0) { return 0; }
+		
 		
 		
 		int finalPosition = characterIdx + delta;
-		IBoardElement temporaryElement = board[characterIdx];
-		
-		//La 1ère fois, on place le premeir character sur la position finale.
-		//Puis, tant qu'il y a un character sur une position qui va être assigné (ou un corps si le character un monstre), il faut décaler ce character en direction de la case du premier character
-		//On s'arrete si il n'y a plus de character à décaler ou si on a atteint le premier character.
-		
-		//Par exemple
-		//situation initiale : wizard0         wizard1 monstre0 corpse0  null    null character
-		//                     (finalPosition)
-		//situation finale   : character       wizard0 wizard1  monstre0 corpse0 null null
-		int i = 0;
-		do
+		//Si un wizard marche sur un corps...
+		if(board[characterIdx] instanceof Wizard && board[finalPosition] instanceof Corpse)
 		{
-			IBoardElement swapingElement = board[finalPosition+i];
-			board[finalPosition+i] = temporaryElement;
-			temporaryElement = (Character)swapingElement;
-			i-=direction;
+			board[finalPosition] = null; //...il le détruit
 		}
-		while(finalPosition+i != characterIdx &&
-			  board[finalPosition+i] != null &&
-			  ( !(board[finalPosition+i] instanceof Corpse) || !(temporaryElement instanceof Wizard) ));
+		IBoardElement temporaryElement = board[finalPosition]; //Si la place est occupée, on enregistre l'occupant
+		board[finalPosition] = board[characterIdx]; //On place le character sur la case ou il veut se déplacer
+		board[characterIdx] = null; //On enlève le character de son ancienne position
 		
-		board[finalPosition+i] = temporaryElement;
+		//On décale l'occupant autant de fois que possible (si lorsqu'on décale l'occupant il y en a un autre à sa position décalée,
+		//Il faut aussi décaler l'autre occupant
+		int i = -direction;
+		while(board[finalPosition+i] != null && temporaryElement != null)
+		{
+			IBoardElement swapElement = board[finalPosition+i];
+			board[finalPosition+i] = temporaryElement;
+			temporaryElement = swapElement;
+			
+			i -= direction;
+		}
+		
+		//On place le dernier occupant décalé sur une case vide
+		if(board[finalPosition+i] == null) { board[finalPosition+i] = temporaryElement; }
 		
 		return delta;
 	}
