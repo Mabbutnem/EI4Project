@@ -229,10 +229,12 @@ public class Game implements IGameListener
 				w.resetMana();
 				w.resetMove();
 				w.resetRange();
+				w.getZoneGroup().unbanish();
+				w.getZoneGroup().unvoid();
 			}
 		}
 		
-		wizardsTurn = !wizardsTurn;
+		wizardsTurn = false;
 		
 		nextMonster();
 	}
@@ -272,6 +274,7 @@ public class Game implements IGameListener
 		
 		if(!monsterFounded)
 		{
+			setCurrentCharacter(null);
 			endMonstersTurn();
 		}
 	}
@@ -290,8 +293,11 @@ public class Game implements IGameListener
 				m.setPlayed(false);
 			}
 		}
-		
-		wizardsTurn = !wizardsTurn;
+	}
+	
+	public boolean monstersTurnFinished()
+	{
+		return !wizardsTurn && getCurrentCharacter() == null;
 	}
 
 
@@ -301,6 +307,10 @@ public class Game implements IGameListener
 		return castZone;
 	}
 
+	
+	
+	//monsterToSpawn
+	
 
 
 	//Level Difficulty
