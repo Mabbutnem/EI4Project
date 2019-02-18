@@ -40,13 +40,14 @@ public class TestGame
 		when(gameConstant.getLevelMaxDifficulty()).thenReturn(10);
 		when(gameConstant.getNbWizard()).thenReturn(3);
 		
-		g = new Game();
+		g = new Game(new Wizard[0]);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	
 	
 	
 	@Test

@@ -17,23 +17,28 @@ import zone.CastZone;
 public class Game implements IGameListener
 {
 	private static GameConstant gameConstant;
-	
-	private boolean wizardsTurn;
-	private int currentCharacterIdx;
+
+	private int nbWizards;
+	private int nbMonstersAndCorpses;
+	private Character currentCharacter;
+	private IBoardElement[] board;
 	private boolean[] wizardsRange;
 	private boolean[] currentCharacterRange;
-	private IBoardElement[] board;
-	private List<Wizard> wizards;
+	private boolean wizardsTurn;
 	private CastZone castZone;
 	private List<MonsterFactory> monsterToSpawn;
 	private int levelDifficulty;
 	
 	
 	
-	public Game()
+	public Game(Wizard[] wizards)
 	{
 		//TODO
 		Preconditions.checkState(gameConstant != null, "gameConstant was not initialised (in static)");
+		
+		Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s", wizards.length, gameConstant.getNbWizard());
+		
+		
 	}
 
 	
@@ -41,24 +46,35 @@ public class Game implements IGameListener
 	public static GameConstant getGameConstant() { return gameConstant; }
 	public static void setGameConstant(GameConstant gameConstant) { Game.gameConstant = gameConstant; }
 
+	
+	
+	//finish and win condition
+	public boolean isFinished()
+	{
+		return nbWizards == 0 || levelDifficulty == gameConstant.getLevelMaxDifficulty();
+	}
+	
+	public boolean isVictory()
+	{
+		return nbWizards > 0 && levelDifficulty == gameConstant.getLevelMaxDifficulty();
+	}
+	
 
 
 	//Current character
 	public Character getCurrentCharacter() {
-		return (Character) board[currentCharacterIdx];
+		return currentCharacter;
 	}
 	
 	public void setCurrentCharacter(Character character) {
-		int idx = getBoardElementIdx(character);
-		
-		this.currentCharacterIdx = idx;
+		this.currentCharacter = character;
 	}
 
-	public void setCurrentCharacterIdx(int currentCharacterIdx)
+	public void setCurrentCharacter(int currentCharacterIdx)
 	{
 		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
-		this.currentCharacterIdx = currentCharacterIdx;
+		this.currentCharacter = (Character) board[currentCharacterIdx];
 	}
 	
 	
@@ -77,6 +93,7 @@ public class Game implements IGameListener
 		resetCurrentCharacterRange();
 		
 		int range = getCurrentCharacter().getRange();
+		int currentCharacterIdx = this.getBoardElementIdx(getCurrentCharacter());
 		
 		for(int r = -range; r < range+1; r++)
 		{
@@ -103,14 +120,17 @@ public class Game implements IGameListener
 	{
 		resetWizardsRange();
 		
-		for(Wizard w : wizards)
+		for(int i = 0; i < board.length; i++)
 		{
-			int idx = getBoardElementIdx(w);
-			int range = w.getRange();
-			
-			for(int r = -range; r < range+1; r++)
+			if(board[i] instanceof Wizard)
 			{
-				if(indexInBoardBounds(idx+r)) { wizardsRange[idx+r] = true; }
+				Wizard w = (Wizard) board[i];
+				
+				int range = w.getRange();
+				for(int r = -range; r < range+1; r++)
+				{
+					if(indexInBoardBounds(i+r)) { wizardsRange[i+r] = true; }
+				}
 			}
 		}
 		
@@ -143,8 +163,10 @@ public class Game implements IGameListener
 	
 	
 	//The movements
-	public int elementaryMove(int characterIdx, int delta) //return statement : the actual delta you have done
+	public int elementaryMove(Character character, int delta) //return statement : the actual delta you have done
 	{
+		int characterIdx = getBoardElementIdx(character);
+		
 		Preconditions.checkArgument(indexCorrespondToCharacter(characterIdx), "characterIdx don't correspond to a character");
 		
 		int direction = (int)Math.signum(delta);
@@ -169,7 +191,7 @@ public class Game implements IGameListener
 		board[characterIdx] = null; //On enlève le character de son ancienne position
 		
 		//On décale l'occupant autant de fois que possible (si lorsqu'on décale l'occupant il y en a un autre à sa position décalée,
-		//Il faut aussi décaler l'autre occupant
+		//Il faut aussi décaler l'autre occupant)
 		int i = -direction;
 		while(board[finalPosition+i] != null && temporaryElement != null)
 		{
@@ -186,12 +208,8 @@ public class Game implements IGameListener
 		return delta;
 	}
 	
-	public int elementaryMove(Character character, int delta)
-	{
-		return elementaryMove(getBoardElementIdx(character), delta);
-	}
-	
 
+	
 	//The turns
 	public boolean isWizardsTurn() {
 		return wizardsTurn;
@@ -201,12 +219,17 @@ public class Game implements IGameListener
 	{
 		Preconditions.checkState(isWizardsTurn(), "in order to end wizard's turn, it has to be wizard's turn");
 		
-		for(Wizard w : wizards)
+		for(IBoardElement elem : board)
 		{
-			w.resetFreeze();
-			w.resetMana();
-			w.resetMove();
-			w.resetRange();
+			if(elem instanceof Wizard)
+			{
+				Wizard w = (Wizard) elem;
+				
+				w.resetFreeze();
+				w.resetMana();
+				w.resetMove();
+				w.resetRange();
+			}
 		}
 		
 		wizardsTurn = !wizardsTurn;
@@ -239,7 +262,7 @@ public class Game implements IGameListener
 				if(!m.hasPlayed())
 				{
 					monsterFounded = true;
-					setCurrentCharacterIdx(i);
+					setCurrentCharacter((Character) board[i]);
 					m.setPlayed(true);
 				}
 			}
@@ -284,6 +307,16 @@ public class Game implements IGameListener
 	public int getLevelDifficulty() {
 		return levelDifficulty;
 	}
+	
+	public boolean levelFinished()
+	{
+		return nbMonstersAndCorpses == 0;
+	}
+	
+	public void nextLevel(Level level)
+	{
+		//TODO
+	}
 
 
 
@@ -308,7 +341,6 @@ public class Game implements IGameListener
 			if(boardElement instanceof Wizard)
 			{
 				board[idx] = null;
-				wizards.remove(boardElement);
 			}
 			
 			refreshRange((Character) boardElement);
@@ -326,23 +358,6 @@ public class Game implements IGameListener
 	
 	
 	//Utility fonctions
-	private void resetWizards()
-	{
-		int i = 0;
-		int nbWizards = 0;
-		while(i < board.length && nbWizards < gameConstant.getNbWizard())
-		{
-			if(board[i] instanceof Wizard)
-			{
-				wizards.add((Wizard) board[i]);
-				
-				nbWizards++;
-			}
-			
-			i++;
-		}
-	}
-	
 	private boolean indexInBoardBounds(int idx)
 	{
 		return idx >= 0 && idx < board.length;
