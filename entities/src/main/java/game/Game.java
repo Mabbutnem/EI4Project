@@ -1,5 +1,6 @@
 package game;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -26,17 +27,17 @@ public class Game implements IGameListener
 	private boolean[] currentCharacterRange;
 	private boolean wizardsTurn;
 	private CastZone castZone;
-	private List<MonsterFactory> monsterToSpawn;
+	private List<MonsterFactory> monstersToSpawn;
 	private int levelDifficulty;
 	
 	
 	
-	public Game(Wizard[] wizards)
+	public Game()//Wizard[] wizards)
 	{
 		//TODO
 		Preconditions.checkState(gameConstant != null, "gameConstant was not initialised (in static)");
 		
-		Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s", wizards.length, gameConstant.getNbWizard());
+		//Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s", wizards.length, gameConstant.getNbWizard());
 		
 		
 	}
@@ -51,12 +52,12 @@ public class Game implements IGameListener
 	//finish and win condition
 	public boolean isFinished()
 	{
-		return nbWizards == 0 || levelDifficulty == gameConstant.getLevelMaxDifficulty();
+		return nbWizards == 0 || levelDifficulty > gameConstant.getLevelMaxDifficulty();
 	}
 	
 	public boolean isVictory()
 	{
-		return nbWizards > 0 && levelDifficulty == gameConstant.getLevelMaxDifficulty();
+		return nbWizards > 0 && levelDifficulty > gameConstant.getLevelMaxDifficulty();
 	}
 	
 
@@ -75,6 +76,11 @@ public class Game implements IGameListener
 		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
 		this.currentCharacter = (Character) board[currentCharacterIdx];
+	}
+	
+	public void setFirstWizardAsCurrentCharacter()
+	{
+		//TODO
 	}
 	
 	
@@ -160,6 +166,18 @@ public class Game implements IGameListener
 		//refreshWizardsRange();
 	}
 	
+	public int nbBoardElements()
+	{
+		int number = 0;
+		
+		for(IBoardElement elem : board)
+		{
+			number += elem != null ? 1 : 0;
+		}
+		
+		return number;
+	}
+	
 	
 	
 	//The movements
@@ -241,12 +259,12 @@ public class Game implements IGameListener
 	
 	public void playMonstersTurnPart1()
 	{
-		
+		//TODO
 	}
 	
 	public void playMonstersTurnPart2()
 	{
-		
+		//TODO
 	}
 	
 	public void nextMonster()
@@ -309,7 +327,43 @@ public class Game implements IGameListener
 
 	
 	
-	//monsterToSpawn
+	//Wizard's spawn
+	private void spawnWizards(Wizard[] wizards)
+	{
+		for(int i = 0; i < wizards.length; i++)
+		{
+			board[i] = wizards[i];
+		}
+	}
+	
+	public void moveWizardsToTheirSpawns()
+	{
+		List<Wizard> lw = new LinkedList<>();
+		
+		for(int i = 0; i < board.length; i++)
+		{
+			if(board[i] instanceof Wizard)
+			{
+				lw.add((Wizard) board[i]);
+				board[i] = null;
+			}
+		}
+		
+		spawnWizards(lw.toArray(new Wizard[0]));
+	}
+	
+	
+	
+	//Monster's spawn
+	public void spawnMonster(Monster monster)
+	{
+		//TODO
+	}
+	
+	public MonsterFactory[] getMonstersToSpawn()
+	{
+		return monstersToSpawn.toArray(new MonsterFactory[0]);
+	}
 	
 
 
@@ -320,7 +374,7 @@ public class Game implements IGameListener
 	
 	public boolean levelFinished()
 	{
-		return nbMonstersAndCorpses == 0;
+		return nbMonstersAndCorpses == 0 && monstersToSpawn.isEmpty();
 	}
 	
 	public void nextLevel(Level level)
@@ -388,7 +442,7 @@ public class Game implements IGameListener
 			i++;
 		}
 		
-		Preconditions.checkState(i < board.length, "boardElement was not found in the board");
+		Preconditions.checkArgument(i < board.length, "boardElement was not found in the board");
 		
 		return i;
 	}

@@ -21,6 +21,12 @@ public class TestGame
 	private Game g;
 	
 	private GameConstant gameConstant;
+	
+	private Wizard w;
+	private Wizard w0;
+	private Monster m;
+	private Monster m0;
+	private Corpse c;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -34,13 +40,18 @@ public class TestGame
 	public void setUp() throws Exception
 	{
 		Game.setGameConstant(gameConstant = mock(GameConstant.class));
-		
 		when(gameConstant.getBoardLenght()).thenReturn(6);
 		when(gameConstant.getLevelCost()).thenReturn(50);
 		when(gameConstant.getLevelMaxDifficulty()).thenReturn(10);
 		when(gameConstant.getNbWizard()).thenReturn(3);
 		
-		g = new Game(new Wizard[0]);
+		w = mock(Wizard.class);
+		w0 = mock(Wizard.class);
+		m = mock(Monster.class);
+		m0 = mock(Monster.class);
+		c = mock(Corpse.class);
+		
+		g = new Game();
 	}
 
 	@After
@@ -51,14 +62,8 @@ public class TestGame
 	
 	
 	@Test
-	public final void testElementaryMoveCharacterInt()
+	public final void testElementaryMove()
 	{
-		Wizard w = mock(Wizard.class); Wizard w0 = mock(Wizard.class);
-		Monster m = mock(Monster.class); Monster m0 = mock(Monster.class);
-		Corpse c = mock(Corpse.class);
-		
-		
-		
 		
 		//Situation basique (vers la droite)
 		g.setBoard(new IBoardElement[]
