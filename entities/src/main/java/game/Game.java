@@ -1,5 +1,6 @@
 package game;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,7 +81,13 @@ public class Game implements IGameListener
 	
 	public void setFirstWizardAsCurrentCharacter()
 	{
-		//TODO
+		int i = 0;
+		while(i < board.length && !(board[i] instanceof Wizard))
+		{
+			i++;
+		}
+		
+		if(board[i] instanceof Wizard) { setCurrentCharacter((Character) board[i]); }
 	}
 	
 	
@@ -185,8 +192,6 @@ public class Game implements IGameListener
 	{
 		int characterIdx = getBoardElementIdx(character);
 		
-		Preconditions.checkArgument(indexCorrespondToCharacter(characterIdx), "characterIdx don't correspond to a character");
-		
 		int direction = (int)Math.signum(delta);
 		
 		//Tant que la position finale (characterIdx+delta) n'est pas dans le board, réduis le déplacement de 1
@@ -226,6 +231,106 @@ public class Game implements IGameListener
 		return delta;
 	}
 	
+	public void rightWalk(Character character)
+	{
+		int actualDelta = elementaryMove(character, 1);
+		if(actualDelta != 0) { character.loseMove(Math.abs(actualDelta)); }
+	}
+	
+	public void leftWalk(Character character)
+	{
+		int actualDelta = elementaryMove(character, -1);
+		if(actualDelta != 0) { character.loseMove(Math.abs(actualDelta)); }
+	}
+	
+	public void rightDash(Character character)
+	{
+		int actualDelta = elementaryMove(character, character.getDash());
+		if(actualDelta != 0) { character.loseDash(Math.abs(actualDelta)); }
+	}
+	
+	public void leftDash(Character character)
+	{
+		int actualDelta = elementaryMove(character, -character.getDash());
+		if(actualDelta != 0) { character.loseDash(Math.abs(actualDelta)); }
+	}
+	
+	public void push(Character referenceCharacter, Character[] characters, int delta)
+	{
+		Preconditions.checkArgument(characters != null, "characters was null but expected not null");
+		Preconditions.checkArgument(delta > 0, "delta was %s but expected strictly positive");
+		
+		List<Character> charactersList = Arrays.asList(characters);
+		Preconditions.checkArgument(!charactersList.contains(referenceCharacter), "you can't push yourself");
+		int referenceIdx = getBoardElementIdx(referenceCharacter);
+		
+		//Vers la gauche
+		for(int i = 0; i < referenceIdx; i++)
+		{
+			if(board[i] instanceof Character)
+			{
+				Character c = (Character) board[i];
+				
+				if(charactersList.contains(c))
+				{
+					elementaryMove(c, -delta);
+				}
+			}
+		}
+		
+		//Vers la droite
+		for(int i = board.length-1; i > referenceIdx; i--)
+		{
+			if(board[i] instanceof Character)
+			{
+				Character c = (Character) board[i];
+				
+				if(charactersList.contains(c))
+				{
+					elementaryMove(c, delta);
+				}
+			}
+		}
+	}
+	
+	public void pull(Character referenceCharacter, Character[] characters, int delta)
+	{
+		Preconditions.checkArgument(characters != null, "characters was null but expected not null");
+		Preconditions.checkArgument(delta > 0, "delta was %s but expected strictly positive");
+		
+		List<Character> charactersList = Arrays.asList(characters);
+		Preconditions.checkArgument(!charactersList.contains(referenceCharacter), "you can't pull yourself");
+		int referenceIdx = getBoardElementIdx(referenceCharacter);
+		
+		//Vers la gauche
+		for(int i = referenceIdx-1; i >= 0; i--)
+		{
+			if(board[i] instanceof Character)
+			{
+				Character c = (Character) board[i];
+				
+				if(charactersList.contains(c))
+				{
+					elementaryMove(c, Math.min(delta, referenceIdx-i-1));
+				}
+			}
+		}
+		
+		//Vers la droite
+		for(int i = referenceIdx+1; i < board.length; i++)
+		{
+			if(board[i] instanceof Character)
+			{
+				Character c = (Character) board[i];
+				
+				if(charactersList.contains(c))
+				{
+					elementaryMove(c, -Math.min(delta, i-referenceIdx-1));
+				}
+			}
+		}
+	}
+	
 
 	
 	//The turns
@@ -255,6 +360,11 @@ public class Game implements IGameListener
 		wizardsTurn = false;
 		
 		nextMonster();
+	}
+	
+	public boolean currentCharacterInWizardsRange()
+	{
+		return this.wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
 	}
 	
 	public void playMonstersTurnPart1()
@@ -355,14 +465,36 @@ public class Game implements IGameListener
 	
 	
 	//Monster's spawn
-	public void spawnMonster(Monster monster)
-	{
-		//TODO
-	}
-	
 	public MonsterFactory[] getMonstersToSpawn()
 	{
 		return monstersToSpawn.toArray(new MonsterFactory[0]);
+	}
+	
+	public void spawnMonster(Monster monster)
+	{
+		Preconditions.checkState(nbBoardElements() < board.length, "No space for an additional monster");
+		
+		Preconditions.checkArgument(monster != null, "monster was null but expected not null");
+		
+		int spawnPosition = board.length - 1;
+		
+		IBoardElement temporaryElement = board[spawnPosition]; //Si la place est occupée, on enregistre l'occupant
+		board[spawnPosition] = monster; //On place le monstre sur la case ou il doit spawner
+		
+		//On décale l'occupant autant de fois que possible (si lorsqu'on décale l'occupant il y en a un autre à sa position décalée,
+		//Il faut aussi décaler l'autre occupant)
+		int i = -1;
+		while(board[spawnPosition+i] != null && temporaryElement != null)
+		{
+			IBoardElement swapElement = board[spawnPosition+i];
+			board[spawnPosition+i] = temporaryElement;
+			temporaryElement = swapElement;
+			
+			i--;
+		}
+		
+		//On place le dernier occupant décalé sur une case vide
+		if(board[spawnPosition+i] == null) { board[spawnPosition+i] = temporaryElement; }
 	}
 	
 
