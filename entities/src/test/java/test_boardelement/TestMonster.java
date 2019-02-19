@@ -34,11 +34,9 @@ public class TestMonster {
 
 	}
 	private Monster m;
-	private MockGameListener gameListener;
 	
 	private MonsterFactory mFactory;
 	
-	private float[] proba;
 	private Incantation[] incantations;
 	private Incantation inc1;
 	private Incantation inc2;
@@ -57,12 +55,7 @@ public class TestMonster {
 	@Before
 	public void setUp() throws Exception
 	{
-		Character.setGameListener(gameListener = mock(MockGameListener.class));
-		
-		proba = new float[]
-				{
-						1/13f, 3/13f, 13/13f,
-				};
+		Character.setGameListener(mock(MockGameListener.class));
 		
 		incantations = new Incantation[]
 				{
