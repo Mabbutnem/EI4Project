@@ -34,11 +34,9 @@ public class TestMonster {
 
 	}
 	private Monster m;
-	private MockGameListener gameListener;
 	
 	private MonsterFactory mFactory;
 	
-	private float[] proba;
 	private Incantation[] incantations;
 	private Incantation inc1;
 	private Incantation inc2;
@@ -57,12 +55,7 @@ public class TestMonster {
 	@Before
 	public void setUp() throws Exception
 	{
-		Character.setGameListener(gameListener = mock(MockGameListener.class));
-		
-		proba = new float[]
-				{
-						1/13f, 3/13f, 13/13f,
-				};
+		Character.setGameListener(mock(MockGameListener.class));
 		
 		incantations = new Incantation[]
 				{
@@ -197,7 +190,75 @@ public class TestMonster {
 	
 	@Test
 	public void TestGetRandomIncantationProportion() {
-		fail();
+		int delta = 200;
+		
+		int[] expected = new int[] {770, 1540, 7690};
+		int[] result = new int[] {0, 0, 0};
+		
+		for(int i = 0; i < 10000; i++)
+		{
+			String name = m.getRandomIncantation().getName();
+			switch(name) {
+				case "inc1": result[0]++;
+							break;
+				case "inc2" : result[1]++;
+							break;
+				case "inc3" : result[2]++;
+							break;
+			}
+		}
+
+		for(int i = 0; i < expected.length; i++)
+		{
+			assertEquals(expected[i], result[i], delta);
+		}
+	}
+	
+	@Test
+	public void TestSetHealth() {
+		int expected = 70;
+		int result;
+		
+		m.setHealth(75);
+		result = m.getHealth();
+		assertEquals(expected, result);
+		
+		m.setHealth(50);
+		expected = 50;
+		result = m.getHealth();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public void TestReset() {
+		m.setHealth(55);
+		m.setArmor(10);
+		m.setRange(1);
+		m.setFreeze(true);
+		m.setMove(0);
+		
+		m.reset();
+		
+		int expected = m.getMaxHealth();
+		int result = m.getHealth();
+		assertEquals(expected, result);
+		
+		expected = m.getInitArmor();
+		result = m.getArmor();
+		assertEquals(expected, result);
+		
+		expected = m.getBaseRange();
+		result = m.getRange();
+		assertEquals(expected, result);
+		
+		expected = m.getBaseMove();
+		result = m.getMove();
+		assertEquals(expected, result);
+		
+		boolean expectedB = false;
+		boolean resultB = m.isFreeze();
+		assertEquals(expectedB, resultB);
+		
 	}
 
 }
