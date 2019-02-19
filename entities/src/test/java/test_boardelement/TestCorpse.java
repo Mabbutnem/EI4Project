@@ -1,8 +1,7 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,11 +54,18 @@ public class TestCorpse {
 		Monster expectedM = m;
 		Monster resultM = corpse.getMonster();
 		assertEquals(expectedM, resultM);
+		verify(m, times(1)).reset();
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public void testCorpseException() {
+	public void testCorpseException1() {
 		corpse = new Corpse(null);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public void testCorpseException2() {
+		Corpse.setCorpseConstant(null);
+		corpse = new Corpse(m);
 	}
 	
 	@Test

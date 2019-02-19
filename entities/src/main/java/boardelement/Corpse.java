@@ -21,6 +21,7 @@ public class Corpse implements IBoardElement
 		
 		Preconditions.checkArgument(monster != null, "monster was null but expected not null");
 		
+		monster.reset();
 		this.monster = monster;
 		willReborn = Proba.willHappen(monster.getRebornProbability());
 		counterToReborn = 0;
