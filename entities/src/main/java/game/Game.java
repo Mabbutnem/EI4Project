@@ -1,8 +1,11 @@
 package game;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import com.google.common.base.Preconditions;
 
@@ -12,8 +15,11 @@ import boardelement.IBoardElement;
 import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
+import boardelement.WizardFactory;
 import constant.GameConstant;
 import listener.IGameListener;
+import spell.Card;
+import target.TargetConstraint;
 import zone.CastZone;
 
 public class Game implements IGameListener
@@ -33,13 +39,25 @@ public class Game implements IGameListener
 	
 	
 	
-	public Game()//Wizard[] wizards)
+	public Game(Wizard[] wizards)
 	{
-		//TODO
 		Preconditions.checkState(gameConstant != null, "gameConstant was not initialised (in static)");
 		
-		//Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s", wizards.length, gameConstant.getNbWizard());
+		Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s",
+				wizards.length, gameConstant.getNbWizard());
 		
+		
+		nbWizards = gameConstant.getNbWizard();
+		nbMonstersAndCorpses = 0;
+		currentCharacter = null;
+		board = new IBoardElement[gameConstant.getBoardLenght()];
+		wizardsRange = new boolean[gameConstant.getBoardLenght()];
+		currentCharacterRange = new boolean[gameConstant.getBoardLenght()];
+		spawnWizards(wizards);
+		wizardsTurn = false;
+		castZone = new CastZone();
+		monstersToSpawn = new LinkedList<>();
+		levelDifficulty = 0;
 		
 	}
 
@@ -88,29 +106,97 @@ public class Game implements IGameListener
 		}
 		
 		if(board[i] instanceof Wizard) { setCurrentCharacter((Character) board[i]); }
+		else { setCurrentCharacter(null); }
+	}
+	
+	
+	
+	//Targets for current character
+	private List<Character> getAllVisibleTargetForCurrentCharacter()
+	{
+		List<Character> lc = new LinkedList<>();
+		
+		for(int i = 0; i < board.length; i++)
+		{
+			if(board[i] instanceof Character && currentCharacterRange[i])
+			{
+				lc.add((Character) board[i]);
+			}
+		}
+		
+		return lc;
+	}
+	
+	public Character getRandomAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
+	{
+		Character[] characters = getAllAvailableTargetForCurrentCharacter(constraints);
+		
+		Random r = new Random();
+		
+		return characters[r.nextInt(characters.length)];
+	}
+	
+	public Character[] getAllAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
+	{
+		List<Character> lc = getAllVisibleTargetForCurrentCharacter();
+		
+		List<TargetConstraint> constraintsList = Arrays.asList(constraints);
+		
+		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Wizard)
+			|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Monster) )
+		{
+			lc.removeIf(c -> c instanceof Wizard);
+		}
+		
+		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Monster)
+				|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Wizard) )
+		{
+			lc.removeIf(c -> c instanceof Monster);
+		}
+		
+		if(constraintsList.contains(TargetConstraint.NOTYOU))
+		{
+			lc.remove(getCurrentCharacter());
+		}
+		
+		return lc.toArray(new Character[0]);
+	}
+	
+	public boolean isValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
+	{
+		return getAllVisibleTargetForCurrentCharacter().contains(character);
+	}
+	
+	public boolean hasValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
+	{
+		return !getAllVisibleTargetForCurrentCharacter().isEmpty();
+	}
+	
+	//Targets for the AI of monsters
+	public Character[] getAllPossibleTargetForCurrentCharacter(TargetConstraint[] constraints)
+	{
+		//TODO
+		return null;
 	}
 	
 	
 	
 	//The range array of the current character
-	private void resetCurrentCharacterRange()
+	private void refreshCurrentCharacterRange()
 	{
-		for(int i = 0; i < currentCharacterRange.length; i++)
-		{
-			currentCharacterRange[i] = false;
-		}
-	}
-	
-	public void refreshCurrentCharacterRange()
-	{
-		resetCurrentCharacterRange();
+		for(int i = 0; i < currentCharacterRange.length; i++) { currentCharacterRange[i] = false; }
 		
-		int range = getCurrentCharacter().getRange();
-		int currentCharacterIdx = this.getBoardElementIdx(getCurrentCharacter());
+		Character c = getCurrentCharacter();
 		
-		for(int r = -range; r < range+1; r++)
+		if(c != null)
 		{
-			if(indexInBoardBounds(currentCharacterIdx+r)) { currentCharacterRange[currentCharacterIdx+r] = true; }
+			int range = c.getRange();
+			int currentCharacterIdx = getBoardElementIdx(c);
+		
+			for(int r = -range; r < range+1; r++)
+			{
+				if(indexInBoardBounds(currentCharacterIdx+r)) { currentCharacterRange[currentCharacterIdx+r] = true; }
+			}
 		}
 	}
 	
@@ -121,17 +207,9 @@ public class Game implements IGameListener
 	
 	
 	//The range array of all wizards
-	private void resetWizardsRange()
+	private void refreshWizardsRange()
 	{
-		for(int i = 0; i < wizardsRange.length; i++)
-		{
-			wizardsRange[i] = false;
-		}
-	}
-	
-	public void refreshWizardsRange()
-	{
-		resetWizardsRange();
+		for(int i = 0; i < wizardsRange.length; i++) { wizardsRange[i] = false; }
 		
 		for(int i = 0; i < board.length; i++)
 		{
@@ -168,9 +246,9 @@ public class Game implements IGameListener
 		
 		this.board = board;
 		
-		//TODO
-		//refreshCurrentCharacterRange();
-		//refreshWizardsRange();
+		setFirstWizardAsCurrentCharacter();
+		refreshCurrentCharacterRange();
+		refreshWizardsRange();
 	}
 	
 	public int nbBoardElements()
@@ -352,8 +430,8 @@ public class Game implements IGameListener
 				w.resetMana();
 				w.resetMove();
 				w.resetRange();
-				w.getZoneGroup().unbanish();
 				w.getZoneGroup().unvoid();
+				w.getZoneGroup().unbanish();
 			}
 		}
 		
@@ -402,7 +480,7 @@ public class Game implements IGameListener
 		
 		if(!monsterFounded)
 		{
-			setCurrentCharacter(null);
+			setFirstWizardAsCurrentCharacter();
 			endMonstersTurn();
 		}
 	}
@@ -446,7 +524,7 @@ public class Game implements IGameListener
 		}
 	}
 	
-	public void moveWizardsToTheirSpawns()
+	private void moveWizardsToTheirSpawns()
 	{
 		List<Wizard> lw = new LinkedList<>();
 		
@@ -460,6 +538,23 @@ public class Game implements IGameListener
 		}
 		
 		spawnWizards(lw.toArray(new Wizard[0]));
+	}
+	
+	private void resetWizardsForNextLevel(WizardFactory[] wizardFactory, Card[] cards)
+	//wizardFactory : all the wizardFactories from the JSON file
+	//cards : all the cards from the JSON file
+	{
+		Map<String, WizardFactory> wizardFactoryMap = new HashMap<>();
+		for(WizardFactory wf : wizardFactory) { wizardFactoryMap.put(wf.getName(), wf); }
+		
+		for(int i = 0; i < board.length; i++)
+		{
+			if(board[i] instanceof Wizard)
+			{
+				Wizard w = (Wizard) board[i];
+				w.resetCards(wizardFactoryMap.get(w.getName()), cards);
+			}
+		}
 	}
 	
 	
@@ -509,9 +604,25 @@ public class Game implements IGameListener
 		return nbMonstersAndCorpses == 0 && monstersToSpawn.isEmpty();
 	}
 	
-	public void nextLevel(Level level)
+	public void nextLevel(Level level, WizardFactory[] wizardFactory, Card[] cards, Horde[] hordes, MonsterFactory[] monsterFactory)
+	//wizardFactory : all the wizardFactories from the JSON file
+	//cards : all the cards from the JSON file
+	//hordes : all hordes from the JSON file
+	//monsterFactory : all monsterFactories from the JSON file
 	{
 		//TODO
+		Map<String, Horde> hordesMap = new HashMap<>();
+		for(Horde h : hordes) { hordesMap.put(h.getName(), h); }
+		
+		Map<String, MonsterFactory> monsterFactoryMap = new HashMap<>();
+		for(MonsterFactory mf : monsterFactory) { monsterFactoryMap.put(mf.getName(), mf); }
+		
+		levelDifficulty++;
+		
+		moveWizardsToTheirSpawns();
+		resetWizardsForNextLevel(wizardFactory, cards);
+
+		
 	}
 
 
@@ -525,6 +636,8 @@ public class Game implements IGameListener
 		if(boardElement instanceof Corpse)
 		{
 			board[idx] = null;
+			
+			nbMonstersAndCorpses--;
 		}
 		
 		if(boardElement instanceof Character)
@@ -532,14 +645,22 @@ public class Game implements IGameListener
 			if(boardElement instanceof Monster)
 			{
 				board[idx] = new Corpse((Monster) boardElement);
+				
+				refreshRange((Character) boardElement);
+				
+				if(boardElement == getCurrentCharacter()) { nextMonster(); }
 			}
 			
 			if(boardElement instanceof Wizard)
 			{
 				board[idx] = null;
+				
+				refreshRange((Character) boardElement);
+				
+				if(boardElement == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
+				
+				nbWizards--;
 			}
-			
-			refreshRange((Character) boardElement);
 		}
 		
 	}

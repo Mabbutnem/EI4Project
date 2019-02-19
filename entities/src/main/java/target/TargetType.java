@@ -8,7 +8,6 @@ public enum TargetType
 	RANDOM,
 	AREA,
 	YOU,
-	PREVIOUS,
 	MORE;
 	
 	

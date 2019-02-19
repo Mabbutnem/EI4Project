@@ -61,7 +61,23 @@ public class TestGame
 
 	
 	
+	//finish and win condition
 	
+	//Current character
+	
+	//Targets for current character
+	
+	//Targets for the AI of monsters
+	
+	//The range array of the current character
+	
+	//The range array of all wizards
+	
+	//The board
+	
+	
+	
+	//The movements
 	@Test
 	public final void testElementaryMove()
 	{
@@ -674,6 +690,17 @@ public class TestGame
 		g.pull(null, new Character[] {w0}, 0);
 	}
 
+	
+	
+	//The turns
+	
+	//Cast zone
+	
+	//Wizard's spawn
+	
+	
+	
+	//Monster's spawn
 	@Test
 	public final void testSpawnMonster()
 	{
@@ -746,4 +773,11 @@ public class TestGame
 				});
 		g.spawnMonster(m);
 	}
+	
+	
+	
+	//Level Difficulty
+	
+	//IGameListener Methods
+	
 }
