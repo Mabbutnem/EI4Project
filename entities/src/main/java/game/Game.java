@@ -21,7 +21,6 @@ import boardelement.WizardFactory;
 import constant.GameConstant;
 import listener.IGameListener;
 import spell.Card;
-import spell.Incantation;
 import target.TargetConstraint;
 import utility.Proba;
 import zone.CastZone;

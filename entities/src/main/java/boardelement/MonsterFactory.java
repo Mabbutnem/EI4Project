@@ -1,12 +1,15 @@
 package boardelement;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
+import utility.INamedObject;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class MonsterFactory
+public class MonsterFactory implements INamedObject
 {
 	private String name;
 	private int maxHealth;
@@ -44,7 +47,19 @@ public class MonsterFactory
 		this.rebornProbability = rebornProbability;
 	}
 
-
+	public MonsterFactory(MonsterFactory monsterFactory)
+	{
+		this.name = monsterFactory.getName();
+		this.maxHealth = monsterFactory.getMaxHealth();
+		this.initArmor = monsterFactory.getInitArmor();
+		this.baseMove = monsterFactory.getBaseMove();
+		this.baseRange = monsterFactory.getBaseRange();
+		this.mapIncantationsFrequencies = monsterFactory.getMapIncantationsFrequencies()
+				.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); //Copy of the Map
+		this.rebornProbability = monsterFactory.getRebornProbability();
+	}
+	
+	
 
 	public String getName() {
 		return name;
@@ -72,5 +87,12 @@ public class MonsterFactory
 
 	public float getRebornProbability() {
 		return rebornProbability;
+	}
+
+	
+	
+	@Override
+	public INamedObject cloneObject() {
+		return new MonsterFactory(this);
 	}
 }

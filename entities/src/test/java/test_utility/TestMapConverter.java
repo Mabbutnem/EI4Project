@@ -101,11 +101,11 @@ public class TestMapConverter {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetObjectsFromMapNamesFrequenciesException() {
 		Map<String, Integer> mapNamesFrequencies = new HashMap<String, Integer>();
-		mapNamesFrequencies.put("nota", 100);
+		mapNamesFrequencies.put("f", 100);
 		
 		INamedObject[] objects = new INamedObject[] {A, B, C, D, E};
 		
-		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesFrequencies(mapNamesFrequencies, objects);
+		MapConverter.getObjectsFromMapNamesFrequencies(mapNamesFrequencies, objects);
 	}
 	
 	@Test
@@ -126,11 +126,12 @@ public class TestMapConverter {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetFrequenciesFromMapNamesFrequenciesException() {
 		Map<String, Integer> mapNamesFrequencies = new HashMap<String, Integer>();
-		mapNamesFrequencies.put("nota", 100);
+		mapNamesFrequencies.put("a", 100);
+		mapNamesFrequencies.put("d", 100);
 		
 		INamedObject[] copieObjects = new INamedObject[] {copieDeB, copieDeA, copieDeD};
 		
-		int[] frequencies = MapConverter.getFrequenciesFromMapNamesFrequencies(mapNamesFrequencies, copieObjects);
+		MapConverter.getFrequenciesFromMapNamesFrequencies(mapNamesFrequencies, copieObjects);
 	}
 	
 	@Test
@@ -163,11 +164,11 @@ public class TestMapConverter {
 	@Test (expected = IllegalArgumentException.class)
 	public void testGetObjectsFromMapNamesQuantitiesException() {
 		Map<String, Integer> mapNamesQuantities = new HashMap<String, Integer>();
-		mapNamesQuantities.put("nota", 2);
+		mapNamesQuantities.put("f", 2);
 		
 		INamedObject[] objects = new INamedObject[] {A, B, C, D, E};
 		
-		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesQuantities(mapNamesQuantities, objects);
+		MapConverter.getObjectsFromMapNamesQuantities(mapNamesQuantities, objects);
 	}
 
 }

@@ -1,5 +1,7 @@
 package spell;
 
+import utility.INamedObject;
+
 public class Card extends ManaCostSpell
 {
 	private boolean revealed;
@@ -21,6 +23,13 @@ public class Card extends ManaCostSpell
 
 	public void setRevealed(boolean revealed) {
 		this.revealed = revealed;
+	}
+
+
+
+	@Override
+	public INamedObject cloneObject() {
+		return new Card(this);
 	}
 	
 }

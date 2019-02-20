@@ -1,12 +1,15 @@
 package game;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
+import utility.INamedObject;
+
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Horde
+public class Horde implements INamedObject
 {
 	private String name;
 	private int cost;
@@ -16,8 +19,6 @@ public class Horde
 	public Horde() {
 		//Empty constructor for jackson
 	}
-	
-	
 	
 	public Horde(String name, int cost, Map<String, Integer> mapMonstersQuantity) {
 		Preconditions.checkArgument(name.length() > 0, "name length was %s but expected strictly positive", name.length());
@@ -31,6 +32,14 @@ public class Horde
 		this.mapMonstersQuantity = mapMonstersQuantity;
 	}
 
+	public Horde(Horde horde)
+	{
+		this.name = horde.getName();
+		this.cost = horde.getCost();
+		this.mapMonstersQuantity = horde.getMapMonstersQuantity()
+				.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)); //Copy of the Map
+	}
+
 
 
 	public String getName() {
@@ -41,6 +50,13 @@ public class Horde
 	}
 	public Map<String, Integer> getMapMonstersQuantity() {
 		return mapMonstersQuantity;
+	}
+
+
+
+	@Override
+	public INamedObject cloneObject() {
+		return new Horde(this);
 	}
 
 }
