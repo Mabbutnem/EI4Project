@@ -11,21 +11,23 @@ public class MapConverter
 	
 	
 	
-	public static INamedObject[] blabla(Map<String, Integer> mapINamedObjectAndFreq, INamedObject[] namedObjects)
+	public static INamedObject[] getObjectsFromMapNamesFrequencies(Map<String, Integer> mapNamesFrequencies, INamedObject[] namedObjects)
 	//namedObjects : all namedObjects from the JSON file
 	{
 		//TODO
 		return null;
 	}
 	
-	public static int[] blabla2(Map<String, Integer> mapINamedObjectAndFreq, INamedObject[] namedObjects)
+	public static int[] getFrequenciesFromMapNamesFrequencies(Map<String, Integer> mapNamesFrequencies, INamedObject[] namedObjects)
 	//namedObjects : all namedObjects from the JSON file
 	{
 		//TODO
 		return null;
 	}
 	
-	public static INamedObject[] blabla3(Map<String, Integer> mapINamedObjectAndFreq, INamedObject[] namedObjects)
+	
+	
+	public static INamedObject[] getObjectsFromMapNamesQuantities(Map<String, Integer> mapNamesQuantities, INamedObject[] namedObjects)
 	//namedObjects : all namedObjects from the JSON file
 	{
 		//TODO
