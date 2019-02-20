@@ -40,19 +40,30 @@ public class TestMapConverter {
 	public void setUp() throws Exception
 	{
 		copieDeA = mock(INamedObject.class);
+		when(copieDeA.getName()).thenReturn("a");
 		copieDeB = mock(INamedObject.class);
+		when(copieDeB.getName()).thenReturn("b");
 		copieDeC = mock(INamedObject.class);
+		when(copieDeC.getName()).thenReturn("c");
 		copieDeD = mock(INamedObject.class);
+		when(copieDeD.getName()).thenReturn("d");
 		copieDeE = mock(INamedObject.class);
+		when(copieDeE.getName()).thenReturn("e");
+		
 		A = mock(INamedObject.class);
+		when(A.getName()).thenReturn("a");
 		when(A.cloneObject()).thenReturn(copieDeA);
 		B = mock(INamedObject.class);
+		when(B.getName()).thenReturn("b");
 		when(B.cloneObject()).thenReturn(copieDeB);
 		C = mock(INamedObject.class);
+		when(C.getName()).thenReturn("c");
 		when(C.cloneObject()).thenReturn(copieDeC);
 		D = mock(INamedObject.class);
+		when(D.getName()).thenReturn("d");
 		when(D.cloneObject()).thenReturn(copieDeD);
 		E = mock(INamedObject.class);
+		when(E.getName()).thenReturn("e");
 		when(E.cloneObject()).thenReturn(copieDeE);
 	}
 
@@ -87,6 +98,41 @@ public class TestMapConverter {
 		assertArrayEquals(expected, result);
 	}
 	
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetObjectsFromMapNamesFrequenciesException() {
+		Map<String, Integer> mapNamesFrequencies = new HashMap<String, Integer>();
+		mapNamesFrequencies.put("nota", 100);
+		
+		INamedObject[] objects = new INamedObject[] {A, B, C, D, E};
+		
+		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesFrequencies(mapNamesFrequencies, objects);
+	}
+	
+	@Test
+	public void testGetFrequenciesFromMapNamesFrequencies() {
+		int[] expected = new int[] { 50, 100, 20};
+		int[] result = new int[] { 0, 0, 0};
+		Map<String, Integer> mapNamesFrequencies = new HashMap<String, Integer>();
+		mapNamesFrequencies.put("a", 100);
+		mapNamesFrequencies.put("b", 50);
+		mapNamesFrequencies.put("d", 20);
+		
+		INamedObject[] copieObjects = new INamedObject[] {copieDeB, copieDeA, copieDeD};
+		
+		result = MapConverter.getFrequenciesFromMapNamesFrequencies(mapNamesFrequencies, copieObjects);
+		assertArrayEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetFrequenciesFromMapNamesFrequenciesException() {
+		Map<String, Integer> mapNamesFrequencies = new HashMap<String, Integer>();
+		mapNamesFrequencies.put("nota", 100);
+		
+		INamedObject[] copieObjects = new INamedObject[] {copieDeB, copieDeA, copieDeD};
+		
+		int[] frequencies = MapConverter.getFrequenciesFromMapNamesFrequencies(mapNamesFrequencies, copieObjects);
+	}
+	
 	@Test
 	public void testGetObjectsFromMapNamesQuantities() {
 		int[] expected = new int[] { 2, 1, 3};
@@ -112,6 +158,16 @@ public class TestMapConverter {
 			}
 		}
 		assertArrayEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void testGetObjectsFromMapNamesQuantitiesException() {
+		Map<String, Integer> mapNamesQuantities = new HashMap<String, Integer>();
+		mapNamesQuantities.put("nota", 2);
+		
+		INamedObject[] objects = new INamedObject[] {A, B, C, D, E};
+		
+		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesQuantities(mapNamesQuantities, objects);
 	}
 
 }
