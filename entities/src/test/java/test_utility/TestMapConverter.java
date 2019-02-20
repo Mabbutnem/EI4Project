@@ -23,6 +23,11 @@ public class TestMapConverter {
 	private INamedObject C;
 	private INamedObject D;
 	private INamedObject E;
+	private INamedObject copieDeA;
+	private INamedObject copieDeB;
+	private INamedObject copieDeC;
+	private INamedObject copieDeD;
+	private INamedObject copieDeE;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -34,16 +39,21 @@ public class TestMapConverter {
 	@Before
 	public void setUp() throws Exception
 	{
+		copieDeA = mock(INamedObject.class);
+		copieDeB = mock(INamedObject.class);
+		copieDeC = mock(INamedObject.class);
+		copieDeD = mock(INamedObject.class);
+		copieDeE = mock(INamedObject.class);
 		A = mock(INamedObject.class);
-		when(A.getName()).thenReturn("a");
+		when(A.cloneObject()).thenReturn(copieDeA);
 		B = mock(INamedObject.class);
-		when(B.getName()).thenReturn("b");
+		when(B.cloneObject()).thenReturn(copieDeB);
 		C = mock(INamedObject.class);
-		when(C.getName()).thenReturn("c");
+		when(C.cloneObject()).thenReturn(copieDeC);
 		D = mock(INamedObject.class);
-		when(D.getName()).thenReturn("d");
+		when(D.cloneObject()).thenReturn(copieDeD);
 		E = mock(INamedObject.class);
-		when(E.getName()).thenReturn("e");
+		when(E.cloneObject()).thenReturn(copieDeE);
 	}
 
 	@After
@@ -64,13 +74,14 @@ public class TestMapConverter {
 		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesFrequencies(mapNamesFrequencies, objects);
 		
 		for(int i=0; i<copieObjects.length; i++) {
-			switch(copieObjects[i].getName()) {
-				case "a": result[0] += 1;
-						break;
-				case "b": result[1] += 1;
-						break;
-				case "d": result[2] += 1;
-						break;
+			if(copieObjects[i]==copieDeA) {
+				result[0] += 1;
+			}
+			if(copieObjects[i]==copieDeB) {
+				result[1] += 1;
+			}
+			if(copieObjects[i]==copieDeD) {
+				result[2] += 1;
 			}
 		}
 		assertArrayEquals(expected, result);
@@ -90,13 +101,14 @@ public class TestMapConverter {
 		INamedObject[] copieObjects = MapConverter.getObjectsFromMapNamesQuantities(mapNamesQuantities, objects);
 		
 		for(int i=0; i<copieObjects.length; i++) {
-			switch(copieObjects[i].getName()) {
-				case "a": result[0] += 1;
-						break;
-				case "b": result[1] += 1;
-						break;
-				case "d": result[2] += 1;
-						break;
+			if(copieObjects[i]==copieDeA) {
+				result[0] += 1;
+			}
+			if(copieObjects[i]==copieDeB) {
+				result[1] += 1;
+			}
+			if(copieObjects[i]==copieDeD) {
+				result[2] += 1;
 			}
 		}
 		assertArrayEquals(expected, result);
