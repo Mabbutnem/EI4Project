@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.google.common.base.Preconditions;
 
@@ -19,7 +21,9 @@ import boardelement.WizardFactory;
 import constant.GameConstant;
 import listener.IGameListener;
 import spell.Card;
+import spell.Incantation;
 import target.TargetConstraint;
+import utility.Proba;
 import zone.CastZone;
 
 public class Game implements IGameListener
@@ -34,7 +38,7 @@ public class Game implements IGameListener
 	private boolean[] currentCharacterRange;
 	private boolean wizardsTurn;
 	private CastZone castZone;
-	private List<MonsterFactory> monstersToSpawn;
+	private Queue<MonsterFactory> monstersToSpawn;
 	private int levelDifficulty;
 	
 	
@@ -56,7 +60,7 @@ public class Game implements IGameListener
 		spawnWizards(wizards);
 		wizardsTurn = false;
 		castZone = new CastZone();
-		monstersToSpawn = new LinkedList<>();
+		monstersToSpawn = new LinkedBlockingQueue<>();
 		levelDifficulty = 0;
 		
 	}
@@ -164,12 +168,12 @@ public class Game implements IGameListener
 	
 	public boolean isValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
 	{
-		return getAllVisibleTargetForCurrentCharacter().contains(character);
+		return Arrays.asList(getAllAvailableTargetForCurrentCharacter(constraints)).contains(character);
 	}
 	
-	public boolean hasValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
+	public boolean hasValidTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
-		return !getAllVisibleTargetForCurrentCharacter().isEmpty();
+		return getAllAvailableTargetForCurrentCharacter(constraints).length > 0;
 	}
 	
 	//Targets for the AI of monsters
@@ -547,14 +551,23 @@ public class Game implements IGameListener
 		Map<String, WizardFactory> wizardFactoryMap = new HashMap<>();
 		for(WizardFactory wf : wizardFactory) { wizardFactoryMap.put(wf.getName(), wf); }
 		
+		
 		for(int i = 0; i < board.length; i++)
 		{
 			if(board[i] instanceof Wizard)
 			{
 				Wizard w = (Wizard) board[i];
+				
+				//Reset the cards of the wizards
 				w.resetCards(wizardFactoryMap.get(w.getName()), cards);
+				
+				//If a wizard is transformed : untransform it
+				//If a wizard is not transformed : restore it full health
+				if(w.isTransformed()) { w.untransform(); }
+				else { w.setHealth(Wizard.getWizardConstant().getMaxHealth()); }
 			}
 		}
+		
 	}
 	
 	
@@ -563,6 +576,61 @@ public class Game implements IGameListener
 	public MonsterFactory[] getMonstersToSpawn()
 	{
 		return monstersToSpawn.toArray(new MonsterFactory[0]);
+	}
+	
+	private void fillMonstersToSpawn(Level level, Horde[] hordes, MonsterFactory[] monsterFactory)
+	//hordes : all hordes from the JSON file
+	//monsterFactory : all monsterFactories from the JSON file
+	{
+		Map<String, Horde> hordesMap = new HashMap<>();
+		for(Horde h : hordes) { hordesMap.put(h.getName(), h); }
+		
+		Map<String, MonsterFactory> monsterFactoryMap = new HashMap<>();
+		for(MonsterFactory mf : monsterFactory) { monsterFactoryMap.put(mf.getName(), mf); }
+
+		/*
+		 * Calculs assez difficiles à lire pour obtenir le tableau de horde du niveau ainsi que ses probabilités
+		 */
+		List<Horde> myHordeList = new LinkedList<>();
+		for(String hordeName : level.getMapHordesProbabilities().keySet())
+		{
+			if(!hordesMap.containsKey(hordeName)) { throw new IllegalArgumentException("a (or more) horde is missing from hordes"); }
+
+			//Ajoute une horde
+			myHordeList.add(hordesMap.get(hordeName));
+		}
+		
+		int[] frequencies = new int[myHordeList.size()];
+		for(int i = 0; i < myHordeList.size(); i++)
+		{
+			frequencies[i] = level.getMapHordesProbabilities().get(myHordeList.get(i).getName());
+		}
+		
+		/*
+		 * 
+		 */
+		
+		
+		
+		//L'algorithme commence :
+		
+		Horde[] myHordeArray = myHordeList.toArray(new Horde[0]);
+		float[] myHordeProbabilities = Proba.convertFrequencyToProbability(frequencies);
+		
+		int cost = 0;
+		
+		while(cost < gameConstant.getLevelCost())
+		{
+			Horde horde = myHordeArray[Proba.getRandomIndexFrom(myHordeProbabilities)];
+			
+			cost += horde.getCost();
+			
+			for(String monsterFactoryName : horde.getMapMonstersQuantity().keySet())
+			{
+				monstersToSpawn.add(monsterFactoryMap.get(monsterFactoryName));
+			}
+		}
+		
 	}
 	
 	public void spawnMonster(Monster monster)
@@ -604,25 +672,28 @@ public class Game implements IGameListener
 		return nbMonstersAndCorpses == 0 && monstersToSpawn.isEmpty();
 	}
 	
-	public void nextLevel(Level level, WizardFactory[] wizardFactory, Card[] cards, Horde[] hordes, MonsterFactory[] monsterFactory)
-	//wizardFactory : all the wizardFactories from the JSON file
-	//cards : all the cards from the JSON file
+	public void nextLevel(Level level, Horde[] hordes, MonsterFactory[] monsterFactory, WizardFactory[] wizardFactory, Card[] cards)
 	//hordes : all hordes from the JSON file
 	//monsterFactory : all monsterFactories from the JSON file
+	//wizardFactory : all the wizardFactories from the JSON file
+	//cards : all the cards from the JSON file
 	{
 		//TODO
-		Map<String, Horde> hordesMap = new HashMap<>();
-		for(Horde h : hordes) { hordesMap.put(h.getName(), h); }
-		
-		Map<String, MonsterFactory> monsterFactoryMap = new HashMap<>();
-		for(MonsterFactory mf : monsterFactory) { monsterFactoryMap.put(mf.getName(), mf); }
-		
 		levelDifficulty++;
 		
+		if(levelDifficulty > gameConstant.getLevelMaxDifficulty()) { 
+			return;
+		}
+		
+		Preconditions.checkArgument(level.getDifficulty() == levelDifficulty, "difficulty of the input level was %s but expected %s",
+				level.getDifficulty(), levelDifficulty);
+
+		//Fill monstersToSpawn
+		fillMonstersToSpawn(level, hordes, monsterFactory);
+		
+		//Move wizards to their spawn and reset them
 		moveWizardsToTheirSpawns();
 		resetWizardsForNextLevel(wizardFactory, cards);
-
-		
 	}
 
 
