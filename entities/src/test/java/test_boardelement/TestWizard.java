@@ -109,8 +109,11 @@ public class TestWizard
 						mock(Card.class),
 				};
 		when(card1.getName()).thenReturn("card1");
+		when(card1.cloneObject()).thenReturn(card1);
 		when(card2.getName()).thenReturn("card2");
+		when(card2.cloneObject()).thenReturn(card2);
 		when(card3.getName()).thenReturn("card3");
+		when(card3.cloneObject()).thenReturn(card3);
 		
 		cardsW = new HashMap<>();
 		cardsW.put("card1", 2);

@@ -63,7 +63,7 @@ public class TestHorde {
 	public void testHordeCopie() {
 		h = new Horde("horde", 5, monsters);
 		Horde horde2 = new Horde(h);
-		assertFalse(h == horde2);
+		assertTrue(h != horde2);
 		
 		String expected = h.getName();
 		String result = horde2.getName();
@@ -84,7 +84,7 @@ public class TestHorde {
 	public void testCloneObject() {
 		h = new Horde("horde", 5, monsters);
 		Horde horde2 = (Horde) h.cloneObject();
-		assertFalse(h == horde2);
+		assertTrue(h != horde2);
 		
 		String expected = h.getName();
 		String result = horde2.getName();

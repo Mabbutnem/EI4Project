@@ -1,9 +1,6 @@
 package boardelement;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +9,7 @@ import com.google.common.base.Preconditions;
 import constant.WizardConstant;
 import spell.Card;
 import spell.Power;
+import utility.MapConverter;
 import zone.ZoneGroup;
 
 public class Wizard extends Character
@@ -61,25 +59,9 @@ public class Wizard extends Character
 		Preconditions.checkArgument(wizardFactory != null, "wizard was null but expected not null");
 		Preconditions.checkArgument(cards != null, "wizard was null but expected not null");
 		
-		//On transforme cards en cardsMap (plus facile de chercher les cartes dans une Map que dans un tableau)
-		Map<String, Card> cardsMap = new HashMap<>();
-		for(Card c : cards) { cardsMap.put(c.getName(), c); }
-				
-		List<Card> lc = new LinkedList<>();
-				
-		//On ajoute les cartes dans lc comme spécifié par wizardFactory
-		for(String cardName : wizardFactory.getMapCardsQuantity().keySet())
-		{
-			if(!cardsMap.containsKey(cardName)) { throw new IllegalArgumentException("a (or more) card is missing from cards"); }
-					
-			for(int i = 0; i < wizardFactory.getMapCardsQuantity().get(cardName); i++)
-			{
-				//Ajoute une COPIE de la carte
-				lc.add(new Card(cardsMap.get(cardName)));
-			}
-		}
-		
-		return lc.toArray(new Card[0]);
+		return Arrays.asList(
+				MapConverter.getObjectsFromMapNamesQuantities(wizardFactory.getMapCardsQuantity(), cards)
+				).toArray(new Card[0]); //Convert INamedObject[] to Card[]
 	}
 	
 	

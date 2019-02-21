@@ -1,13 +1,11 @@
 package boardelement;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
 import com.google.common.base.Preconditions;
 
 import spell.Incantation;
+import utility.MapConverter;
 import utility.Proba;
 
 public class Monster extends Character
@@ -42,45 +40,13 @@ public class Monster extends Character
 		
 		name = monsterFactory.getName();
 		rebornProbability = monsterFactory.getRebornProbability();
-
 		
-		/*
-		 * Incantations
-		 */
-		//On transforme incantations en incantationsMap (plus facile de chercher les incantations dans une Map que dans un tableau)
-		Map<String, Incantation> incantationsMap = new HashMap<>();
-		for(Incantation i : incantations) { incantationsMap.put(i.getName(), i); }
+		this.incantations = Arrays.asList(
+				MapConverter.getObjectsFromMapNamesFrequencies(monsterFactory.getMapIncantationsFrequencies(), incantations)
+				).toArray(new Incantation[0]); //Convert INamedObject[] to Incantation[]
 		
-		List<Incantation> li = new LinkedList<>();
-		
-		//On ajoute les incantations dans li comme spécifié par monsterFactory
-		for(String incantationName : monsterFactory.getMapIncantationsFrequencies().keySet())
-		{
-			if(!incantationsMap.containsKey(incantationName)) { throw new IllegalArgumentException("a (or more) incantation is missing from incantations"); }
-
-			//Ajoute une COPIE de l'incantation
-			li.add(new Incantation(incantationsMap.get(incantationName)));
-		}
-		
-		//Ajout de la liste (li) à this.incantations
-		this.incantations = li.toArray(new Incantation[0]);
-		/*
-		 * 
-		 */
-		
-		
-		/*
-		 * Probabilities
-		 */
-		int[] frequencies = new int[this.incantations.length];
-		for(int i = 0; i < this.incantations.length; i++)
-		{
-			frequencies[i] = monsterFactory.getMapIncantationsFrequencies().get(this.incantations[i].getName());
-		}
-		incantationProbabilities = Proba.convertFrequencyToProbability(frequencies);
-		/*
-		 * 
-		 */
+		incantationProbabilities = Proba.convertFrequencyToProbability(
+				MapConverter.getFrequenciesFromMapNamesFrequencies(monsterFactory.getMapIncantationsFrequencies(), this.incantations));
 		
 	}
 	

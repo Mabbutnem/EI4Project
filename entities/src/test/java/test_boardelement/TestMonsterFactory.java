@@ -97,7 +97,7 @@ public class TestMonsterFactory {
 	public void testMonsterFactoryCopie() {
 		mFactory = new MonsterFactory("monstre", 70, 20, 3, 4, incantations, 0.5f);
 		MonsterFactory mFactory2 = new MonsterFactory(mFactory);
-		assertFalse(mFactory == mFactory2);
+		assertTrue(mFactory != mFactory2);
 		
 		String expected = mFactory.getName();
 		String result = mFactory2.getName();
@@ -121,6 +121,7 @@ public class TestMonsterFactory {
 		
 		Map<String, Integer> expectedM = mFactory.getMapIncantationsFrequencies();
 		Map<String, Integer> resultM = mFactory2.getMapIncantationsFrequencies();
+		assertTrue(expectedM != resultM);
 		assertEquals(expectedM, resultM);
 		
 		float expectedF = mFactory.getRebornProbability();
@@ -132,7 +133,7 @@ public class TestMonsterFactory {
 	public void testCloneObject() {
 		mFactory = new MonsterFactory("monstre", 70, 20, 3, 4, incantations, 0.5f);
 		MonsterFactory mFactory2 = (MonsterFactory) mFactory.cloneObject();
-		assertFalse(mFactory == mFactory2);
+		assertTrue(mFactory != mFactory2);
 		
 		String expected = mFactory.getName();
 		String result = mFactory2.getName();
@@ -161,7 +162,6 @@ public class TestMonsterFactory {
 		
 		float expectedF = mFactory.getRebornProbability();
 		float resultF = mFactory2.getRebornProbability();
-		assertTrue(expectedM != resultM);
 		assertEquals(expectedF, resultF, 0);
 	}
 }

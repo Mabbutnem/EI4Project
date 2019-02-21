@@ -66,8 +66,11 @@ public class TestMonster {
 						mock(Incantation.class),
 				};
 		when(inc1.getName()).thenReturn("inc1");
+		when(inc1.cloneObject()).thenReturn(inc1);
 		when(inc2.getName()).thenReturn("inc2");
+		when(inc2.cloneObject()).thenReturn(inc2);
 		when(inc3.getName()).thenReturn("inc3");
+		when(inc3.cloneObject()).thenReturn(inc3);
 		
 		MapFreq = new HashMap<>();
 		MapFreq.put("inc1", 1);
