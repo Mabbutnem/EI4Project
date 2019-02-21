@@ -156,10 +156,12 @@ public class TestMonsterFactory {
 		
 		Map<String, Integer> expectedM = mFactory.getMapIncantationsFrequencies();
 		Map<String, Integer> resultM = mFactory2.getMapIncantationsFrequencies();
+		assertTrue(expectedM != resultM);
 		assertEquals(expectedM, resultM);
 		
 		float expectedF = mFactory.getRebornProbability();
 		float resultF = mFactory2.getRebornProbability();
+		assertTrue(expectedM != resultM);
 		assertEquals(expectedF, resultF, 0);
 	}
 }

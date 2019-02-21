@@ -73,9 +73,11 @@ public class TestHorde {
 		int resultI = horde2.getCost();
 		assertEquals(expectedI, resultI);
 		
+		
 		Map<String, Integer> expectedM = h.getMapMonstersQuantity();
 		Map<String, Integer> resultM = horde2.getMapMonstersQuantity();
-		assertEquals(expectedM, resultM);
+		assertTrue(expectedM != resultM); //vérifie qu'ils n'ont pas la même adresse
+		assertEquals(expectedM, resultM); //vérifie que le contenu est le même
 	}
 	
 	@Test
@@ -94,6 +96,7 @@ public class TestHorde {
 		
 		Map<String, Integer> expectedM = h.getMapMonstersQuantity();
 		Map<String, Integer> resultM = horde2.getMapMonstersQuantity();
+		assertTrue(expectedM != resultM);
 		assertEquals(expectedM, resultM);
 	}
 
