@@ -361,6 +361,7 @@ public class TestCharacter
 		int expected = 0;
 		int result = character.getRange();
 		assertEquals(expected, result);
+		verify(gameListener, times(2)).refreshRange(character); //une fois dans le setUp et la 2ème ici
 	}
 
 	@Test

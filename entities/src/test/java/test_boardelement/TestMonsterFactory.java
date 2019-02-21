@@ -92,4 +92,74 @@ public class TestMonsterFactory {
 	public final void testMonsterFactoryRebornProbability() {
 		mFactory = new MonsterFactory("monstre", 70, 20, 3, 4, incantations, 1.5f);
 	}
+	
+	@Test
+	public void testMonsterFactoryCopie() {
+		mFactory = new MonsterFactory("monstre", 70, 20, 3, 4, incantations, 0.5f);
+		MonsterFactory mFactory2 = new MonsterFactory(mFactory);
+		assertFalse(mFactory == mFactory2);
+		
+		String expected = mFactory.getName();
+		String result = mFactory2.getName();
+		assertEquals(expected, result);
+		
+		int expectedI = mFactory.getMaxHealth();
+		int resultI = mFactory2.getMaxHealth();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getInitArmor();
+		resultI = mFactory2.getInitArmor();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getBaseMove();
+		resultI = mFactory2.getBaseMove();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getBaseRange();
+		resultI = mFactory2.getBaseRange();
+		assertEquals(expectedI, resultI);
+		
+		Map<String, Integer> expectedM = mFactory.getMapIncantationsFrequencies();
+		Map<String, Integer> resultM = mFactory2.getMapIncantationsFrequencies();
+		assertEquals(expectedM, resultM);
+		
+		float expectedF = mFactory.getRebornProbability();
+		float resultF = mFactory2.getRebornProbability();
+		assertEquals(expectedF, resultF, 0);
+	}
+	
+	@Test
+	public void testCloneObject() {
+		mFactory = new MonsterFactory("monstre", 70, 20, 3, 4, incantations, 0.5f);
+		MonsterFactory mFactory2 = (MonsterFactory) mFactory.cloneObject();
+		assertFalse(mFactory == mFactory2);
+		
+		String expected = mFactory.getName();
+		String result = mFactory2.getName();
+		assertEquals(expected, result);
+		
+		int expectedI = mFactory.getMaxHealth();
+		int resultI = mFactory2.getMaxHealth();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getInitArmor();
+		resultI = mFactory2.getInitArmor();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getBaseMove();
+		resultI = mFactory2.getBaseMove();
+		assertEquals(expectedI, resultI);
+		
+		expectedI = mFactory.getBaseRange();
+		resultI = mFactory2.getBaseRange();
+		assertEquals(expectedI, resultI);
+		
+		Map<String, Integer> expectedM = mFactory.getMapIncantationsFrequencies();
+		Map<String, Integer> resultM = mFactory2.getMapIncantationsFrequencies();
+		assertEquals(expectedM, resultM);
+		
+		float expectedF = mFactory.getRebornProbability();
+		float resultF = mFactory2.getRebornProbability();
+		assertEquals(expectedF, resultF, 0);
+	}
 }

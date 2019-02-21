@@ -58,5 +58,43 @@ public class TestHorde {
 		monsters.put("monstre3", -1);
 		h = new Horde("horde", 5, monsters);
 	}
+	
+	@Test
+	public void testHordeCopie() {
+		h = new Horde("horde", 5, monsters);
+		Horde horde2 = new Horde(h);
+		assertFalse(h == horde2);
+		
+		String expected = h.getName();
+		String result = horde2.getName();
+		assertEquals(expected, result);
+		
+		int expectedI = h.getCost();
+		int resultI = horde2.getCost();
+		assertEquals(expectedI, resultI);
+		
+		Map<String, Integer> expectedM = h.getMapMonstersQuantity();
+		Map<String, Integer> resultM = horde2.getMapMonstersQuantity();
+		assertEquals(expectedM, resultM);
+	}
+	
+	@Test
+	public void testCloneObject() {
+		h = new Horde("horde", 5, monsters);
+		Horde horde2 = (Horde) h.cloneObject();
+		assertFalse(h == horde2);
+		
+		String expected = h.getName();
+		String result = horde2.getName();
+		assertEquals(expected, result);
+		
+		int expectedI = h.getCost();
+		int resultI = horde2.getCost();
+		assertEquals(expectedI, resultI);
+		
+		Map<String, Integer> expectedM = h.getMapMonstersQuantity();
+		Map<String, Integer> resultM = horde2.getMapMonstersQuantity();
+		assertEquals(expectedM, resultM);
+	}
 
 }
