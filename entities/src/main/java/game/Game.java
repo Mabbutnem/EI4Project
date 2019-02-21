@@ -22,8 +22,11 @@ import constant.GameConstant;
 import listener.IGameListener;
 import spell.Card;
 import target.TargetConstraint;
+import utility.MapConverter;
 import utility.Proba;
 import zone.CastZone;
+import zone.ZonePick;
+import zone.ZoneType;
 
 public class Game implements IGameListener
 {
@@ -91,13 +94,14 @@ public class Game implements IGameListener
 	
 	public void setCurrentCharacter(Character character) {
 		this.currentCharacter = character;
+		refreshCurrentCharacterRange();
 	}
 
 	public void setCurrentCharacter(int currentCharacterIdx)
 	{
 		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
-		this.currentCharacter = (Character) board[currentCharacterIdx];
+		setCurrentCharacter((Character) board[currentCharacterIdx]);
 	}
 	
 	public void setFirstWizardAsCurrentCharacter()
@@ -130,9 +134,36 @@ public class Game implements IGameListener
 		return lc;
 	}
 	
+	private Character[] filterTargetByConstraintForCurrentCharacter(List<Character> characters, TargetConstraint[] constraints)
+	{
+		List<TargetConstraint> constraintsList = Arrays.asList(constraints);
+		
+		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Wizard)
+			|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Monster) )
+		{
+			characters.removeIf(c -> c instanceof Wizard);
+		}
+		
+		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Monster)
+				|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Wizard) )
+		{
+			characters.removeIf(c -> c instanceof Monster);
+		}
+		
+		if(constraintsList.contains(TargetConstraint.NOTYOU))
+		{
+			characters.remove(getCurrentCharacter());
+		}
+		
+		return characters.toArray(new Character[0]);
+	}
+	
 	public Character getRandomAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
 		Character[] characters = getAllAvailableTargetForCurrentCharacter(constraints);
+		
+		Preconditions.checkState(characters.length > 0, "No available target for current Character,"
+				+ " please verify using hasValidTargetForCurrentCharacter method before using method");
 		
 		Random r = new Random();
 		
@@ -141,28 +172,7 @@ public class Game implements IGameListener
 	
 	public Character[] getAllAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
-		List<Character> lc = getAllVisibleTargetForCurrentCharacter();
-		
-		List<TargetConstraint> constraintsList = Arrays.asList(constraints);
-		
-		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Wizard)
-			|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Monster) )
-		{
-			lc.removeIf(c -> c instanceof Wizard);
-		}
-		
-		if(	(constraintsList.contains(TargetConstraint.NOTALLY) && getCurrentCharacter() instanceof Monster)
-				|| (constraintsList.contains(TargetConstraint.NOTENEMY) && getCurrentCharacter() instanceof Wizard) )
-		{
-			lc.removeIf(c -> c instanceof Monster);
-		}
-		
-		if(constraintsList.contains(TargetConstraint.NOTYOU))
-		{
-			lc.remove(getCurrentCharacter());
-		}
-		
-		return lc.toArray(new Character[0]);
+		return filterTargetByConstraintForCurrentCharacter(getAllVisibleTargetForCurrentCharacter(), constraints);
 	}
 	
 	public boolean isValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
@@ -178,8 +188,23 @@ public class Game implements IGameListener
 	//Targets for the AI of monsters
 	public Character[] getAllPossibleTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
-		//TODO
-		return null;
+		int currentCharacterIdx = getBoardElementIdx(getCurrentCharacter());
+		
+		List<Character> lc = new LinkedList<>();
+		
+		int possibleRange = getCurrentCharacter().getRange() + getCurrentCharacter().getMove();
+		
+		for(int r = -possibleRange; r < possibleRange+1; r++)
+		{
+			int i = currentCharacterIdx+r;
+			
+			if(indexInBoardBounds(i) && board[i] instanceof Character)
+			{
+				lc.add((Character) board[i]);
+			}
+		}
+		
+		return filterTargetByConstraintForCurrentCharacter(lc, constraints);
 	}
 	
 	
@@ -189,12 +214,10 @@ public class Game implements IGameListener
 	{
 		for(int i = 0; i < currentCharacterRange.length; i++) { currentCharacterRange[i] = false; }
 		
-		Character c = getCurrentCharacter();
-		
-		if(c != null)
+		if(getCurrentCharacter() != null)
 		{
-			int range = c.getRange();
-			int currentCharacterIdx = getBoardElementIdx(c);
+			int range = getCurrentCharacter().getRange();
+			int currentCharacterIdx = getBoardElementIdx(getCurrentCharacter());
 		
 			for(int r = -range; r < range+1; r++)
 			{
@@ -256,14 +279,7 @@ public class Game implements IGameListener
 	
 	public int nbBoardElements()
 	{
-		int number = 0;
-		
-		for(IBoardElement elem : board)
-		{
-			number += elem != null ? 1 : 0;
-		}
-		
-		return number;
+		return nbWizards + nbMonstersAndCorpses;
 	}
 	
 	
@@ -315,25 +331,41 @@ public class Game implements IGameListener
 	public void rightWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, 1);
-		if(actualDelta != 0) { character.loseMove(Math.abs(actualDelta)); }
+		if(actualDelta != 0)
+		{
+			character.loseMove(Math.abs(actualDelta));
+			refreshRange(character);
+		}
 	}
 	
 	public void leftWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, -1);
-		if(actualDelta != 0) { character.loseMove(Math.abs(actualDelta)); }
+		if(actualDelta != 0)
+		{
+			character.loseMove(Math.abs(actualDelta));
+			refreshRange(character);
+		}
 	}
 	
 	public void rightDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, character.getDash());
-		if(actualDelta != 0) { character.loseDash(Math.abs(actualDelta)); }
+		if(actualDelta != 0)
+		{
+			character.loseDash(Math.abs(actualDelta));
+			refreshRange(character);
+		}
 	}
 	
 	public void leftDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, -character.getDash());
-		if(actualDelta != 0) { character.loseDash(Math.abs(actualDelta)); }
+		if(actualDelta != 0)
+		{
+			character.loseDash(Math.abs(actualDelta));
+			refreshRange(character);
+		}
 	}
 	
 	public void push(Character referenceCharacter, Character[] characters, int delta)
@@ -345,33 +377,39 @@ public class Game implements IGameListener
 		Preconditions.checkArgument(!charactersList.contains(referenceCharacter), "you can't push yourself");
 		int referenceIdx = getBoardElementIdx(referenceCharacter);
 		
+		boolean currentCharacterDetected = false;
+		boolean wizardDetected = false;
+		
 		//Vers la gauche
 		for(int i = 0; i < referenceIdx; i++)
 		{
-			if(board[i] instanceof Character)
+			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
 			{
 				Character c = (Character) board[i];
 				
-				if(charactersList.contains(c))
-				{
-					elementaryMove(c, -delta);
-				}
+				elementaryMove(c, -delta);
+
+				currentCharacterDetected = currentCharacterDetected || c == getCurrentCharacter();
+				wizardDetected = wizardDetected || c instanceof Wizard;
 			}
 		}
 		
 		//Vers la droite
 		for(int i = board.length-1; i > referenceIdx; i--)
 		{
-			if(board[i] instanceof Character)
+			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
 			{
 				Character c = (Character) board[i];
 				
-				if(charactersList.contains(c))
-				{
-					elementaryMove(c, delta);
-				}
+				elementaryMove(c, delta);
+
+				currentCharacterDetected = currentCharacterDetected || c == getCurrentCharacter();
+				wizardDetected = wizardDetected || c instanceof Wizard;
 			}
 		}
+
+		if(currentCharacterDetected) {refreshCurrentCharacterRange();}
+		if(wizardDetected) {refreshWizardsRange();}
 	}
 	
 	public void pull(Character referenceCharacter, Character[] characters, int delta)
@@ -383,33 +421,39 @@ public class Game implements IGameListener
 		Preconditions.checkArgument(!charactersList.contains(referenceCharacter), "you can't pull yourself");
 		int referenceIdx = getBoardElementIdx(referenceCharacter);
 		
+		boolean currentCharacterDetected = false;
+		boolean wizardDetected = false;
+		
 		//Vers la gauche
 		for(int i = referenceIdx-1; i >= 0; i--)
 		{
-			if(board[i] instanceof Character)
+			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
 			{
 				Character c = (Character) board[i];
 				
-				if(charactersList.contains(c))
-				{
-					elementaryMove(c, Math.min(delta, referenceIdx-i-1));
-				}
+				elementaryMove(c, Math.min(delta, referenceIdx-i-1));
+
+				currentCharacterDetected = currentCharacterDetected || c == getCurrentCharacter();
+				wizardDetected = wizardDetected || c instanceof Wizard;
 			}
 		}
 		
 		//Vers la droite
 		for(int i = referenceIdx+1; i < board.length; i++)
 		{
-			if(board[i] instanceof Character)
+			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
 			{
 				Character c = (Character) board[i];
 				
-				if(charactersList.contains(c))
-				{
-					elementaryMove(c, -Math.min(delta, i-referenceIdx-1));
-				}
+				elementaryMove(c, -Math.min(delta, i-referenceIdx-1));
+					
+				currentCharacterDetected = currentCharacterDetected || c == getCurrentCharacter();
+				wizardDetected = wizardDetected || c instanceof Wizard;
 			}
 		}
+
+		if(currentCharacterDetected) {refreshCurrentCharacterRange();}
+		if(wizardDetected) {refreshWizardsRange();}
 	}
 	
 
@@ -417,6 +461,26 @@ public class Game implements IGameListener
 	//The turns
 	public boolean isWizardsTurn() {
 		return wizardsTurn;
+	}
+	
+	public void beginWizardsTurn()
+	{
+		Preconditions.checkState(!isWizardsTurn(), "in order to begin wizard's turn, it has to not be wizard's turn");
+		
+		wizardsTurn = true;
+		
+		setFirstWizardAsCurrentCharacter();
+		
+		for(IBoardElement elem : board)
+		{
+			if(elem instanceof Wizard)
+			{
+				Wizard w = (Wizard) elem;
+
+				//Draw 1 card
+				w.getZoneGroup().transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
+			}
+		}
 	}
 	
 	public void endWizardsTurn()
@@ -503,11 +567,6 @@ public class Game implements IGameListener
 			}
 		}
 	}
-	
-	public boolean monstersTurnFinished()
-	{
-		return !wizardsTurn && getCurrentCharacter() == null;
-	}
 
 
 
@@ -525,6 +584,8 @@ public class Game implements IGameListener
 		{
 			board[i] = wizards[i];
 		}
+		refreshWizardsRange();
+		if(getCurrentCharacter() instanceof Wizard) { refreshCurrentCharacterRange(); }
 	}
 	
 	private void moveWizardsToTheirSpawns()
@@ -558,10 +619,11 @@ public class Game implements IGameListener
 				Wizard w = (Wizard) board[i];
 				
 				//Reset the cards of the wizards
+				if(!wizardFactoryMap.containsKey(w.getName())) { throw new IllegalArgumentException("One (or more) wizardFactory is missing from wizardFactory"); }
 				w.resetCards(wizardFactoryMap.get(w.getName()), cards);
 				
 				//If a wizard is transformed : untransform it
-				//If a wizard is not transformed : restore it full health
+				//If a wizard is not transformed : restore it to full health
 				if(w.isTransformed()) { w.untransform(); }
 				else { w.setHealth(Wizard.getWizardConstant().getMaxHealth()); }
 			}
@@ -581,40 +643,12 @@ public class Game implements IGameListener
 	//hordes : all hordes from the JSON file
 	//monsterFactory : all monsterFactories from the JSON file
 	{
-		Map<String, Horde> hordesMap = new HashMap<>();
-		for(Horde h : hordes) { hordesMap.put(h.getName(), h); }
+		Horde[] myHordeArray = Arrays.asList(
+				MapConverter.getObjectsFromMapNamesFrequencies(level.getMapHordesProbabilities(), hordes)
+				).toArray(new Horde[0]); //Convert INamedObject[] to Horde[]
 		
-		Map<String, MonsterFactory> monsterFactoryMap = new HashMap<>();
-		for(MonsterFactory mf : monsterFactory) { monsterFactoryMap.put(mf.getName(), mf); }
-
-		/*
-		 * Calculs assez difficiles à lire pour obtenir le tableau de horde du niveau ainsi que ses probabilités
-		 */
-		List<Horde> myHordeList = new LinkedList<>();
-		for(String hordeName : level.getMapHordesProbabilities().keySet())
-		{
-			if(!hordesMap.containsKey(hordeName)) { throw new IllegalArgumentException("a (or more) horde is missing from hordes"); }
-
-			//Ajoute une horde
-			myHordeList.add(hordesMap.get(hordeName));
-		}
-		
-		int[] frequencies = new int[myHordeList.size()];
-		for(int i = 0; i < myHordeList.size(); i++)
-		{
-			frequencies[i] = level.getMapHordesProbabilities().get(myHordeList.get(i).getName());
-		}
-		
-		/*
-		 * 
-		 */
-		
-		
-		
-		//L'algorithme commence :
-		
-		Horde[] myHordeArray = myHordeList.toArray(new Horde[0]);
-		float[] myHordeProbabilities = Proba.convertFrequencyToProbability(frequencies);
+		float[] myHordeProbabilities = Proba.convertFrequencyToProbability(
+				MapConverter.getFrequenciesFromMapNamesFrequencies(level.getMapHordesProbabilities(), myHordeArray));
 		
 		int cost = 0;
 		
@@ -624,12 +658,15 @@ public class Game implements IGameListener
 			
 			cost += horde.getCost();
 			
-			for(String monsterFactoryName : horde.getMapMonstersQuantity().keySet())
+			MonsterFactory[] myMonsterFactoryArray = Arrays.asList(
+					MapConverter.getObjectsFromMapNamesQuantities(horde.getMapMonstersQuantity(), monsterFactory)
+					).toArray(new MonsterFactory[0]); //Convert INamedObject[] to MonsterFactory[]
+
+			for(MonsterFactory mf : myMonsterFactoryArray)
 			{
-				monstersToSpawn.add(monsterFactoryMap.get(monsterFactoryName));
+				monstersToSpawn.add(mf);
 			}
 		}
-		
 	}
 	
 	public void spawnMonster(Monster monster)
@@ -657,6 +694,10 @@ public class Game implements IGameListener
 		
 		//On place le dernier occupant décalé sur une case vide
 		if(board[spawnPosition+i] == null) { board[spawnPosition+i] = temporaryElement; }
+		
+		
+		//On incrémente le nombre de monstres ou de cadavres sur le board
+		nbMonstersAndCorpses++;
 	}
 	
 
@@ -677,7 +718,6 @@ public class Game implements IGameListener
 	//wizardFactory : all the wizardFactories from the JSON file
 	//cards : all the cards from the JSON file
 	{
-		//TODO
 		levelDifficulty++;
 		
 		if(levelDifficulty > gameConstant.getLevelMaxDifficulty()) { 
