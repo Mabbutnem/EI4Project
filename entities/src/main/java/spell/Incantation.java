@@ -1,5 +1,6 @@
 package spell;
 
+import target.TargetType;
 import utility.INamedObject;
 
 public class Incantation extends Spell
@@ -9,6 +10,14 @@ public class Incantation extends Spell
 	public Incantation(Incantation i)
 	{
 		this.name = i.getName();
+	}
+	
+	
+	
+	public TargetType getFirstTargetType()
+	{
+		//TODO
+		return null;
 	}
 
 	

@@ -20,6 +20,7 @@ import boardelement.WizardFactory;
 import constant.GameConstant;
 import listener.IGameListener;
 import spell.Card;
+import spell.Incantation;
 import target.TargetConstraint;
 import utility.MapConverter;
 import utility.Proba;
@@ -285,11 +286,6 @@ public class Game implements IGameListener
 	public int nbBoardElements()
 	{
 		return nbWizards + nbMonstersAndCorpses;
-	}
-	
-	public float getBoardDensity()
-	{
-		return ((float)nbBoardElements()) / ((float)board.length);
 	}
 	
 	
@@ -737,9 +733,24 @@ public class Game implements IGameListener
 		nbMonstersAndCorpses++;
 	}
 	
-	public void nextMonsterWave()
+	public void nextMonsterWave(Incantation[] incantations)
+	//incantations : all incantations from the JSON file
 	{
-		//TODO
+		int nbMonstersToSpawnThisTurn = Proba.nextInt(gameConstant.getNbMonstersToSpawnEachTurnMin(),
+														gameConstant.getNbMonstersToSpawnEachTurnMax());
+
+		float futureDensity = ((float)(nbWizards + nbMonstersAndCorpses + 1))/((float)board.length);
+		
+		int i = 0;
+		while(!monstersToSpawn.isEmpty() && i < nbMonstersToSpawnThisTurn && futureDensity <= gameConstant.getBoardDensityLimit())
+																			  //The future density must remain lower than the boardDensityLimit
+		{
+			spawnMonster(new Monster(monstersToSpawn.poll(), incantations));
+			
+			futureDensity += 1/((float)board.length); //The future density with one additional monster
+			
+			i++;
+		}
 	}
 	
 

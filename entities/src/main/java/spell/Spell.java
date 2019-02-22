@@ -5,12 +5,27 @@ import game.Game;
 public abstract class Spell implements ISpell
 {
 	protected String name;
+	protected Character choosenTarget;
 	
 
 
+	@Override
 	public String getName()
 	{
-		return this.name;
+		return name;
+	}
+	
+	@Override
+	public String getDescription()
+	{
+		//TODO
+		return null;
+	}
+	
+	@Override
+	public void setChoosenTarget(Character choosenTarget)
+	{
+		this.choosenTarget = choosenTarget;
 	}
 	
 	protected void prepare()
@@ -23,10 +38,11 @@ public abstract class Spell implements ISpell
 		
 	}
 	
+	@Override
 	public void cast(Game game)
 	{
 		prepare();
-		//TODO CAST
+		//TODO
 		clean();
 	}
 }
