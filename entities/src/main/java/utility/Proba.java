@@ -77,4 +77,19 @@ public class Proba
 		return r.nextFloat() < probability;
 	}
 	
+	public static int nextInt(int min, int max)
+	//return a random number between min (inclusive) and max (inclusive)
+	{
+		Preconditions.checkArgument(min >= 0, "min was %s but expected positive", min);
+		Preconditions.checkArgument(max >= min, "max was %s but expected higher or equal to %s (min)", max, min);
+		
+		return r.nextInt(max-min+1) + min;
+	}
+	
+	public static int nextInt(int bound)
+	//return a random number between 0 (inclusive) and bound (exclusive)
+	{
+		return r.nextInt(bound);
+	}
+	
 }

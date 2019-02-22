@@ -1,10 +1,9 @@
 package listener;
 
-import boardelement.IBoardElement;
 import boardelement.Character;
 
 public interface IGameListener
 {
-	public void clearBoard(IBoardElement boardElement);
+	public void clearBoard(Character character);
 	public void refreshRange(Character character);
 }

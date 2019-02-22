@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.google.common.base.Preconditions;
@@ -165,9 +164,7 @@ public class Game implements IGameListener
 		Preconditions.checkState(characters.length > 0, "No available target for current Character,"
 				+ " please verify using hasValidTargetForCurrentCharacter method before using method");
 		
-		Random r = new Random();
-		
-		return characters[r.nextInt(characters.length)];
+		return characters[Proba.nextInt(characters.length)];
 	}
 	
 	public Character[] getAllAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
@@ -272,6 +269,14 @@ public class Game implements IGameListener
 		
 		this.board = board;
 		
+		nbMonstersAndCorpses = 0;
+		nbWizards = 0;
+		for(IBoardElement elem : board)
+		{
+			nbMonstersAndCorpses += elem instanceof Monster || elem instanceof Corpse ? 1 : 0;
+			nbWizards += elem instanceof Wizard ? 1 : 0;
+		}
+		
 		setFirstWizardAsCurrentCharacter();
 		refreshCurrentCharacterRange();
 		refreshWizardsRange();
@@ -280,6 +285,11 @@ public class Game implements IGameListener
 	public int nbBoardElements()
 	{
 		return nbWizards + nbMonstersAndCorpses;
+	}
+	
+	public float getBoardDensity()
+	{
+		return ((float)nbBoardElements()) / ((float)board.length);
 	}
 	
 	
@@ -305,6 +315,7 @@ public class Game implements IGameListener
 		if(board[characterIdx] instanceof Wizard && board[finalPosition] instanceof Corpse)
 		{
 			board[finalPosition] = null; //...il le détruit
+			nbMonstersAndCorpses--; //et réduit le compteur
 		}
 		IBoardElement temporaryElement = board[finalPosition]; //Si la place est occupée, on enregistre l'occupant
 		board[finalPosition] = board[characterIdx]; //On place le character sur la case ou il veut se déplacer
@@ -509,7 +520,7 @@ public class Game implements IGameListener
 	
 	public boolean currentCharacterInWizardsRange()
 	{
-		return this.wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
+		return wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
 	}
 	
 	public void playMonstersTurnPart1()
@@ -547,13 +558,14 @@ public class Game implements IGameListener
 		
 		if(!monsterFounded)
 		{
-			setFirstWizardAsCurrentCharacter();
 			endMonstersTurn();
 		}
 	}
 	
 	private void endMonstersTurn()
 	{
+		setCurrentCharacter(null);
+		
 		for(int i = 0; i < board.length; i++)
 		{
 			if(board[i] instanceof Monster)
@@ -565,7 +577,32 @@ public class Game implements IGameListener
 				m.resetRange();
 				m.setPlayed(false);
 			}
+			
+			if(board[i] instanceof Corpse)
+			{
+				Corpse c = (Corpse) board[i];
+				
+				c.incrCounterToReborn();
+				
+				if(c.counterReachedReborn())
+				{
+					if(c.isWillReborn())
+					{
+						board[i] = c.getMonster();
+					}
+					else
+					{
+						board[i] = null;
+						nbMonstersAndCorpses--;
+					}
+				}
+			}
 		}
+	}
+	
+	public boolean monstersTurnEnded()
+	{
+		return getCurrentCharacter() == null && !isWizardsTurn();
 	}
 
 
@@ -669,7 +706,7 @@ public class Game implements IGameListener
 		}
 	}
 	
-	public void spawnMonster(Monster monster)
+	private void spawnMonster(Monster monster)
 	{
 		Preconditions.checkState(nbBoardElements() < board.length, "No space for an additional monster");
 		
@@ -698,6 +735,11 @@ public class Game implements IGameListener
 		
 		//On incrémente le nombre de monstres ou de cadavres sur le board
 		nbMonstersAndCorpses++;
+	}
+	
+	public void nextMonsterWave()
+	{
+		//TODO
 	}
 	
 
@@ -739,40 +781,30 @@ public class Game implements IGameListener
 
 	//IGameListener Methods
 	@Override
-	public void clearBoard(IBoardElement boardElement)
+	public void clearBoard(Character character)
 	{
-		int idx = getBoardElementIdx(boardElement);
+		int idx = getBoardElementIdx(character);
 		
-		if(boardElement instanceof Corpse)
+		if(character instanceof Monster)
+		{
+			board[idx] = new Corpse((Monster) character);
+				
+			refreshRange(character);
+				
+			if(character == getCurrentCharacter()) { nextMonster(); }
+		}
+			
+		if(character instanceof Wizard)
 		{
 			board[idx] = null;
 			
-			nbMonstersAndCorpses--;
-		}
-		
-		if(boardElement instanceof Character)
-		{
-			if(boardElement instanceof Monster)
-			{
-				board[idx] = new Corpse((Monster) boardElement);
-				
-				refreshRange((Character) boardElement);
-				
-				if(boardElement == getCurrentCharacter()) { nextMonster(); }
-			}
+			refreshRange(character);
 			
-			if(boardElement instanceof Wizard)
-			{
-				board[idx] = null;
-				
-				refreshRange((Character) boardElement);
-				
-				if(boardElement == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
-				
-				nbWizards--;
-			}
+			if(character == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
+			
+			nbWizards--;
 		}
-		
+				
 	}
 
 	@Override
