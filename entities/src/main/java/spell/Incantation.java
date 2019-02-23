@@ -1,6 +1,6 @@
 package spell;
 
-import target.TargetType;
+import target.Target;
 import utility.INamedObject;
 
 public class Incantation extends Spell
@@ -14,7 +14,7 @@ public class Incantation extends Spell
 	
 	
 	
-	public TargetType getFirstTargetType()
+	public Target getFirstTarget()
 	{
 		//TODO
 		return null;

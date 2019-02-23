@@ -1,6 +1,6 @@
 package effect;
 
-import target.TargetType;
+import target.Target;
 
 public abstract class OneValueEffect extends TargetableEffect
 {
@@ -9,16 +9,15 @@ public abstract class OneValueEffect extends TargetableEffect
 	
 	
 
-	public OneValueEffect(TargetType targetType, int value)
-	{
-		super(targetType);
+	public OneValueEffect(Target target, int value) {
+		super(target);
 		this.value = value;
 		moreValue = 0;
 	}
 
 
 
-	public int getValue() {
+	protected int getValue() {
 		return value + moreValue;
 	}
 

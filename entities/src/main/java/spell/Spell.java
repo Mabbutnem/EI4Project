@@ -1,6 +1,7 @@
 package spell;
 
 import game.Game;
+import boardelement.Character;
 
 public abstract class Spell implements ISpell
 {
@@ -23,6 +24,12 @@ public abstract class Spell implements ISpell
 	}
 	
 	@Override
+	public Character getChoosenTarget()
+	{
+		return choosenTarget;
+	}
+	
+	@Override
 	public void setChoosenTarget(Character choosenTarget)
 	{
 		this.choosenTarget = choosenTarget;
@@ -30,12 +37,13 @@ public abstract class Spell implements ISpell
 	
 	protected void prepare()
 	{
-		
+		//TODO
 	}
 	
 	protected void clean()
 	{
-		
+		//TODO
+		choosenTarget = null;
 	}
 	
 	@Override
