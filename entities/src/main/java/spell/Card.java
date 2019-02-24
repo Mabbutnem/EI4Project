@@ -1,5 +1,6 @@
 package spell;
 
+import effect.IEffect;
 import utility.INamedObject;
 
 public class Card extends ManaCostSpell
@@ -8,11 +9,17 @@ public class Card extends ManaCostSpell
 
 	
 	
+	public Card(String name, IEffect[] effects, int cost)
+	{
+		super(name, effects, cost);
+		revealed = true;
+	}
+	
 	//Copy constructor
 	public Card(Card c)
 	{
-		this.name = c.getName();
-		this.revealed = c.isRevealed();
+		super(c.getName(), c.getEffects(), c.getCost());
+		revealed = c.isRevealed();
 	}
 	
 

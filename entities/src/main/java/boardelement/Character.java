@@ -1,7 +1,10 @@
 package boardelement;
 
+import java.util.List;
+
 import com.google.common.base.Preconditions;
 
+import effect.Word;
 import listener.IGameListener;
 
 //NOT FINISHED !!
@@ -20,6 +23,7 @@ public abstract class Character implements IBoardElement
 	private int dash;
 	private int range;
 	private boolean freeze;
+	private List<Word> words;
 	
 	
 	
@@ -253,5 +257,26 @@ public abstract class Character implements IBoardElement
 	public void resetFreeze()
 	{
 		setFreeze(false);
+	}
+
+
+
+
+	public boolean containsWord(Word word)
+	{
+		return words.contains(word);
+	}
+	
+	public void addWord(Word word)
+	{
+		if(!words.contains(word))
+		{
+			words.add(word);
+		}
+	}
+	
+	public void clearWords()
+	{
+		words.clear();
 	}
 }

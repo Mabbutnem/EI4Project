@@ -22,7 +22,7 @@ public class Target
 			if(alc.contains(c))
 			{
 				throw new IllegalArgumentException("constraints contains 2(or more) same constraints but"
-						+ " can't contains 2(or more) same constraint, exemple : [NOTYOU, NOTALLY, NOTYOU]");
+						+ " can't contains 2(or more) same constraint, example : [NOTYOU, NOTALLY, NOTYOU]");
 			}
 			alc.add(c);
 		}

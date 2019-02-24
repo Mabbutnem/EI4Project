@@ -1,12 +1,33 @@
 package spell;
 
 import game.Game;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import boardelement.Character;
+import effect.IApplicableEffect;
+import effect.IEffect;
+import effect.Word;
 
 public abstract class Spell implements ISpell
 {
 	protected String name;
+	protected IEffect[] effects;
+	protected String description;
 	protected Character choosenTarget;
+	protected List<Word> words;
+	
+	
+	
+	public Spell(String name, IEffect[] effects)
+	{
+		this.name = name;
+		this.effects = effects;
+		setDescription();
+		choosenTarget = null;
+		words = new LinkedList<>();
+	}
 	
 
 
@@ -17,10 +38,26 @@ public abstract class Spell implements ISpell
 	}
 	
 	@Override
+	public IEffect[] getEffects() {
+		return effects;
+	}
+	
+	private void setDescription()
+	{
+		StringBuilder bld = new StringBuilder();
+		
+		for(IEffect e : effects)
+		{
+			bld.append(e.getDescription()).append(" \n");
+		}
+		
+		description = bld.toString();
+	}
+	
+	@Override
 	public String getDescription()
 	{
-		//TODO
-		return null;
+		return description;
 	}
 	
 	@Override
@@ -35,22 +72,52 @@ public abstract class Spell implements ISpell
 		this.choosenTarget = choosenTarget;
 	}
 	
-	protected void prepare()
+	@Override
+	public boolean containsWord(Word word)
 	{
-		//TODO
+		return words.contains(word);
+	}
+
+	@Override
+	public void addWord(Word word)
+	{
+		if(!words.contains(word))
+		{
+			words.add(word);
+		}
+	}
+	
+	protected void prepare(Game game)
+	{
+		for(IEffect e : effects)
+		{
+			e.prepare(game, this);
+		}
 	}
 	
 	protected void clean()
 	{
-		//TODO
+		for(IEffect e : effects)
+		{
+			e.clean();
+		}
 		choosenTarget = null;
+		words.clear();
 	}
 	
 	@Override
 	public void cast(Game game)
 	{
-		prepare();
-		//TODO
+		prepare(game);
+
+		for(IEffect e : effects)
+		{
+			if(e instanceof IApplicableEffect)
+			{
+				((IApplicableEffect) e).apply(game, this);
+			}
+		}
+		
 		clean();
 	}
 }

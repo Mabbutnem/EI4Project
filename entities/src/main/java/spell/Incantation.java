@@ -1,15 +1,21 @@
 package spell;
 
+import effect.IEffect;
 import target.Target;
 import utility.INamedObject;
 
 public class Incantation extends Spell
 {
 
+	public Incantation(String name, IEffect[] effects)
+	{
+		super(name, effects);
+	}
+	
 	//Copy constructor
 	public Incantation(Incantation i)
 	{
-		this.name = i.getName();
+		super(i.getName(), i.getEffects());
 	}
 	
 	

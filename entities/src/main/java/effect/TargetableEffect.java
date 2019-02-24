@@ -43,12 +43,12 @@ public abstract class TargetableEffect implements IApplicableEffect
 		return null;
 	}
 	
-	protected abstract void applyOn(Character character);
-	protected void applyOn(Character[] characters)
+	protected abstract void applyOn(Character character, Game game, ISpell spell);
+	protected void applyOn(Character[] characters, Game game, ISpell spell)
 	{
 		for(Character c : characters)
 		{
-			applyOn(c);
+			applyOn(c, game, spell);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public abstract class TargetableEffect implements IApplicableEffect
 		switch(target.getType())
 		{
 		case AREA:
-			applyByArea(game);
+			applyByArea(game, spell);
 			break;
 			
 		case CHOICE:
@@ -69,11 +69,11 @@ public abstract class TargetableEffect implements IApplicableEffect
 			break;
 			
 		case RANDOM:
-			applyByRandom(game);
+			applyByRandom(game, spell);
 			break;
 			
 		case YOU:
-			applyByYou(game);
+			applyByYou(game, spell);
 			break;
 			
 		default:
@@ -81,9 +81,9 @@ public abstract class TargetableEffect implements IApplicableEffect
 		}
 	}
 	
-	private void applyByArea(Game game)
+	private void applyByArea(Game game, ISpell spell)
 	{
-		applyOn(game.getAllAvailableTargetForCurrentCharacter(target.getConstraints()));
+		applyOn(game.getAllAvailableTargetForCurrentCharacter(target.getConstraints()), game, spell);
 	}
 	
 	private void applyByChoice(Game game, ISpell spell)
@@ -98,23 +98,23 @@ public abstract class TargetableEffect implements IApplicableEffect
 		}
 		if(spell.getChoosenTarget() != null)
 		{
-			applyOn(new Character[] {spell.getChoosenTarget()});
+			applyOn(new Character[] {spell.getChoosenTarget()}, game, spell);
 		}
 	}
 	
-	private void applyByRandom(Game game)
+	private void applyByRandom(Game game, ISpell spell)
 	{
 		if(game.hasValidTargetForCurrentCharacter(target.getConstraints()))
 		{
-			applyOn(new Character[] {game.getRandomAvailableTargetForCurrentCharacter(target.getConstraints())});
+			applyOn(new Character[] {game.getRandomAvailableTargetForCurrentCharacter(target.getConstraints())}, game, spell);
 		}
 	}
 	
-	private void applyByYou(Game game)
+	private void applyByYou(Game game, ISpell spell)
 	{
 		if(game.getCurrentCharacter() != null)
 		{
-			applyOn(new Character[] {game.getCurrentCharacter()});
+			applyOn(new Character[] {game.getCurrentCharacter()}, game, spell);
 		}
 	}
 	

@@ -1,11 +1,14 @@
 package effect;
 
-import game.Game;
 import spell.ISpell;
 import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 import boardelement.Character;
+import boardelement.Wizard;
+import condition.CardNumberCondition;
+import condition.ICondition;
+import game.Game;
 
 public class CardEffect extends OneValueEffect
 {
@@ -28,17 +31,26 @@ public class CardEffect extends OneValueEffect
 
 
 
-	@Override
-	public void prepare(ISpell spell) {
-		// TODO Auto-generated method stub
+	@Override 
+	public String getDescription()
+	{
+		//TODO
+		return null;
 	}
-
-
-
+	
 	@Override
-	protected void applyOn(Character character) {
-		// TODO Auto-generated method stub
-		
+	protected void applyOn(Character character, Game game, ISpell spell)
+	{
+		if(character instanceof Wizard)
+		{
+			((Wizard) character).getZoneGroup().transfer(zoneSource, pickSource, zoneDest, pickDest, getValue());
+		}
+	}
+	
+	@Override
+	public ICondition matchingCondition()
+	{
+		return new CardNumberCondition(getValue(), zoneSource);
 	}
 
 }
