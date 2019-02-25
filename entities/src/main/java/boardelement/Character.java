@@ -10,9 +10,9 @@ import listener.IGameListener;
 //NOT FINISHED !!
 public abstract class Character implements IBoardElement
 {
-	protected static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected strictly positive";
-	protected static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected strictly positive";
-	private static final String DAMAGEILLEGALVALUEMESSAGE = "Damage was %s but expected strictly positive";
+	protected static final String LOSSILLEGALVALUEMESSAGE = "Loss was %s but expected positive";
+	protected static final String GAINILLEGALVALUEMESSAGE = "Gain was %s but expected positive";
+	private static final String DAMAGEILLEGALVALUEMESSAGE = "Damage was %s but expected positive";
 	
 	private static IGameListener gameListener;
 
@@ -79,21 +79,21 @@ public abstract class Character implements IBoardElement
 	
 	public void loseHealth(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setHealth(getHealth() - loss);
 	}
 	
 	public void gainHealth(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setHealth(getHealth() + gain);
 	}
 	
 	public void inflictDirectDamage(int damage)
 	{
-		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
+		Preconditions.checkArgument(damage >= 0, DAMAGEILLEGALVALUEMESSAGE, damage);
 		
 		loseHealth(damage);
 	}
@@ -101,7 +101,7 @@ public abstract class Character implements IBoardElement
 	// return the direct damage dealth
 	public int inflictDamage(int damage)
 	{
-		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
+		Preconditions.checkArgument(damage >= 0, DAMAGEILLEGALVALUEMESSAGE, damage);
 		
 		if(damage > getArmor())
 		{
@@ -117,7 +117,7 @@ public abstract class Character implements IBoardElement
 	
 	public int inflictAcidDamage(int damage)
 	{
-		Preconditions.checkArgument(damage > 0, DAMAGEILLEGALVALUEMESSAGE, damage);
+		Preconditions.checkArgument(damage >= 0, DAMAGEILLEGALVALUEMESSAGE, damage);
 		
 		if(damage > getArmor())
 		{
@@ -146,14 +146,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseArmor(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 	
 		setArmor(getArmor() - loss);
 	}
 	
 	public void gainArmor(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setArmor(getArmor() + gain);
 	}
@@ -171,14 +171,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseMove(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 	
 		setMove(getMove() - loss);
 	}
 	
 	public void gainMove(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setMove(getMove() + gain);
 	}
@@ -198,14 +198,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseDash(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setDash(getDash() - loss);
 	}
 	
 	public void gainDash(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setDash(getDash() + gain);
 	}
@@ -229,14 +229,14 @@ public abstract class Character implements IBoardElement
 	
 	public void loseRange(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 		
 		setRange(getRange() - loss);
 	}
 	
 	public void gainRange(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setRange(getRange() + gain);
 	}

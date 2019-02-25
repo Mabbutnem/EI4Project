@@ -1,5 +1,7 @@
 package effect;
 
+import com.google.common.base.Preconditions;
+
 import game.Game;
 import listener.IYouCanEffectListener;
 import spell.ISpell;
@@ -11,6 +13,17 @@ public class YouCanEffect extends ConditionalEffect
 	private IApplicableEffect effect;
 	
 
+
+	public YouCanEffect(IEffect[] effects, IApplicableEffect effect)
+	{
+		super(effects);
+		
+		Preconditions.checkState(youCanEffectListener != null, "youCanEffectListener was not initialised (in static)");
+		
+		Preconditions.checkArgument(effect != null, "effect was null but expected not null");
+		
+		this.effect = effect;
+	}
 	
 	
 
@@ -27,11 +40,11 @@ public class YouCanEffect extends ConditionalEffect
 	@Override
 	public void prepare(Game game, ISpell spell)
 	{
-		willApply = effect.matchingCondition().test(game);
+		willApply = effect.matchingCondition().getPredicate().test(game)
+					&& youCanEffectListener.wantToApply(effect);
 		
 		if(willApply)
 		{
-			willApply = youCanEffectListener.wantToApply(effect);
 			effect.apply(game, spell);
 		}
 		

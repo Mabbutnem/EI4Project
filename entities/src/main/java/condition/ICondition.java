@@ -1,9 +1,11 @@
 package condition;
 
+import java.util.function.Predicate;
+
 import game.Game;
 
 public interface ICondition
 {
 	public String getDescription();
-	public boolean test(Game game);
+	public Predicate<Game> getPredicate();
 }

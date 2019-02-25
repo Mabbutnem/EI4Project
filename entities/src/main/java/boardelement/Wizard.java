@@ -133,14 +133,14 @@ public class Wizard extends Character
 	
 	public void loseMana(int loss)
 	{
-		Preconditions.checkArgument(loss > 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
 	
 		setMana(getMana() - loss);
 	}
 	
 	public void gainMana(int gain)
 	{
-		Preconditions.checkArgument(gain > 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
 		
 		setMana(getMana() + gain);
 	}

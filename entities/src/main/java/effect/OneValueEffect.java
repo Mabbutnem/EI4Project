@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.base.Preconditions;
+
 import game.Game;
 import spell.ISpell;
 import target.Target;
@@ -18,6 +20,9 @@ public abstract class OneValueEffect extends TargetableEffect
 
 	public OneValueEffect(Target target, int value) {
 		super(target);
+		
+		Preconditions.checkArgument(value >= 0, "value was %s but expected positive", value);
+		
 		this.value = value;
 		moreValue = 0;
 	}

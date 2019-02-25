@@ -22,6 +22,8 @@ public abstract class TargetableEffect implements IApplicableEffect
 		Preconditions.checkState(targetRequestListener != null, "targetRequestListener"
 				+ " was not initialised (in static)");
 		
+		Preconditions.checkArgument(target != null, "target was null but expected not null");
+		
 		this.target = target;
 	}
 

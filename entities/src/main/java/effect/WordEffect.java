@@ -1,5 +1,7 @@
 package effect;
 
+import com.google.common.base.Preconditions;
+
 import game.Game;
 import spell.ISpell;
 
@@ -8,15 +10,24 @@ public class WordEffect implements IEffect
 	private Word word;
 	
 	
+	
+	public WordEffect(Word word)
+	{
+		Preconditions.checkArgument(word != null, "word was null but expected not null");
+		
+		this.word = word;
+	}
+	
+	
 
 	public Word getWord() {
 		return word;
 	}
 	
 	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getDescription()
+	{
+		return word.toString();
 	}
 
 	@Override

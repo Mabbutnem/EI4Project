@@ -338,41 +338,29 @@ public class Game implements IGameListener
 	public void rightWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, 1);
-		if(actualDelta != 0)
-		{
-			character.loseMove(Math.abs(actualDelta));
-			refreshRange(character);
-		}
+		character.loseMove(Math.abs(actualDelta));
+		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
 	public void leftWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, -1);
-		if(actualDelta != 0)
-		{
-			character.loseMove(Math.abs(actualDelta));
-			refreshRange(character);
-		}
+		character.loseMove(Math.abs(actualDelta));
+		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
 	public void rightDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, character.getDash());
-		if(actualDelta != 0)
-		{
-			character.loseDash(Math.abs(actualDelta));
-			refreshRange(character);
-		}
+		character.loseDash(Math.abs(actualDelta));
+		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
 	public void leftDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, -character.getDash());
-		if(actualDelta != 0)
-		{
-			character.loseDash(Math.abs(actualDelta));
-			refreshRange(character);
-		}
+		character.loseDash(Math.abs(actualDelta));
+		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
 	public void push(Character referenceCharacter, Character[] characters, int delta)

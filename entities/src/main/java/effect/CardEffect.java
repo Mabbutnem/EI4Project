@@ -4,9 +4,12 @@ import spell.ISpell;
 import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
+
+import com.google.common.base.Preconditions;
+
 import boardelement.Character;
 import boardelement.Wizard;
-import condition.CardNumberCondition;
+import condition.HigherOrEqualCardCondition;
 import condition.ICondition;
 import game.Game;
 
@@ -23,6 +26,12 @@ public class CardEffect extends OneValueEffect
 			ZoneType zoneSource, ZonePick pickSource, ZoneType zoneDest, ZonePick pickDest)
 	{
 		super(target, value);
+		
+		Preconditions.checkArgument(zoneSource != null, "zoneSource was null but expected not null");
+		Preconditions.checkArgument(pickSource != null, "pickSource was null but expected not null");
+		Preconditions.checkArgument(zoneDest != null, "zoneDest was null but expected not null");
+		Preconditions.checkArgument(pickDest != null, "pickDest was null but expected not null");
+		
 		this.zoneSource = zoneSource;
 		this.pickSource = pickSource;
 		this.zoneDest = zoneDest;
@@ -50,7 +59,7 @@ public class CardEffect extends OneValueEffect
 	@Override
 	public ICondition matchingCondition()
 	{
-		return new CardNumberCondition(getValue(), zoneSource);
+		return new HigherOrEqualCardCondition(getValue(), zoneSource);
 	}
 
 }
