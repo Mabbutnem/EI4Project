@@ -15,7 +15,7 @@ import listener.IGameListener;
 
 public class TestCharacter
 {
-	class RealCharacter extends boardelement.Character
+	private class RealCharacter extends boardelement.Character
 	{
 		public RealCharacter()
 		{
