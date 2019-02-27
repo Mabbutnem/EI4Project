@@ -75,8 +75,6 @@ public class TestTargetableEffect
 	{
 		TargetableEffect.setTargetRequestListener(targetRequestListener = mock(ITargetRequestListener.class));
 		
-		when(targetRequestListener.chooseTarget(game)).thenReturn(c0);
-		
 		target = mock(Target.class);
 		when(target.getConstraints()).thenReturn(constraints);
 		
@@ -131,26 +129,150 @@ public class TestTargetableEffect
 		verify(c1, times(1)).getHealth();
 		verify(game, times(2)).getBoard();
 		verify(spell, times(2)).getName();
+		
+		
+		
+		
+		
+		reset(c0);
+		reset(c1);
+		reset(game);
+		reset(spell);
+		
+		when(game.getAllAvailableTargetForCurrentCharacter(target.getConstraints())).thenReturn(new Character[0]);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(c1, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
 	}
 
 	@Test
-	public final void applyByChoice() {
-		fail("Not yet implemented");
+	public final void applyByChoiceWithSpellChoosenTargetIsNull()
+	{
+		when(target.getType()).thenReturn(TargetType.CHOICE);
+		
+		when(targetRequestListener.chooseTarget(game)).thenReturn(c0);
+		
+		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(true);
+		
+		when(spell.getChoosenTarget()).thenReturn(null).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(spell, times(1)).setChoosenTarget(c0);
+		
+		verify(c0, times(1)).getHealth();
+		verify(game, times(1)).getBoard();
+		verify(spell, times(1)).getName();
+		
+		
+		
+
+		
+		reset(c0);
+		reset(game);
+		reset(spell);
+
+		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(true);
+		
+		when(spell.getChoosenTarget()).thenReturn(null);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+	}
+	
+	@Test
+	public final void applyByChoiceWithSpellChoosenTargetIsAlreadyInitialised()
+	{
+		when(target.getType()).thenReturn(TargetType.CHOICE);
+		
+		when(spell.getChoosenTarget()).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(c0, times(1)).getHealth();
+		verify(game, times(1)).getBoard();
+		verify(spell, times(1)).getName();
+		
+		verify(spell, never()).setChoosenTarget(c0);
 	}
 
 	@Test
-	public final void applyByMore() {
-		fail("Not yet implemented");
+	public final void applyByMore()
+	{
+		when(target.getType()).thenReturn(TargetType.MORE);
+
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
 	}
 
 	@Test
 	public final void applyByRandom() {
-		fail("Not yet implemented");
+		when(target.getType()).thenReturn(TargetType.RANDOM);
+		
+		when(game.getRandomAvailableTargetForCurrentCharacter(constraints)).thenReturn(c0);
+		
+		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(true);
+		
+		te.apply(game, spell);
+		
+		verify(c0, times(1)).getHealth();
+		verify(game, times(1)).getBoard();
+		verify(spell, times(1)).getName();
+		
+		
+		
+		
+
+		reset(c0);
+		reset(game);
+		reset(spell);
+		
+		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(false);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
 	}
 
 	@Test
 	public final void applyByYou() {
-		fail("Not yet implemented");
+		when(target.getType()).thenReturn(TargetType.YOU);
+		
+		when(game.getCurrentCharacter()).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(c0, times(1)).getHealth();
+		verify(game, times(1)).getBoard();
+		verify(spell, times(1)).getName();
+		
+		
+		
+		
+
+		reset(c0);
+		reset(game);
+		reset(spell);
+
+		when(game.getCurrentCharacter()).thenReturn(null);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
 	}
 
 }
