@@ -15,7 +15,7 @@ public class CorpseConstant
 	}
 	public CorpseConstant(int nbTurnToReborn)
 	{
-		Preconditions.checkArgument(nbTurnToReborn >= 0, "nbTurnToReborn was %s but expected positive", nbTurnToReborn);
+		Preconditions.checkArgument(nbTurnToReborn > 0, "nbTurnToReborn was %s but expected strictly positive", nbTurnToReborn);
 		
 		this.nbTurnToReborn = nbTurnToReborn;
 	}
