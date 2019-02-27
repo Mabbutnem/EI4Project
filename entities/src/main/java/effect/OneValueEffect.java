@@ -47,8 +47,7 @@ public abstract class OneValueEffect extends TargetableEffect
 		for(IEffect e : effects)
 		{
 			if(e instanceof OneValueEffect &&
-				e.getClass() == this.getClass() &&
-				((OneValueEffect) e).getTarget().getType() != TargetType.MORE)
+				e.getClass() == this.getClass())
 			{
 				myList.add((OneValueEffect) e);
 			}
@@ -72,11 +71,15 @@ public abstract class OneValueEffect extends TargetableEffect
 	@Override
 	public void prepare(Game game, ISpell spell)
 	{
-		List<OneValueEffect> effects = findAllEffectsBeforeThis(spell.getEffects());
-		if(effects.isEmpty()) { throw new IllegalStateException("No effect of the same type found before this MORE target type effect"); }
-		Collections.reverse(effects);
+		if(getTarget().getType() == TargetType.MORE)
+		{
+			List<OneValueEffect> effects = findAllEffectsBeforeThis(spell.getEffects());
+			effects.remove(effects.size()-1); //On enlève le dernier effet qui est "this"
+			if(effects.isEmpty()) { throw new IllegalStateException("No effect of the same type found before this MORE target type effect"); }
+			Collections.reverse(effects);
 		
-		effects.get(0).addValue(value);
+			effects.get(0).addValue(value);
+		}
 	}
 	
 	@Override
