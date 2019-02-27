@@ -13,6 +13,7 @@ import target.TargetType;
 
 public abstract class OneValueEffect extends TargetableEffect
 {
+	
 	private int value;
 	private int moreValue;
 	
@@ -29,11 +30,12 @@ public abstract class OneValueEffect extends TargetableEffect
 
 
 
-	protected int getValue() {
+	public int getValue() {
 		return value + moreValue;
 	}
 
 	public void addValue(int addedValue) {
+		Preconditions.checkArgument(addedValue >= 0, "addedValue was %s but expected positive", addedValue);
 		moreValue += addedValue;
 	}
 	
