@@ -1,5 +1,6 @@
 package boardelement;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -35,6 +36,7 @@ public abstract class Character implements IBoardElement
 		setFreeze(false);
 		setAlive(true);
 		setDash(0);
+		words = new LinkedList<>();
 	}
 
 	

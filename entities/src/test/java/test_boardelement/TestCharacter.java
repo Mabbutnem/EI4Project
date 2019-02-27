@@ -10,6 +10,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import boardelement.Character;
+import effect.Word;
 import listener.IGameListener;
 
 public class TestCharacter
@@ -417,6 +418,29 @@ public class TestCharacter
 		character.resetFreeze();
 		boolean expected = false;
 		boolean result = character.isFreeze();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testContainsWordAndAddWord() {
+		boolean expected = true;
+		boolean result;
+		
+		character.addWord(Word.LIFELINK);
+		result = character.containsWord(Word.LIFELINK);
+		assertEquals(expected, result);
+		
+		expected = false;
+		result = character.containsWord(Word.ACID);
+		assertEquals(expected, result);		
+	}
+	
+	@Test
+	public final void testClearWord() {
+		character.addWord(Word.LIFELINK);
+		character.clearWords();
+		boolean expected = false;
+		boolean result = character.containsWord(Word.LIFELINK);
 		assertEquals(expected, result);
 	}
 

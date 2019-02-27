@@ -140,5 +140,36 @@ public class TestProba
 	{
 		Proba.willHappen(1.01f);
 	}
+	
+	@Test
+	public final void testNextInt1() {
+		boolean expected = true;
+		int number = Proba.nextInt(2, 6);
+		boolean result = number >= 2 && number <= 6;
+		assertEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testNextInt1Exception1() {
+		int number = Proba.nextInt(-2, 6);
+	}
 
+	@Test (expected = IllegalArgumentException.class)
+	public final void testNextInt1Exception2() {
+		int number = Proba.nextInt(2, 1);
+	}
+	
+	@Test
+	public final void testNextInt2() {
+		boolean expected = true;
+		int number = Proba.nextInt(6);
+		boolean result = number >= 0 && number <= 6;
+		assertEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testNextInt2Exception2() {
+		int number = Proba.nextInt(-4);
+	}
+	
 }
