@@ -17,6 +17,7 @@ public abstract class ConditionalEffect implements IApplicableEffect
 	{
 		Preconditions.checkArgument(effects.length > 0, "effects was empty but expected not empty");
 		
+		willApply = false;
 		this.effects = effects;
 	}
 
