@@ -47,7 +47,7 @@ public class TestTarget
 	@Test
 	public final void testTargetTargetConstraintEmpty()
 	{
-		target = new Target(new TargetConstraint[0], TargetType.CHOICE);
+		target = new Target(new TargetConstraint[0], TargetType.YOU);
 		int expected = 0;
 		int result = target.getConstraints().length;
 		assertEquals(expected, result);
@@ -76,6 +76,24 @@ public class TestTarget
 	public final void testTargetException3()
 	{
 		target = new Target(constraints, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testTargetException4()
+	{
+		target = new Target(constraints, TargetType.YOU);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testTargetException5()
+	{
+		constraints = new TargetConstraint[]
+				{
+						TargetConstraint.NOTENEMY,
+						TargetConstraint.NOTALLY,
+				};
+		
+		target = new Target(constraints, TargetType.CHOICE);
 	}
 
 	@Test

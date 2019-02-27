@@ -27,6 +27,17 @@ public class Target
 			alc.add(c);
 		}
 		
+		//Vérifier que si type = YOU ou MORE il n'y a pas de contrainte
+		if(type == TargetType.YOU || type == TargetType.MORE)
+		{
+			Preconditions.checkArgument(constraints.length == 0, "constraints must be empty if the target type is YOU or MORE");
+		}
+		
+		//Vérifier que que les contraintes NOTALLY et NOTENEMY ne sont pas toutes les deux présentes en même temps
+		Preconditions.checkArgument(
+				!alc.contains(TargetConstraint.NOTALLY) || !alc.contains(TargetConstraint.NOTENEMY),
+				"constraints can't contains NOTALLY and NOTENEMY constraints at the same time");
+		
 		this.constraints = constraints;
 		this.type = type;
 	}

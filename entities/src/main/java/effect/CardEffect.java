@@ -31,6 +31,7 @@ public class CardEffect extends OneValueEffect
 		Preconditions.checkArgument(pickSource != null, "pickSource was null but expected not null");
 		Preconditions.checkArgument(zoneDest != null, "zoneDest was null but expected not null");
 		Preconditions.checkArgument(pickDest != null, "pickDest was null but expected not null");
+		Preconditions.checkArgument(pickDest != ZonePick.CHOICE, "pickDest was choice but expected not choice");
 		
 		this.zoneSource = zoneSource;
 		this.pickSource = pickSource;

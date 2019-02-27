@@ -4,6 +4,10 @@ import game.Game;
 import listener.ITargetRequestListener;
 import spell.ISpell;
 import target.Target;
+import target.TargetConstraint;
+
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.base.Preconditions;
 
@@ -40,9 +44,23 @@ public abstract class TargetableEffect implements IApplicableEffect
 	}
 	
 	@Override
-	public String getDescription() {
-		// TODO
-		return null;
+	public String getDescription()
+	{
+		String desc = "";
+
+		List<TargetConstraint> constraintList = Arrays.asList((target.getConstraints()));
+		
+		if(constraintList.contains(TargetConstraint.NOTALLY)) {
+			desc += ", not ally";
+		}
+		if(constraintList.contains(TargetConstraint.NOTENEMY)) {
+			desc += ", not enemy";
+		}
+		if(constraintList.contains(TargetConstraint.NOTYOU)) {
+			desc += ", not you";
+		}
+		
+		return desc;
 	}
 	
 	protected abstract void applyOn(Character character, Game game, ISpell spell);
