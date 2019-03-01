@@ -151,12 +151,12 @@ public class TestProba
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testNextInt1Exception1() {
-		int number = Proba.nextInt(-2, 6);
+		Proba.nextInt(-2, 6);
 	}
 
 	@Test (expected = IllegalArgumentException.class)
 	public final void testNextInt1Exception2() {
-		int number = Proba.nextInt(2, 1);
+		Proba.nextInt(2, 1);
 	}
 	
 	@Test
@@ -169,7 +169,7 @@ public class TestProba
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testNextInt2Exception2() {
-		int number = Proba.nextInt(-4);
+		Proba.nextInt(-4);
 	}
 	
 }

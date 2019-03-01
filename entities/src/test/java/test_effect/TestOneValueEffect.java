@@ -330,7 +330,7 @@ public class TestOneValueEffect {
 		
 		
 		
-		//cas 6: (effectToAddValue placé avant effect mais à 1 niveau de profodeur supplémentaire)
+		//cas 6: (effectToAddValue placé avant effect mais à 1 niveau de profondeur supplémentaire)
 		when(spell.getEffects()).thenReturn(new IEffect[]
 				{
 						uselessEffect1,

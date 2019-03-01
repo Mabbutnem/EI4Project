@@ -29,7 +29,6 @@ public abstract class Spell implements ISpell
 	{
 		Preconditions.checkArgument(name.length() > 0, "name was empty but expected not empty");
 		
-		Preconditions.checkArgument(effects.length > 0, "effects was empty but expected not empty");
 		verifyMoreTargetableEffectIsNotAlone(effects, null);
 		
 		this.name = name;
@@ -86,7 +85,7 @@ public abstract class Spell implements ISpell
 		
 		for(IEffect e : effects)
 		{
-			bld.append(e.getDescription()).append(" \n");
+			bld.append(e.getDescription()).append("\n");
 		}
 		
 		description = bld.toString();

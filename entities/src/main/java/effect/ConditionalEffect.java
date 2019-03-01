@@ -1,7 +1,5 @@
 package effect;
 
-import com.google.common.base.Preconditions;
-
 import condition.ICondition;
 import game.Game;
 import spell.ISpell;
@@ -15,8 +13,6 @@ public abstract class ConditionalEffect implements IApplicableEffect
 	
 	public ConditionalEffect(IEffect[] effects)
 	{
-		Preconditions.checkArgument(effects.length > 0, "effects was empty but expected not empty");
-		
 		willApply = false;
 		this.effects = effects;
 	}

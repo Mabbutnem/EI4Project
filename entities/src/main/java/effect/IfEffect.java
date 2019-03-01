@@ -15,7 +15,8 @@ public class IfEffect extends ConditionalEffect
 	public IfEffect(IEffect[] effects, ICondition condition)
 	{
 		super(effects);
-		
+
+		Preconditions.checkArgument(effects.length > 0, "effects was empty but expected not empty");
 		Preconditions.checkArgument(condition != null, "condition was null but expected not null");
 		
 		this.condition = condition;

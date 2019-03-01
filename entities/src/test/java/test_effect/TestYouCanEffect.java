@@ -77,18 +77,23 @@ public class TestYouCanEffect
 	
 	
 
-	@Test (expected = IllegalArgumentException.class)
-	public final void testIfEffectException1() {
+	@Test
+	public final void testYouCanEffect() {
+		//You can have 0 effect inside a youCanEffect
 		youCanEffect = new YouCanEffect(new IEffect[0], aEffect);
+		
+		IEffect[] expected = new IEffect[0];
+		IEffect[] result = youCanEffect.getEffects();
+		assertArrayEquals(expected, result);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public final void testIfEffectException2() {
+	public final void testYouCanEffectException2() {
 		youCanEffect = new YouCanEffect(effects, null);
 	}
 	
 	@Test (expected = IllegalStateException.class)
-	public final void testIfEffectException3() {
+	public final void testYouCanEffectException3() {
 		YouCanEffect.setYouCanEffectListener(null);
 		youCanEffect = new YouCanEffect(effects, aEffect);
 	}
