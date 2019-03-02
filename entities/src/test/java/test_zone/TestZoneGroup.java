@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javafx.collections.ObservableList;
 import listener.ICardArrayDisplayListener;
 import spell.Card;
 import zone.AutoHideZone;
@@ -301,6 +302,20 @@ public class TestZoneGroup
 	}
 	
 	@Test
+	public final void testReveal()
+	{
+		zoneGroup.reveal(3, ZoneType.BANISH, ZonePick.BOTTOM);
+		
+		verify(banish, times(1)).reveal(3, ZonePick.BOTTOM);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRevealException()
+	{
+		zoneGroup.reveal(3, null, ZonePick.BOTTOM);
+	}
+	
+	@Test
 	public final void testSize()
 	{
 		int expected = 97;
@@ -334,6 +349,24 @@ public class TestZoneGroup
 	public final void testGetCardsException() {
 		//ZoneType ne peut pas être null
 		zoneGroup.getCards(null);
+	}
+	
+	@Test
+	public final void testGetCardsView() {
+		@SuppressWarnings("unchecked")
+		ObservableList<Card> cardsView = (ObservableList<Card>) mock(ObservableList.class);
+		
+		when(deck.getCardsView()).thenReturn(cardsView);
+		
+		ObservableList<Card> expected = cardsView;
+		ObservableList<Card> result = zoneGroup.getCardsView(ZoneType.DECK);
+		assertEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testGetCardsViewException()
+	{
+		zoneGroup.getCardsView(null);
 	}
 
 	@Test

@@ -285,6 +285,24 @@ public class TestZone
 		result = zone.getCards();
 		assertArrayEquals(expected, result);
 	}
+	
+	@Test
+	public final void testRemoveWith0Cards()
+	{
+		zone.remove(0);
+		
+		Card[] expected = cards;
+		Card[] result = zone.getCards();
+		assertArrayEquals(expected, result);
+		
+		
+		
+		zone.remove(0, ZonePick.RANDOM);
+		
+		expected = cards;
+		result = zone.getCards();
+		assertArrayEquals(expected, result);
+	}
 
 	@Test
 	public final void testRemoveTOP() {
@@ -431,33 +449,19 @@ public class TestZone
 	@Test (expected = IllegalArgumentException.class)
 	public final void testRemoveException1()
 	{
-		//on ne peut pas enlever 0 cartes
-		zone.remove(0);
+		//on ne peut pas enlever moins de 0 cartes
+		zone.remove(-3);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public final void testRemoveException2()
 	{
 		//on ne peut pas enlever moins de 0 cartes
-		zone.remove(-3);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public final void testRemoveException3()
-	{
-		//on ne peut pas enlever 0 cartes
-		zone.remove(0, ZonePick.RANDOM);
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public final void testRemoveException4()
-	{
-		//on ne peut pas enlever moins de 0 cartes
 		zone.remove(-3, ZonePick.RANDOM);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public final void testRemoveException5()
+	public final void testRemoveException3()
 	{
 		//zonePick ne peut pas être null
 		zone.remove(7, null);
@@ -535,6 +539,47 @@ public class TestZone
 	}
 
 	@Test
+	public final void testReveal()
+	{
+		zone.reveal(2, ZonePick.BOTTOM);
+		
+		verify(card1, times(1)).setRevealed(true);
+		verify(card2, times(1)).setRevealed(true);
+		verify(card3, never()).setRevealed(true);
+		verify(card4, never()).setRevealed(true);
+		verify(card5, never()).setRevealed(true);
+		
+		//Reset de mock
+		for(Card c : cards) { reset(c); }
+		
+		zone.reveal(2, ZonePick.TOP);
+		
+		verify(card1, never()).setRevealed(true);
+		verify(card2, never()).setRevealed(true);
+		verify(card3, never()).setRevealed(true);
+		verify(card4, times(1)).setRevealed(true);
+		verify(card5, times(1)).setRevealed(true);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRevealException1()
+	{
+		zone.reveal(-3, ZonePick.BOTTOM);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRevealException2()
+	{
+		zone.reveal(2, ZonePick.CHOICE);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRevealException3()
+	{
+		zone.reveal(2, ZonePick.RANDOM);
+	}
+	
+	@Test
 	public final void testHideCards() {
 		zone.hideCards();
 		for(Card c : zone.getCards())
@@ -543,6 +588,7 @@ public class TestZone
 			verifyNoMoreInteractions(c);
 		}
 	}
+	
 
 	@Test
 	public final void testRevealCards() {
@@ -553,6 +599,7 @@ public class TestZone
 			verifyNoMoreInteractions(c);
 		}
 	}
+	
 
 	@Test
 	public final void testMoveCardToIndex() {
@@ -567,6 +614,27 @@ public class TestZone
 						card5
 				};
 		Card[] result = zone.getCards();
+		assertArrayEquals(expected, result);
+	}
+	
+	
+	@Test
+	public final void testGetCardsView()
+	{
+		Card[] expected = cards;
+		Card[] result = zone.getCardsView().toArray(new Card[0]);
+		assertArrayEquals(expected, result);
+		
+		zone.remove(card1);
+		
+		expected = new Card[]
+				{
+						card2,
+						card3,
+						card4,
+						card5
+				};
+		result = zone.getCardsView().toArray(new Card[0]);
 		assertArrayEquals(expected, result);
 	}
 

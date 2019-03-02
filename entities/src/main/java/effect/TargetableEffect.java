@@ -133,6 +133,5 @@ public abstract class TargetableEffect implements IApplicableEffect
 			applyOn(new Character[] {game.getCurrentCharacter()}, game, spell);
 		}
 	}
-	
 
 }

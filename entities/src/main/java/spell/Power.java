@@ -10,11 +10,18 @@ public class Power extends ManaCostSpell
 	{
 		super(name, effects, cost);
 	}
+	
+	//Copy constructor
+	public Power(Power p)
+	{
+		super(p.getName(), p.getEffects(), p.getCost());
+	}
+	
+	
 
 	@Override
 	public INamedObject cloneObject() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Power(this);
 	}
 
 }

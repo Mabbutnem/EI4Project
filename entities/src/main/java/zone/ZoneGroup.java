@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
+import javafx.collections.ObservableList;
 import listener.ICardArrayDisplayListener;
 import spell.Card;
 
@@ -96,6 +97,11 @@ public class ZoneGroup
 		getZone(zoneType).remove(card);
 	}
 	
+	public void reveal(int nbCard, ZoneType zoneType, ZonePick zonePick)
+	{
+		getZone(zoneType).reveal(nbCard, zonePick);
+	}
+	
 	public int size(ZoneType zoneType)
 	{
 		return getZone(zoneType).size();
@@ -104,6 +110,11 @@ public class ZoneGroup
 	public Card[] getCards(ZoneType zoneType) 
 	{ 
 		return getZone(zoneType).getCards();
+	}
+	
+	public ObservableList<Card> getCardsView(ZoneType zoneType)
+	{
+		return getZone(zoneType).getCardsView();
 	}
 	
 	public void shuffle(ZoneType zoneType) 

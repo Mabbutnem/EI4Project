@@ -415,6 +415,34 @@ public class TestWizard
 		assertEquals(nbCard2Expected, nbCard2Result);
 		assertEquals(nbCard3Expected, nbCard3Result);
 	}
+	
+	@Test
+	public final void setAliveToFalseWhen0CardInDeck()
+	{
+		w = new Wizard(wFactory, cards);
+		
+		boolean expected = true;
+		boolean result = w.isAlive();
+		assertEquals(expected, result);
+		
+		
+
+		//Il reste une carte dans le deck donc il ne meurt pas
+		w.getZoneGroup().remove(5, ZoneType.DECK);
+		
+		expected = true;
+		result = w.isAlive();
+		assertEquals(expected, result);
+		
+		
+		
+		//Il n'y a plus de carte dans le deck, il meurt..
+		w.getZoneGroup().remove(1, ZoneType.DECK);
+		
+		expected = false;
+		result = w.isAlive();
+		assertEquals(expected, result);
+	}
 
 
 }

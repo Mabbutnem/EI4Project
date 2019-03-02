@@ -6,14 +6,18 @@ import java.util.Random;
 
 import com.google.common.base.Preconditions;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import listener.ICardArrayDisplayListener;
 import spell.Card;
 
 public class Zone implements IZone
 {
+	private static final String ZONE_PICK_NULL_ERROR_MESSAGE = "zonePick was null but expected not null";
+	
 	private static ICardArrayDisplayListener cardArrayDisplayListener;
 	
-	private List<Card> cards;
+	private ObservableList<Card> cards;
 	private final ZoneType zoneType;
 	private final ZonePick defaultZonePick;
 	
@@ -34,7 +38,7 @@ public class Zone implements IZone
 		Preconditions.checkArgument(defaultZonePick != ZonePick.DEFAULT, "defaultZonePick was"
 				+ " %s but expected not ZonePick.DEFAULT", defaultZonePick);
 		
-		this.cards = new LinkedList<>();
+		this.cards = FXCollections.observableArrayList();
 		add(cards, ZonePick.TOP);
 		this.zoneType = zoneType;
 		this.defaultZonePick = defaultZonePick;
@@ -58,7 +62,7 @@ public class Zone implements IZone
 	{
 		Preconditions.checkArgument(cards != null, "cards was null but expected not null");
 		
-		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
+		Preconditions.checkArgument(zonePick != null, ZONE_PICK_NULL_ERROR_MESSAGE);
 		Preconditions.checkArgument(zonePick != ZonePick.CHOICE, "zonePick was"
 				+ " %s but expected not ZonePick.CHOICE", zonePick);
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
@@ -90,9 +94,9 @@ public class Zone implements IZone
 
 	public Card[] remove(int nbCard, ZonePick zonePick)
 	{
-		Preconditions.checkArgument(nbCard > 0, "nbCard was %s but expected strictly positive", nbCard);
+		Preconditions.checkArgument(nbCard >= 0, "nbCard was %s but expected strictly positive", nbCard);
 
-		Preconditions.checkArgument(zonePick != null, "zonePick was null but expected not null");
+		Preconditions.checkArgument(zonePick != null, ZONE_PICK_NULL_ERROR_MESSAGE);
 		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
 		
 		if(nbCard >= cards.size())
@@ -196,6 +200,33 @@ public class Zone implements IZone
 	public Card[] getCards() {
 		return cards.toArray(new Card[0]);
 	}
+	
+	public void reveal(int nbCard, ZonePick zonePick)
+	{
+		Preconditions.checkArgument(nbCard >= 0, "nbCard was %s but expected strictly positive", nbCard);
+
+		Preconditions.checkArgument(zonePick != null, ZONE_PICK_NULL_ERROR_MESSAGE);
+		Preconditions.checkArgument(zonePick != ZonePick.CHOICE, "zonePick was %s but expected different", zonePick);
+		Preconditions.checkArgument(zonePick != ZonePick.RANDOM, "zonePick was %s but expected different", zonePick);
+		if(zonePick == ZonePick.DEFAULT) { zonePick = defaultZonePick;}
+		
+		if(nbCard >= cards.size())
+		{
+			revealCards();
+		}
+		switch (zonePick) {
+		case TOP:
+			for(int i = 0; i < nbCard; i++) { cards.get(cards.size()-1 - i).setRevealed(true); }
+			break;
+
+		case BOTTOM:
+			for(int i = 0; i < nbCard; i++) { cards.get(i).setRevealed(true); }
+			break;
+
+		default:
+			break;
+		}
+	}
 
 	public void hideCards() {
 		cards.forEach(c->c.setRevealed(false));
@@ -208,6 +239,11 @@ public class Zone implements IZone
 	public void moveCardToIndex(int sourceIndex, int destIndex) {
 		Card c = this.cards.remove(sourceIndex);
 		this.cards.add(destIndex, c);
+	}
+	
+	public ObservableList<Card> getCardsView()
+	{
+		return cards;
 	}
 
 }

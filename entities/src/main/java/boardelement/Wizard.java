@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Preconditions;
 
 import constant.WizardConstant;
+import javafx.collections.ListChangeListener;
 import spell.Card;
 import spell.Power;
 import utility.MapConverter;
 import zone.ZoneGroup;
+import zone.ZoneType;
 
 public class Wizard extends Character
 {
@@ -23,6 +25,8 @@ public class Wizard extends Character
 	private Power transformedPower;
 	@Autowired
 	private ZoneGroup zoneGroup;
+	
+	private ListChangeListener<Card> deathWhenDeckIsEmptyListener;
 
 	
 	
@@ -49,6 +53,17 @@ public class Wizard extends Character
 		//On créé zoneGroup
 		zoneGroup = new ZoneGroup(
 				convertWizardFactoryCardsToArrayCards(wizardFactory, cards));
+		
+		//Si un wizard n'à plus de carte dans son deck, il meurt
+		deathWhenDeckIsEmptyListener = (arg0 -> 
+			{
+				arg0.next();
+				if(arg0.wasRemoved() && arg0.getList().isEmpty())
+				{
+					setAlive(false);
+				}
+			});
+		zoneGroup.getCardsView(ZoneType.DECK).addListener(deathWhenDeckIsEmptyListener);
 	}
 	
 	
@@ -133,14 +148,14 @@ public class Wizard extends Character
 	
 	public void loseMana(int loss)
 	{
-		Preconditions.checkArgument(loss >= 0, LOSSILLEGALVALUEMESSAGE, loss);
+		Preconditions.checkArgument(loss >= 0, LOSS_ILLEGAL_VALUE_ERROR_MESSAGE, loss);
 	
 		setMana(getMana() - loss);
 	}
 	
 	public void gainMana(int gain)
 	{
-		Preconditions.checkArgument(gain >= 0, GAINILLEGALVALUEMESSAGE, gain);
+		Preconditions.checkArgument(gain >= 0, GAIN_ILLEGAL_VALUE_ERROR_MESSAGE, gain);
 		
 		setMana(getMana() + gain);
 	}
@@ -166,7 +181,13 @@ public class Wizard extends Character
 	//cards: all the cards from the JSON file
 	public void resetCards(WizardFactory wizardFactory, Card[] cards)
 	{
+		//Le deck va être vidé mais il ne faut pas tuer le wizard !!
+		zoneGroup.getCardsView(ZoneType.DECK).removeListener(deathWhenDeckIsEmptyListener);
+		
 		zoneGroup.reset(convertWizardFactoryCardsToArrayCards(wizardFactory, cards));
+		
+		//On peut de nouveau tuer le wizard quand le deck est vide
+		zoneGroup.getCardsView(ZoneType.DECK).addListener(deathWhenDeckIsEmptyListener);
 	}
 
 
