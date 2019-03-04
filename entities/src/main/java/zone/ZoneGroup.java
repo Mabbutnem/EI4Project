@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Preconditions;
 
 import javafx.collections.ObservableList;
-import listener.ICardArrayDisplayListener;
+import listener.ICardArrayRequestListener;
 import spell.Card;
 
 public class ZoneGroup
 {
-	private static ICardArrayDisplayListener cardArrayDisplayListener;
+	private static ICardArrayRequestListener cardArrayDisplayListener;
 	
 	@Autowired
 	private AutoHideZone deck;
@@ -47,7 +47,7 @@ public class ZoneGroup
 	
 
 	
-	public static void setCardArrayDisplayListener(ICardArrayDisplayListener cardArrayDisplayListener) {
+	public static void setCardArrayDisplayListener(ICardArrayRequestListener cardArrayDisplayListener) {
 		ZoneGroup.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
 

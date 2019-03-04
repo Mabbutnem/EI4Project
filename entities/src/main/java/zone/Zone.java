@@ -8,14 +8,14 @@ import com.google.common.base.Preconditions;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import listener.ICardArrayDisplayListener;
+import listener.ICardArrayRequestListener;
 import spell.Card;
 
 public class Zone implements IZone
 {
 	private static final String ZONE_PICK_NULL_ERROR_MESSAGE = "zonePick was null but expected not null";
 	
-	private static ICardArrayDisplayListener cardArrayDisplayListener;
+	private static ICardArrayRequestListener cardArrayDisplayListener;
 	
 	private ObservableList<Card> cards;
 	private final ZoneType zoneType;
@@ -47,7 +47,7 @@ public class Zone implements IZone
 	
 	
 	
-	public static void setCardArrayDisplayListener(ICardArrayDisplayListener cardArrayDisplayListener) {
+	public static void setCardArrayDisplayListener(ICardArrayRequestListener cardArrayDisplayListener) {
 		Zone.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
 	

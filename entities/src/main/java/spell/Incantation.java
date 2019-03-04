@@ -14,21 +14,24 @@ public class Incantation extends Spell
 	{
 		super(name, effects);
 		
+		//The first effect of an incantation has to be an effect with a target...
+		//...and, If you want to add a CHOICE target type effects in your incantations effects,
+		//				you have to set the first effect has a CHOICE target type effect
 		verifyChoiceTargetableEffectIsFirstOrNotAfter(effects, true);
 	}
 	
 	// !!! recursive function !!!
-	private void verifyChoiceTargetableEffectIsFirstOrNotAfter(IEffect[] effects, boolean root)
+	private void verifyChoiceTargetableEffectIsFirstOrNotAfter(IEffect[] effects, boolean isRoot)
 	{
 		if(effects.length == 0) { return; }
 		
-		if(root &&
+		if(isRoot &&
 		   !(effects[0] instanceof TargetableEffect))
 		{
 			throw new IllegalArgumentException("The first effect of an incantation has to be an effect with a target");
 		}
 		
-		if(root &&
+		if(isRoot &&
 		   ((TargetableEffect) effects[0]).getTarget().getType() == TargetType.CHOICE)
 		{ return; }
 		
@@ -42,7 +45,7 @@ public class Incantation extends Spell
 			if(e instanceof TargetableEffect &&
 			   ((TargetableEffect) e).getTarget().getType() == TargetType.CHOICE)
 			{
-				throw new IllegalArgumentException("If you want to add CHOICE target type effects in your incantations effects,"
+				throw new IllegalArgumentException("If you want to add a CHOICE target type effects in your incantations effects,"
 						+ " you have to set the first effect has a CHOICE target type effect");
 			}
 		}

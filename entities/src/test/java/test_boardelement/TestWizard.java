@@ -19,18 +19,17 @@ import boardelement.Character;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import constant.WizardConstant;
-import listener.ICardArrayDisplayListener;
+import listener.ICardArrayRequestListener;
 import listener.IGameListener;
 import spell.Card;
 import spell.Power;
 import zone.Zone;
 import zone.ZoneGroup;
-import zone.ZonePick;
 import zone.ZoneType;
 
 public class TestWizard
 {
-	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	private class MockCardArrayDisplayListener implements ICardArrayRequestListener
 	{
 
 		@Override
@@ -38,13 +37,6 @@ public class TestWizard
 
 		@Override
 		public Card[] chooseCards(Card[] cards) { return null; }
-
-		@Override
-		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
-
-		@Override
-		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
-				ZonePick destPick) {}
 	}
 	
 	private class MockGameListener implements IGameListener{

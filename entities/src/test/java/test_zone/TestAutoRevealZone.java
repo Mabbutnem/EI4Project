@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import listener.ICardArrayDisplayListener;
+import listener.ICardArrayRequestListener;
 import spell.Card;
 import zone.AutoRevealZone;
 import zone.Zone;
@@ -17,7 +17,7 @@ import zone.ZoneType;
 
 public class TestAutoRevealZone
 {
-	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	private class MockCardArrayDisplayListener implements ICardArrayRequestListener
 	{
 
 		@Override
@@ -25,13 +25,6 @@ public class TestAutoRevealZone
 
 		@Override
 		public Card[] chooseCards(Card[] cards) { return null; }
-
-		@Override
-		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
-
-		@Override
-		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
-				ZonePick destPick) {}
 	}
 
 	private AutoRevealZone zone;

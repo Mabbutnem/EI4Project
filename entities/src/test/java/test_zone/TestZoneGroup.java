@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javafx.collections.ObservableList;
-import listener.ICardArrayDisplayListener;
+import listener.ICardArrayRequestListener;
 import spell.Card;
 import zone.AutoHideZone;
 import zone.AutoRevealZone;
@@ -28,7 +28,7 @@ import zone.ZoneType;
 
 public class TestZoneGroup
 {
-	private class MockCardArrayDisplayListener implements ICardArrayDisplayListener
+	private class MockCardArrayDisplayListener implements ICardArrayRequestListener
 	{
 
 		@Override
@@ -36,13 +36,6 @@ public class TestZoneGroup
 
 		@Override
 		public Card[] chooseCards(Card[] cards) { return null; }
-
-		@Override
-		public void displayAddCards(Card[] cards, ZoneType dest, ZonePick destPick) {}
-
-		@Override
-		public void displayTransferCards(Card[] cards, ZoneType source, ZonePick sourcePick, ZoneType dest,
-				ZonePick destPick) {}
 	}
 	
 	

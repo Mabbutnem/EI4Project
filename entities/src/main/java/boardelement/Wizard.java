@@ -18,6 +18,8 @@ public class Wizard extends Character
 {
 	private static WizardConstant wizardConstant;
 	
+	private final ListChangeListener<Card> deathWhenDeckIsEmptyListener;
+	
 	private int mana;
 	private boolean transformed;
 	private String name;
@@ -25,8 +27,6 @@ public class Wizard extends Character
 	private Power transformedPower;
 	@Autowired
 	private ZoneGroup zoneGroup;
-	
-	private ListChangeListener<Card> deathWhenDeckIsEmptyListener;
 
 	
 	
