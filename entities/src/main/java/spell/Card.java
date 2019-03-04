@@ -61,7 +61,7 @@ public class Card extends ManaCostSpell
 		return listeners.getListeners(ICardListener.class);
 	}
 	
-	public void fireRevealedChanged(boolean oldRevealed, boolean actualRevealed)
+	private void fireRevealedChanged(boolean oldRevealed, boolean actualRevealed)
 	{
 		if(oldRevealed != actualRevealed)
 		{
