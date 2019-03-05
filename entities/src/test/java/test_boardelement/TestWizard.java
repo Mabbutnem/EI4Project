@@ -15,12 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import boardelement.Character;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import constant.WizardConstant;
 import listener.ICardArrayRequestListener;
-import listener.IGameListener;
 import spell.Card;
 import spell.Power;
 import zone.Zone;
@@ -37,15 +35,6 @@ public class TestWizard
 
 		@Override
 		public Card[] chooseCards(Card[] cards) { return null; }
-	}
-	
-	private class MockGameListener implements IGameListener{
-
-		@Override
-		public void clearBoard(Character character) {}
-
-		@Override
-		public void refreshRange(Character character) {}
 	}
 	
 	@Mock
@@ -65,8 +54,6 @@ public class TestWizard
 	private Map<String, Integer> cardsW;
 	private Power power;
 	private Power transformedPower;
-	
-	private MockGameListener gameListener;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -114,8 +101,6 @@ public class TestWizard
 		power = mock(Power.class);
 		
 		transformedPower = mock(Power.class);
-		
-		Character.setGameListener(gameListener = mock(MockGameListener.class));
 		
 		wFactory = mock(WizardFactory.class);
 		when(wFactory.getName()).thenReturn("sorcier");
@@ -234,7 +219,6 @@ public class TestWizard
 		expectedB = false;
 		resultB = w.isAlive();
 		assertEquals(expectedB, resultB);
-		verify(gameListener, times(1)).clearBoard(w);
 	}
 
 	@Test

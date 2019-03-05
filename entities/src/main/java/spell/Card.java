@@ -37,11 +37,11 @@ public class Card extends ManaCostSpell
 
 	public void setRevealed(boolean revealed)
 	{
-		boolean oldRevealed = isRevealed();
+		boolean prevRevealed = isRevealed();
 		
 		this.revealed = revealed;
 		
-		fireRevealedChanged(oldRevealed, revealed);
+		fireRevealedChanged(prevRevealed, revealed);
 	}
 	
 	
@@ -61,9 +61,9 @@ public class Card extends ManaCostSpell
 		return listeners.getListeners(ICardListener.class);
 	}
 	
-	private void fireRevealedChanged(boolean oldRevealed, boolean actualRevealed)
+	private void fireRevealedChanged(boolean prevRevealed, boolean actualRevealed)
 	{
-		if(oldRevealed != actualRevealed)
+		if(prevRevealed != actualRevealed)
 		{
 			for(ICardListener listener : getCardListeners())
 			{

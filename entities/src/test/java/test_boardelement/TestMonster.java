@@ -13,25 +13,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import boardelement.Character;
 import boardelement.Monster;
 import boardelement.MonsterFactory;
-import listener.IGameListener;
 import spell.Incantation;
 import utility.Proba;
 
 public class TestMonster {
 
-	private class MockGameListener implements IGameListener{
-
-		@Override
-		public void clearBoard(Character character) {}
-
-		@Override
-		public void refreshRange(Character character) {			
-		}
-
-	}
 	private Monster m;
 	
 	private MonsterFactory mFactory;
@@ -54,7 +42,6 @@ public class TestMonster {
 	@Before
 	public void setUp() throws Exception
 	{
-		Character.setGameListener(mock(MockGameListener.class));
 		
 		incantations = new Incantation[]
 				{

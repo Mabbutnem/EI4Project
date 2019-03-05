@@ -3,10 +3,12 @@ package boardelement;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.event.EventListenerList;
+
 import com.google.common.base.Preconditions;
 
+import characterlistener.*;
 import effect.Word;
-import listener.IGameListener;
 
 //NOT FINISHED !!
 public abstract class Character implements IBoardElement
@@ -14,8 +16,6 @@ public abstract class Character implements IBoardElement
 	protected static final String LOSS_ILLEGAL_VALUE_ERROR_MESSAGE = "Loss was %s but expected positive";
 	protected static final String GAIN_ILLEGAL_VALUE_ERROR_MESSAGE = "Gain was %s but expected positive";
 	private static final String DAMAGE_ILLEGAL_VALUE_ERROR_MESSAGE = "Damage was %s but expected positive";
-	
-	private static IGameListener gameListener;
 
 	private boolean alive;
 	private int health;
@@ -23,27 +23,23 @@ public abstract class Character implements IBoardElement
 	private int move;
 	private int dash;
 	private int range;
+	private boolean hasDashed;
 	private boolean freeze;
 	private List<Word> words;
+	
+	private EventListenerList listeners;
 	
 	
 	
 	public Character()
 	{
-		Preconditions.checkState(Character.gameListener != null, "gameListener"
-				+ " was not initialised (in static)");
-		
 		setFreeze(false);
 		setAlive(true);
 		setDash(0);
+		resetHasDashed();
 		words = new LinkedList<>();
-	}
-
-	
-	
-
-	public static void setGameListener(IGameListener gameListener) {
-		Character.gameListener = gameListener;
+		
+		listeners = new EventListenerList();
 	}
 
 
@@ -54,10 +50,36 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setAlive(boolean alive) {
+		boolean prevAlive = this.alive;
+		
 		this.alive = alive;
-		if(!isAlive())
+		
+		fireAliveChanged(prevAlive, alive);
+	}
+	
+	public void addAliveListener(IAliveListener listener)
+	{
+		listeners.add(IAliveListener.class, listener);
+	}
+	
+	public void removeAliveListener(IAliveListener listener)
+	{
+		listeners.remove(IAliveListener.class, listener);
+	}
+	
+	public IAliveListener[] getAliveListeners()
+	{
+		return listeners.getListeners(IAliveListener.class);
+	}
+	
+	private void fireAliveChanged(boolean prevAlive, boolean actualAlive)
+	{
+		if(prevAlive && !actualAlive)
 		{
-			Character.gameListener.clearBoard(this);
+			for(IAliveListener listener : getAliveListeners())
+			{
+				listener.onDeath(this);
+			}
 		}
 	}
 
@@ -69,8 +91,12 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setHealth(int health) {
+		int prevHealth = this.health;
+		
 		this.health = Math.max(0, health);
 		checkDeath();
+		
+		fireHealthChanged(prevHealth, this.health);
 	}
 	
 	protected void checkDeath() {
@@ -93,11 +119,60 @@ public abstract class Character implements IBoardElement
 		setHealth(getHealth() + gain);
 	}
 	
-	public void inflictDirectDamage(int damage)
+	public void addHealthListener(IHealthListener listener)
+	{
+		listeners.add(IHealthListener.class, listener);
+	}
+	
+	public void removeHealthListener(IHealthListener listener)
+	{
+		listeners.remove(IHealthListener.class, listener);
+	}
+	
+	public IHealthListener[] getHealthListeners()
+	{
+		return listeners.getListeners(IHealthListener.class);
+	}
+	
+	private void fireHealthChanged(int prev, int actual)
+	{
+		CharacterIntValueEvent e = null;
+		
+		if(actual > prev)
+		{
+			for(IHealthListener listener : getHealthListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onGain(e);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IHealthListener listener : getHealthListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onLoss(e);
+			}
+		}
+	}
+	
+	
+	
+	
+	public int inflictDirectDamage(int damage)
 	{
 		Preconditions.checkArgument(damage >= 0, DAMAGE_ILLEGAL_VALUE_ERROR_MESSAGE, damage);
 		
-		loseHealth(damage);
+		int realDamage = Math.min(getHealth(), damage);
+		
+		loseHealth(realDamage);
+		
+		return realDamage;
 	}
 	
 	// return the direct damage dealth
@@ -107,8 +182,7 @@ public abstract class Character implements IBoardElement
 		
 		if(damage > getArmor())
 		{
-			inflictDirectDamage(damage);
-			return damage;
+			return inflictDirectDamage(damage);
 		}
 		else
 		{
@@ -125,8 +199,7 @@ public abstract class Character implements IBoardElement
 		{
 			damage -= getArmor();
 			setArmor(0);
-			inflictDirectDamage(damage);
-			return damage;
+			return inflictDirectDamage(damage);
 		}
 		else
 		{
@@ -143,7 +216,11 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setArmor(int armor) {
+		int prevArmor = this.armor;
+		
 		this.armor = Math.max(0, armor);
+		
+		fireArmorChanged(prevArmor, this.armor);
 	}
 	
 	public void loseArmor(int loss)
@@ -159,6 +236,48 @@ public abstract class Character implements IBoardElement
 		
 		setArmor(getArmor() + gain);
 	}
+	
+	public void addArmorListener(IArmorListener listener)
+	{
+		listeners.add(IArmorListener.class, listener);
+	}
+	
+	public void removeArmorListener(IArmorListener listener)
+	{
+		listeners.remove(IArmorListener.class, listener);
+	}
+	
+	public IArmorListener[] getArmorListeners()
+	{
+		return listeners.getListeners(IArmorListener.class);
+	}
+	
+	private void fireArmorChanged(int prev, int actual)
+	{
+		CharacterIntValueEvent e = null;
+		
+		if(actual > prev)
+		{
+			for(IArmorListener listener : getArmorListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onGain(e);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IArmorListener listener : getArmorListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onLoss(e);
+			}
+		}
+	}
 
 	
 	
@@ -168,7 +287,11 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setMove(int move) {
+		int prevMove = this.move;
+		
 		this.move = Math.max(0, move);
+		
+		fireMoveChanged(prevMove, this.move);
 	}
 	
 	public void loseMove(int loss)
@@ -186,7 +309,49 @@ public abstract class Character implements IBoardElement
 	}
 	
 	public abstract void resetMove();
+	
+	public void addMoveListener(IMoveListener listener)
+	{
+		listeners.add(IMoveListener.class, listener);
+	}
+	
+	public void removeMoveListener(IMoveListener listener)
+	{
+		listeners.remove(IMoveListener.class, listener);
+	}
+	
+	public IMoveListener[] getMoveListeners()
+	{
+		return listeners.getListeners(IMoveListener.class);
+	}
 
+	private void fireMoveChanged(int prev, int actual)
+	{
+		CharacterIntValueEvent e = null;
+		
+		if(actual > prev)
+		{
+			for(IMoveListener listener : getMoveListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onGain(e);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IMoveListener listener : getMoveListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onLoss(e);
+			}
+		}
+	}
+	
 	
 	
 	
@@ -195,7 +360,11 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setDash(int dash) {
+		int prevDash = this.dash;
+		
 		this.dash = Math.max(0, dash);
+		
+		fireDashChanged(prevDash, this.dash);
 	}
 	
 	public void loseDash(int loss)
@@ -212,6 +381,56 @@ public abstract class Character implements IBoardElement
 		setDash(getDash() + gain);
 	}
 
+	public boolean hasDashed() {
+		return hasDashed;
+	}
+
+	public void resetHasDashed() {
+		hasDashed = false;
+	}
+	
+	public void addDashListener(IDashListener listener)
+	{
+		listeners.add(IDashListener.class, listener);
+	}
+	
+	public void removeDashListener(IDashListener listener)
+	{
+		listeners.remove(IDashListener.class, listener);
+	}
+	
+	public IDashListener[] getDashListeners()
+	{
+		return listeners.getListeners(IDashListener.class);
+	}
+	
+	private void fireDashChanged(int prev, int actual)
+	{
+		CharacterIntValueEvent e = null;
+		
+		if(actual > prev)
+		{
+			for(IDashListener listener : getDashListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onGain(e);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IDashListener listener : getDashListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onLoss(e);
+			}
+		}
+	}
+
 
 
 
@@ -220,13 +439,11 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setRange(int range) {
-		int previousRange = this.range;
+		int prevRange = this.range;
+		
 		this.range = Math.max(0, range);
 		
-		if(previousRange != this.range)
-		{
-			Character.gameListener.refreshRange(this);
-		}
+		fireRangeChanged(prevRange, this.range);
 	}
 	
 	public void loseRange(int loss)
@@ -244,10 +461,52 @@ public abstract class Character implements IBoardElement
 	}
 	
 	public abstract void resetRange();
+	
+	public void addRangeListener(IRangeListener listener)
+	{
+		listeners.add(IRangeListener.class, listener);
+	}
+	
+	public void removeRangeListener(IRangeListener listener)
+	{
+		listeners.remove(IRangeListener.class, listener);
+	}
+	
+	public IRangeListener[] getRangeListeners()
+	{
+		return listeners.getListeners(IRangeListener.class);
+	}
+	
+	private void fireRangeChanged(int prev, int actual)
+	{
+		CharacterIntValueEvent e = null;
+		
+		if(actual > prev)
+		{
+			for(IRangeListener listener : getRangeListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onGain(e);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IRangeListener listener : getRangeListeners())
+			{
+				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
+			
+				listener.onChange(e);
+				listener.onLoss(e);
+			}
+		}
+	}
 
-	
-	
-	
+
+
+
 	public boolean isFreeze() {
 		return freeze;
 	}
@@ -259,6 +518,21 @@ public abstract class Character implements IBoardElement
 	public void resetFreeze()
 	{
 		setFreeze(false);
+	}
+	
+	public void addFreezeListener(IFreezeListener listener)
+	{
+		listeners.add(IFreezeListener.class, listener);
+	}
+	
+	public void removeFreezeListener(IFreezeListener listener)
+	{
+		listeners.remove(IFreezeListener.class, listener);
+	}
+	
+	public IFreezeListener[] getFreezeListeners()
+	{
+		return listeners.getListeners(IFreezeListener.class);
 	}
 
 

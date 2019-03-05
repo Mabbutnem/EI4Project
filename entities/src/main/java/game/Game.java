@@ -17,8 +17,9 @@ import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
+import characterlistener.CharacterIntValueEvent;
+import characterlistener.IRangeListener;
 import constant.GameConstant;
-import listener.IGameListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -28,7 +29,7 @@ import zone.CastZone;
 import zone.ZonePick;
 import zone.ZoneType;
 
-public class Game implements IGameListener
+public class Game
 {
 	private static GameConstant gameConstant;
 
@@ -604,6 +605,26 @@ public class Game implements IGameListener
 		for(int i = 0; i < wizards.length; i++)
 		{
 			board[i] = wizards[i];
+			
+			wizards[i].addAliveListener(this::clearBoard);
+			
+			wizards[i].addRangeListener(new IRangeListener()
+					{
+						@Override
+						public void onChange(CharacterIntValueEvent e){
+							refreshRange(e.getCharacter());
+						}
+
+						@Override
+						public void onGain(CharacterIntValueEvent e) {
+							//Don't need to be implemented
+						}
+
+						@Override
+						public void onLoss(CharacterIntValueEvent e) {
+							//Don't need to be implemented
+						}
+					});
 		}
 		refreshWizardsRange();
 		if(getCurrentCharacter() instanceof Wizard) { refreshCurrentCharacterRange(); }
@@ -733,7 +754,28 @@ public class Game implements IGameListener
 		while(!monstersToSpawn.isEmpty() && i < nbMonstersToSpawnThisTurn && futureDensity <= gameConstant.getBoardDensityLimit())
 																			  //The future density must remain lower than the boardDensityLimit
 		{
-			spawnMonster(new Monster(monstersToSpawn.poll(), incantations));
+			//New monster
+			Monster monster = new Monster(monstersToSpawn.poll(), incantations);
+			monster.addAliveListener(this::clearBoard);
+			monster.addRangeListener(new IRangeListener()
+			{
+				@Override
+				public void onChange(CharacterIntValueEvent e){
+					refreshRange(e.getCharacter());
+				}
+
+				@Override
+				public void onGain(CharacterIntValueEvent e) {
+					//Don't need to be implemented
+				}
+
+				@Override
+				public void onLoss(CharacterIntValueEvent e) {
+					//Don't need to be implemented
+				}
+			});
+			
+			spawnMonster(monster);
 			
 			futureDensity += 1/((float)board.length); //The future density with one additional monster
 			
@@ -778,9 +820,7 @@ public class Game implements IGameListener
 
 
 
-	//IGameListener Methods
-	@Override
-	public void clearBoard(Character character)
+	private void clearBoard(Character character)
 	{
 		int idx = getBoardElementIdx(character);
 		
@@ -806,8 +846,7 @@ public class Game implements IGameListener
 				
 	}
 
-	@Override
-	public void refreshRange(Character character)
+	private void refreshRange(Character character)
 	{
 		if(character instanceof Wizard) { refreshWizardsRange(); }
 		if(character == getCurrentCharacter()) { refreshCurrentCharacterRange(); }

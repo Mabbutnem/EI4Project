@@ -1,7 +1,6 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,9 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import boardelement.Character;
 import effect.Word;
-import listener.IGameListener;
 
 public class TestCharacter
 {
@@ -29,19 +26,6 @@ public class TestCharacter
 		public void resetRange() {}
 	}
 	
-	private class MockGameListener implements IGameListener{
-
-		@Override
-		public void clearBoard(Character character) {}
-
-		@Override
-		public void refreshRange(Character character) {
-			
-		}
-	}
-	
-	private MockGameListener gameListener;
-	
 	private RealCharacter character;
 	
 
@@ -56,7 +40,6 @@ public class TestCharacter
 	@Before
 	public void setUp() throws Exception
 	{
-		Character.setGameListener(gameListener = mock(MockGameListener.class));
 		character = new RealCharacter();
 		character.setHealth(75);
 		character.setArmor(23);
@@ -82,8 +65,6 @@ public class TestCharacter
 		character.setAlive(false);
 		boolean result = character.isAlive();
 		assertEquals(expected, result);
-		
-		verify(gameListener, times(1)).clearBoard(character);
 	}
 	
 	@Test
@@ -106,8 +87,6 @@ public class TestCharacter
 		int expected = 0;
 		int result = character.getHealth();
 		assertEquals(expected, result);
-		
-		verify(gameListener, times(1)).clearBoard(character);
 	}
 
 	@Test
@@ -361,7 +340,6 @@ public class TestCharacter
 		int expected = 0;
 		int result = character.getRange();
 		assertEquals(expected, result);
-		verify(gameListener, times(2)).refreshRange(character); //une fois dans le setUp et la 2ème ici
 	}
 
 	@Test
