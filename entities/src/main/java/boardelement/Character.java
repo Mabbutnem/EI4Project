@@ -33,13 +33,13 @@ public abstract class Character implements IBoardElement
 	
 	public Character()
 	{
+		listeners = new EventListenerList();
+		
 		setFreeze(false);
 		setAlive(true);
 		setDash(0);
 		resetHasDashed();
 		words = new LinkedList<>();
-		
-		listeners = new EventListenerList();
 	}
 
 

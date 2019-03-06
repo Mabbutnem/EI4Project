@@ -1,6 +1,8 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -8,6 +10,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import characterlistener.IAliveListener;
+import characterlistener.IArmorListener;
+import characterlistener.IDashListener;
+import characterlistener.IHealthListener;
+import characterlistener.IMoveListener;
+import characterlistener.IRangeListener;
 import effect.Word;
 
 public class TestCharacter
@@ -27,7 +35,13 @@ public class TestCharacter
 	}
 	
 	private RealCharacter character;
-	
+
+	private IAliveListener aliveListener;
+	private IHealthListener healthListener;
+	private IArmorListener armorListener;
+	private IMoveListener moveListener;
+	private IDashListener dashListener;
+	private IRangeListener rangeListener;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -61,16 +75,15 @@ public class TestCharacter
 	
 	@Test
 	public final void testSetAlive() {
+		aliveListener = mock(IAliveListener.class);
+		character.addAliveListener(aliveListener);
+		
 		boolean expected = false;
 		character.setAlive(false);
 		boolean result = character.isAlive();
 		assertEquals(expected, result);
-	}
-	
-	@Test
-	public final void testclearBoard() {
-		character.setAlive(false);
 		
+		verify(aliveListener, times(1)).onChange(character, false);
 	}
 	
 
@@ -116,10 +129,46 @@ public class TestCharacter
 	}
 	
 	@Test
+	public final void testHealthListener(){
+		healthListener = mock(IHealthListener.class);
+		character.addHealthListener(healthListener);
+		
+		character.setHealth(50);
+		verify(healthListener, times(1)).onChange(character, 75, 50);
+		verify(healthListener, times(1)).onLoss(character, 75, 50);
+		
+		reset(healthListener);
+		character.gainHealth(10);
+		verify(healthListener, times(1)).onChange(character, 50, 60);
+		verify(healthListener, times(1)).onGain(character, 50, 60);
+
+		reset(healthListener);
+		character.loseHealth(10);
+		verify(healthListener, times(1)).onChange(character, 60, 50);
+		verify(healthListener, times(1)).onLoss(character, 60, 50);
+		
+		reset(healthListener);
+		character.removeHealthListener(healthListener);
+		System.out.println(healthListener);
+		character.setHealth(50);
+		character.gainHealth(10);
+		character.loseHealth(10);
+		verify(healthListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(healthListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(healthListener, never()).onLoss(any(), anyInt(), anyInt());
+	}
+	
+	@Test
 	public final void testInflictDirectDamage() {
-		int expected = 65;
-		character.inflictDirectDamage(10);
-		int result = character.getHealth();
+		int expected = 10;
+		int result = character.inflictDirectDamage(10);
+		assertEquals(expected, result);
+		
+		expected = 65;
+		result = character.getHealth();
+		assertEquals(expected, result);
+		
+		result = character.inflictDirectDamage(85);
 		assertEquals(expected, result);
 	}
 	
@@ -235,7 +284,34 @@ public class TestCharacter
 		character.gainArmor(-10);
 	}
 
-	
+	@Test
+	public final void testArmorListener(){
+		armorListener = mock(IArmorListener.class);
+		character.addArmorListener(armorListener);
+		
+		character.setArmor(15);
+		verify(armorListener, times(1)).onChange(character, 23, 15);
+		verify(armorListener, times(1)).onLoss(character, 23, 15);
+		
+		reset(armorListener);
+		character.gainArmor(10);
+		verify(armorListener, times(1)).onChange(character, 15, 25);
+		verify(armorListener, times(1)).onGain(character, 15, 25);
+
+		reset(armorListener);
+		character.loseArmor(10);
+		verify(armorListener, times(1)).onChange(character, 25, 15);
+		verify(armorListener, times(1)).onLoss(character, 25, 15);
+		
+		reset(armorListener);
+		character.removeArmorListener(armorListener);
+		character.setArmor(50);
+		character.gainArmor(10);
+		character.loseArmor(10);
+		verify(armorListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(armorListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(armorListener, never()).onLoss(any(), anyInt(), anyInt());
+	}
 	
 	
 	@Test
@@ -279,7 +355,34 @@ public class TestCharacter
 		character.gainMove(-10);
 	}
 
-	
+	@Test
+	public final void testMoveListener(){
+		moveListener = mock(IMoveListener.class);
+		character.addMoveListener(moveListener);
+		
+		character.setMove(8);
+		verify(moveListener, times(1)).onChange(character, 5, 8);
+		verify(moveListener, times(1)).onGain(character, 5, 8);
+		
+		reset(moveListener);
+		character.gainMove(2);
+		verify(moveListener, times(1)).onChange(character, 8, 10);
+		verify(moveListener, times(1)).onGain(character, 8, 10);
+
+		reset(moveListener);
+		character.loseMove(2);
+		verify(moveListener, times(1)).onChange(character, 10, 8);
+		verify(moveListener, times(1)).onLoss(character, 10, 8);
+		
+		reset(moveListener);
+		character.removeMoveListener(moveListener);
+		character.setMove(8);
+		character.gainMove(2);
+		character.loseMove(2);
+		verify(moveListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(moveListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(moveListener, never()).onLoss(any(), anyInt(), anyInt());
+	}
 	
 	
 	@Test
@@ -324,7 +427,34 @@ public class TestCharacter
 		character.gainDash(-10);
 	}
 
-	
+	@Test
+	public final void testDashListener(){
+		dashListener = mock(IDashListener.class);
+		character.addDashListener(dashListener);
+		
+		character.setDash(4);
+		verify(dashListener, times(1)).onChange(character, 0, 4);
+		verify(dashListener, times(1)).onGain(character, 0, 4);
+		
+		reset(dashListener);
+		character.gainDash(2);
+		verify(dashListener, times(1)).onChange(character, 4, 6);
+		verify(dashListener, times(1)).onGain(character, 4, 6);
+
+		reset(dashListener);
+		character.loseDash(2);
+		verify(dashListener, times(1)).onChange(character, 6, 4);
+		verify(dashListener, times(1)).onLoss(character, 6, 4);
+		
+		reset(dashListener);
+		character.removeDashListener(dashListener);
+		character.setDash(8);
+		character.gainDash(2);
+		character.loseDash(2);
+		verify(dashListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(dashListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(dashListener, never()).onLoss(any(), anyInt(), anyInt());
+	}
 	
 	
 	@Test
@@ -368,7 +498,34 @@ public class TestCharacter
 		character.gainRange(-10);
 	}
 
-	
+	@Test
+	public final void testRangeListener(){
+		rangeListener = mock(IRangeListener.class);
+		character.addRangeListener(rangeListener);
+		
+		character.setRange(10);
+		verify(rangeListener, times(1)).onChange(character, 7, 10);
+		verify(rangeListener, times(1)).onGain(character, 7, 10);
+		
+		reset(rangeListener);
+		character.gainRange(2);
+		verify(rangeListener, times(1)).onChange(character, 10, 12);
+		verify(rangeListener, times(1)).onGain(character, 10, 12);
+
+		reset(rangeListener);
+		character.loseRange(2);
+		verify(rangeListener, times(1)).onChange(character, 12, 10);
+		verify(rangeListener, times(1)).onLoss(character, 12, 10);
+		
+		reset(rangeListener);
+		character.removeRangeListener(rangeListener);
+		character.setRange(8);
+		character.gainRange(2);
+		character.loseRange(2);
+		verify(rangeListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(rangeListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(rangeListener, never()).onLoss(any(), anyInt(), anyInt());
+	}
 	
 	
 	@Test
@@ -421,5 +578,7 @@ public class TestCharacter
 		boolean result = character.containsWord(Word.LIFELINK);
 		assertEquals(expected, result);
 	}
+	
+	
 
 }
