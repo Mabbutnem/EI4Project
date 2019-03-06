@@ -13,6 +13,7 @@ import org.junit.Test;
 import characterlistener.IAliveListener;
 import characterlistener.IArmorListener;
 import characterlistener.IDashListener;
+import characterlistener.IFreezeListener;
 import characterlistener.IHealthListener;
 import characterlistener.IMoveListener;
 import characterlistener.IRangeListener;
@@ -42,6 +43,7 @@ public class TestCharacter
 	private IMoveListener moveListener;
 	private IDashListener dashListener;
 	private IRangeListener rangeListener;
+	private IFreezeListener freezeListener;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -168,6 +170,7 @@ public class TestCharacter
 		result = character.getHealth();
 		assertEquals(expected, result);
 		
+		expected = 65;
 		result = character.inflictDirectDamage(85);
 		assertEquals(expected, result);
 	}
@@ -537,15 +540,21 @@ public class TestCharacter
 
 	@Test
 	public final void testSetFreeze() {
+		freezeListener = mock(IFreezeListener.class);
+		character.addFreezeListener(freezeListener);
+		
 		character.setFreeze(true);
 		boolean expected = true;
 		boolean result = character.isFreeze();
 		assertEquals(expected, result);
+		verify(freezeListener, times(1)).onChange(character, true);
 		
+		reset(freezeListener);
 		character.setFreeze(false);
 		expected = false;
 		result = character.isFreeze();
 		assertEquals(expected, result);
+		verify(freezeListener, times(1)).onChange(character, false);
 	}
 
 	@Test
