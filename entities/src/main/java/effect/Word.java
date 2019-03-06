@@ -5,5 +5,5 @@ public enum Word
 	LIFELINK,
 	PIERCE,
 	ACID,
-	WATER;
+	FLOW;
 }

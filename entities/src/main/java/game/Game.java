@@ -82,7 +82,9 @@ public class Game
 	
 	public boolean isVictory()
 	{
-		return nbWizards > 0 && levelDifficulty > gameConstant.getLevelMaxDifficulty();
+		Preconditions.checkState(isFinished(), "To check if it's a victory, the game must be finished");
+		
+		return nbWizards > 0;
 	}
 	
 
@@ -112,8 +114,8 @@ public class Game
 			i++;
 		}
 		
-		if(i >= board.length) { setCurrentCharacter((Character) board[i]); }
-		else { setCurrentCharacter(null); }
+		if(i >= board.length) { setCurrentCharacter(null); }
+		else { setCurrentCharacter((Character) board[i]); }
 	}
 	
 	
@@ -217,9 +219,9 @@ public class Game
 			int range = getCurrentCharacter().getRange();
 			int currentCharacterIdx = getBoardElementIdx(getCurrentCharacter());
 		
-			for(int r = -range; r < range+1; r++)
+			for(int i = currentCharacterIdx-range; i < currentCharacterIdx+range +1; i++)
 			{
-				if(indexInBoardBounds(currentCharacterIdx+r)) { currentCharacterRange[currentCharacterIdx+r] = true; }
+				if(indexInBoardBounds(i)) { currentCharacterRange[i] = true; }
 			}
 		}
 	}
@@ -242,9 +244,9 @@ public class Game
 				Wizard w = (Wizard) board[i];
 				
 				int range = w.getRange();
-				for(int r = -range; r < range+1; r++)
+				for(int r = i-range; r < i+range+1; r++)
 				{
-					if(indexInBoardBounds(i+r)) { wizardsRange[i+r] = true; }
+					if(indexInBoardBounds(r)) { wizardsRange[r] = true; }
 				}
 			}
 		}
@@ -352,7 +354,8 @@ public class Game
 	public void rightDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, character.getDash());
-		character.loseDash(Math.abs(actualDelta));
+		actualDelta = Math.abs(actualDelta);
+		character.loseDash(actualDelta);
 		if(actualDelta > 0)
 		{
 			character.setHasDashed(true);
@@ -363,9 +366,10 @@ public class Game
 	public void leftDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, -character.getDash());
-		character.loseDash(Math.abs(actualDelta));
+		actualDelta = Math.abs(actualDelta);
+		character.loseDash(actualDelta);
 		if(actualDelta > 0)
-		{ 
+		{
 			character.setHasDashed(true);
 			refreshRange(character);
 		}
@@ -720,7 +724,7 @@ public class Game
 		}
 	}
 	
-	private void spawnMonster(Monster monster)
+	public void spawnMonster(Monster monster)
 	{
 		Preconditions.checkState(nbBoardElements() < board.length, "No space for an additional monster");
 		
@@ -822,10 +826,14 @@ public class Game
 		moveWizardsToTheirSpawns();
 		resetWizardsForNextLevel(wizardFactory, cards);
 	}
+	
+	public void nextEmptyLevel() {
+		levelDifficulty++;
+	}
 
 
 
-	private void clearBoard(Character character)
+	public void clearBoard(Character character)
 	{
 		int idx = getBoardElementIdx(character);
 		
@@ -833,16 +841,12 @@ public class Game
 		{
 			board[idx] = new Corpse((Monster) character);
 				
-			refreshRange(character);
-				
 			if(character == getCurrentCharacter()) { nextMonster(); }
 		}
 			
 		if(character instanceof Wizard)
 		{
 			board[idx] = null;
-			
-			refreshRange(character);
 			
 			if(character == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
 			
