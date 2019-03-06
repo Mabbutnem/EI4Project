@@ -1,6 +1,8 @@
 package test_boardelement;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
@@ -17,6 +19,8 @@ import org.mockito.MockitoAnnotations;
 
 import boardelement.Wizard;
 import boardelement.WizardFactory;
+import characterlistener.IDashListener;
+import characterlistener.IManaListener;
 import constant.WizardConstant;
 import listener.ICardArrayRequestListener;
 import spell.Card;
@@ -54,6 +58,7 @@ public class TestWizard
 	private Map<String, Integer> cardsW;
 	private Power power;
 	private Power transformedPower;
+	private IManaListener manaListener;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -353,6 +358,35 @@ public class TestWizard
 		w.resetMana();
 		result = w.getMana();
 		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testManaListener(){
+		manaListener = mock(IManaListener.class);
+		w.addManaListener(manaListener);
+		
+		w.setMana(15);
+		verify(manaListener, times(1)).onChange(w, 20, 15);
+		verify(manaListener, times(1)).onLoss(w, 20, 15);
+		
+		reset(manaListener);
+		w.gainMana(2);
+		verify(manaListener, times(1)).onChange(w, 15, 17);
+		verify(manaListener, times(1)).onGain(w, 15, 17);
+
+		reset(manaListener);
+		w.loseMana(2);
+		verify(manaListener, times(1)).onChange(w, 17, 15);
+		verify(manaListener, times(1)).onLoss(w, 17, 15);
+		
+		reset(manaListener);
+		w.removeManaListener(manaListener);
+		w.setMana(15);
+		w.gainMana(2);
+		w.loseMana(2);
+		verify(manaListener, never()).onChange(any(), anyInt(), anyInt());
+		verify(manaListener, never()).onGain(any(), anyInt(), anyInt());
+		verify(manaListener, never()).onLoss(any(), anyInt(), anyInt());
 	}
 
 	@Test

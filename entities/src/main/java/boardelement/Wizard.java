@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
+import characterlistener.IHealthListener;
+import characterlistener.IManaListener;
+import characterlistener.IRangeListener;
 import constant.WizardConstant;
 import javafx.collections.ListChangeListener;
 import spell.Card;
@@ -143,7 +146,11 @@ public class Wizard extends Character
 	}
 
 	public void setMana(int mana) {
+		int prevMana = this.mana;
+		
 		this.mana = Math.max(0, mana);
+		
+		fireManaChanged(prevMana, this.mana);
 	}
 	
 	public void loseMana(int loss)
@@ -165,7 +172,41 @@ public class Wizard extends Character
 		setMana(wizardConstant.getBaseMana());
 	}
 
+	public void addManaListener(IManaListener listener)
+	{
+		listeners.add(IManaListener.class, listener);
+	}
 	
+	public void removeManaListener(IManaListener listener)
+	{
+		listeners.remove(IManaListener.class, listener);
+	}
+	
+	public IManaListener[] getManaListeners()
+	{
+		return listeners.getListeners(IManaListener.class);
+	}
+	
+	private void fireManaChanged(int prev, int actual)
+	{
+		if(actual > prev)
+		{
+			for(IManaListener listener : getManaListeners())
+			{
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
+			}
+		}
+		
+		if(actual < prev)
+		{
+			for(IManaListener listener : getManaListeners())
+			{
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
+			}
+		}
+	}
 	
 	public Power getPower()
 	{

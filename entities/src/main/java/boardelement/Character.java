@@ -27,7 +27,7 @@ public abstract class Character implements IBoardElement
 	private boolean freeze;
 	private List<Word> words;
 	
-	private EventListenerList listeners;
+	protected EventListenerList listeners;
 	
 	
 	
