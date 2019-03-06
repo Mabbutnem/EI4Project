@@ -43,7 +43,7 @@ public abstract class TargetableEffect implements IApplicableEffect
 		return target;
 	}
 	
-	public String getConstraintDescription()
+	public String getConstraintsDescription()
 	{
 		String desc = "";
 
