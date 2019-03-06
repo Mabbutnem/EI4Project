@@ -6,5 +6,5 @@ import boardelement.Character;
 
 public interface IAliveListener extends EventListener
 {
-	public void onDeath(Character c);
+	public void onChange(Character c, boolean actual);
 }

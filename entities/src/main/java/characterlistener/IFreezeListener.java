@@ -2,6 +2,9 @@ package characterlistener;
 
 import java.util.EventListener;
 
-public interface IFreezeListener extends EventListener {
+import boardelement.Character;
 
+public interface IFreezeListener extends EventListener
+{
+	public void onChange(Character c, boolean actual);
 }

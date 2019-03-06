@@ -12,14 +12,15 @@ public class GameConstant
 	private int levelMaxDifficulty;
 	private int nbMonstersToSpawnEachTurnMin;
 	private int nbMonstersToSpawnEachTurnMax;
-	private float boardDensityLimit;
+	private int nbMonstersMin;
+	private int nbMonstersMax;
 
 	
 	public GameConstant() {
 		//Empty constructor for jackson
 	}
 	public GameConstant(int boardLenght, int nbWizard, int levelCost, int levelMaxDifficulty,
-			int nbMonstersToSpawnEachTurnMin, int nbMonstersToSpawnEachTurnMax, float boardDensityLimit)
+			int nbMonstersToSpawnEachTurnMin, int nbMonstersToSpawnEachTurnMax, int nbMonstersMin, int nbMonstersMax)
 	{
 		Preconditions.checkArgument(nbWizard > 0, "nbWizard was %s but expected strictly positive", nbWizard);
 		Preconditions.checkArgument(boardLenght > nbWizard + 1, "boardLenght was %s but expected higher than %s (nbWizard + 1) ", boardLenght, nbWizard + 1);
@@ -28,11 +29,10 @@ public class GameConstant
 		Preconditions.checkArgument(nbMonstersToSpawnEachTurnMin >= 0, "nbMonstersToSpawnEachTurnMin was %s but expected positive", nbMonstersToSpawnEachTurnMin);
 		Preconditions.checkArgument(nbMonstersToSpawnEachTurnMax >= nbMonstersToSpawnEachTurnMin, "nbMonstersToSpawnEachTurnMax was %s"
 				+ " but expected higher or equal to %s (nbMonstersToSpawnEachTurnMin)", nbMonstersToSpawnEachTurnMax, nbMonstersToSpawnEachTurnMin);
-		Preconditions.checkArgument(boardDensityLimit <= 1, "boardDensityLimit was %s but expected fewer or equal to 1", boardDensityLimit);
-		
-		float boardDensityLimitMin = ((float)(nbWizard + 1))/((float)boardLenght);
-		Preconditions.checkArgument(boardDensityLimit > boardDensityLimitMin, "boardDensityLimit was %s but expected higher than %s "
-				+ "(nbWizard + 1)/boardLenght", boardDensityLimit, boardDensityLimitMin);
+		Preconditions.checkArgument(nbMonstersMax <= boardLenght-nbWizard, "nbMonstersMax was %s but expected fewer or equal than %s (boardLenght - nbWizard", 
+				nbMonstersMax, boardLenght-nbWizard);
+		Preconditions.checkArgument(nbMonstersMin > 0 && nbMonstersMin <= nbMonstersMax, "nbMonstersMin was %s but expected strictly positive and"
+				+ " and fewer or equal to %s (nbMonstersMax)", nbMonstersMin, nbMonstersMax);
 		
 		this.boardLenght = boardLenght;
 		this.nbWizard = nbWizard;
@@ -40,7 +40,8 @@ public class GameConstant
 		this.levelMaxDifficulty = levelMaxDifficulty;
 		this.nbMonstersToSpawnEachTurnMin = nbMonstersToSpawnEachTurnMin;
 		this.nbMonstersToSpawnEachTurnMax = nbMonstersToSpawnEachTurnMax;
-		this.boardDensityLimit = boardDensityLimit;
+		this.nbMonstersMin = nbMonstersMin;
+		this.nbMonstersMax = nbMonstersMax;
 	}
 	
 	
@@ -69,8 +70,12 @@ public class GameConstant
 		return nbMonstersToSpawnEachTurnMax;
 	}
 	
-	public float getBoardDensityLimit() {
-		return boardDensityLimit;
+	public int getNbMonstersMin() {
+		return nbMonstersMin;
+	}
+	
+	public int getNbMonstersMax() {
+		return nbMonstersMax;
 	}
 	
 	

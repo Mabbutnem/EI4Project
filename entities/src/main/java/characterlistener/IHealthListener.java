@@ -2,9 +2,11 @@ package characterlistener;
 
 import java.util.EventListener;
 
+import boardelement.Character;
+
 public interface IHealthListener extends EventListener
 {
-	public void onChange(CharacterIntValueEvent e);
-	public void onGain(CharacterIntValueEvent e);
-	public void onLoss(CharacterIntValueEvent e);
+	public void onChange(Character c, int previous, int actual);
+	public void onGain(Character c, int previous, int actual);
+	public void onLoss(Character c, int previous, int actual);
 }

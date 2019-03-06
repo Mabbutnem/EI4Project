@@ -74,11 +74,11 @@ public abstract class Character implements IBoardElement
 	
 	private void fireAliveChanged(boolean prevAlive, boolean actualAlive)
 	{
-		if(prevAlive && !actualAlive)
+		if(prevAlive != actualAlive)
 		{
 			for(IAliveListener listener : getAliveListeners())
 			{
-				listener.onDeath(this);
+				listener.onChange(this, actualAlive);
 			}
 		}
 	}
@@ -136,16 +136,12 @@ public abstract class Character implements IBoardElement
 	
 	private void fireHealthChanged(int prev, int actual)
 	{
-		CharacterIntValueEvent e = null;
-		
 		if(actual > prev)
 		{
 			for(IHealthListener listener : getHealthListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onGain(e);
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
 			}
 		}
 		
@@ -153,10 +149,8 @@ public abstract class Character implements IBoardElement
 		{
 			for(IHealthListener listener : getHealthListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onLoss(e);
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
 			}
 		}
 	}
@@ -254,16 +248,12 @@ public abstract class Character implements IBoardElement
 	
 	private void fireArmorChanged(int prev, int actual)
 	{
-		CharacterIntValueEvent e = null;
-		
 		if(actual > prev)
 		{
 			for(IArmorListener listener : getArmorListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onGain(e);
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
 			}
 		}
 		
@@ -271,10 +261,8 @@ public abstract class Character implements IBoardElement
 		{
 			for(IArmorListener listener : getArmorListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onLoss(e);
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
 			}
 		}
 	}
@@ -327,16 +315,12 @@ public abstract class Character implements IBoardElement
 
 	private void fireMoveChanged(int prev, int actual)
 	{
-		CharacterIntValueEvent e = null;
-		
 		if(actual > prev)
 		{
 			for(IMoveListener listener : getMoveListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onGain(e);
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
 			}
 		}
 		
@@ -344,10 +328,8 @@ public abstract class Character implements IBoardElement
 		{
 			for(IMoveListener listener : getMoveListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onLoss(e);
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
 			}
 		}
 	}
@@ -406,16 +388,12 @@ public abstract class Character implements IBoardElement
 	
 	private void fireDashChanged(int prev, int actual)
 	{
-		CharacterIntValueEvent e = null;
-		
 		if(actual > prev)
 		{
 			for(IDashListener listener : getDashListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onGain(e);
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
 			}
 		}
 		
@@ -423,10 +401,8 @@ public abstract class Character implements IBoardElement
 		{
 			for(IDashListener listener : getDashListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onLoss(e);
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
 			}
 		}
 	}
@@ -479,16 +455,12 @@ public abstract class Character implements IBoardElement
 	
 	private void fireRangeChanged(int prev, int actual)
 	{
-		CharacterIntValueEvent e = null;
-		
 		if(actual > prev)
 		{
 			for(IRangeListener listener : getRangeListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onGain(e);
+				listener.onChange(this, prev, actual);
+				listener.onGain(this, prev, actual);
 			}
 		}
 		
@@ -496,10 +468,8 @@ public abstract class Character implements IBoardElement
 		{
 			for(IRangeListener listener : getRangeListeners())
 			{
-				if(e == null) { e = new CharacterIntValueEvent(this, prev, actual); }
-			
-				listener.onChange(e);
-				listener.onLoss(e);
+				listener.onChange(this, prev, actual);
+				listener.onLoss(this, prev, actual);
 			}
 		}
 	}

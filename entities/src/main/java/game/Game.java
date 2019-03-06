@@ -17,7 +17,6 @@ import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
-import characterlistener.CharacterIntValueEvent;
 import characterlistener.IRangeListener;
 import constant.GameConstant;
 import spell.Card;
@@ -606,22 +605,20 @@ public class Game
 		{
 			board[i] = wizards[i];
 			
-			wizards[i].addAliveListener(this::clearBoard);
+			wizards[i].addAliveListener((c, actual) -> { if(!actual) { clearBoard(c); } });
 			
 			wizards[i].addRangeListener(new IRangeListener()
 					{
 						@Override
-						public void onChange(CharacterIntValueEvent e){
-							refreshRange(e.getCharacter());
-						}
+						public void onChange(Character c, int previous, int actual) { refreshRange(c); }
 
 						@Override
-						public void onGain(CharacterIntValueEvent e) {
+						public void onGain(Character c, int previous, int actual) {
 							//Don't need to be implemented
 						}
 
 						@Override
-						public void onLoss(CharacterIntValueEvent e) {
+						public void onLoss(Character c, int previous, int actual) {
 							//Don't need to be implemented
 						}
 					});
@@ -747,37 +744,33 @@ public class Game
 	{
 		int nbMonstersToSpawnThisTurn = Proba.nextInt(gameConstant.getNbMonstersToSpawnEachTurnMin(),
 														gameConstant.getNbMonstersToSpawnEachTurnMax());
-
-		float futureDensity = ((float)(nbWizards + nbMonstersAndCorpses + 1))/((float)board.length);
 		
 		int i = 0;
-		while(!monstersToSpawn.isEmpty() && i < nbMonstersToSpawnThisTurn && futureDensity <= gameConstant.getBoardDensityLimit())
-																			  //The future density must remain lower than the boardDensityLimit
+		//Faire spawn un monstre si :
+		while(  !monstersToSpawn.isEmpty() && //La file d'attente de monstre n'est pas vide ET
+				(i < nbMonstersToSpawnThisTurn || nbMonstersAndCorpses < gameConstant.getNbMonstersMin()) && //Qu'il reste des monstres à faire spawn OU que le nb min de monstres n'est pas atteind
+				nbMonstersAndCorpses < gameConstant.getNbMonstersMax() ) //ET que le nb max de monstres n'est pas dépassé
 		{
 			//New monster
 			Monster monster = new Monster(monstersToSpawn.poll(), incantations);
-			monster.addAliveListener(this::clearBoard);
+			monster.addAliveListener((c, actual) -> { if(!actual) { clearBoard(c); } });
 			monster.addRangeListener(new IRangeListener()
 			{
 				@Override
-				public void onChange(CharacterIntValueEvent e){
-					refreshRange(e.getCharacter());
-				}
+				public void onChange(Character c, int previous, int actual) { refreshRange(c); }
 
 				@Override
-				public void onGain(CharacterIntValueEvent e) {
+				public void onGain(Character c, int previous, int actual) {
 					//Don't need to be implemented
 				}
 
 				@Override
-				public void onLoss(CharacterIntValueEvent e) {
+				public void onLoss(Character c, int previous, int actual) {
 					//Don't need to be implemented
 				}
 			});
 			
 			spawnMonster(monster);
-			
-			futureDensity += 1/((float)board.length); //The future density with one additional monster
 			
 			i++;
 		}
