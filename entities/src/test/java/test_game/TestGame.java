@@ -24,6 +24,7 @@ import game.Horde;
 import game.Level;
 import spell.Card;
 import target.TargetConstraint;
+import zone.ZoneGroup;
 
 public class TestGame
 {
@@ -59,7 +60,9 @@ public class TestGame
 		when(gameConstant.getNbWizard()).thenReturn(2);
 		
 		w = mock(Wizard.class);
+		when(w.getRange()).thenReturn(2);
 		w0 = mock(Wizard.class);
+		when(w0.getRange()).thenReturn(2);
 		m = mock(Monster.class);
 		m0 = mock(Monster.class);
 		c0 = mock(Corpse.class);
@@ -167,6 +170,14 @@ public class TestGame
 		
 		boolean[] expectedB = new boolean[] { true, true, true, true, false, false };
 		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		
+
+		g.setCurrentCharacter(null);
+		
+		expectedB = new boolean[] { false, false, false, false, false, false };
+		resultB = g.getCurrentCharacterRange();
 		assertArrayEquals(expectedB, resultB);
 	}
 
@@ -355,6 +366,7 @@ public class TestGame
 		g.setBoard(new IBoardElement[] {w, w0, null, m, m0, c0});
 		
 		when(w0.getRange()).thenReturn(2);
+		when(w0.getMove()).thenReturn(1);
 		g.setCurrentCharacter(w0);
 		
 
@@ -459,7 +471,8 @@ public class TestGame
 		result = g.hasValidTargetForCurrentCharacter(new TargetConstraint[] {TargetConstraint.NOTALLY});
 		assertEquals(expected, result);
 	}
-	
+
+	//Targets for the AI of monsters
 	@Test
 	public final void testGetAllPossibleTargetForCurrentCharacter()
 	{
@@ -498,13 +511,88 @@ public class TestGame
 	}
 	
 	
-	//Targets for the AI of monsters
 	
 	//The range array of the current character
+	@Test
+	public final void testGetCurrentCharacterRange()
+	{
+		boolean[] expected = new boolean[] {false, false, false, false, false, false};
+		boolean[] result = g.getCurrentCharacterRange();
+		assertArrayEquals(expected, result);
+	}
+	
+	
 	
 	//The range array of all wizards
+	@Test
+	public final void testGetWizardsRange()
+	{
+		boolean[] expected = new boolean[] {true, true, true, true, false, false};
+		boolean[] result = g.getWizardsRange();
+		assertArrayEquals(expected, result);
+	}
+	
+	
 	
 	//The board
+	@Test
+	public final void testGetBoard()
+	{
+		IBoardElement[] expected = new IBoardElement[] {w, w0, null, null, null, null};
+		IBoardElement[] result = g.getBoard();
+		assertArrayEquals(expected, result);
+	}
+	
+	@Test
+	public final void testSetBoard()
+	{
+		when(w.getRange()).thenReturn(0);
+		when(w0.getRange()).thenReturn(2);
+		
+		g.setBoard(new IBoardElement[] {c0, m0, null, null, w, w0});
+		
+		IBoardElement[] expectedE = new IBoardElement[] {c0, m0, null, null, w, w0};
+		IBoardElement[] resultE = g.getBoard();
+		assertArrayEquals(expectedE, resultE);
+		
+		Character expectedC = w;
+		Character resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		boolean[] expectedB = new boolean[] {false, false, false, true, true, true};
+		boolean[] resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		expectedB = new boolean[] {false, false, false, false, true, false};
+		resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testSetBoardException1()
+	{
+		g.setBoard(null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testSetBoardException2()
+	{
+		g.setBoard(new IBoardElement[] {w, w0, null, null, null, null, null});
+	}
+	
+	@Test
+	public final void testNbBoardElements()
+	{
+		int expected = 2;
+		int result = g.nbBoardElements();
+		assertEquals(expected, result);
+
+		g.setBoard(new IBoardElement[] {c0, m0, null, null, w, w0});
+		
+		expected = 4;
+		result = g.nbBoardElements();
+		assertEquals(expected, result);
+	}
 	
 	
 	
@@ -1134,6 +1222,41 @@ public class TestGame
 
 	
 	
+	//The turns
+	@Test
+	public final void testIsWizardsTurn()
+	{
+		boolean expected = false;
+		boolean result = g.isWizardsTurn();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testBeginWizardsTurn()
+	{
+		fail();
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testBeginWizardsTurnException()
+	{
+		when(w.getZoneGroup()).thenReturn(mock(ZoneGroup.class));
+		when(w0.getZoneGroup()).thenReturn(mock(ZoneGroup.class));
+		
+		g.beginWizardsTurn();
+		
+		//you can't begin wizards turn if it's already the wizards turn
+		g.beginWizardsTurn();
+	}
+	
+	
+	//Cast zone
+	
+	//Wizard's spawn
+	
+	
+	
+	//Monster's spawn
 	//The turns
 	
 	//Cast zone
