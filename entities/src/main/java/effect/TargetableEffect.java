@@ -43,21 +43,20 @@ public abstract class TargetableEffect implements IApplicableEffect
 		return target;
 	}
 	
-	@Override
-	public String getDescription()
+	public String getConstraintDescription()
 	{
 		String desc = "";
 
 		List<TargetConstraint> constraintList = Arrays.asList((target.getConstraints()));
 		
 		if(constraintList.contains(TargetConstraint.NOTALLY)) {
-			desc += ", not ally";
+			desc += "not ally";
 		}
 		if(constraintList.contains(TargetConstraint.NOTENEMY)) {
-			desc += ", not enemy";
+			desc += "not enemy";
 		}
 		if(constraintList.contains(TargetConstraint.NOTYOU)) {
-			desc += ", not you";
+			desc += "not you";
 		}
 		
 		return desc;

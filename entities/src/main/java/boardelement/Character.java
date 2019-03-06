@@ -362,6 +362,10 @@ public abstract class Character implements IBoardElement
 		
 		setDash(getDash() + gain);
 	}
+	
+	public void setHasDashed(boolean hasDashed){
+		this.hasDashed = hasDashed;
+	}
 
 	public boolean hasDashed() {
 		return hasDashed;
@@ -513,7 +517,7 @@ public abstract class Character implements IBoardElement
 	{
 		if(prev != actual)
 		{
-			for(IAliveListener listener : getAliveListeners())
+			for(IFreezeListener listener : getFreezeListeners())
 			{
 				listener.onChange(this, actual);
 			}

@@ -112,7 +112,7 @@ public class Game
 			i++;
 		}
 		
-		if(board[i] instanceof Wizard) { setCurrentCharacter((Character) board[i]); }
+		if(i >= board.length) { setCurrentCharacter((Character) board[i]); }
 		else { setCurrentCharacter(null); }
 	}
 	
@@ -353,14 +353,22 @@ public class Game
 	{
 		int actualDelta = elementaryMove(character, character.getDash());
 		character.loseDash(Math.abs(actualDelta));
-		if(actualDelta > 0) { refreshRange(character); }
+		if(actualDelta > 0)
+		{
+			character.setHasDashed(true);
+			refreshRange(character);
+		}
 	}
 	
 	public void leftDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, -character.getDash());
 		character.loseDash(Math.abs(actualDelta));
-		if(actualDelta > 0) { refreshRange(character); }
+		if(actualDelta > 0)
+		{ 
+			character.setHasDashed(true);
+			refreshRange(character);
+		}
 	}
 	
 	public void push(Character referenceCharacter, Character[] characters, int delta)
@@ -466,15 +474,9 @@ public class Game
 		
 		setFirstWizardAsCurrentCharacter();
 		
-		for(IBoardElement elem : board)
+		for(Wizard w : getWizards())
 		{
-			if(elem instanceof Wizard)
-			{
-				Wizard w = (Wizard) elem;
-
-				//Draw 1 card
-				w.getZoneGroup().transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
-			}
+			w.getZoneGroup().transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
 		}
 	}
 	
@@ -482,19 +484,14 @@ public class Game
 	{
 		Preconditions.checkState(isWizardsTurn(), "in order to end wizard's turn, it has to be wizard's turn");
 		
-		for(IBoardElement elem : board)
+		for(Wizard w : getWizards())
 		{
-			if(elem instanceof Wizard)
-			{
-				Wizard w = (Wizard) elem;
-				
-				w.resetFreeze();
-				w.resetMana();
-				w.resetMove();
-				w.resetRange();
-				w.getZoneGroup().unvoid();
-				w.getZoneGroup().unbanish();
-			}
+			w.resetFreeze();
+			w.resetMana();
+			w.resetMove();
+			w.resetRange();
+			w.getZoneGroup().unvoid();
+			w.getZoneGroup().unbanish();
 		}
 		
 		wizardsTurn = false;
@@ -504,7 +501,7 @@ public class Game
 	
 	public boolean currentCharacterInWizardsRange()
 	{
-		return wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
+		return getCurrentCharacter() != null && wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
 	}
 	
 	public void playMonstersTurnPart1()
@@ -599,6 +596,21 @@ public class Game
 	
 	
 	//Wizard's spawn
+	public Wizard[] getWizards()
+	{
+		List<Wizard> wizardsList = new LinkedList<>();
+		
+		for(IBoardElement elem : board)
+		{
+			if(elem instanceof Wizard)
+			{
+				wizardsList.add((Wizard) elem);
+			}
+		}
+		
+		return wizardsList.toArray(new Wizard[0]);
+	}
+	
 	private void spawnWizards(Wizard[] wizards)
 	{
 		for(int i = 0; i < wizards.length; i++)
