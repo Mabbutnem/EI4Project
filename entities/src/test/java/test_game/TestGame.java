@@ -44,7 +44,11 @@ public class TestGame
 		when(gameConstant.getBoardLenght()).thenReturn(6);
 		when(gameConstant.getLevelCost()).thenReturn(50);
 		when(gameConstant.getLevelMaxDifficulty()).thenReturn(10);
-		when(gameConstant.getNbWizard()).thenReturn(3);
+		when(gameConstant.getNbMonstersMax()).thenReturn(3);
+		when(gameConstant.getNbMonstersMin()).thenReturn(2);
+		when(gameConstant.getNbMonstersToSpawnEachTurnMax()).thenReturn(1);
+		when(gameConstant.getNbMonstersToSpawnEachTurnMin()).thenReturn(1);
+		when(gameConstant.getNbWizard()).thenReturn(2);
 		
 		w = mock(Wizard.class);
 		w0 = mock(Wizard.class);
@@ -52,7 +56,7 @@ public class TestGame
 		m0 = mock(Monster.class);
 		c0 = mock(Corpse.class);
 		
-		g = new Game();
+		g = new Game(new Wizard[] { w, w0 });
 	}
 
 	@After
