@@ -1,15 +1,16 @@
 package effect;
 
 import boardelement.Character;
+import boardelement.Wizard;
 import condition.ICondition;
 import condition.TrueCondition;
 import game.Game;
 import spell.ISpell;
 import target.Target;
 
-public class GainHealthEffect extends OneValueEffect {
+public class GainManaEffect extends OneValueEffect {
 
-	public GainHealthEffect(Target target, int value) {
+	public GainManaEffect(Target target, int value) {
 		super(target, value);
 	}
 
@@ -23,15 +24,15 @@ public class GainHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " health to all targets " + getConstraintsDescription();
+			return "give " + getValue() + " mana to all targets " + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " health " + getConstraintsDescription();
+			return "give " + getValue() + " mana " + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more health";
+			return "give " + getValue() + " more mana";
 		case RANDOM:
-			return "give " + getValue() + " health to a random target" + getConstraintsDescription();
+			return "give " + getValue() + " mana to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " health";
+			return "gain " + getValue() + " mana";
 		default:
 			return "";		
 		}
@@ -39,7 +40,9 @@ public class GainHealthEffect extends OneValueEffect {
 
 	@Override
 	protected void applyOn(Character character, Game game, ISpell spell) {
-		character.gainHealth(getValue());
+		if(character instanceof Wizard) {
+			((Wizard) character).gainMana(getValue());
+		}
 	}
 
 }

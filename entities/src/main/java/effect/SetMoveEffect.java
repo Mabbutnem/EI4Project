@@ -7,9 +7,9 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
-public class GainHealthEffect extends OneValueEffect {
+public class SetMoveEffect extends OneValueEffect {
 
-	public GainHealthEffect(Target target, int value) {
+	public SetMoveEffect(Target target, int value) {
 		super(target, value);
 	}
 
@@ -23,23 +23,23 @@ public class GainHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " health to all targets " + getConstraintsDescription();
+			return "set all targets’ move to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " health " + getConstraintsDescription();
+			return "set move to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more health";
+			return "set " + getValue() + " move more";
 		case RANDOM:
-			return "give " + getValue() + " health to a random target" + getConstraintsDescription();
+			return "set a random target’s move to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " health";
+			return "set your move to " + getValue();
 		default:
-			return "";		
+			return "";
 		}
 	}
 
 	@Override
 	protected void applyOn(Character character, Game game, ISpell spell) {
-		character.gainHealth(getValue());
+		character.setMove(getValue());
 	}
 
 }

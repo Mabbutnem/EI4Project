@@ -15,6 +15,10 @@ public abstract class OneValueCondition implements ICondition
 		this.value = value;
 	}
 	
+	public String getDescription() {
+		return "if you have ";
+	}
+	
 	
 
 }

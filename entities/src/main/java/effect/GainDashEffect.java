@@ -7,9 +7,9 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
-public class GainHealthEffect extends OneValueEffect {
+public class GainDashEffect extends OneValueEffect {
 
-	public GainHealthEffect(Target target, int value) {
+	public GainDashEffect(Target target, int value) {
 		super(target, value);
 	}
 
@@ -23,15 +23,15 @@ public class GainHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " health to all targets " + getConstraintsDescription();
+			return "give " + getValue() + " dash to all targets " + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " health " + getConstraintsDescription();
+			return "give " + getValue() + " dash " + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more health";
+			return "give " + getValue() + " more dash";
 		case RANDOM:
-			return "give " + getValue() + " health to a random target" + getConstraintsDescription();
+			return "give " + getValue() + " dash to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " health";
+			return "gain " + getValue() + " dash";
 		default:
 			return "";		
 		}
@@ -39,7 +39,7 @@ public class GainHealthEffect extends OneValueEffect {
 
 	@Override
 	protected void applyOn(Character character, Game game, ISpell spell) {
-		character.gainHealth(getValue());
+		character.gainDash(getValue());
 	}
 
 }

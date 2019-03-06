@@ -2,6 +2,7 @@ package effect;
 
 import spell.ISpell;
 import target.Target;
+import target.TargetType;
 import zone.ZonePick;
 import zone.ZoneType;
 
@@ -9,16 +10,16 @@ import com.google.common.base.Preconditions;
 
 import boardelement.Character;
 import boardelement.Wizard;
-import condition.HigherOrEqualCardCondition;
+import condition.HigherCardCondition;
 import condition.ICondition;
 import game.Game;
 
 public class CardEffect extends OneValueEffect
 {
-	private ZoneType zoneSource;
-	private ZonePick pickSource;
-	private ZoneType zoneDest;
-	private ZonePick pickDest;
+	protected ZoneType zoneSource;
+	protected ZonePick pickSource;
+	protected ZoneType zoneDest;
+	protected ZonePick pickDest;
 
 	
 	
@@ -38,14 +39,24 @@ public class CardEffect extends OneValueEffect
 		this.zoneDest = zoneDest;
 		this.pickDest = pickDest;
 	}
-
-
+	
+	@Override
+	public ICondition matchingCondition()
+	{
+		return new HigherCardCondition(getValue(), zoneSource);
+	}
 
 	@Override 
 	public String getDescription()
 	{
-		//TODO
-		return null;
+		String desc = "";
+		if(getTarget().getType() == TargetType.AREA) {
+			desc += "all targets ";
+		}
+		desc += "put " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+				+ pickSource.getDescriptionSource() + zoneSource.getDescription() 
+				+ pickDest.getDescriptionDest()  + zoneDest.getDescription();
+		return desc;
 	}
 	
 	@Override
@@ -55,12 +66,6 @@ public class CardEffect extends OneValueEffect
 		{
 			((Wizard) character).getZoneGroup().transfer(zoneSource, pickSource, zoneDest, pickDest, getValue());
 		}
-	}
-	
-	@Override
-	public ICondition matchingCondition()
-	{
-		return new HigherOrEqualCardCondition(getValue(), zoneSource);
 	}
 
 }

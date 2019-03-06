@@ -6,7 +6,6 @@ import condition.TrueCondition;
 import game.Game;
 import spell.ISpell;
 import target.Target;
-import target.TargetType;
 
 public class SetHealthEffect extends OneValueEffect {
 
@@ -21,32 +20,21 @@ public class SetHealthEffect extends OneValueEffect {
 
 	@Override
 	public String getDescription() {
-		String desc = "set ";
-		
 		switch(getTarget().getType())
 		{
 		case AREA:
-			desc += "all targets' ";
-			break;
+			return "set all targets’ health to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			desc += "";
-			break;
+			return "set health to " + getValue() + getConstraintsDescription();
 		case MORE:
-			desc += "";
-			break;
+			return "set " + getValue() + " more health";
 		case RANDOM:
-			desc += "a random target's ";
-			break;
+			return "set a random target’s health to " + getValue() + getConstraintsDescription();
 		case YOU:
-			desc += "your ";
-			break;
+			return "set your health to " + getValue();
 		default:
-			break;
+			return "";
 		}
-		
-		desc += "health to " + getValue() + getConstraintsDescription();
-		
-		return desc;
 	}
 
 	@Override

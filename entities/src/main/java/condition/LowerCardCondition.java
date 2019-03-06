@@ -6,10 +6,10 @@ import boardelement.Wizard;
 import game.Game;
 import zone.ZoneType;
 
-public class HigherOrEqualCardCondition extends CardCondition
+public class LowerCardCondition extends CardCondition
 {
 
-	public HigherOrEqualCardCondition(int value, ZoneType zoneType)
+	public LowerCardCondition(int value, ZoneType zoneType)
 	{
 		super(value, zoneType);
 	}
@@ -27,7 +27,7 @@ public class HigherOrEqualCardCondition extends CardCondition
 	{
 		return g ->
 			g.getCurrentCharacter() instanceof Wizard &&
-			((Wizard) g.getCurrentCharacter()).getZoneGroup().getCards(zoneType).length >= value;
+			((Wizard) g.getCurrentCharacter()).getZoneGroup().getCards(zoneType).length <= value;
 	}
 
 }
