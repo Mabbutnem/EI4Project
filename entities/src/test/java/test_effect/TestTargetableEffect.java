@@ -44,6 +44,9 @@ public class TestTargetableEffect
 			game.getBoard();
 			spell.getName();
 		}
+
+		@Override
+		public String getDescription() { return null; }
 		
 	}
 	
@@ -112,8 +115,35 @@ public class TestTargetableEffect
 	}
 
 	@Test
-	public final void testGetDescription() {
-		fail("Not yet implemented");
+	public final void testGetConstraintsDescription() {
+		when(target.getConstraints()).thenReturn(new TargetConstraint[0]);
+		String expected = "";
+		String result = te.getConstraintsDescription();
+		assertEquals(expected, result);
+		
+		when(target.getConstraints()).thenReturn(new TargetConstraint[]
+				{
+						TargetConstraint.NOTYOU,
+				});
+		expected = "(not you)";
+		result = te.getConstraintsDescription();
+		assertEquals(expected, result);
+		
+		when(target.getConstraints()).thenReturn(new TargetConstraint[]
+				{
+						TargetConstraint.NOTALLY,
+				});
+		expected = "(not ally)";
+		result = te.getConstraintsDescription();
+		assertEquals(expected, result);
+		
+		when(target.getConstraints()).thenReturn(new TargetConstraint[]
+				{
+						TargetConstraint.NOTYOU, TargetConstraint.NOTALLY,
+				});
+		expected = "(not you, not ally)";
+		result = te.getConstraintsDescription();
+		assertEquals(expected, result);
 	}
 
 	@Test

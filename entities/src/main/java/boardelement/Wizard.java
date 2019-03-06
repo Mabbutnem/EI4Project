@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
-import characterlistener.IHealthListener;
 import characterlistener.IManaListener;
-import characterlistener.IRangeListener;
 import constant.WizardConstant;
 import javafx.collections.ListChangeListener;
 import spell.Card;

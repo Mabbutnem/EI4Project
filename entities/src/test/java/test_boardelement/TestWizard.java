@@ -19,7 +19,6 @@ import org.mockito.MockitoAnnotations;
 
 import boardelement.Wizard;
 import boardelement.WizardFactory;
-import characterlistener.IDashListener;
 import characterlistener.IManaListener;
 import constant.WizardConstant;
 import listener.ICardArrayRequestListener;

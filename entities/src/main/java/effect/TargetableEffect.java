@@ -49,20 +49,20 @@ public abstract class TargetableEffect implements IApplicableEffect
 
 		List<TargetConstraint> constraintList = Arrays.asList((target.getConstraints()));
 		
+		if(constraintList.contains(TargetConstraint.NOTYOU)) {
+			desc += "not you";
+		}
 		if(constraintList.contains(TargetConstraint.NOTALLY)) {
+			if(desc.length() > 0) { desc += ", "; }
 			desc += "not ally";
 		}
 		if(constraintList.contains(TargetConstraint.NOTENEMY)) {
 			if(desc.length() > 0) { desc += ", "; }
 			desc += "not enemy";
 		}
-		if(constraintList.contains(TargetConstraint.NOTYOU)) {
-			if(desc.length() > 0) { desc += ", "; }
-			desc += "not you";
-		}
 		
 		if(desc.length() > 0) {
-			desc = "(" + desc + ")";
+			desc = " (" + desc + ")";
 		}
 		
 		return desc;

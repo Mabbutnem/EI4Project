@@ -32,6 +32,9 @@ public class TestOneValueEffect {
 
 		@Override
 		protected void applyOn(Character character, Game game, ISpell spell) {}
+
+		@Override
+		public String getDescription() { return null; }
 		
 	}
 	
@@ -44,6 +47,9 @@ public class TestOneValueEffect {
 
 		@Override
 		protected void applyOn(Character character, Game game, ISpell spell) {}
+
+		@Override
+		public String getDescription() { return null; }
 		
 	}
 	
