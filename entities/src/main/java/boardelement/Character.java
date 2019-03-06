@@ -482,7 +482,11 @@ public abstract class Character implements IBoardElement
 	}
 
 	public void setFreeze(boolean freeze) {
+		boolean prevFreeze = this.freeze;
+		
 		this.freeze = freeze;
+		
+		fireFreezeChanged(prevFreeze, this.freeze);
 	}
 	
 	public void resetFreeze()
@@ -503,6 +507,17 @@ public abstract class Character implements IBoardElement
 	public IFreezeListener[] getFreezeListeners()
 	{
 		return listeners.getListeners(IFreezeListener.class);
+	}
+	
+	private void fireFreezeChanged(boolean prev, boolean actual)
+	{
+		if(prev != actual)
+		{
+			for(IAliveListener listener : getAliveListeners())
+			{
+				listener.onChange(this, actual);
+			}
+		}
 	}
 
 
