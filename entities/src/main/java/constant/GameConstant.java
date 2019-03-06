@@ -22,17 +22,24 @@ public class GameConstant
 	public GameConstant(int boardLenght, int nbWizard, int levelCost, int levelMaxDifficulty,
 			int nbMonstersToSpawnEachTurnMin, int nbMonstersToSpawnEachTurnMax, int nbMonstersMin, int nbMonstersMax)
 	{
+		Preconditions.checkArgument(boardLenght > 0, "boardLenght was %s but expected strictly positive", boardLenght);
+		
 		Preconditions.checkArgument(nbWizard > 0, "nbWizard was %s but expected strictly positive", nbWizard);
-		Preconditions.checkArgument(boardLenght > nbWizard + 1, "boardLenght was %s but expected higher than %s (nbWizard + 1) ", boardLenght, nbWizard + 1);
+		Preconditions.checkArgument(nbWizard < boardLenght, "nbWizard was %s but expected fewer than %s (boardLenght)", nbWizard, boardLenght);
+		
 		Preconditions.checkArgument(levelCost > 0, "levelMaxCost was %s but expected strictly positive", levelCost);
+		
 		Preconditions.checkArgument(levelMaxDifficulty > 0, "levelMaxDifficulty was %s but expected strictly positive", levelMaxDifficulty);
+		
 		Preconditions.checkArgument(nbMonstersToSpawnEachTurnMin >= 0, "nbMonstersToSpawnEachTurnMin was %s but expected positive", nbMonstersToSpawnEachTurnMin);
 		Preconditions.checkArgument(nbMonstersToSpawnEachTurnMax >= nbMonstersToSpawnEachTurnMin, "nbMonstersToSpawnEachTurnMax was %s"
 				+ " but expected higher or equal to %s (nbMonstersToSpawnEachTurnMin)", nbMonstersToSpawnEachTurnMax, nbMonstersToSpawnEachTurnMin);
-		Preconditions.checkArgument(nbMonstersMax <= boardLenght-nbWizard, "nbMonstersMax was %s but expected fewer or equal than %s (boardLenght - nbWizard", 
-				nbMonstersMax, boardLenght-nbWizard);
-		Preconditions.checkArgument(nbMonstersMin > 0 && nbMonstersMin <= nbMonstersMax, "nbMonstersMin was %s but expected strictly positive and"
-				+ " and fewer or equal to %s (nbMonstersMax)", nbMonstersMin, nbMonstersMax);
+		
+		Preconditions.checkArgument(nbMonstersMin > 0, "nbMonstersMin was %s but expected strictly positive");
+		
+		Preconditions.checkArgument(nbMonstersMax >= nbMonstersMin, "nbMonstersMax was %s"
+				+ " but expected higher or equals than %s (nbMonstersMin)", nbMonstersMax, nbMonstersMin);
+		Preconditions.checkArgument(nbMonstersMax < boardLenght, "nbMonstersMax was %s but expected fewer than %s (boardLenght)", nbMonstersMax, boardLenght);
 		
 		this.boardLenght = boardLenght;
 		this.nbWizard = nbWizard;

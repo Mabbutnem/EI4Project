@@ -53,10 +53,16 @@ public abstract class TargetableEffect implements IApplicableEffect
 			desc += "not ally";
 		}
 		if(constraintList.contains(TargetConstraint.NOTENEMY)) {
+			if(desc.length() > 0) { desc += ", "; }
 			desc += "not enemy";
 		}
 		if(constraintList.contains(TargetConstraint.NOTYOU)) {
+			if(desc.length() > 0) { desc += ", "; }
 			desc += "not you";
+		}
+		
+		if(desc.length() > 0) {
+			desc = "(" + desc + ")";
 		}
 		
 		return desc;
