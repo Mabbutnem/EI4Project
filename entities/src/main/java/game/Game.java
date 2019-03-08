@@ -480,6 +480,7 @@ public class Game
 		
 		for(Wizard w : getWizards())
 		{
+			//Draw 1 card at the beginning of each turn
 			w.getZoneGroup().transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
 		}
 	}
@@ -505,6 +506,7 @@ public class Game
 	
 	public boolean currentCharacterInWizardsRange()
 	{
+		//A quoi ça sert ???
 		return getCurrentCharacter() != null && wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
 	}
 	
@@ -600,7 +602,7 @@ public class Game
 	
 	
 	//Wizard's spawn
-	public Wizard[] getWizards()
+	private Wizard[] getWizards()
 	{
 		List<Wizard> wizardsList = new LinkedList<>();
 		
@@ -621,7 +623,7 @@ public class Game
 		{
 			board[i] = wizards[i];
 			
-			wizards[i].addAliveListener((c, actual) -> { if(!actual) { clearBoard(c); } });
+			wizards[i].addAliveListener((c, isAlive) -> { if(!isAlive) { clearBoard(c); } });
 			
 			wizards[i].addRangeListener(new IRangeListener()
 					{
@@ -769,7 +771,7 @@ public class Game
 		{
 			//New monster
 			Monster monster = new Monster(monstersToSpawn.poll(), incantations);
-			monster.addAliveListener((c, actual) -> { if(!actual) { clearBoard(c); } });
+			monster.addAliveListener((c, isAlive) -> { if(!isAlive) { clearBoard(c); } });
 			monster.addRangeListener(new IRangeListener()
 			{
 				@Override
@@ -833,6 +835,7 @@ public class Game
 
 
 
+	//Triggered methods
 	public void clearBoard(Character character)
 	{
 		int idx = getBoardElementIdx(character);
@@ -849,6 +852,8 @@ public class Game
 			board[idx] = null;
 			
 			if(character == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
+			
+			refreshWizardsRange();
 			
 			nbWizards--;
 		}

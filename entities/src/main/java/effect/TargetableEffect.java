@@ -73,7 +73,7 @@ public abstract class TargetableEffect implements IApplicableEffect
 	{
 		for(Character c : characters)
 		{
-			applyOn(c, game, spell);
+			if(c.isAlive()) { applyOn(c, game, spell); }
 		}
 	}
 	

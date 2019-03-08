@@ -18,13 +18,17 @@ import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
+import constant.CorpseConstant;
 import constant.GameConstant;
 import game.Game;
 import game.Horde;
 import game.Level;
 import spell.Card;
 import target.TargetConstraint;
+import zone.CastZone;
 import zone.ZoneGroup;
+import zone.ZonePick;
+import zone.ZoneType;
 
 public class TestGame
 {
@@ -33,13 +37,16 @@ public class TestGame
 	private GameConstant gameConstant;
 	
 	private Wizard w;
+	private ZoneGroup wZoneGroup;
 	private Wizard w0;
+	private ZoneGroup w0ZoneGroup;
 	private Monster m;
 	private Monster m0;
 	private Corpse c0;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Corpse.setCorpseConstant(mock(CorpseConstant.class));
 	}
 
 	@AfterClass
@@ -61,10 +68,20 @@ public class TestGame
 		
 		w = mock(Wizard.class);
 		when(w.getRange()).thenReturn(2);
+		wZoneGroup = mock(ZoneGroup.class);
+		when(w.getZoneGroup()).thenReturn(wZoneGroup);
+		
 		w0 = mock(Wizard.class);
 		when(w0.getRange()).thenReturn(2);
+		w0ZoneGroup = mock(ZoneGroup.class);
+		when(w0.getZoneGroup()).thenReturn(w0ZoneGroup);
+		
 		m = mock(Monster.class);
+		when(m.getRange()).thenReturn(2);
+		
 		m0 = mock(Monster.class);
+		when(m0.getRange()).thenReturn(2);
+		
 		c0 = mock(Corpse.class);
 		
 		g = new Game(new Wizard[] { w, w0 });
@@ -1234,38 +1251,205 @@ public class TestGame
 	@Test
 	public final void testBeginWizardsTurn()
 	{
-		fail();
+		g.beginWizardsTurn();
+		
+		boolean expectedB = true;
+		boolean resultB = g.isWizardsTurn();
+		assertEquals(expectedB, resultB);
+		
+		Character expectedC = w;
+		Character resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		//Each wizard draws 1 card
+		verify(wZoneGroup, times(1)).transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
+		verify(w0ZoneGroup, times(1)).transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
 	}
 	
 	@Test (expected = IllegalStateException.class)
 	public final void testBeginWizardsTurnException()
-	{
-		when(w.getZoneGroup()).thenReturn(mock(ZoneGroup.class));
-		when(w0.getZoneGroup()).thenReturn(mock(ZoneGroup.class));
-		
+	{	
 		g.beginWizardsTurn();
 		
-		//you can't begin wizards turn if it's already the wizards turn
+		//you can't begin wizard's turn if it's already the wizards turn
 		g.beginWizardsTurn();
 	}
 	
+	@Test
+	public final void testEndWizardsTurn()
+	{
+		g.spawnMonster(m);
+		
+		g.beginWizardsTurn();
+		
+		g.endWizardsTurn();
+		
+		boolean expected = false;
+		boolean result = g.isWizardsTurn();
+		assertEquals(expected, result);
+		
+		verify(w, times(1)).resetFreeze();
+		verify(w, times(1)).resetMana();
+		verify(w, times(1)).resetRange();
+		verify(w, times(1)).resetMove();
+		verify(wZoneGroup, times(1)).unvoid();
+		verify(wZoneGroup, times(1)).unbanish();
+		
+		verify(w0, times(1)).resetFreeze();
+		verify(w0, times(1)).resetMana();
+		verify(w0, times(1)).resetRange();
+		verify(w0, times(1)).resetMove();
+		verify(w0ZoneGroup, times(1)).unvoid();
+		verify(w0ZoneGroup, times(1)).unbanish();
+		
+		Character expectedC = m;
+		Character resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testEndWizardsTurnException()
+	{
+		//you can't finish wizard's turn if it's not wizard's turn
+		g.endWizardsTurn();
+	}
+	
+	@Test
+	public final void testNextMonster()
+	{	
+		Corpse c1 = mock(Corpse.class);
+		when(c1.counterReachedReborn()).thenReturn(true);
+		when(c1.isWillReborn()).thenReturn(true);
+		Monster m1 = mock(Monster.class);
+		when(c1.getMonster()).thenReturn(m1);
+		
+		Corpse c2 = mock(Corpse.class);
+		when(c2.counterReachedReborn()).thenReturn(true);
+		when(c2.isWillReborn()).thenReturn(false);
+		
+		Corpse c3 = mock(Corpse.class);
+		when(c3.counterReachedReborn()).thenReturn(false);
+		
+		when(m.hasPlayed()).thenReturn(false).thenReturn(true);
+		
+		when(m0.hasPlayed()).thenReturn(false).thenReturn(true);
+		
+		g.setBoard(new IBoardElement[] {null, m, c1, c2, m0, c3});
+		
+		
+		
+		
+		g.nextMonster();
+		
+		Character expectedC = m;
+		Character resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		verify(m, times(1)).setPlayed(true);
+		
+		
+		
+		
+		g.nextMonster();
+		
+		expectedC = m0;
+		resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		verify(m0, times(1)).setPlayed(true);
+		
+		
+		
+		
+		g.nextMonster();
+		
+		expectedC = null;
+		resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		verify(m, times(1)).resetFreeze();
+		verify(m, times(1)).resetMove();
+		verify(m, times(1)).resetRange();
+		verify(m, times(1)).setPlayed(false);
+		
+		verify(m0, times(1)).resetFreeze();
+		verify(m0, times(1)).resetMove();
+		verify(m0, times(1)).resetRange();
+		verify(m0, times(1)).setPlayed(false);
+		
+		verify(c1, times(1)).incrCounterToReborn();
+		verify(c2, times(1)).incrCounterToReborn();
+		verify(c3, times(1)).incrCounterToReborn();
+		
+		IBoardElement[] expected = new IBoardElement[] {null, m, m1, null, m0, c3};
+		IBoardElement[] result = g.getBoard();
+		assertArrayEquals(expected, result);
+	}
+	
+	@Test (expected = IllegalStateException.class)
+	public final void testNextMonsterException()
+	{
+		//you can't call next monster if it's wizard's turn
+		g.beginWizardsTurn();
+		
+		g.nextMonster();
+	}
+	
+	@Test
+	public final void testMonstersTurnEnded()
+	{
+		when(m.hasPlayed()).thenReturn(false).thenReturn(true);
+		g.spawnMonster(m);
+		
+		
+		
+		g.beginWizardsTurn();
+		
+		boolean expected = false;
+		boolean result = g.monstersTurnEnded();
+		assertEquals(expected, result);
+		
+		
+		
+		g.endWizardsTurn();
+		
+		expected = false;
+		result = g.monstersTurnEnded();
+		assertEquals(expected, result);
+		
+		
+		
+		g.nextMonster();
+		
+		expected = true;
+		result = g.monstersTurnEnded();
+		assertEquals(expected, result);
+	}
+	
+	
 	
 	//Cast zone
+	@Test
+	public final void testGetCastZone()
+	{
+		//getCastZone returns always the same cast zone..
+		CastZone expected = g.getCastZone();
+		CastZone result = g.getCastZone();
+		assertEquals(expected, result);
+	}
 	
-	//Wizard's spawn
 	
 	
 	
 	//Monster's spawn
-	//The turns
+	@Test
+	public final void testGetMonstersToSpawn()
+	{
+		MonsterFactory[] expected = new MonsterFactory[0];
+		MonsterFactory[] result = g.getMonstersToSpawn();
+		assertArrayEquals(expected, result);
+	}
 	
-	//Cast zone
-	
-	//Wizard's spawn
-	
-	
-	
-	//Monster's spawn
 	@Test
 	public final void testSpawnMonster()
 	{
@@ -1339,10 +1523,101 @@ public class TestGame
 		g.spawnMonster(m);
 	}
 	
+	@Test
+	public final void testNextMonsterWave()
+	{
+		fail();
+	}
+	
 	
 	
 	//Level Difficulty
+	@Test
+	public final void testGetLevelDifficulty()
+	{
+		int expected = 0;
+		int result = g.getLevelDifficulty();
+		assertEquals(expected, result);
+	}
 	
-	//IGameListener Methods
+	//Triggered Methods
+	@Test
+	public final void testClearBoard()
+	{
+		//If a wizard is not the current character
+		g.clearBoard(w0);
+		
+		IBoardElement[] expectedE = new IBoardElement[] { w, null, null, null, null, null};
+		IBoardElement[] resultE = g.getBoard();
+		assertArrayEquals(expectedE, resultE);
+		
+		boolean[] expectedB = new boolean[] { true, true, true, false, false, false};
+		boolean[] resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		expectedB = new boolean[] { false, false, false, false, false, false};
+		resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		Character expectedC = null;
+		Character resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		
+
+		//If a wizard is the current character
+		g = new Game(new Wizard[] { w, w0 });
+		g.setCurrentCharacter(w0);
+		g.clearBoard(w0);
+		
+		expectedB = new boolean[] { true, true, true, false, false, false};
+		resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		expectedC = w;
+		resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		
+
+		//If a monster is not the current character
+		g = new Game(new Wizard[] { w, w0 });
+		g.spawnMonster(m);
+		g.clearBoard(m);
+
+		Monster expectedM = m;
+		Monster resultM = ((Corpse) g.getBoard()[5]).getMonster();
+		assertEquals(expectedM, resultM); //The game created a corpse which contains the monster m at the same place of the cleared monster
+		
+		expectedB = new boolean[] { false, false, false, false, false, false};
+		resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		
+		expectedC = null;
+		resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		
+
+		//If a monster is the current character
+		g = new Game(new Wizard[] { w, w0 });
+		g.spawnMonster(m0);
+		g.spawnMonster(m);
+		g.clearBoard(m);
+
+		expectedM = m;
+		resultM = ((Corpse) g.getBoard()[5]).getMonster();
+		assertEquals(expectedM, resultM); //The game created a corpse which contains the monster m at the same place of the cleared monster
+		
+		/*expectedB = new boolean[] { false, false, true, true, true, true};
+		resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);*/
+		
+		expectedC = m0;
+		resultC = g.getCurrentCharacter();
+		assertEquals(expectedC, resultC);
+		
+		fail();
+	}
 	
 }

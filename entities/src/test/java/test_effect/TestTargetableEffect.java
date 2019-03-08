@@ -83,7 +83,9 @@ public class TestTargetableEffect
 		
 		game = mock(Game.class);
 		c0 = mock(Character.class);
+		when(c0.isAlive()).thenReturn(true);
 		c1 = mock(Character.class);
+		when(c1.isAlive()).thenReturn(true);
 		characters = new Character[] {c0, c1};
 		spell = mock(ISpell.class);
 		
@@ -125,7 +127,7 @@ public class TestTargetableEffect
 				{
 						TargetConstraint.NOTYOU,
 				});
-		expected = "(not you)";
+		expected = " (not you)";
 		result = te.getConstraintsDescription();
 		assertEquals(expected, result);
 		
@@ -133,7 +135,7 @@ public class TestTargetableEffect
 				{
 						TargetConstraint.NOTALLY,
 				});
-		expected = "(not ally)";
+		expected = " (not ally)";
 		result = te.getConstraintsDescription();
 		assertEquals(expected, result);
 		
@@ -141,13 +143,13 @@ public class TestTargetableEffect
 				{
 						TargetConstraint.NOTYOU, TargetConstraint.NOTALLY,
 				});
-		expected = "(not you, not ally)";
+		expected = " (not you, not ally)";
 		result = te.getConstraintsDescription();
 		assertEquals(expected, result);
 	}
 
 	@Test
-	public final void applyByArea()
+	public final void testApplyByArea()
 	{
 		when(target.getType()).thenReturn(TargetType.AREA);
 		
@@ -180,7 +182,7 @@ public class TestTargetableEffect
 	}
 
 	@Test
-	public final void applyByChoiceWithSpellChoosenTargetIsNull()
+	public final void testApplyByChoiceWithSpellChoosenTargetIsNull()
 	{
 		when(target.getType()).thenReturn(TargetType.CHOICE);
 		
@@ -218,7 +220,7 @@ public class TestTargetableEffect
 	}
 	
 	@Test
-	public final void applyByChoiceWithSpellChoosenTargetIsAlreadyInitialised()
+	public final void testApplyByChoiceWithSpellChoosenTargetIsAlreadyInitialised()
 	{
 		when(target.getType()).thenReturn(TargetType.CHOICE);
 		
@@ -234,7 +236,7 @@ public class TestTargetableEffect
 	}
 
 	@Test
-	public final void applyByMore()
+	public final void testApplyByMore()
 	{
 		when(target.getType()).thenReturn(TargetType.MORE);
 
@@ -246,7 +248,7 @@ public class TestTargetableEffect
 	}
 
 	@Test
-	public final void applyByRandom() {
+	public final void testApplyByRandom() {
 		when(target.getType()).thenReturn(TargetType.RANDOM);
 		
 		when(game.getRandomAvailableTargetForCurrentCharacter(constraints)).thenReturn(c0);
@@ -277,7 +279,7 @@ public class TestTargetableEffect
 	}
 
 	@Test
-	public final void applyByYou() {
+	public final void testApplyByYou() {
 		when(target.getType()).thenReturn(TargetType.YOU);
 		
 		when(game.getCurrentCharacter()).thenReturn(c0);
@@ -303,6 +305,80 @@ public class TestTargetableEffect
 		verify(c0, never()).getHealth();
 		verify(game, never()).getBoard();
 		verify(spell, never()).getName();
+	}
+	
+	@Test
+	public final void testApplyIfCharacterIsNotAlive()
+	{
+		when(c0.isAlive()).thenReturn(false);
+		when(c1.isAlive()).thenReturn(false);
+		
+		
+
+		//AREA
+		when(target.getType()).thenReturn(TargetType.AREA);
+		
+		when(game.getAllAvailableTargetForCurrentCharacter(target.getConstraints())).thenReturn(characters);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+		
+		
+		
+		//CHOICE
+		when(target.getType()).thenReturn(TargetType.CHOICE);
+		
+		when(spell.getChoosenTarget()).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+		
+		
+		
+		//RANDOM
+		when(target.getType()).thenReturn(TargetType.RANDOM);
+		
+		when(game.getRandomAvailableTargetForCurrentCharacter(constraints)).thenReturn(c0);
+		
+		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(true);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+		
+		
+		
+		//YOU
+		when(target.getType()).thenReturn(TargetType.YOU);
+		
+		when(game.getCurrentCharacter()).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+		//YOU
+		when(target.getType()).thenReturn(TargetType.YOU);
+		
+		when(game.getCurrentCharacter()).thenReturn(c0);
+		
+		te.apply(game, spell);
+		
+		verify(c0, never()).getHealth();
+		verify(game, never()).getBoard();
+		verify(spell, never()).getName();
+		
+		
+		
 	}
 
 }
