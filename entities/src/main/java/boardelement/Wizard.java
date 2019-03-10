@@ -39,8 +39,8 @@ public class Wizard extends Character
 		
 		Preconditions.checkArgument(wizardFactory != null, "wizardFactory was null but expected not null");
 		
-		setHealth(wizardConstant.getMaxHealth());
-		setArmor(wizardConstant.getInitArmor());
+		resetHealth();
+		resetArmor();
 		resetRange();
 		resetMove();
 		resetMana();
@@ -230,6 +230,16 @@ public class Wizard extends Character
 	}
 
 
+	
+	@Override
+	public void resetHealth() {
+		setHealth(wizardConstant.getMaxHealth());
+	}
+	
+	@Override
+	public void resetArmor() {
+		setArmor(wizardConstant.getInitArmor());
+	}
 	
 	@Override
 	public void resetMove() {

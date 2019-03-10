@@ -33,6 +33,12 @@ public class TestCharacter
 
 		@Override
 		public void resetRange() {}
+
+		@Override
+		public void resetHealth() {}
+
+		@Override
+		public void resetArmor() {}
 	}
 	
 	private RealCharacter character;

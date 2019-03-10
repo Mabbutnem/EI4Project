@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -24,6 +25,7 @@ import game.Game;
 import game.Horde;
 import game.Level;
 import spell.Card;
+import spell.Incantation;
 import target.TargetConstraint;
 import zone.CastZone;
 import zone.ZoneGroup;
@@ -59,7 +61,7 @@ public class TestGame
 		Game.setGameConstant(gameConstant = mock(GameConstant.class));
 		when(gameConstant.getBoardLenght()).thenReturn(6);
 		when(gameConstant.getLevelCost()).thenReturn(50);
-		when(gameConstant.getLevelMaxDifficulty()).thenReturn(5);
+		when(gameConstant.getLevelMaxDifficulty()).thenReturn(2);
 		when(gameConstant.getNbMonstersMax()).thenReturn(3);
 		when(gameConstant.getNbMonstersMin()).thenReturn(2);
 		when(gameConstant.getNbMonstersToSpawnEachTurnMax()).thenReturn(1);
@@ -68,11 +70,13 @@ public class TestGame
 		
 		w = mock(Wizard.class);
 		when(w.getRange()).thenReturn(2);
+		when(w.getName()).thenReturn("w");
 		wZoneGroup = mock(ZoneGroup.class);
 		when(w.getZoneGroup()).thenReturn(wZoneGroup);
 		
 		w0 = mock(Wizard.class);
 		when(w0.getRange()).thenReturn(2);
+		when(w0.getName()).thenReturn("w0");
 		w0ZoneGroup = mock(ZoneGroup.class);
 		when(w0.getZoneGroup()).thenReturn(w0ZoneGroup);
 		
@@ -1315,6 +1319,25 @@ public class TestGame
 	}
 	
 	@Test
+	public final void testCurrentCharacterInWizardsRange()
+	{
+		g.setBoard(new IBoardElement[] {w, w0, null, m, null, null});
+		g.setCurrentCharacter(m);
+		
+		boolean expected = true;
+		boolean result = g.currentCharacterInWizardsRange();
+		assertEquals(expected, result);
+		
+
+		g.setBoard(new IBoardElement[] {w, w0, null, null, m, null});
+		g.setCurrentCharacter(m);
+		
+		expected = false;
+		result = g.currentCharacterInWizardsRange();
+		assertEquals(expected, result);
+	}
+	
+	@Test
 	public final void testNextMonster()
 	{	
 		Corpse c1 = mock(Corpse.class);
@@ -1540,6 +1563,293 @@ public class TestGame
 		assertEquals(expected, result);
 	}
 	
+	@Test
+	public final void testLevelFinished()
+	{
+		//Corpse on the board
+		g.setBoard(new IBoardElement[] {w, w0, null, null, null, c0} );
+		
+		boolean expected = false;
+		boolean result = g.levelFinished();
+		assertEquals(expected, result);
+		
+		
+		
+		//Monster on the board
+		g.setBoard(new IBoardElement[] {w, w0, null, null, null, m} );
+		
+		expected = false;
+		result = g.levelFinished();
+		assertEquals(expected, result);
+		
+		
+		
+		//No monsters/corpses on board and no monsterFactory to spawn
+		g.setBoard(new IBoardElement[] {w, w0, null, null, null, null} );
+		
+		expected = true;
+		result = g.levelFinished();
+		assertEquals(expected, result);
+		
+		
+		
+		//monsterFactory to spawn
+		g.addMonsterToSpawn(mock(MonsterFactory.class));
+		
+		expected = false;
+		result = g.levelFinished();
+		assertEquals(expected, result);
+		
+	}
+	
+	@Test
+	public final void testNextLevel()
+	{
+		/*
+		 * INITIALISATION :
+		 */
+		
+		//Wizards
+		when(w.isTransformed()).thenReturn(false);
+		when(w0.isTransformed()).thenReturn(true);
+		g.setBoard(new IBoardElement[] {null, null, w, null, w0, null} );
+		
+		//Cards
+		Card[] cards = new Card[0];
+		
+		//Wizard
+		WizardFactory wFact = mock(WizardFactory.class);
+		when(wFact.getName()).thenReturn("w");
+		WizardFactory w0Fact = mock(WizardFactory.class);
+		when(w0Fact.getName()).thenReturn("w0");
+		
+		WizardFactory[] wizardFactory = new WizardFactory[] {wFact, w0Fact};
+		
+		//Incantations
+		Incantation inc = mock(Incantation.class);
+		when(inc.getName()).thenReturn("inc");
+		when(inc.cloneObject()).thenReturn(inc);
+		Map<String, Integer> mapInc = new HashMap<>();
+		mapInc.put("inc", 100);
+		
+		//MonsterFact1
+		MonsterFactory monsterFact1 = mock(MonsterFactory.class);
+		when(monsterFact1.getMaxHealth()).thenReturn(50);
+		when(monsterFact1.getName()).thenReturn("m1");
+		when(monsterFact1.cloneObject()).thenReturn(monsterFact1);
+		when(monsterFact1.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		//MonsterFact2
+		MonsterFactory monsterFact2 = mock(MonsterFactory.class);
+		when(monsterFact2.getMaxHealth()).thenReturn(50);
+		when(monsterFact2.getName()).thenReturn("m2");
+		when(monsterFact2.cloneObject()).thenReturn(monsterFact2);
+		when(monsterFact2.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		MonsterFactory[] monsterFactory = new MonsterFactory[] {monsterFact1, monsterFact2};
+		
+		//Horde1
+		Map<String, Integer> mapHorde1 = new HashMap<>();
+		mapHorde1.put("m1", 1);
+		Horde horde1 = mock(Horde.class);
+		when(horde1.getName()).thenReturn("horde1");
+		when(horde1.cloneObject()).thenReturn(horde1);
+		when(horde1.getCost()).thenReturn(10);
+		when(horde1.getMapMonstersQuantity()).thenReturn(mapHorde1);
+		
+		//Horde2
+		Map<String, Integer> mapHorde2 = new HashMap<>();
+		mapHorde2.put("m1", 2);
+		mapHorde2.put("m2", 1);
+		Horde horde2 = mock(Horde.class);
+		when(horde2.getName()).thenReturn("horde2");
+		when(horde2.cloneObject()).thenReturn(horde2);
+		when(horde2.getCost()).thenReturn(20);
+		when(horde2.getMapMonstersQuantity()).thenReturn(mapHorde2);
+		
+		Horde[] hordes = new Horde[] {horde1, horde2};
+		
+		//Level1
+		Map<String, Integer> mapLevel1 = new HashMap<>();
+		mapLevel1.put("horde1", 100);
+		mapLevel1.put("horde2", 0);
+		Level level1 = mock(Level.class);
+		when(level1.getDifficulty()).thenReturn(1);
+		when(level1.getMapHordesProbabilities()).thenReturn(mapLevel1);
+		
+		//Level2
+		Map<String, Integer> mapLevel2 = new HashMap<>();
+		mapLevel2.put("horde1", 0);
+		mapLevel2.put("horde2", 100);
+		Level level2 = mock(Level.class);
+		when(level2.getDifficulty()).thenReturn(2);
+		when(level2.getMapHordesProbabilities()).thenReturn(mapLevel2);
+		
+		//Level3
+		Level level3 = mock(Level.class);
+		when(level3.getDifficulty()).thenReturn(3);
+		
+		/*
+		 * END OF INITIALISATION
+		 */
+		
+		
+		
+		
+		
+		//Level1
+		g.nextLevel(level1, hordes, monsterFactory, wizardFactory, cards);
+		
+		int expectedI = 1;
+		int resultI = g.getLevelDifficulty();
+		assertEquals(expectedI, resultI);
+		
+		MonsterFactory[] expectedMF = new MonsterFactory[]
+						{
+								monsterFact1,
+								monsterFact1,
+								monsterFact1,
+								monsterFact1,
+								monsterFact1
+						};
+		MonsterFactory[] resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+		
+		IBoardElement[] expectedE = new IBoardElement[] { w, w0, null, null, null, null};
+		IBoardElement[] resultE = g.getBoard();
+		assertArrayEquals(expectedE, resultE);
+		
+		verify(w, times(1)).resetCards(wFact, cards);
+		verify(w, times(1)).resetHealth();
+		verify(w, times(1)).resetArmor();
+		
+		verify(w0, times(1)).resetCards(w0Fact, cards);
+		verify(w0, times(1)).untransform();
+		verify(w0, times(1)).resetArmor();
+		
+		
+		
+		
+		
+		//Level2 (we don't verify wizards again)
+		g.nextLevel(level2, hordes, monsterFactory, wizardFactory, cards);
+		
+		expectedI = 2;
+		resultI = g.getLevelDifficulty();
+		assertEquals(expectedI, resultI);
+		
+		expectedMF = new MonsterFactory[]
+						{
+								//previous level
+								monsterFact1,
+								monsterFact1,
+								monsterFact1,
+								monsterFact1,
+								monsterFact1,
+								//
+								
+								monsterFact1, monsterFact1, monsterFact2,
+								monsterFact1, monsterFact1, monsterFact2,
+								monsterFact1, monsterFact1, monsterFact2
+						};
+		resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+		
+		
+		
+		
+		
+		//Level3 (nothing append's because level max is 2)
+		g.nextLevel(level3, hordes, monsterFactory, wizardFactory, cards);
+		
+		expectedI = 3;
+		resultI = g.getLevelDifficulty();
+		assertEquals(expectedI, resultI);
+		
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testNextLevelException()
+	{
+		/*
+		 * INITIALISATION :
+		 */
+		
+		//Cards
+		Card[] cards = new Card[0];
+		
+		//Wizard
+		WizardFactory wFact = mock(WizardFactory.class);
+		when(wFact.getName()).thenReturn("w");
+		WizardFactory w0Fact = mock(WizardFactory.class);
+		when(w0Fact.getName()).thenReturn("w0");
+		
+		WizardFactory[] wizardFactory = new WizardFactory[] {wFact, w0Fact};
+		
+		//Incantations
+		Incantation inc = mock(Incantation.class);
+		when(inc.getName()).thenReturn("inc");
+		when(inc.cloneObject()).thenReturn(inc);
+		Map<String, Integer> mapInc = new HashMap<>();
+		mapInc.put("inc", 100);
+		
+		//MonsterFact1
+		MonsterFactory monsterFact1 = mock(MonsterFactory.class);
+		when(monsterFact1.getMaxHealth()).thenReturn(50);
+		when(monsterFact1.getName()).thenReturn("m1");
+		when(monsterFact1.cloneObject()).thenReturn(monsterFact1);
+		when(monsterFact1.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		//MonsterFact2
+		MonsterFactory monsterFact2 = mock(MonsterFactory.class);
+		when(monsterFact2.getMaxHealth()).thenReturn(50);
+		when(monsterFact2.getName()).thenReturn("m2");
+		when(monsterFact2.cloneObject()).thenReturn(monsterFact2);
+		when(monsterFact2.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		MonsterFactory[] monsterFactory = new MonsterFactory[] {monsterFact1, monsterFact2};
+		
+		//Horde1
+		Map<String, Integer> mapHorde1 = new HashMap<>();
+		mapHorde1.put("m1", 1);
+		Horde horde1 = mock(Horde.class);
+		when(horde1.getName()).thenReturn("horde1");
+		when(horde1.cloneObject()).thenReturn(horde1);
+		when(horde1.getCost()).thenReturn(10);
+		when(horde1.getMapMonstersQuantity()).thenReturn(mapHorde1);
+		
+		//Horde2
+		Map<String, Integer> mapHorde2 = new HashMap<>();
+		mapHorde1.put("m1", 2);
+		mapHorde2.put("m2", 1);
+		Horde horde2 = mock(Horde.class);
+		when(horde2.getName()).thenReturn("horde2");
+		when(horde2.cloneObject()).thenReturn(horde2);
+		when(horde2.getCost()).thenReturn(25);
+		when(horde2.getMapMonstersQuantity()).thenReturn(mapHorde2);
+		
+		Horde[] hordes = new Horde[] {horde1, horde2};
+		
+		//Level2
+		Map<String, Integer> mapLevel2 = new HashMap<>();
+		mapLevel2.put("horde1", 0);
+		mapLevel2.put("horde2", 100);
+		Level level2 = mock(Level.class);
+		when(level2.getDifficulty()).thenReturn(2);
+		when(level2.getMapHordesProbabilities()).thenReturn(mapLevel2);
+		
+		/*
+		 * END OF INITIALISATION
+		 */
+		
+		
+		
+		//You can't begin with a level 2
+		g.nextLevel(level2, hordes, monsterFactory, wizardFactory, cards);
+	}
+	
+	
+	
 	//Triggered Methods
 	@Test
 	public final void testClearBoard()
@@ -1603,21 +1913,27 @@ public class TestGame
 		g = new Game(new Wizard[] { w, w0 });
 		g.spawnMonster(m0);
 		g.spawnMonster(m);
+		g.setCurrentCharacter(m);
 		g.clearBoard(m);
 
 		expectedM = m;
 		resultM = ((Corpse) g.getBoard()[5]).getMonster();
 		assertEquals(expectedM, resultM); //The game created a corpse which contains the monster m at the same place of the cleared monster
 		
-		/*expectedB = new boolean[] { false, false, true, true, true, true};
+		expectedB = new boolean[] { false, false, true, true, true, true};
 		resultB = g.getCurrentCharacterRange();
-		assertArrayEquals(expectedB, resultB);*/
+		assertArrayEquals(expectedB, resultB);
 		
 		expectedC = m0;
 		resultC = g.getCurrentCharacter();
 		assertEquals(expectedC, resultC);
-		
-		fail();
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testClearBoardException()
+	{
+		//m don't exist in the board
+		g.clearBoard(m);
 	}
 	
 }

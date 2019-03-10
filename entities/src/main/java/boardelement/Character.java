@@ -119,6 +119,8 @@ public abstract class Character implements IBoardElement
 		setHealth(getHealth() + gain);
 	}
 	
+	public abstract void resetHealth();
+	
 	public void addHealthListener(IHealthListener listener)
 	{
 		listeners.add(IHealthListener.class, listener);
@@ -230,6 +232,8 @@ public abstract class Character implements IBoardElement
 		
 		setArmor(getArmor() + gain);
 	}
+	
+	public abstract void resetArmor();
 	
 	public void addArmorListener(IArmorListener listener)
 	{

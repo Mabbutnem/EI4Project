@@ -117,11 +117,21 @@ public class Monster extends Character
 
 	public void reset()
 	{
-		setHealth(getMaxHealth());
-		setArmor(getInitArmor());
+		resetHealth();
+		resetArmor();
 		resetMove();
 		resetRange();
 		resetFreeze();
+	}
+	
+	@Override
+	public void resetHealth() {
+		setHealth(getMaxHealth());
+	}
+	
+	@Override
+	public void resetArmor() {
+		setArmor(getInitArmor());
 	}
 	
 	@Override

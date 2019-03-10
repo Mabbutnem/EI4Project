@@ -506,7 +506,6 @@ public class Game
 	
 	public boolean currentCharacterInWizardsRange()
 	{
-		//A quoi ça sert ???
 		return getCurrentCharacter() != null && wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
 	}
 	
@@ -679,10 +678,12 @@ public class Game
 				if(!wizardFactoryMap.containsKey(w.getName())) { throw new IllegalArgumentException("One (or more) wizardFactory is missing from wizardFactory"); }
 				w.resetCards(wizardFactoryMap.get(w.getName()), cards);
 				
-				//If a wizard is transformed : untransform it
-				//If a wizard is not transformed : restore it to full health
-				if(w.isTransformed()) { w.untransform(); }
-				else { w.setHealth(Wizard.getWizardConstant().getMaxHealth()); }
+				//If a wizard is transformed : 
+				if(w.isTransformed()) { w.untransform(); } //untransform it
+				else { w.resetHealth(); } //If not : restore it to full health
+				
+				//Reset the armor of wizards
+				w.resetArmor();
 			}
 		}
 		
@@ -726,7 +727,12 @@ public class Game
 		}
 	}
 	
-	public void spawnMonster(Monster monster)
+	public void addMonsterToSpawn(MonsterFactory monsterFactory) //For the tests
+	{
+		monstersToSpawn.add(monsterFactory);
+	}
+	
+	public void spawnMonster(Monster monster) //In public for the tests
 	{
 		Preconditions.checkState(nbBoardElements() < board.length, "No space for an additional monster");
 		
@@ -829,7 +835,8 @@ public class Game
 		resetWizardsForNextLevel(wizardFactory, cards);
 	}
 	
-	public void nextEmptyLevel() {
+	public void nextEmptyLevel() //For the tests
+	{
 		levelDifficulty++;
 	}
 
