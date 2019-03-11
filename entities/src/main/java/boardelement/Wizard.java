@@ -64,7 +64,7 @@ public class Wizard extends Character
 					setAlive(false);
 				}
 			});
-		zoneGroup.getCardsView(ZoneType.DECK).addListener(deathWhenDeckIsEmptyListener);
+		zoneGroup.addListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
 	}
 	
 	
@@ -221,12 +221,12 @@ public class Wizard extends Character
 	public void resetCards(WizardFactory wizardFactory, Card[] cards)
 	{
 		//Le deck va être vidé mais il ne faut pas tuer le wizard !!
-		zoneGroup.getCardsView(ZoneType.DECK).removeListener(deathWhenDeckIsEmptyListener);
+		zoneGroup.removeListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
 		
 		zoneGroup.reset(convertWizardFactoryCardsToArrayCards(wizardFactory, cards));
 		
 		//On peut de nouveau tuer le wizard quand le deck est vide
-		zoneGroup.getCardsView(ZoneType.DECK).addListener(deathWhenDeckIsEmptyListener);
+		zoneGroup.addListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
 	}
 
 

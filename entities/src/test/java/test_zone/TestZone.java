@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import javafx.collections.ListChangeListener;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 import zone.Zone;
@@ -611,24 +612,28 @@ public class TestZone
 	}
 	
 	
+	//@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Test
-	public final void testGetCardsView()
+	public final void testListener()
 	{
-		Card[] expected = cards;
-		Card[] result = zone.getCardsView().toArray(new Card[0]);
-		assertArrayEquals(expected, result);
+		ListChangeListener<Card> listener = (ListChangeListener<Card>) mock(ListChangeListener.class);
 		
-		zone.remove(card1);
 		
-		expected = new Card[]
-				{
-						card2,
-						card3,
-						card4,
-						card5
-				};
-		result = zone.getCardsView().toArray(new Card[0]);
-		assertArrayEquals(expected, result);
+		
+		zone.addListener(listener);
+		
+		zone.add(addedCards);
+		verify(listener, times(3)).onChanged(any());
+		
+		
+		
+		reset(listener);
+		
+		zone.removeListener(listener);
+		
+		zone.add(addedCards);
+		verify(listener, never()).onChanged(any());
 	}
 
 }

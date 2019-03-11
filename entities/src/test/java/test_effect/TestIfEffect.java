@@ -165,8 +165,11 @@ public class TestIfEffect
 	}
 
 	@Test
-	public final void testMatchingCondition() {
-		fail("Not yet implemented");
+	public final void testMatchingCondition()
+	{
+		boolean expected = false;
+		boolean result = ifEffect.matchingCondition().getPredicate().test(mock(Game.class));
+		assertEquals(expected, result);
 	}
 
 }

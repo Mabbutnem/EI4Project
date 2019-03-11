@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Booleans;
 
 import boardelement.Character;
 import boardelement.Corpse;
@@ -19,6 +20,9 @@ import boardelement.Wizard;
 import boardelement.WizardFactory;
 import characterlistener.IRangeListener;
 import constant.GameConstant;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -35,9 +39,9 @@ public class Game
 	private int nbWizards;
 	private int nbMonstersAndCorpses;
 	private Character currentCharacter;
-	private IBoardElement[] board;
-	private boolean[] wizardsRange;
-	private boolean[] currentCharacterRange;
+	private ObservableList<IBoardElement> board;
+	private ObservableList<Boolean> wizardsRange;
+	private ObservableList<Boolean> currentCharacterRange;
 	private boolean wizardsTurn;
 	private CastZone castZone;
 	private Queue<MonsterFactory> monstersToSpawn;
@@ -56,9 +60,12 @@ public class Game
 		nbWizards = gameConstant.getNbWizard();
 		nbMonstersAndCorpses = 0;
 		currentCharacter = null;
-		board = new IBoardElement[gameConstant.getBoardLenght()];
-		wizardsRange = new boolean[gameConstant.getBoardLenght()];
-		currentCharacterRange = new boolean[gameConstant.getBoardLenght()];
+		board = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { board.add(null); }
+		wizardsRange = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { wizardsRange.add(false); }
+		currentCharacterRange = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { currentCharacterRange.add(false); }
 		spawnWizards(wizards);
 		wizardsTurn = false;
 		castZone = new CastZone();
@@ -103,19 +110,19 @@ public class Game
 	{
 		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
-		setCurrentCharacter((Character) board[currentCharacterIdx]);
+		setCurrentCharacter((Character) board.get(currentCharacterIdx));
 	}
 	
 	public void setFirstWizardAsCurrentCharacter()
 	{
 		int i = 0;
-		while(i < board.length && !(board[i] instanceof Wizard))
+		while(i < board.size() && !(board.get(i) instanceof Wizard))
 		{
 			i++;
 		}
 		
-		if(i >= board.length) { setCurrentCharacter(null); }
-		else { setCurrentCharacter((Character) board[i]); }
+		if(i >= board.size()) { setCurrentCharacter(null); }
+		else { setCurrentCharacter((Character) board.get(i)); }
 	}
 	
 	
@@ -125,11 +132,11 @@ public class Game
 	{
 		List<Character> lc = new LinkedList<>();
 		
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < board.size(); i++)
 		{
-			if(board[i] instanceof Character && currentCharacterRange[i])
+			if(board.get(i) instanceof Character && currentCharacterRange.get(i))
 			{
-				lc.add((Character) board[i]);
+				lc.add((Character) board.get(i));
 			}
 		}
 		
@@ -198,9 +205,9 @@ public class Game
 		{
 			int i = currentCharacterIdx+r;
 			
-			if(indexInBoardBounds(i) && board[i] instanceof Character)
+			if(indexInBoardBounds(i) && board.get(i) instanceof Character)
 			{
-				lc.add((Character) board[i]);
+				lc.add((Character) board.get(i));
 			}
 		}
 		
@@ -212,7 +219,7 @@ public class Game
 	//The range array of the current character
 	private void refreshCurrentCharacterRange()
 	{
-		for(int i = 0; i < currentCharacterRange.length; i++) { currentCharacterRange[i] = false; }
+		for(int i = 0; i < currentCharacterRange.size(); i++) { currentCharacterRange.set(i, false); }
 		
 		if(getCurrentCharacter() != null)
 		{
@@ -221,13 +228,21 @@ public class Game
 		
 			for(int i = currentCharacterIdx-range; i < currentCharacterIdx+range +1; i++)
 			{
-				if(indexInBoardBounds(i)) { currentCharacterRange[i] = true; }
+				if(indexInBoardBounds(i)) { currentCharacterRange.set(i, true); }
 			}
 		}
 	}
 	
 	public boolean[] getCurrentCharacterRange() {
-		return currentCharacterRange;
+		return Booleans.toArray(currentCharacterRange);
+	}
+	
+	public void addCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
+		currentCharacterRange.addListener(listener);
+	}
+	
+	public void removeCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
+		currentCharacterRange.removeListener(listener);
 	}
 	
 	
@@ -235,18 +250,18 @@ public class Game
 	//The range array of all wizards
 	private void refreshWizardsRange()
 	{
-		for(int i = 0; i < wizardsRange.length; i++) { wizardsRange[i] = false; }
+		for(int i = 0; i < wizardsRange.size(); i++) { wizardsRange.set(i, false); }
 		
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < board.size(); i++)
 		{
-			if(board[i] instanceof Wizard)
+			if(board.get(i) instanceof Wizard)
 			{
-				Wizard w = (Wizard) board[i];
+				Wizard w = (Wizard) board.get(i);
 				
 				int range = w.getRange();
 				for(int r = i-range; r < i+range+1; r++)
 				{
-					if(indexInBoardBounds(r)) { wizardsRange[r] = true; }
+					if(indexInBoardBounds(r)) { wizardsRange.set(r, true); }
 				}
 			}
 		}
@@ -254,14 +269,30 @@ public class Game
 	}
 	
 	public boolean[] getWizardsRange() {
-		return wizardsRange;
+		return Booleans.toArray(wizardsRange);
+	}
+	
+	public void addWizardsRangeListener(ListChangeListener<Boolean> listener) {
+		wizardsRange.addListener(listener);
+	}
+	
+	public void removeWizardsRangeListener(ListChangeListener<Boolean> listener) {
+		wizardsRange.removeListener(listener);
 	}
 
 
 
 	//The board
 	public IBoardElement[] getBoard() {
-		return board;
+		return board.toArray(new IBoardElement[0]);
+	}
+	
+	public void addBoardListener(ListChangeListener<IBoardElement> listener) {
+		board.addListener(listener);
+	}
+	
+	public void removeBoardListener(ListChangeListener<IBoardElement> listener) {
+		board.removeListener(listener);
 	}
 
 	public void setBoard(IBoardElement[] board)
@@ -270,7 +301,8 @@ public class Game
 		Preconditions.checkArgument(board.length == gameConstant.getBoardLenght(), 
 				"board lenght was %s but expected %s", board.length, gameConstant.getBoardLenght());
 		
-		this.board = board;
+		this.board.clear();
+		this.board.addAll(board);
 		
 		nbMonstersAndCorpses = 0;
 		nbWizards = 0;
@@ -310,29 +342,29 @@ public class Game
 		
 		int finalPosition = characterIdx + delta;
 		//Si un wizard marche sur un corps...
-		if(board[characterIdx] instanceof Wizard && board[finalPosition] instanceof Corpse)
+		if(board.get(characterIdx) instanceof Wizard && board.get(finalPosition) instanceof Corpse)
 		{
-			board[finalPosition] = null; //...il le détruit
+			board.set(finalPosition, null); //...il le détruit
 			nbMonstersAndCorpses--; //et réduit le compteur
 		}
-		IBoardElement temporaryElement = board[finalPosition]; //Si la place est occupée, on enregistre l'occupant
-		board[finalPosition] = board[characterIdx]; //On place le character sur la case ou il veut se déplacer
-		board[characterIdx] = null; //On enlève le character de son ancienne position
+		IBoardElement temporaryElement = board.get(finalPosition); //Si la place est occupée, on enregistre l'occupant
+		board.set(finalPosition, board.get(characterIdx)); //On place le character sur la case ou il veut se déplacer
+		board.set(characterIdx, null); //On enlève le character de son ancienne position
 		
 		//On décale l'occupant autant de fois que possible (si lorsqu'on décale l'occupant il y en a un autre à sa position décalée,
 		//Il faut aussi décaler l'autre occupant)
 		int i = -direction;
-		while(board[finalPosition+i] != null && temporaryElement != null)
+		while(board.get(finalPosition+i) != null && temporaryElement != null)
 		{
-			IBoardElement swapElement = board[finalPosition+i];
-			board[finalPosition+i] = temporaryElement;
+			IBoardElement swapElement = board.get(finalPosition+i);
+			board.set(finalPosition+i, temporaryElement);
 			temporaryElement = swapElement;
 			
 			i -= direction;
 		}
 		
 		//On place le dernier occupant décalé sur une case vide
-		if(board[finalPosition+i] == null) { board[finalPosition+i] = temporaryElement; }
+		if(board.get(finalPosition+i) == null) { board.set(finalPosition+i, temporaryElement); }
 		
 		return delta;
 	}
@@ -392,9 +424,9 @@ public class Game
 		//Vers la gauche
 		for(int i = 0; i < referenceIdx; i++)
 		{
-			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
+			if(board.get(i) instanceof Character && charactersList.contains((Character) board.get(i)))
 			{
-				Character c = (Character) board[i];
+				Character c = (Character) board.get(i);
 				
 				elementaryMove(c, -delta);
 
@@ -404,11 +436,11 @@ public class Game
 		}
 		
 		//Vers la droite
-		for(int i = board.length-1; i > referenceIdx; i--)
+		for(int i = board.size()-1; i > referenceIdx; i--)
 		{
-			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
+			if(board.get(i) instanceof Character && charactersList.contains((Character) board.get(i)))
 			{
-				Character c = (Character) board[i];
+				Character c = (Character) board.get(i);
 				
 				elementaryMove(c, delta);
 
@@ -436,9 +468,9 @@ public class Game
 		//Vers la gauche
 		for(int i = referenceIdx-1; i >= 0; i--)
 		{
-			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
+			if(board.get(i) instanceof Character && charactersList.contains((Character) board.get(i)))
 			{
-				Character c = (Character) board[i];
+				Character c = (Character) board.get(i);
 				
 				elementaryMove(c, Math.min(delta, referenceIdx-i-1));
 
@@ -448,11 +480,11 @@ public class Game
 		}
 		
 		//Vers la droite
-		for(int i = referenceIdx+1; i < board.length; i++)
+		for(int i = referenceIdx+1; i < board.size(); i++)
 		{
-			if(board[i] instanceof Character && charactersList.contains((Character) board[i]))
+			if(board.get(i) instanceof Character && charactersList.contains((Character) board.get(i)))
 			{
-				Character c = (Character) board[i];
+				Character c = (Character) board.get(i);
 				
 				elementaryMove(c, -Math.min(delta, i-referenceIdx-1));
 					
@@ -508,7 +540,7 @@ public class Game
 	
 	public boolean currentCharacterInWizardsRange()
 	{
-		return getCurrentCharacter() != null && wizardsRange[getBoardElementIdx(getCurrentCharacter())]; 
+		return getCurrentCharacter() != null && wizardsRange.get(getBoardElementIdx(getCurrentCharacter())); 
 	}
 	
 	public void playMonstersTurnPart1()
@@ -527,16 +559,16 @@ public class Game
 
 		boolean monsterFounded = false;
 		int i = 0;
-		while(i < board.length && !monsterFounded)
+		while(i < board.size() && !monsterFounded)
 		{
-			if(board[i] instanceof Monster)
+			if(board.get(i) instanceof Monster)
 			{
-				Monster m = (Monster) board[i];
+				Monster m = (Monster) board.get(i);
 				
 				if(!m.hasPlayed())
 				{
 					monsterFounded = true;
-					setCurrentCharacter((Character) board[i]);
+					setCurrentCharacter((Character) board.get(i));
 					m.setPlayed(true);
 				}
 			}
@@ -554,11 +586,11 @@ public class Game
 	{
 		setCurrentCharacter(null);
 		
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < board.size(); i++)
 		{
-			if(board[i] instanceof Monster)
+			if(board.get(i) instanceof Monster)
 			{
-				Monster m = (Monster) board[i];
+				Monster m = (Monster) board.get(i);
 				
 				m.resetFreeze();
 				m.resetMove();
@@ -566,9 +598,9 @@ public class Game
 				m.setPlayed(false);
 			}
 			
-			if(board[i] instanceof Corpse)
+			if(board.get(i) instanceof Corpse)
 			{
-				Corpse c = (Corpse) board[i];
+				Corpse c = (Corpse) board.get(i);
 				
 				c.incrCounterToReborn();
 				
@@ -576,11 +608,11 @@ public class Game
 				{
 					if(c.isWillReborn())
 					{
-						board[i] = c.getMonster();
+						board.set(i, c.getMonster());
 					}
 					else
 					{
-						board[i] = null;
+						board.set(i, null);
 						nbMonstersAndCorpses--;
 					}
 				}
@@ -622,7 +654,7 @@ public class Game
 	{
 		for(int i = 0; i < wizards.length; i++)
 		{
-			board[i] = wizards[i];
+			board.set(i, wizards[i]);
 			
 			wizards[i].addAliveListener((c, isAlive) -> { if(!isAlive) { clearBoard(c); } });
 			
@@ -650,12 +682,12 @@ public class Game
 	{
 		List<Wizard> lw = new LinkedList<>();
 		
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < board.size(); i++)
 		{
-			if(board[i] instanceof Wizard)
+			if(board.get(i) instanceof Wizard)
 			{
-				lw.add((Wizard) board[i]);
-				board[i] = null;
+				lw.add((Wizard) board.get(i));
+				board.set(i, null);
 			}
 		}
 		
@@ -670,11 +702,11 @@ public class Game
 		for(WizardFactory wf : wizardFactory) { wizardFactoryMap.put(wf.getName(), wf); }
 		
 		
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < board.size(); i++)
 		{
-			if(board[i] instanceof Wizard)
+			if(board.get(i) instanceof Wizard)
 			{
-				Wizard w = (Wizard) board[i];
+				Wizard w = (Wizard) board.get(i);
 				
 				//Reset the cards of the wizards
 				if(!wizardFactoryMap.containsKey(w.getName())) { throw new IllegalArgumentException("One (or more) wizardFactory is missing from wizardFactory"); }
@@ -737,29 +769,29 @@ public class Game
 	
 	public void spawnMonster(Monster monster) //In public for the tests
 	{
-		Preconditions.checkState(nbBoardElements() < board.length, "No space for an additional monster");
+		Preconditions.checkState(nbBoardElements() < board.size(), "No space for an additional monster");
 		
 		Preconditions.checkArgument(monster != null, "monster was null but expected not null");
 		
-		int spawnPosition = board.length - 1;
+		int spawnPosition = board.size() - 1;
 		
-		IBoardElement temporaryElement = board[spawnPosition]; //Si la place est occupée, on enregistre l'occupant
-		board[spawnPosition] = monster; //On place le monstre sur la case ou il doit spawner
+		IBoardElement temporaryElement = board.get(spawnPosition); //Si la place est occupée, on enregistre l'occupant
+		board.set(spawnPosition, monster); //On place le monstre sur la case ou il doit spawner
 		
 		//On décale l'occupant autant de fois que possible (si lorsqu'on décale l'occupant il y en a un autre à sa position décalée,
 		//Il faut aussi décaler l'autre occupant)
 		int i = -1;
-		while(board[spawnPosition+i] != null && temporaryElement != null)
+		while(board.get(spawnPosition+i) != null && temporaryElement != null)
 		{
-			IBoardElement swapElement = board[spawnPosition+i];
-			board[spawnPosition+i] = temporaryElement;
+			IBoardElement swapElement = board.get(spawnPosition+i);
+			board.set(spawnPosition+i, temporaryElement);
 			temporaryElement = swapElement;
 			
 			i--;
 		}
 		
 		//On place le dernier occupant décalé sur une case vide
-		if(board[spawnPosition+i] == null) { board[spawnPosition+i] = temporaryElement; }
+		if(board.get(spawnPosition+i) == null) { board.set(spawnPosition+i, temporaryElement); }
 		
 		
 		//On incrémente le nombre de monstres ou de cadavres sur le board
@@ -852,14 +884,14 @@ public class Game
 		
 		if(character instanceof Monster)
 		{
-			board[idx] = new Corpse((Monster) character);
+			board.set(idx, new Corpse((Monster) character));
 				
 			if(character == getCurrentCharacter()) { nextMonster(); }
 		}
 			
 		if(character instanceof Wizard)
 		{
-			board[idx] = null;
+			board.set(idx, null);
 			
 			if(character == getCurrentCharacter()) { setFirstWizardAsCurrentCharacter(); }
 			
@@ -881,12 +913,12 @@ public class Game
 	//Utility fonctions
 	private boolean indexInBoardBounds(int idx)
 	{
-		return idx >= 0 && idx < board.length;
+		return idx >= 0 && idx < board.size();
 	}
 	
 	private boolean indexCorrespondToCharacter(int idx)
 	{
-		return indexInBoardBounds(idx) && board[idx] instanceof Character;
+		return indexInBoardBounds(idx) && board.get(idx) instanceof Character;
 	}
 	
 	private int getBoardElementIdx(IBoardElement boardElement)
@@ -894,12 +926,12 @@ public class Game
 		Preconditions.checkArgument(boardElement != null, "boardElement was null but expected not null");
 		
 		int i = 0;
-		while(i < board.length && board[i] != boardElement)
+		while(i < board.size() && board.get(i) != boardElement)
 		{
 			i++;
 		}
 		
-		Preconditions.checkArgument(i < board.length, "boardElement was not found in the board");
+		Preconditions.checkArgument(i < board.size(), "boardElement was not found in the board");
 		
 		return i;
 	}

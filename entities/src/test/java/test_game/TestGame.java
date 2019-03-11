@@ -24,6 +24,7 @@ import constant.GameConstant;
 import game.Game;
 import game.Horde;
 import game.Level;
+import javafx.collections.ListChangeListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -2141,6 +2142,53 @@ public class TestGame
 	{
 		//m don't exist in the board
 		g.clearBoard(m);
+	}
+	
+	
+	
+	//Listener
+	@SuppressWarnings("unchecked")
+	@Test
+	public final void testListener()
+	{
+		g.setCurrentCharacter(w0);
+		
+		ListChangeListener<Boolean> currentCharacterRangeListener =
+				(ListChangeListener<Boolean>) mock(ListChangeListener.class);
+		ListChangeListener<Boolean> wizardsRangeListener =
+				(ListChangeListener<Boolean>) mock(ListChangeListener.class);
+		ListChangeListener<IBoardElement> boardListener =
+				(ListChangeListener<IBoardElement>) mock(ListChangeListener.class);
+		
+		
+		
+		
+		g.addCurrentCharacterRangeListener(currentCharacterRangeListener);
+		g.addWizardsRangeListener(wizardsRangeListener);
+		g.addBoardListener(boardListener);
+		
+		g.rightWalk(w0);
+		
+		verify(currentCharacterRangeListener, atLeastOnce()).onChanged(any());
+		verify(wizardsRangeListener, atLeastOnce()).onChanged(any());
+		verify(boardListener, atLeastOnce()).onChanged(any());
+		
+		
+		
+		
+		reset(currentCharacterRangeListener);
+		reset(wizardsRangeListener);
+		reset(boardListener);
+		
+		g.removeCurrentCharacterRangeListener(currentCharacterRangeListener);
+		g.removeWizardsRangeListener(wizardsRangeListener);
+		g.removeBoardListener(boardListener);
+		
+		g.leftWalk(w0);
+		
+		verify(currentCharacterRangeListener, never()).onChanged(any());
+		verify(wizardsRangeListener, never()).onChanged(any());
+		verify(boardListener, never()).onChanged(any());
 	}
 	
 }

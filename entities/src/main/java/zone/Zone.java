@@ -7,6 +7,7 @@ import java.util.Random;
 import com.google.common.base.Preconditions;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import listener.ICardArrayRequestListener;
 import spell.Card;
@@ -241,9 +242,14 @@ public class Zone implements IZone
 		this.cards.add(destIndex, c);
 	}
 	
-	public ObservableList<Card> getCardsView()
+	public void addListener(ListChangeListener<Card> listener)
 	{
-		return cards;
+		cards.addListener(listener);
+	}
+	
+	public void removeListener(ListChangeListener<Card> listener)
+	{
+		cards.removeListener(listener);
 	}
 
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 
@@ -112,11 +112,6 @@ public class ZoneGroup
 		return getZone(zoneType).getCards();
 	}
 	
-	public ObservableList<Card> getCardsView(ZoneType zoneType)
-	{
-		return getZone(zoneType).getCardsView();
-	}
-	
 	public void shuffle(ZoneType zoneType) 
 	{
 		getZone(zoneType).shuffle();
@@ -125,6 +120,16 @@ public class ZoneGroup
 	public void moveCardToIndex(ZoneType zoneType, int sourceIndex, int destIndex) 
 	{
 		getZone(zoneType).moveCardToIndex(sourceIndex, destIndex);
+	}
+	
+	public void addListener(ListChangeListener<Card> listener, ZoneType zoneType)
+	{
+		getZone(zoneType).addListener(listener);
+	}
+	
+	public void removeListener(ListChangeListener<Card> listener, ZoneType zoneType)
+	{
+		getZone(zoneType).removeListener(listener);
 	}
 	
 	public void mulligan(int nbCard)

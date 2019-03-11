@@ -423,6 +423,11 @@ public class TestWizard
 		assertEquals(nbCard1Expected, nbCard1Result);
 		assertEquals(nbCard2Expected, nbCard2Result);
 		assertEquals(nbCard3Expected, nbCard3Result);
+		
+		//N'est pas tué quand le deck est vidé
+		boolean expected = true;
+		boolean result = w.isAlive();
+		assertEquals(expected, result);
 	}
 	
 	@Test

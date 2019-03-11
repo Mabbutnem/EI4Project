@@ -26,6 +26,9 @@ public class TestYouCanEffect
 	private IEffect[] effects;
 	private IApplicableEffect[] aEffects;
 	
+	private IEffect effect1;
+	private IEffect effect2;
+	private IEffect effect3;
 	private IEffect aEffect1;
 	private IEffect aEffect2;
 	private IEffect aEffect3;
@@ -51,11 +54,11 @@ public class TestYouCanEffect
 		
 		effects = new IEffect[]
 				{
-						mock(IEffect.class),
+						effect1 = mock(IEffect.class),
 						aEffect1 = mock(IApplicableEffect.class),
-						mock(IEffect.class),
+						effect2 = mock(IEffect.class),
 						aEffect2 = mock(IApplicableEffect.class),
-						mock(IEffect.class),
+						effect3 = mock(IEffect.class),
 						aEffect3 = mock(IApplicableEffect.class)
 				};
 		
@@ -239,10 +242,13 @@ public class TestYouCanEffect
 		IEffect[] result = youCanEffect.getEffects();
 		assertArrayEquals(expected, result);
 	}
-
+	
 	@Test
-	public final void testMatchingCondition() {
-		fail("Not yet implemented");
+	public final void testMatchingCondition()
+	{
+		boolean expected = false;
+		boolean result = youCanEffect.matchingCondition().getPredicate().test(mock(Game.class));
+		assertEquals(expected, result);
 	}
 
 }

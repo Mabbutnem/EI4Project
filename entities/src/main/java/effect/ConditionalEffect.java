@@ -1,5 +1,6 @@
 package effect;
 
+import condition.FalseCondition;
 import condition.ICondition;
 import game.Game;
 import spell.ISpell;
@@ -68,8 +69,7 @@ public abstract class ConditionalEffect implements IApplicableEffect
 	@Override
 	public ICondition matchingCondition()
 	{
-		//TODO
-		return null;
+		return new FalseCondition();
 	}
 	
 }

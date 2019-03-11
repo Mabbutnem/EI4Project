@@ -16,7 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javafx.collections.ObservableList;
+import javafx.collections.ListChangeListener;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 import zone.AutoHideZone;
@@ -344,22 +344,37 @@ public class TestZoneGroup
 		zoneGroup.getCards(null);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	public final void testGetCardsView() {
-		@SuppressWarnings("unchecked")
-		ObservableList<Card> cardsView = (ObservableList<Card>) mock(ObservableList.class);
+	public final void testListener()
+	{
+		ListChangeListener<Card> listener = (ListChangeListener<Card>) mock(ListChangeListener.class);
 		
-		when(deck.getCardsView()).thenReturn(cardsView);
 		
-		ObservableList<Card> expected = cardsView;
-		ObservableList<Card> result = zoneGroup.getCardsView(ZoneType.DECK);
-		assertEquals(expected, result);
+		zoneGroup.addListener(listener, ZoneType.DECK);
+
+		verify(deck, times(1)).addListener(listener);
+		
+		
+		zoneGroup.removeListener(listener, ZoneType.DECK);
+
+		verify(deck, times(1)).removeListener(listener);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
-	public final void testGetCardsViewException()
+	public final void testAddListenerException()
 	{
-		zoneGroup.getCardsView(null);
+		@SuppressWarnings("unchecked")
+		ListChangeListener<Card> listener = (ListChangeListener<Card>) mock(ListChangeListener.class);
+		zoneGroup.addListener(listener, null);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public final void testRemoveListenerException()
+	{
+		@SuppressWarnings("unchecked")
+		ListChangeListener<Card> listener = (ListChangeListener<Card>) mock(ListChangeListener.class);
+		zoneGroup.removeListener(listener, null);
 	}
 
 	@Test
