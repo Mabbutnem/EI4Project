@@ -62,10 +62,10 @@ public class TestGame
 		when(gameConstant.getBoardLenght()).thenReturn(6);
 		when(gameConstant.getLevelCost()).thenReturn(50);
 		when(gameConstant.getLevelMaxDifficulty()).thenReturn(2);
-		when(gameConstant.getNbMonstersMax()).thenReturn(3);
-		when(gameConstant.getNbMonstersMin()).thenReturn(2);
-		when(gameConstant.getNbMonstersToSpawnEachTurnMax()).thenReturn(1);
-		when(gameConstant.getNbMonstersToSpawnEachTurnMin()).thenReturn(1);
+		when(gameConstant.getNbMonstersMax()).thenReturn(6);
+		when(gameConstant.getNbMonstersMin()).thenReturn(0);
+		when(gameConstant.getNbMonstersToSpawnEachTurnMax()).thenReturn(2);
+		when(gameConstant.getNbMonstersToSpawnEachTurnMin()).thenReturn(2);
 		when(gameConstant.getNbWizard()).thenReturn(2);
 		
 		w = mock(Wizard.class);
@@ -828,6 +828,7 @@ public class TestGame
 				{
 						w, null, null, null, null, null
 				});
+		g.setCurrentCharacter(w);
 		g.rightWalk(w);
 		IBoardElement[] expected = new IBoardElement[]
 				{
@@ -836,6 +837,16 @@ public class TestGame
 		IBoardElement[] result = g.getBoard();
 		assertArrayEquals(expected, result);
 		verify(w, times(1)).loseMove(1);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						true, true, true, true, false, false
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
 
 		
 		
@@ -864,6 +875,7 @@ public class TestGame
 				{
 						null, w, null, null, null, null
 				});
+		g.setCurrentCharacter(w);
 		g.leftWalk(w);
 		IBoardElement[] expected = new IBoardElement[]
 				{
@@ -872,6 +884,16 @@ public class TestGame
 		IBoardElement[] result = g.getBoard();
 		assertArrayEquals(expected, result);
 		verify(w, times(1)).loseMove(1);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						true, true, true, false, false, false
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
 
 		
 		
@@ -899,6 +921,7 @@ public class TestGame
 				{
 						w, null, null, null, null, null
 				});
+		g.setCurrentCharacter(w);
 		when(w.getDash()).thenReturn(3);
 		g.rightDash(w);
 		IBoardElement[] expected = new IBoardElement[]
@@ -909,6 +932,16 @@ public class TestGame
 		assertArrayEquals(expected, result);
 		verify(w, times(1)).loseDash(3);
 		verify(w, times(1)).setHasDashed(true);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						false, true, true, true, true, true
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
 		
 		
 		
@@ -957,6 +990,7 @@ public class TestGame
 				{
 						null, null, null, null, null, w
 				});
+		g.setCurrentCharacter(w);
 		when(w.getDash()).thenReturn(3);
 		g.leftDash(w);
 		IBoardElement[] expected = new IBoardElement[]
@@ -967,6 +1001,16 @@ public class TestGame
 		assertArrayEquals(expected, result);
 		verify(w, times(1)).loseDash(3);
 		verify(w, times(1)).setHasDashed(true);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						true, true, true, true, true, false
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
 		
 		
 		
@@ -1016,6 +1060,7 @@ public class TestGame
 				{
 						null, w, w0, null, null, null
 				});
+		g.setCurrentCharacter(w0);
 		g.push(w, new Character[] {w0}, 2);
 		IBoardElement[] expected = new IBoardElement[]
 				{
@@ -1023,6 +1068,21 @@ public class TestGame
 				};
 		IBoardElement[] result = g.getBoard();
 		assertArrayEquals(expected, result);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						false, false, true, true, true, true
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		expectedB = new boolean[]
+				{
+						true, true, true, true, true, true
+				};
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
+		
 		
 		
 		
@@ -1133,6 +1193,7 @@ public class TestGame
 				{
 						null, w, null, null, w0, null
 				});
+		g.setCurrentCharacter(w0);
 		g.pull(w, new Character[] {w0}, 2);
 		IBoardElement[] expected = new IBoardElement[]
 				{
@@ -1140,6 +1201,17 @@ public class TestGame
 				};
 		IBoardElement[] result = g.getBoard();
 		assertArrayEquals(expected, result);
+		
+		//range
+		boolean[] expectedB = new boolean[]
+				{
+						true, true, true, true, true, false
+				};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		resultB = g.getWizardsRange();
+		assertArrayEquals(expectedB, resultB);
+		
 		
 		
 		
@@ -1463,7 +1535,6 @@ public class TestGame
 	
 	
 	
-	
 	//Monster's spawn
 	@Test
 	public final void testGetMonstersToSpawn()
@@ -1549,7 +1620,143 @@ public class TestGame
 	@Test
 	public final void testNextMonsterWave()
 	{
-		fail();
+		/*
+		 * INITIALISATION :
+		 */
+		
+		//Incantations
+		Incantation inc = mock(Incantation.class);
+		when(inc.getName()).thenReturn("inc");
+		when(inc.cloneObject()).thenReturn(inc);
+		Map<String, Integer> mapInc = new HashMap<>();
+		mapInc.put("inc", 100);
+		
+		Incantation[] incantations = new Incantation[] {inc};
+		
+		//MonsterFact1
+		MonsterFactory mf1 = mock(MonsterFactory.class);
+		when(mf1.getMaxHealth()).thenReturn(50);
+		when(mf1.getName()).thenReturn("m1");
+		when(mf1.cloneObject()).thenReturn(mf1);
+		when(mf1.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		//MonsterFact2
+		MonsterFactory mf2 = mock(MonsterFactory.class);
+		when(mf2.getMaxHealth()).thenReturn(50);
+		when(mf2.getName()).thenReturn("m2");
+		when(mf2.cloneObject()).thenReturn(mf2);
+		when(mf2.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		//MonsterFact3
+		MonsterFactory mf3 = mock(MonsterFactory.class);
+		when(mf3.getMaxHealth()).thenReturn(50);
+		when(mf3.getName()).thenReturn("m3");
+		when(mf3.cloneObject()).thenReturn(mf3);
+		when(mf3.getMapIncantationsFrequencies()).thenReturn(mapInc);
+		
+		/*
+		 * END OF INITIALISATION
+		 */
+		
+		
+		
+		
+
+		//Situation classique (il faut 2 monstres et il y en 3 dans le tableau)
+		g.setMonsterToSpawn(new MonsterFactory[] {mf1, mf2, mf3} );
+		
+		g.nextMonsterWave(incantations);
+
+		MonsterFactory[] expectedMF = new MonsterFactory[] {mf3};
+		MonsterFactory[] resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+		
+		String expectedS = "m1";
+		String resultS = ((Monster) g.getBoard()[4]).getName();
+		assertEquals(expectedS, resultS);
+
+		expectedS = "m2";
+		resultS = ((Monster) g.getBoard()[5]).getName();
+		assertEquals(expectedS, resultS);
+		
+		//Les écouteurs marchent-ils ?
+		Character m1 = (Character) g.getBoard()[4];
+		//Range
+		g.setCurrentCharacter(m1);
+		m1.setRange(1);
+		boolean[] expectedB = new boolean[] {false, false, false, true, true, true};
+		boolean[] resultB = g.getCurrentCharacterRange();
+		assertArrayEquals(expectedB, resultB);
+		//Death
+		m1.setAlive(false);
+		Monster expectedM = (Monster) m1;
+		Monster resultM = ((Corpse) g.getBoard()[4]).getMonster();
+		assertEquals(expectedM, resultM);
+		
+		
+		
+		
+		
+		//Si il n'y a pas suffisament de monstre à faire spawn (ici 2 par tour alors qu'il n'y en a que 1)
+		g = new Game(new Wizard[] { w, w0 });
+		g.setMonsterToSpawn(new MonsterFactory[] {mf1} );
+		
+		g.nextMonsterWave(incantations);
+
+		expectedMF = new MonsterFactory[0];
+		resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+
+		expectedS = "m1";
+		resultS = ((Monster) g.getBoard()[5]).getName();
+		assertEquals(expectedS, resultS);
+		
+		
+		
+		
+		
+		//Si le nombre de monstre à faire spawn est inférieur au nombre minimum de monstre requis (ici 2 par tour alors que le min est 3)
+		g = new Game(new Wizard[] { w, w0 });
+		when(gameConstant.getNbMonstersMin()).thenReturn(3);
+		g.setMonsterToSpawn(new MonsterFactory[] {mf1, mf2, mf3} );
+		
+		g.nextMonsterWave(incantations);
+
+		expectedMF = new MonsterFactory[0];
+		resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+
+		expectedS = "m1";
+		resultS = ((Monster) g.getBoard()[3]).getName();
+		assertEquals(expectedS, resultS);
+
+		expectedS = "m2";
+		resultS = ((Monster) g.getBoard()[4]).getName();
+		assertEquals(expectedS, resultS);
+
+		expectedS = "m3";
+		resultS = ((Monster) g.getBoard()[5]).getName();
+		assertEquals(expectedS, resultS);
+		
+		
+		
+		
+		
+		//Si le nombre de monstre à faire spawn est supérieur au nombre maximum de monstre possible (ici 2 par tour alors que le max est 1)
+		g = new Game(new Wizard[] { w, w0 });
+		when(gameConstant.getNbMonstersMin()).thenReturn(0);
+		when(gameConstant.getNbMonstersMax()).thenReturn(1);
+		g.setMonsterToSpawn(new MonsterFactory[] {mf1, mf2, mf3} );
+		
+		g.nextMonsterWave(incantations);
+
+		expectedMF = new MonsterFactory[] {mf2, mf3};
+		resultMF = g.getMonstersToSpawn();
+		assertArrayEquals(expectedMF, resultMF);
+
+		expectedS = "m1";
+		resultS = ((Monster) g.getBoard()[5]).getName();
+		assertEquals(expectedS, resultS);
 	}
 	
 	
@@ -1594,7 +1801,7 @@ public class TestGame
 		
 		
 		//monsterFactory to spawn
-		g.addMonsterToSpawn(mock(MonsterFactory.class));
+		g.setMonsterToSpawn(new MonsterFactory[] {mock(MonsterFactory.class)});
 		
 		expected = false;
 		result = g.levelFinished();

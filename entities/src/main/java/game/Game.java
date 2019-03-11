@@ -340,14 +340,16 @@ public class Game
 	public void rightWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, 1);
-		character.loseMove(Math.abs(actualDelta));
+		actualDelta = Math.abs(actualDelta);
+		character.loseMove(actualDelta);
 		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
 	public void leftWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, -1);
-		character.loseMove(Math.abs(actualDelta));
+		actualDelta = Math.abs(actualDelta);
+		character.loseMove(actualDelta);
 		if(actualDelta > 0) { refreshRange(character); }
 	}
 	
@@ -727,9 +729,10 @@ public class Game
 		}
 	}
 	
-	public void addMonsterToSpawn(MonsterFactory monsterFactory) //For the tests
+	public void setMonsterToSpawn(MonsterFactory[] monsterFactory) //For the tests
 	{
-		monstersToSpawn.add(monsterFactory);
+		monstersToSpawn.clear();
+		for( MonsterFactory mf : monsterFactory) { monstersToSpawn.add(mf); }
 	}
 	
 	public void spawnMonster(Monster monster) //In public for the tests
