@@ -46,6 +46,11 @@ public class YouCanEffect extends ConditionalEffect
 		
 		String str = strBld.toString();
 		if(effects.length > 0) { str = str.substring(0, strBld.length()-2); }
+		if(str.lastIndexOf(',') != -1)
+		{
+			str = str.substring(0, str.lastIndexOf(',')) + " and" 
+					+ str.substring(str.lastIndexOf(',')+1, str.length());
+		}
 		
 		return str;
 	}

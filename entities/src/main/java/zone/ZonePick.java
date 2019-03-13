@@ -23,17 +23,17 @@ public enum ZonePick
 		switch(this)
 		{
 		case BOTTOM:
-			return "from the bottom of";
+			return "from the bottom of ";
 		case CHOICE:
-			return "from a chosen place in";
+			return "from a chosen place in ";
 		case DEFAULT:
-			return "";
+			return " ";
 		case RANDOM:
-			return "from a random place in";
+			return "from a random place in ";
 		case TOP:
-			return "from the top of";
+			return "from the top of ";
 		default:
-			return "";
+			return " ";
 		}
 	}
 	
@@ -42,15 +42,15 @@ public enum ZonePick
 		switch(this)
 		{
 		case BOTTOM:
-			return "to the bottom of";
+			return "to the bottom of ";
 		case CHOICE:
-			return "";
+			return " ";
 		case DEFAULT:
-			return "in";
+			return "in ";
 		case RANDOM:
-			return "to a random place in";
+			return "to a random place in ";
 		case TOP:
-			return "to the top of"; 
+			return "to the top of "; 
 		default:
 			return "";
 		}

@@ -24,19 +24,19 @@ public enum ZoneType
 		switch(this) 
 		{
 		case BANISH:
-			return "the banish zone";
+			return "the banish zone ";
 		case BURN:
-			return "the burn zone";
+			return "the burn zone ";
 		case DECK:
-			return "the deck";
+			return "the deck ";
 		case DISCARD:
-			return "the discard zone";
+			return "the discard zone ";
 		case HAND:
-			return "the hand";
+			return "the hand ";
 		case VOID:
-			return "the void zone";
+			return "the void zone ";
 		default:
-			return "";
+			return " ";
 		}
 	}
 	

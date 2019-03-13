@@ -20,8 +20,7 @@ public class DrawEffect extends CardEffect
 	@Override
 	public String getDescription()
 	{
-		//TODO
-		return null;
+		return "draw " + getValue() + " card" + (getValue()>1? "s":"");
 	}
 
 }

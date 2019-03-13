@@ -26,11 +26,11 @@ public class GainMoveEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " move" + (getValue() > 1 ? "s " : " ") +  "to all targets " + getConstraintsDescription();
+			return "give " + getValue() + " move" + (getValue() > 1 ? "s " : " ") +  "to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " move" + (getValue() > 1 ? "s " : " ") + getConstraintsDescription();
+			return "give " + getValue() + " move" + (getValue() > 1 ? "s" : "") + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more move" + (getValue() > 1 ? "s " : " ") ;
+			return "give " + getValue() + " more move" + (getValue() > 1 ? "s" : "") ;
 		case RANDOM:
 			return "give " + getValue() + " move" + (getValue() > 1 ? "s " : " ") + "to a random target" + getConstraintsDescription();
 		case YOU:

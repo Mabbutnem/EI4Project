@@ -28,7 +28,7 @@ public class AddWordEffect extends TargetableEffect {
 		switch(getTarget().getType()) 
 		{
 		case AREA:
-			return "give " + word.name() + " to all targets " + getConstraintsDescription();
+			return "give " + word.name() + " to all targets" + getConstraintsDescription();
 		case CHOICE:
 			return "give " + word.name() + getConstraintsDescription();
 		case MORE:

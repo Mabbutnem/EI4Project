@@ -26,9 +26,9 @@ public class GainRangeEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " range to all targets " + getConstraintsDescription();
+			return "give " + getValue() + " range to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " range " + getConstraintsDescription();
+			return "give " + getValue() + " range" + getConstraintsDescription();
 		case MORE:
 			return "give " + getValue() + " more range";
 		case RANDOM:

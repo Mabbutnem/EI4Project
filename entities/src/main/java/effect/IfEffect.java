@@ -28,11 +28,18 @@ public class IfEffect extends ConditionalEffect
 
 	@Override
 	public String getDescription() {
-		String str = condition.getDescription() + " :\n";
+		StringBuilder strBld = new StringBuilder();
+		strBld.append(condition.getDescription()).append(" :\n");
 		for(IEffect effect: effects) {
-			str += effect.getDescription() + ", ";
+			strBld.append(effect.getDescription()).append(", ");
 		}
+		String str = strBld.toString();
 		str = str.substring(0, str.length()-2);
+		if(str.lastIndexOf(',') != -1)
+		{
+			str = str.substring(0, str.lastIndexOf(',')) + " and" 
+					+ str.substring(str.lastIndexOf(',')+1, str.length());
+		}
 		return str;
 	}
 
