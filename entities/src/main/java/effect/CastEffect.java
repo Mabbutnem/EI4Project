@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import boardelement.Wizard;
 import game.Game;
@@ -10,6 +12,7 @@ import target.TargetType;
 import zone.ZonePick;
 import zone.ZoneType;
 
+@JsonTypeName("castEffect")
 public class CastEffect extends CardEffect {
 
 	public CastEffect(Target target, int value,

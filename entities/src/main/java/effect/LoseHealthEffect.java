@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.ICondition;
 import condition.TrueCondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("loseHealthEffect")
 public class LoseHealthEffect extends OneValueEffect {
 
 	public LoseHealthEffect(Target target, int value) {

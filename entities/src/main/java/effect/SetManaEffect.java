@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import boardelement.Wizard;
 import condition.ICondition;
@@ -8,6 +10,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("setManaEffect")
 public class SetManaEffect extends OneValueEffect {
 
 	public SetManaEffect(Target target, int value) {

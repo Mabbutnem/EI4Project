@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.HigherDashCondition;
 import condition.ICondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("loseDashEffect")
 public class LoseDashEffect extends OneValueEffect {
 
 	public LoseDashEffect(Target target, int value) {

@@ -1,9 +1,12 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 
+@JsonTypeName("burnEffect")
 public class BurnEffect extends CardEffect
 {
 

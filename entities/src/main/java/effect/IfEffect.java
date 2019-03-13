@@ -1,11 +1,13 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import condition.ICondition;
 import game.Game;
 import spell.ISpell;
 
+@JsonTypeName("ifEffect")
 public class IfEffect extends ConditionalEffect
 {
 	private ICondition condition;

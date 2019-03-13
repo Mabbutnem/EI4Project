@@ -3,6 +3,7 @@ package effect;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
@@ -13,6 +14,7 @@ import spell.ISpell;
 import target.Target;
 import target.TargetType;
 
+@JsonTypeName("pullEffect")
 public class PullEffect extends OneValueEffect {
 
 	public PullEffect(Target target, int value) {

@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import boardelement.Wizard;
 import condition.HigherCardCondition;
@@ -10,6 +12,7 @@ import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 
+@JsonTypeName("revealEffect")
 public class RevealEffect extends OneValueEffect {
 	
 	private ZoneType zoneSource;

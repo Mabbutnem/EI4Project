@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.ICondition;
 import condition.TrueCondition;
@@ -9,6 +11,7 @@ import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 
+@JsonTypeName("putAfterCastEffect")
 public class PutAfterCastEffect extends TargetableEffect {
 
 	private ZoneType zoneDest;
