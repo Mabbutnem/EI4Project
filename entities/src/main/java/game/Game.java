@@ -531,6 +531,7 @@ public class Game
 			w.resetRange();
 			w.getZoneGroup().unvoid();
 			w.getZoneGroup().unbanish();
+			w.clearWords();
 		}
 		
 		wizardsTurn = false;
@@ -596,6 +597,7 @@ public class Game
 				m.resetMove();
 				m.resetRange();
 				m.setPlayed(false);
+				m.clearWords();
 			}
 			
 			if(board.get(i) instanceof Corpse)

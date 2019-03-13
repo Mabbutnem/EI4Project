@@ -102,8 +102,14 @@ public class Wizard extends Character
 	public void transform()
 	{
 		transformed = true;
-		setHealth(wizardConstant.getMaxHealth());
+		resetHealth();
+		
+		//Le deck peut être vidé mais il ne faut pas tuer le wizard !!
+		zoneGroup.removeListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
 		zoneGroup.transform();
+		//On peut de nouveau tuer le wizard quand le deck est vide
+		zoneGroup.addListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
+		
 		mulligan();
 	}
 	

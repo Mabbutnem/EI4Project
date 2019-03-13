@@ -26,8 +26,12 @@ public class IfEffect extends ConditionalEffect
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		String str = condition.getDescription() + " :\n";
+		for(IEffect effect: effects) {
+			str += effect.getDescription() + ", ";
+		}
+		str = str.substring(0, str.length()-2);
+		return str;
 	}
 
 	@Override

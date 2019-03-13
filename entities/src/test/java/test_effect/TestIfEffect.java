@@ -29,6 +29,10 @@ public class TestIfEffect
 	private IEffect aEffect2;
 	private IEffect aEffect3;
 	
+	private IEffect effect1;
+	private IEffect effect2;
+	private IEffect effect3;
+	
 	private ICondition condition;
 	
 	
@@ -46,22 +50,29 @@ public class TestIfEffect
 	{
 		effects = new IEffect[]
 				{
-						mock(IEffect.class),
+						effect1 = mock(IEffect.class),
 						aEffect1 = mock(IApplicableEffect.class),
-						mock(IEffect.class),
+						effect2 = mock(IEffect.class),
 						aEffect2 = mock(IApplicableEffect.class),
-						mock(IEffect.class),
+						effect3 = mock(IEffect.class),
 						aEffect3 = mock(IApplicableEffect.class)
 				};
 		
 		aEffects = new IApplicableEffect[]
 				{
-						(IApplicableEffect) aEffect1,
+						(IApplicableEffect) aEffect1,						
 						(IApplicableEffect) aEffect2,
 						(IApplicableEffect) aEffect3
 				};
+		when(effect1.getDescription()).thenReturn("inflict 5 damage");
+		when(effect2.getDescription()).thenReturn("heal 4 HP to yourself");
+		when(effect3.getDescription()).thenReturn("draw 2 cards");
 		
+		when(aEffect1.getDescription()).thenReturn("inflict 3 damage");
+		when(aEffect2.getDescription()).thenReturn("heal 2 HP");
+		when(aEffect3.getDescription()).thenReturn("draw 1 card");
 		condition = mock(ICondition.class);
+		when(condition.getDescription()).thenReturn("if you have less than 5 HP");
 		
 		ifEffect = new IfEffect(effects, condition);
 	}
@@ -153,7 +164,10 @@ public class TestIfEffect
 
 	@Test
 	public final void testGetDescription() {
-		fail("Not yet implemented");
+		String expected = "if you have less than 5 HP :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards, draw 1 card";
+		String result = ifEffect.getDescription();
+		
+		assertEquals(expected, result);
 	}
 
 	@Test

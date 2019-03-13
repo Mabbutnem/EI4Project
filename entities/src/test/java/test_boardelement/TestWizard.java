@@ -224,6 +224,30 @@ public class TestWizard
 		resultB = w.isAlive();
 		assertEquals(expectedB, resultB);
 	}
+	
+	@Test
+	public final void testResetHealth() {
+		w.setHealth(1);
+		
+		w.resetHealth();
+		
+		int expected = 70;
+		int result = w.getHealth();
+		
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testResetArmor() {
+		w.setArmor(1);
+		
+		w.resetArmor();
+		
+		int expected = 30;
+		int result = w.getArmor();
+		
+		assertEquals(expected, result);
+	}
 
 	@Test
 	public final void testResetMove() {

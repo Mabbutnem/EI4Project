@@ -68,8 +68,16 @@ public class TestYouCanEffect
 						(IApplicableEffect) aEffect2,
 						(IApplicableEffect) aEffect3
 				};
+		when(effect1.getDescription()).thenReturn("inflict 5 damage");
+		when(effect2.getDescription()).thenReturn("heal 4 HP to yourself");
+		when(effect3.getDescription()).thenReturn("draw 2 cards");
+		
+		when(aEffect1.getDescription()).thenReturn("inflict 3 damage");
+		when(aEffect2.getDescription()).thenReturn("heal 2 HP");
+		when(aEffect3.getDescription()).thenReturn("draw 1 card");
 		
 		aEffect = mock(IApplicableEffect.class);
+		when(aEffect.getDescription()).thenReturn("heal 20 HP");
 		
 		youCanEffect = new YouCanEffect(effects, aEffect);
 	}
@@ -232,7 +240,16 @@ public class TestYouCanEffect
 
 	@Test
 	public final void testGetDescription() {
-		fail("Not yet implemented");
+		String expected = "you can heal 20 HP if you do :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards, draw 1 card";
+		String result = youCanEffect.getDescription();
+		
+		assertEquals(expected, result);
+		
+		expected = "you can heal 20 HP";
+		youCanEffect = new YouCanEffect(new IEffect[0], aEffect);
+		result = youCanEffect.getDescription();
+
+		assertEquals(expected, result);
 	}
 
 	@Test
