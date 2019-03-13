@@ -85,5 +85,13 @@ public class GameConstant
 		return nbMonstersMax;
 	}
 	
+	@Override
+	public String toString() {
+		return "GameConstant [boardLenght=" + boardLenght + ", nbWizard=" + nbWizard + ", levelCost=" + levelCost
+				+ ", levelMaxDifficulty=" + levelMaxDifficulty + ", nbMonstersToSpawnEachTurnMin="
+				+ nbMonstersToSpawnEachTurnMin + ", nbMonstersToSpawnEachTurnMax=" + nbMonstersToSpawnEachTurnMax
+				+ ", nbMonstersMin=" + nbMonstersMin + ", nbMonstersMax=" + nbMonstersMax + "]";
+	}
+	
 	
 }

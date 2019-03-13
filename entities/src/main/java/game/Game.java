@@ -736,11 +736,11 @@ public class Game
 	//monsterFactory : all monsterFactories from the JSON file
 	{
 		Horde[] myHordeArray = Arrays.asList(
-				MapConverter.getObjectsFromMapNamesFrequencies(level.getMapHordesProbabilities(), hordes)
+				MapConverter.getObjectsFromMapNamesFrequencies(level.getMapHordesFrequencies(), hordes)
 				).toArray(new Horde[0]); //Convert INamedObject[] to Horde[]
 		
 		float[] myHordeProbabilities = Proba.convertFrequencyToProbability(
-				MapConverter.getFrequenciesFromMapNamesFrequencies(level.getMapHordesProbabilities(), myHordeArray));
+				MapConverter.getFrequenciesFromMapNamesFrequencies(level.getMapHordesFrequencies(), myHordeArray));
 		
 		int cost = 0;
 		

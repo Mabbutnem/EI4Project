@@ -26,4 +26,11 @@ public class CorpseConstant
 		return nbTurnToReborn;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "CorpseConstant [nbTurnToReborn=" + nbTurnToReborn + "]";
+	}
+	
 }

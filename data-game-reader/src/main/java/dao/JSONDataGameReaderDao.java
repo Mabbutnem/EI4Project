@@ -1,8 +1,10 @@
 package dao;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,6 +12,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import boardelement.MonsterFactory;
+import boardelement.WizardFactory;
+import constant.AllConstant;
+import game.Horde;
+import game.Level;
+import spell.Card;
+import spell.Incantation;
 
 public class JSONDataGameReaderDao implements IDataGameReaderDao
 {
@@ -17,8 +25,21 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 	private String directoryName;
 	@Autowired
 	private String extentionName;
+	
 	@Autowired
-	private String fileName;
+	protected String cardsFileName;
+	@Autowired
+	protected String constantsFileName;
+	@Autowired
+	protected String hordesFileName;
+	@Autowired
+	protected String incantationsFileName;
+	@Autowired
+	protected String levelsFileName;
+	@Autowired
+	protected String monstersFileName;
+	@Autowired
+	protected String wizardsFileName;
 	
 	
 	
@@ -27,43 +48,100 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 	}
 	
 	
-	public void addMonsterFactory(MonsterFactory mf) { add(fileName, mf, MonsterFactory[].class); }
-	public void deleteMonsterFactories() { delete(fileName); }
 	
-	
-	private <T> void add(String fileName, T t, Class<T[]> tClass)
+	private String getProjectPath() throws IOException
 	{
-		try{
-			String currentPath = new File(".").getCanonicalPath();
-			currentPath = currentPath.substring(0, currentPath.lastIndexOf('\\'));
-			
-			File file = new File(currentPath+directoryName+fileName+extentionName);
-			ObjectMapper om = new ObjectMapper();
-			T[] tArray = om.readValue(file,tClass);
-			om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-			ArrayList<T> tArrayList=new ArrayList<>(Arrays.asList(tArray));
-			tArrayList.add(t);
-			om.writeValue(file, tArrayList);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		String projectPath = new File(".").getCanonicalPath();
+		projectPath = projectPath.substring(0, projectPath.lastIndexOf('\\'));
+		
+		return projectPath;
 	}
 	
-	private <T> void delete(String fileName)
+	protected String getCompletePathFile(String fileName) throws IOException
 	{
-		try{
-			String currentPath = new File(".").getCanonicalPath();
-			
-			File file = new File(currentPath+directoryName+fileName+extentionName);
-			ObjectMapper om = new ObjectMapper();
-			ArrayList<T> tArrayList=new ArrayList<>();
-			om.writeValue(file, tArrayList);
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		return getProjectPath()+directoryName+fileName+extentionName;
+	}
+
+
+
+
+
+	@Override
+	public Card[] getCards() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public AllConstant getConstant() throws IOException {
+		File file = new File(getCompletePathFile(constantsFileName));				
+		ObjectMapper om = new ObjectMapper();
+		AllConstant[] array = om.readValue(file,AllConstant[].class);
+		om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		Stream<AllConstant> stream=Stream.of(array);
+		stream=stream.filter(o->true);		
+		List<AllConstant> list=stream.collect(Collectors.toList());
+		return list.get(0);
+	}
+
+
+
+	@Override
+	public Horde[] getHordes() throws IOException {
+		File file = new File(getCompletePathFile(hordesFileName));				
+		ObjectMapper om = new ObjectMapper();
+		Horde[] array = om.readValue(file,Horde[].class);
+		om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		Stream<Horde> stream=Stream.of(array);
+		stream=stream.filter(o->true);		
+		List<Horde> list=stream.collect(Collectors.toList());
+		return list.toArray(new Horde[0]);
+	}
+
+
+
+	@Override
+	public Incantation[] getIncantations() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public Level[] getLevels() throws IOException {
+		File file = new File(getCompletePathFile(levelsFileName));				
+		ObjectMapper om = new ObjectMapper();
+		Level[] array = om.readValue(file,Level[].class);
+		om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		Stream<Level> stream=Stream.of(array);
+		stream=stream.filter(o->true);		
+		List<Level> list=stream.collect(Collectors.toList());
+		return list.toArray(new Level[0]);
+	}
+	
+	
+	
+	@Override
+	public MonsterFactory[] getMonsters() throws IOException
+	{
+		File file = new File(getCompletePathFile(monstersFileName));				
+		ObjectMapper om = new ObjectMapper();
+		MonsterFactory[] array = om.readValue(file,MonsterFactory[].class);
+		om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		Stream<MonsterFactory> stream=Stream.of(array);
+		stream=stream.filter(o->true);		
+		List<MonsterFactory> list=stream.collect(Collectors.toList());
+		return list.toArray(new MonsterFactory[0]);
+	}
+
+
+
+	@Override
+	public WizardFactory[] getWizards() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

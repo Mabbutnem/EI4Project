@@ -59,4 +59,10 @@ public class WizardConstant
 	public int getNbInitCard() {
 		return nbInitCard;
 	}
+	
+	@Override
+	public String toString() {
+		return "WizardConstant [maxHealth=" + maxHealth + ", initArmor=" + initArmor + ", baseMove=" + baseMove
+				+ ", baseRange=" + baseRange + ", baseMana=" + baseMana + ", nbInitCard=" + nbInitCard + "]";
+	}
 }

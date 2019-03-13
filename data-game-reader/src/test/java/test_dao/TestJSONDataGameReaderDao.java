@@ -1,7 +1,6 @@
 package test_dao;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,11 +9,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import boardelement.MonsterFactory;
-import config.DataGameConfig;
+import config.DataGameReaderConfig;
+import constant.AllConstant;
 import dao.IDataGameReaderDao;
+import game.Horde;
+import game.Level;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes= (DataGameConfig.class))
+@ContextConfiguration(classes= (DataGameReaderConfig.class))
 public class TestJSONDataGameReaderDao
 {
 	@Autowired
@@ -23,12 +25,19 @@ public class TestJSONDataGameReaderDao
 	@Test
 	public final void test()
 	{
-		Map<String, Integer> mapIncantationsFrequencies = new HashMap<>();
-		mapIncantationsFrequencies.put("inc1", 100);
-		mapIncantationsFrequencies.put("inc2", 100);
-		mapIncantationsFrequencies.put("inc3", 50);
-		
-		dao.addMonsterFactory(new MonsterFactory("monstre1", 50, 20, 3, 4, mapIncantationsFrequencies, 0.4f));
+		try
+		{
+			Level[] array = dao.getLevels();
+			for(Level o : array)
+			{
+				System.out.println(o);
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

@@ -16,6 +16,7 @@ public class Horde implements INamedObject
 	private Map<String, Integer> mapMonstersQuantity; //String:name of the monster, Integer:number of monsters
 	
 	
+	
 	public Horde() {
 		//Empty constructor for jackson
 	}
@@ -57,6 +58,13 @@ public class Horde implements INamedObject
 	@Override
 	public INamedObject cloneObject() {
 		return new Horde(this);
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "Horde [name=" + name + ", cost=" + cost + ", mapMonstersQuantity=" + mapMonstersQuantity + "]";
 	}
 
 }

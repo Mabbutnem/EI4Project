@@ -1,0 +1,18 @@
+[
+	{
+		"difficulty": 10,
+		"mapHordesFrequencies": {
+			"horde1": 1,
+			"horde3": 3,
+			"horde2": 2
+		}
+	},
+	{
+		"difficulty": 10,
+		"mapHordesFrequencies": {
+			"horde1": 1,
+			"horde3": 3,
+			"horde2": 2
+		}
+	}
+]

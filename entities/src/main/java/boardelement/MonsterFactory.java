@@ -95,4 +95,13 @@ public class MonsterFactory implements INamedObject
 	public INamedObject cloneObject() {
 		return new MonsterFactory(this);
 	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "MonsterFactory [name=" + name + ", maxHealth=" + maxHealth + ", initArmor=" + initArmor + ", baseMove="
+				+ baseMove + ", baseRange=" + baseRange + ", mapIncantationsFrequencies=" + mapIncantationsFrequencies
+				+ ", rebornProbability=" + rebornProbability + "]";
+	}
 }

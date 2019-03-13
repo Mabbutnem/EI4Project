@@ -1,0 +1,29 @@
+[
+	{
+		"name": "horde1",
+		"cost": 10,
+		"mapMonstersQuantity": {
+			"monstre3": 3,
+			"monstre2": 2,
+			"monstre1": 1
+		}
+	},
+	{
+		"name": "horde1",
+		"cost": 10,
+		"mapMonstersQuantity": {
+			"monstre3": 3,
+			"monstre2": 2,
+			"monstre1": 1
+		}
+	},
+	{
+		"name": "horde1",
+		"cost": 10,
+		"mapMonstersQuantity": {
+			"monstre3": 3,
+			"monstre2": 2,
+			"monstre1": 1
+		}
+	}
+]

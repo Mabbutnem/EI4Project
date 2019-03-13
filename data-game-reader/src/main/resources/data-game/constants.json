@@ -1,0 +1,25 @@
+[
+	{
+		"wizardConstant": {
+			"maxHealth": 80,
+			"initArmor": 0,
+			"baseMove": 3,
+			"baseRange": 6,
+			"baseMana": 3,
+			"nbInitCard": 4
+		},
+		"corpseConstant": {
+			"nbTurnToReborn": 1
+		},
+		"gameConstant": {
+			"boardLenght": 30,
+			"nbWizard": 3,
+			"levelCost": 100,
+			"levelMaxDifficulty": 10,
+			"nbMonstersToSpawnEachTurnMin": 0,
+			"nbMonstersToSpawnEachTurnMax": 3,
+			"nbMonstersMin": 4,
+			"nbMonstersMax": 12
+		}
+	}
+]

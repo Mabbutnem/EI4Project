@@ -1883,7 +1883,7 @@ public class TestGame
 		mapLevel1.put("horde2", 0);
 		Level level1 = mock(Level.class);
 		when(level1.getDifficulty()).thenReturn(1);
-		when(level1.getMapHordesProbabilities()).thenReturn(mapLevel1);
+		when(level1.getMapHordesFrequencies()).thenReturn(mapLevel1);
 		
 		//Level2
 		Map<String, Integer> mapLevel2 = new HashMap<>();
@@ -1891,7 +1891,7 @@ public class TestGame
 		mapLevel2.put("horde2", 100);
 		Level level2 = mock(Level.class);
 		when(level2.getDifficulty()).thenReturn(2);
-		when(level2.getMapHordesProbabilities()).thenReturn(mapLevel2);
+		when(level2.getMapHordesFrequencies()).thenReturn(mapLevel2);
 		
 		//Level3
 		Level level3 = mock(Level.class);
@@ -2044,7 +2044,7 @@ public class TestGame
 		mapLevel2.put("horde2", 100);
 		Level level2 = mock(Level.class);
 		when(level2.getDifficulty()).thenReturn(2);
-		when(level2.getMapHordesProbabilities()).thenReturn(mapLevel2);
+		when(level2.getMapHordesFrequencies()).thenReturn(mapLevel2);
 		
 		/*
 		 * END OF INITIALISATION

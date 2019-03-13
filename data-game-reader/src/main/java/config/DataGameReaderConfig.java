@@ -8,7 +8,7 @@ import dao.JSONDataGameReaderDao;
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-public class DataGameConfig
+public class DataGameReaderConfig
 {
 	
 	@Bean
@@ -17,8 +17,28 @@ public class DataGameConfig
 	@Bean
 	public String extentionName() { return ".json"; }
 	
+	
+	
 	@Bean
-	public String fileName() { return "file"; }
+	public String cardsFileName() { return "cards"; }
+	
+	@Bean
+	public String constantsFileName() { return "constants"; }
+	
+	@Bean
+	public String hordesFileName() { return "hordes"; }
+	
+	@Bean
+	public String incantationsFileName() { return "incantations"; }
+	
+	@Bean
+	public String levelsFileName() { return "levels"; }
+	
+	@Bean
+	public String monstersFileName() { return "monsters"; }
+	
+	@Bean
+	public String wizardsFileName() { return "wizards"; }
 	
 	
 	

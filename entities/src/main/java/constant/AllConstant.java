@@ -29,4 +29,10 @@ public class AllConstant
 		Game.setGameConstant(gameConstant);
 	}
 	
+	@Override
+	public String toString() {
+		return "AllConstant [wizardConstant=" + wizardConstant + ", corpseConstant=" + corpseConstant
+				+ ", gameConstant=" + gameConstant + "]";
+	}
+	
 }
