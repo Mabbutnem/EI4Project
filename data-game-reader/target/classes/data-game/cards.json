@@ -1,1 +1,36 @@
-[]
+[
+	{
+		"name": "Consume",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 1
+					},
+					{
+						"effectType": "wordEffect",
+						"word": "PIERCE"
+					}
+				]
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	}
+]

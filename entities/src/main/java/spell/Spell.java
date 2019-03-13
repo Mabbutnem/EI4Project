@@ -6,6 +6,7 @@ import target.TargetType;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
@@ -19,11 +20,18 @@ public abstract class Spell implements ISpell
 {
 	protected String name;
 	protected IEffect[] effects;
+	@JsonIgnore
 	protected String description;
+	@JsonIgnore
 	protected Character choosenTarget;
+	@JsonIgnore
 	protected List<Word> words;
 	
 	
+	
+	public Spell() {
+		//Empty constructor for jackson
+	}
 	
 	public Spell(String name, IEffect[] effects)
 	{

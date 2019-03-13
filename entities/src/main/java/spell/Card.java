@@ -2,17 +2,26 @@ package spell;
 
 import javax.swing.event.EventListenerList;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import effect.IEffect;
 import listener.ICardListener;
 import utility.INamedObject;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Card extends ManaCostSpell
 {
 	private boolean revealed;
 	
+	@JsonIgnore
 	private EventListenerList listeners;
 
 	
+	
+	public Card() {
+		listeners = new EventListenerList();
+	}
 	
 	public Card(String name, IEffect[] effects, int cost)
 	{
@@ -56,6 +65,7 @@ public class Card extends ManaCostSpell
 		listeners.remove(ICardListener.class, listener);
 	}
 	
+	@JsonIgnore
 	public ICardListener[] getCardListeners()
 	{
 		return listeners.getListeners(ICardListener.class);

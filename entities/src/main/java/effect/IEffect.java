@@ -1,5 +1,6 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -54,6 +55,7 @@ import spell.ISpell;
 
 public interface IEffect
 {
+	@JsonIgnore
 	public String getDescription();
 	public void prepare(Game game, ISpell spell);
 	public void clean();

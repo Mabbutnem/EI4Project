@@ -9,7 +9,11 @@ public abstract class ManaCostSpell extends Spell
 	private int cost;
 	
 	
-
+	
+	public ManaCostSpell() {
+		//Empty constructor for jackson
+	}
+	
 	public ManaCostSpell(String name, IEffect[] effects, int cost)
 	{
 		super(name, effects);
