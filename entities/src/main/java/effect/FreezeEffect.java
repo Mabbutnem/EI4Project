@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("freezeEffect")
 public class FreezeEffect extends TargetableEffect {
 
+	public FreezeEffect() { 
+		super();
+	}
+	
 	public FreezeEffect(Target target) {
 		super(target);
 	}

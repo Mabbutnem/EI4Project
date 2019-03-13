@@ -17,6 +17,10 @@ import target.TargetType;
 @JsonTypeName("pushEffect")
 public class PushEffect extends OneValueEffect {
 
+	public PushEffect() { 
+		super();
+	}
+	
 	public PushEffect(Target target, int value) {
 		super(target, value);
 		Preconditions.checkArgument(target.getType() != TargetType.YOU, "TargetType can't be YOU");

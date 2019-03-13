@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("setArmorEffect")
 public class SetArmorEffect extends OneValueEffect {
 
+	public SetArmorEffect() { 
+		super();
+	}
+	
 	public SetArmorEffect(Target target, int value) {
 		super(target, value);
 	}

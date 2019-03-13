@@ -13,6 +13,10 @@ import target.Target;
 @JsonTypeName("gainManaEffect")
 public class GainManaEffect extends OneValueEffect {
 
+	public GainManaEffect() { 
+		super();
+	}
+	
 	public GainManaEffect(Target target, int value) {
 		super(target, value);
 	}

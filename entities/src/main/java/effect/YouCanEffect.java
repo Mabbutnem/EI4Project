@@ -14,7 +14,9 @@ public class YouCanEffect extends ConditionalEffect
 	
 	private IApplicableEffect effect;
 	
-
+	public YouCanEffect() {
+		super();
+	}
 
 	public YouCanEffect(IEffect[] effects, IApplicableEffect effect)
 	{

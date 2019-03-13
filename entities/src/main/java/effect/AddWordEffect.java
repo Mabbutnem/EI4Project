@@ -13,6 +13,9 @@ import target.Target;
 public class AddWordEffect extends TargetableEffect {
 
 	private Word word;
+	public AddWordEffect() { 
+		super();
+	}
 	public AddWordEffect(Target target, Word w) {
 		super(target);
 		word = w;

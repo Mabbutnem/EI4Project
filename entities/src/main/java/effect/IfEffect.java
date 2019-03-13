@@ -12,7 +12,9 @@ public class IfEffect extends ConditionalEffect
 {
 	private ICondition condition;
 	
-	
+	public IfEffect() { 
+		super();
+	}
 	
 	public IfEffect(IEffect[] effects, ICondition condition)
 	{

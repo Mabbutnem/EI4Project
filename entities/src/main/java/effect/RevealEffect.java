@@ -18,6 +18,10 @@ public class RevealEffect extends OneValueEffect {
 	private ZoneType zoneSource;
 	private ZonePick pickSource;
 	
+	public RevealEffect() { 
+		super();
+	}
+	
 	public RevealEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {
 		super(target, value);
 		this.zoneSource = zoneSource;

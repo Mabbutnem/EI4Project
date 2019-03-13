@@ -9,6 +9,10 @@ import zone.ZoneType;
 @JsonTypeName("banishEffect")
 public class BanishEffect extends CardEffect {
 
+	public BanishEffect() { 
+		super();
+	}
+	
 	public BanishEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {
 		super(target, value, zoneSource, pickSource, ZoneType.BANISH, ZonePick.DEFAULT);
 	}

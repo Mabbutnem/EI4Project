@@ -19,7 +19,9 @@ public abstract class TargetableEffect implements IApplicableEffect
 	
 	private Target target;
 	
-	
+	public TargetableEffect() { 
+		super();
+	}
 	
 	public TargetableEffect(Target target)
 	{

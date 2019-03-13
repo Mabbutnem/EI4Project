@@ -15,6 +15,10 @@ import zone.ZoneType;
 @JsonTypeName("castEffect")
 public class CastEffect extends CardEffect {
 
+	public CastEffect() { 
+		super();
+	}
+	
 	public CastEffect(Target target, int value,
 			ZoneType zoneSource, ZonePick pickSource, ZoneType zoneDest, ZonePick pickDest) {
 		super(target, value, zoneSource, pickSource, zoneDest, pickDest);

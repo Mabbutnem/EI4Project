@@ -10,7 +10,9 @@ public abstract class ConditionalEffect implements IApplicableEffect
 	protected boolean willApply;
 	protected IEffect[] effects;
 	
-	
+	public ConditionalEffect() { 
+		super();
+	}
 	
 	public ConditionalEffect(IEffect[] effects)
 	{

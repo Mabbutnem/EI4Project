@@ -9,6 +9,10 @@ import zone.ZoneType;
 @JsonTypeName("voidEffect")
 public class VoidEffect extends CardEffect {
 
+	public VoidEffect() { 
+		super();
+	}
+	
 	public VoidEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {
 		super(target, value, zoneSource, pickSource, ZoneType.VOID, ZonePick.DEFAULT);
 	}

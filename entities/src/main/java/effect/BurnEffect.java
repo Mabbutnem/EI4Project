@@ -10,6 +10,10 @@ import zone.ZoneType;
 public class BurnEffect extends CardEffect
 {
 
+	public BurnEffect() { 
+		super();
+	}
+	
 	public BurnEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource)
 	{
 		super(target, value, zoneSource, pickSource, ZoneType.BURN, ZonePick.DEFAULT);

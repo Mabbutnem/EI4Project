@@ -14,6 +14,10 @@ import target.Target;
 @JsonTypeName("inflictEffect")
 public class InflictEffect extends OneValueEffect {
 
+	public InflictEffect() { 
+		super();
+	}
+	
 	public InflictEffect(Target target, int value) {
 		super(target, value);
 	}
