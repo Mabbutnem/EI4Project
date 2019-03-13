@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.HigherArmorCondition;
 import condition.ICondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("loseArmorEffect")
 public class LoseArmorEffect extends OneValueEffect {
 
 	public LoseArmorEffect(Target target, int value) {

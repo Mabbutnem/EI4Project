@@ -1,11 +1,13 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import game.Game;
 import listener.IYouCanEffectListener;
 import spell.ISpell;
 
+@JsonTypeName("youCanEffect")
 public class YouCanEffect extends ConditionalEffect
 {
 	private static IYouCanEffectListener youCanEffectListener;
@@ -33,8 +35,19 @@ public class YouCanEffect extends ConditionalEffect
 	
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder strBld = new StringBuilder();
+		
+		strBld.append("you can ").append(effect.getDescription());
+		if(effects.length > 0) { strBld.append(" if you do :\n"); }
+		
+		for(IEffect e : effects) {
+			strBld.append(e.getDescription() + ", ");
+		}
+		
+		String str = strBld.toString();
+		if(effects.length > 0) { str = str.substring(0, strBld.length()-2); }
+		
+		return str;
 	}
 
 	@Override

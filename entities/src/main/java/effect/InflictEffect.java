@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import boardelement.Monster;
 import boardelement.Wizard;
@@ -9,6 +11,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("inflictEffect")
 public class InflictEffect extends OneValueEffect {
 
 	public InflictEffect(Target target, int value) {

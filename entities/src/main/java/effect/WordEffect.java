@@ -1,10 +1,12 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import game.Game;
 import spell.ISpell;
 
+@JsonTypeName("wordEffect")
 public class WordEffect implements IEffect
 {
 	private Word word;

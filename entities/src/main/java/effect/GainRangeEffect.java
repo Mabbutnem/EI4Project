@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.ICondition;
 import condition.TrueCondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("gainRangeEffect")
 public class GainRangeEffect extends OneValueEffect {
 
 	public GainRangeEffect(Target target, int value) {

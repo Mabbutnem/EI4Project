@@ -1,9 +1,12 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 
+@JsonTypeName("voidEffect")
 public class VoidEffect extends CardEffect {
 
 	public VoidEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {

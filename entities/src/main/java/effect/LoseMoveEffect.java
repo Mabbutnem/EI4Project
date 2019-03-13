@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.HigherMoveCondition;
 import condition.ICondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("loseMoveEffect")
 public class LoseMoveEffect extends OneValueEffect {
 
 	public LoseMoveEffect(Target target, int value) {

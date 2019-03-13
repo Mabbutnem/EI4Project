@@ -1371,6 +1371,7 @@ public class TestGame
 		verify(w, times(1)).resetMove();
 		verify(wZoneGroup, times(1)).unvoid();
 		verify(wZoneGroup, times(1)).unbanish();
+		verify(w, times(1)).clearWords();
 		
 		verify(w0, times(1)).resetFreeze();
 		verify(w0, times(1)).resetMana();
@@ -1378,6 +1379,7 @@ public class TestGame
 		verify(w0, times(1)).resetMove();
 		verify(w0ZoneGroup, times(1)).unvoid();
 		verify(w0ZoneGroup, times(1)).unbanish();
+		verify(w0, times(1)).clearWords();
 		
 		Character expectedC = m;
 		Character resultC = g.getCurrentCharacter();
@@ -1467,11 +1469,13 @@ public class TestGame
 		verify(m, times(1)).resetMove();
 		verify(m, times(1)).resetRange();
 		verify(m, times(1)).setPlayed(false);
+		verify(m, times(1)).clearWords();
 		
 		verify(m0, times(1)).resetFreeze();
 		verify(m0, times(1)).resetMove();
 		verify(m0, times(1)).resetRange();
 		verify(m0, times(1)).setPlayed(false);
+		verify(m0, times(1)).clearWords();
 		
 		verify(c1, times(1)).incrCounterToReborn();
 		verify(c2, times(1)).incrCounterToReborn();

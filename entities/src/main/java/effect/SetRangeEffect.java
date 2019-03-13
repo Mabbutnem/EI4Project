@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Character;
 import condition.ICondition;
 import condition.TrueCondition;
@@ -7,6 +9,7 @@ import game.Game;
 import spell.ISpell;
 import target.Target;
 
+@JsonTypeName("setRangeEffect")
 public class SetRangeEffect extends OneValueEffect {
 
 	public SetRangeEffect(Target target, int value) {

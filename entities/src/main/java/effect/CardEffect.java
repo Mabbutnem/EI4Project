@@ -6,6 +6,7 @@ import target.TargetType;
 import zone.ZonePick;
 import zone.ZoneType;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
@@ -14,6 +15,7 @@ import condition.HigherCardCondition;
 import condition.ICondition;
 import game.Game;
 
+@JsonTypeName("cardEffect")
 public class CardEffect extends OneValueEffect
 {
 	protected ZoneType zoneSource;
