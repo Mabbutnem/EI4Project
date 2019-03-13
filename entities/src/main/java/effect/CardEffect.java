@@ -23,7 +23,9 @@ public class CardEffect extends OneValueEffect
 	protected ZoneType zoneDest;
 	protected ZonePick pickDest;
 
-	
+	public CardEffect() { 
+		super();
+	}
 	
 	public CardEffect(Target target, int value,
 			ZoneType zoneSource, ZonePick pickSource, ZoneType zoneDest, ZonePick pickDest)

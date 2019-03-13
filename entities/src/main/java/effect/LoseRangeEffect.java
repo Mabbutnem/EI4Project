@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("loseRangeEffect")
 public class LoseRangeEffect extends OneValueEffect {
 
+	public LoseRangeEffect() { 
+		super();
+	}
+	
 	public LoseRangeEffect(Target target, int value) {
 		super(target, value);
 	}

@@ -10,6 +10,10 @@ import zone.ZoneType;
 public class BurnEffect extends CardEffect
 {
 
+	public BurnEffect() { 
+		super();
+	}
+	
 	public BurnEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource)
 	{
 		super(target, value, zoneSource, pickSource, ZoneType.BURN, ZonePick.DEFAULT);
@@ -20,7 +24,7 @@ public class BurnEffect extends CardEffect
 	@Override
 	public String getDescription()
 	{
-		return "burn " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "burn " + getValue() + " card" + (getValue() > 1? "s ":" ")
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

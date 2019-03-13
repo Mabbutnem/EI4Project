@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("setRangeEffect")
 public class SetRangeEffect extends OneValueEffect {
 
+	public SetRangeEffect() { 
+		super();
+	}
+	
 	public SetRangeEffect(Target target, int value) {
 		super(target, value);
 	}

@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("gainDashEffect")
 public class GainDashEffect extends OneValueEffect {
 
+	public GainDashEffect() { 
+		super();
+	}
+	
 	public GainDashEffect(Target target, int value) {
 		super(target, value);
 	}

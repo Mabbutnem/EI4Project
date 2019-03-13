@@ -17,6 +17,10 @@ public class PutAfterCastEffect extends TargetableEffect {
 	private ZoneType zoneDest;
 	private ZonePick pickDest;
 	
+	public PutAfterCastEffect() { 
+		super();
+	}
+	
 	public PutAfterCastEffect(Target target, ZoneType zoneDest, ZonePick pickDest) {
 		super(target);
 		this.zoneDest = zoneDest;

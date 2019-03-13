@@ -27,7 +27,7 @@ public enum ZonePick
 		case CHOICE:
 			return "from a chosen place in ";
 		case DEFAULT:
-			return " ";
+			return "from";
 		case RANDOM:
 			return "from a random place in ";
 		case TOP:

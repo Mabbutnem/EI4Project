@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("gainHealthEffect")
 public class GainHealthEffect extends OneValueEffect {
 
+	public GainHealthEffect() { 
+		super();
+	}
+	
 	public GainHealthEffect(Target target, int value) {
 		super(target, value);
 	}

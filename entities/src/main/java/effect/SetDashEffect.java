@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("setDashEffect")
 public class SetDashEffect extends OneValueEffect {
 
+	public SetDashEffect() { 
+		super();
+	}
+	
 	public SetDashEffect(Target target, int value) {
 		super(target, value);
 	}

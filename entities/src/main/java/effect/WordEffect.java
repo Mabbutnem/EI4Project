@@ -11,7 +11,9 @@ public class WordEffect implements IEffect
 {
 	private Word word;
 	
-	
+	public WordEffect() { 
+		super();
+	}
 	
 	public WordEffect(Word word)
 	{

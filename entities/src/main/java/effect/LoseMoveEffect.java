@@ -12,6 +12,10 @@ import target.Target;
 @JsonTypeName("loseMoveEffect")
 public class LoseMoveEffect extends OneValueEffect {
 
+	public LoseMoveEffect() { 
+		super();
+	}
+	
 	public LoseMoveEffect(Target target, int value) {
 		super(target, value);
 	}

@@ -9,6 +9,10 @@ import zone.ZoneType;
 @JsonTypeName("discardEffect")
 public class DiscardEffect extends CardEffect {
 
+	public DiscardEffect() { 
+		super();
+	}
+	
 	public DiscardEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {
 		super(target, value, zoneSource, pickSource, ZoneType.DISCARD, ZonePick.DEFAULT);
 	}

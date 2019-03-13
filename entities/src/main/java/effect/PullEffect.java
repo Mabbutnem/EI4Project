@@ -17,6 +17,10 @@ import target.TargetType;
 @JsonTypeName("pullEffect")
 public class PullEffect extends OneValueEffect {
 
+	public PullEffect() { 
+		super();
+	}
+	
 	public PullEffect(Target target, int value) {
 		super(target, value);
 		Preconditions.checkArgument(target.getType() != TargetType.YOU, "TargetType can't be YOU");

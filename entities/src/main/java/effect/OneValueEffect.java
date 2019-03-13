@@ -17,7 +17,9 @@ public abstract class OneValueEffect extends TargetableEffect
 	private int value;
 	private int moreValue;
 	
-	
+	public OneValueEffect() { 
+		super();
+	}
 
 	public OneValueEffect(Target target, int value) {
 		super(target);
