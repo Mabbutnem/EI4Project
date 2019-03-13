@@ -4,10 +4,10 @@
   <artifactId>data-game-reader</artifactId>
   <version>1.0</version>
   <dependencies>
-  	<dependency>
-  		<groupId>EI4Project</groupId>
-  		<artifactId>entities</artifactId>
-  		<version>1.0</version>
-  	</dependency>
+  <dependency>
+  	<groupId>EI4Project</groupId>
+  	<artifactId>entities</artifactId>
+  	<version>1.0</version>
+  </dependency>
   </dependencies>
 </project>
