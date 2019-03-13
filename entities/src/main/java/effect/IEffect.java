@@ -1,5 +1,6 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -53,6 +54,7 @@ import spell.ISpell;
 			@JsonSubTypes.Type(value = YouCanEffect.class, name = "youCanEffect"),
 		})
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public interface IEffect
 {
 	@JsonIgnore
