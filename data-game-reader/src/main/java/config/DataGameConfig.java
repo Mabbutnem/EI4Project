@@ -12,7 +12,7 @@ public class DataGameConfig
 {
 	
 	@Bean
-	public String directoryName() { return "\\src\\main\\resources\\data-game\\";}
+	public String directoryName() { return "\\data-game-reader\\src\\main\\resources\\data-game\\";}
 	
 	@Bean
 	public String extentionName() { return ".json"; }

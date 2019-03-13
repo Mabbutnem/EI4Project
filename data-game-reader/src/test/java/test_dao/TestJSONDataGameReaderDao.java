@@ -28,7 +28,7 @@ public class TestJSONDataGameReaderDao
 		mapIncantationsFrequencies.put("inc2", 100);
 		mapIncantationsFrequencies.put("inc3", 50);
 		
-		dao.addMonsterFactory(new MonsterFactory("monstre2", 50, 20, 3, 4, mapIncantationsFrequencies, 0.4f));
+		dao.addMonsterFactory(new MonsterFactory("monstre1", 50, 20, 3, 4, mapIncantationsFrequencies, 0.4f));
 	}
 
 }

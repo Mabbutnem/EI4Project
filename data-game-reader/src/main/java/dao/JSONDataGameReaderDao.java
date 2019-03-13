@@ -35,6 +35,7 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 	{
 		try{
 			String currentPath = new File(".").getCanonicalPath();
+			currentPath = currentPath.substring(0, currentPath.lastIndexOf('\\'));
 			
 			File file = new File(currentPath+directoryName+fileName+extentionName);
 			ObjectMapper om = new ObjectMapper();
