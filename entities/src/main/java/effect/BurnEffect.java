@@ -20,7 +20,7 @@ public class BurnEffect extends CardEffect
 	@Override
 	public String getDescription()
 	{
-		return "burn " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "burn " + getValue() + " card" + (getValue() > 1? "s ":" ")
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 
