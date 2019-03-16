@@ -3,12 +3,10 @@ package boardelement;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
 import utility.INamedObject;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class MonsterFactory implements INamedObject
 {
 	private String name;

@@ -9,7 +9,6 @@ import target.TargetConstraint;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
@@ -46,7 +45,6 @@ public abstract class TargetableEffect implements IApplicableEffect
 		return target;
 	}
 	
-	@JsonIgnore
 	public String getConstraintsDescription()
 	{
 		String desc = "";

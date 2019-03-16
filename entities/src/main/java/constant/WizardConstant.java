@@ -1,9 +1,7 @@
 package constant;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class WizardConstant
 {
 	private int maxHealth;

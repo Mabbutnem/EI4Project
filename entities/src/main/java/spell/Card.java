@@ -1,15 +1,15 @@
 package spell;
 
+import java.util.Arrays;
+
 import javax.swing.event.EventListenerList;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import effect.IEffect;
 import listener.ICardListener;
 import utility.INamedObject;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Card extends ManaCostSpell
 {
 	private boolean revealed;
@@ -20,6 +20,7 @@ public class Card extends ManaCostSpell
 	
 	
 	public Card() {
+		super();
 		listeners = new EventListenerList();
 	}
 	
@@ -65,7 +66,6 @@ public class Card extends ManaCostSpell
 		listeners.remove(ICardListener.class, listener);
 	}
 	
-	@JsonIgnore
 	public ICardListener[] getCardListeners()
 	{
 		return listeners.getListeners(ICardListener.class);
@@ -87,6 +87,15 @@ public class Card extends ManaCostSpell
 	@Override
 	public INamedObject cloneObject() {
 		return new Card(this);
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "Card [revealed=" + revealed + ", listeners=" + listeners + ", name=" + name + ", effects="
+				+ Arrays.toString(effects) + ", description=" + description + ", choosenTarget=" + choosenTarget
+				+ ", words=" + words + "]";
 	}
 	
 }

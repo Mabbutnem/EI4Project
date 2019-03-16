@@ -10,16 +10,22 @@ import spell.ISpell;
 import target.Target;
 
 @JsonTypeName("addWordEffect")
-public class AddWordEffect extends TargetableEffect {
-
+public class AddWordEffect extends TargetableEffect
+{
 	private Word word;
+	
+	
+	
 	public AddWordEffect() { 
 		super();
 	}
+	
 	public AddWordEffect(Target target, Word w) {
 		super(target);
 		word = w;
 	}
+	
+	
 
 	@Override
 	public ICondition matchingCondition() {

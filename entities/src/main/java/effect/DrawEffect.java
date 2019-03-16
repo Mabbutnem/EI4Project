@@ -1,5 +1,6 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import target.Target;
@@ -7,11 +8,16 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("drawEffect")
+@JsonIgnoreProperties({ "zoneSource", "pickSource", "zoneDest", "pickDest" })
 public class DrawEffect extends CardEffect
 {
 
 	public DrawEffect() { 
 		super();
+		zoneSource = ZoneType.DECK;
+		pickSource = ZonePick.TOP;
+		zoneDest = ZoneType.HAND;
+		pickDest = ZonePick.DEFAULT;
 	}
 	
 	public DrawEffect(Target target, int value)

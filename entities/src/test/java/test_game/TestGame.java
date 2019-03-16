@@ -25,6 +25,7 @@ import game.Game;
 import game.Horde;
 import game.Level;
 import javafx.collections.ListChangeListener;
+import listener.ICardDAOListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -59,6 +60,8 @@ public class TestGame
 	@Before
 	public void setUp() throws Exception
 	{
+		Game.setCardDaoListener(mock(ICardDAOListener.class));
+		
 		Game.setGameConstant(gameConstant = mock(GameConstant.class));
 		when(gameConstant.getBoardLenght()).thenReturn(6);
 		when(gameConstant.getLevelCost()).thenReturn(50);

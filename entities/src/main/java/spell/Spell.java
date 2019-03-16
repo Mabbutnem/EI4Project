@@ -30,7 +30,9 @@ public abstract class Spell implements ISpell
 	
 	
 	public Spell() {
-		//Empty constructor for jackson
+		description = "";
+		choosenTarget = null;
+		words = new LinkedList<>();
 	}
 	
 	public Spell(String name, IEffect[] effects)
@@ -87,7 +89,7 @@ public abstract class Spell implements ISpell
 		return effects;
 	}
 	
-	private void setDescription()
+	public void setDescription()
 	{
 		StringBuilder bld = new StringBuilder();
 		

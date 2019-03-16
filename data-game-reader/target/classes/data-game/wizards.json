@@ -1,1 +1,672 @@
-[]
+[
+	{
+		"name": "shadow",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "fire",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "thunder",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "light",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "life",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "pestilence",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "water",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "ice",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "wind",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	},
+	{
+		"name": "mist",
+		"basePower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"transformedPower": {
+			"name": "Consume",
+			"effects": [
+				{
+					"effectType": "inflictEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"value": 10
+				},
+				{
+					"effectType": "addWordEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+					},
+					"word": "ACID"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
+				}
+			],
+			"cost": 1
+		},
+		"mapCardsQuantity": {
+			"card1": 7,
+			"card2": 7,
+			"card3": 7,
+			"card4": 7,
+			"card5": 7,
+			"card6": 4
+		}
+	}
+]

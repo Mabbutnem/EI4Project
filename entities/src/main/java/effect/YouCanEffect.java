@@ -12,21 +12,21 @@ public class YouCanEffect extends ConditionalEffect
 {
 	private static IYouCanEffectListener youCanEffectListener;
 	
-	private IApplicableEffect effect;
+	private IApplicableEffect conditionalEffect;
 	
 	public YouCanEffect() {
 		super();
 	}
 
-	public YouCanEffect(IEffect[] effects, IApplicableEffect effect)
+	public YouCanEffect(IEffect[] effects, IApplicableEffect conditionalEffect)
 	{
 		super(effects);
 		
 		Preconditions.checkState(youCanEffectListener != null, "youCanEffectListener was not initialised (in static)");
 		
-		Preconditions.checkArgument(effect != null, "effect was null but expected not null");
+		Preconditions.checkArgument(conditionalEffect != null, "conditionalEffect was null but expected not null");
 		
-		this.effect = effect;
+		this.conditionalEffect = conditionalEffect;
 	}
 	
 	
@@ -39,7 +39,7 @@ public class YouCanEffect extends ConditionalEffect
 	public String getDescription() {
 		StringBuilder strBld = new StringBuilder();
 		
-		strBld.append("you can ").append(effect.getDescription());
+		strBld.append("you can ").append(conditionalEffect.getDescription());
 		if(effects.length > 0) { strBld.append("if you do :\n"); }
 		
 		for(IEffect e : effects) {
@@ -60,12 +60,12 @@ public class YouCanEffect extends ConditionalEffect
 	@Override
 	public void prepare(Game game, ISpell spell)
 	{
-		willApply = effect.matchingCondition().getPredicate().test(game)
-					&& youCanEffectListener.wantToApply(effect);
+		willApply = conditionalEffect.matchingCondition().getPredicate().test(game)
+					&& youCanEffectListener.wantToApply(conditionalEffect);
 		
 		if(willApply)
 		{
-			effect.apply(game, spell);
+			conditionalEffect.apply(game, spell);
 		}
 		
 		super.prepare(game, spell);

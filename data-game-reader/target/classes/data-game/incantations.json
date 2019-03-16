@@ -1,1 +1,29 @@
-[]
+[
+	{
+		"name": "Consume",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "addWordEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"word": "ACID"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		]
+	}
+]

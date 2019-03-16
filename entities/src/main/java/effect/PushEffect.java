@@ -1,6 +1,7 @@
 package effect;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -61,7 +62,7 @@ public class PushEffect extends OneValueEffect {
 
 	@Override
 	protected void applyOn(Character[] characters, Game game, ISpell spell) {
-		List<Character> charactersList = Arrays.asList(characters);
+		List<Character> charactersList = new LinkedList<>(Arrays.asList(characters));
 		charactersList.removeIf(c -> !c.isAlive());
 		
 		game.push(game.getCurrentCharacter(), 

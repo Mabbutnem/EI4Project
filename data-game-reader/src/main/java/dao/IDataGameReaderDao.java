@@ -7,16 +7,27 @@ import boardelement.WizardFactory;
 import constant.AllConstant;
 import game.Horde;
 import game.Level;
+import listener.ICardDAOListener;
 import spell.Card;
 import spell.Incantation;
 
-public interface IDataGameReaderDao
+public interface IDataGameReaderDao extends ICardDAOListener
 {
+	Card getCard(String name);
+	Card[] getCards(String[] names);
 	Card[] getCards() throws IOException;
+	
 	AllConstant getConstant() throws IOException;
+	
 	Horde[] getHordes() throws IOException;
+	
 	Incantation[] getIncantations() throws IOException;
+	
+	Level getRandomLevel(int levelDifficulty) throws IOException;
 	Level[] getLevels() throws IOException;
+	
 	MonsterFactory[] getMonsters() throws IOException;
+	
+	WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException;
 	WizardFactory[] getWizards() throws IOException;
 }

@@ -12,18 +12,24 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import boardelement.MonsterFactory;
+import boardelement.WizardFactory;
 import config.DataGameModifierConfig;
 import constant.AllConstant;
 import constant.CorpseConstant;
 import constant.GameConstant;
 import constant.WizardConstant;
 import dao.IDataGameModifierDao;
+import effect.AddWordEffect;
 import effect.BurnEffect;
+import effect.BurnItselfEffect;
 import effect.GainHealthEffect;
 import effect.IApplicableEffect;
 import effect.IEffect;
 import effect.InflictEffect;
 import effect.LoseManaEffect;
+import effect.PredictionEffect;
+import effect.PutAfterCastEffect;
+import effect.RevealEffect;
 import effect.TargetableEffect;
 import effect.Word;
 import effect.WordEffect;
@@ -33,6 +39,9 @@ import game.Level;
 import listener.ITargetRequestListener;
 import listener.IYouCanEffectListener;
 import spell.Card;
+import spell.Incantation;
+import spell.Power;
+import spell.Spell;
 import target.Target;
 import target.TargetConstraint;
 import target.TargetType;
@@ -49,42 +58,38 @@ public class TestJSONDataGameModifierDao
 	@Test
 	public final void test()
 	{
+		TargetableEffect.setTargetRequestListener(mock(ITargetRequestListener.class));
+		YouCanEffect.setYouCanEffectListener(mock(IYouCanEffectListener.class));
+		
 		try
 		{
-			TargetableEffect.setTargetRequestListener(mock(ITargetRequestListener.class));
-			YouCanEffect.setYouCanEffectListener(mock(IYouCanEffectListener.class));
-			
-			IEffect inflict10 = new InflictEffect(
+			IEffect inflict = new InflictEffect(
 					new Target(new TargetConstraint[0], TargetType.CHOICE),
 					10);
 			
-			IEffect burn = new BurnEffect(
-					new Target(new TargetConstraint[0], TargetType.YOU),
-					1,
-					ZoneType.DECK,
-					ZonePick.TOP);
+			IEffect pierce = new WordEffect(Word.ACID);
 			
-			IEffect inflict1More = new InflictEffect(
-					new Target(new TargetConstraint[0], TargetType.MORE),
-					1);
-			
-			IEffect pierce = new WordEffect(Word.PIERCE);
-			
-			IEffect youCan = new YouCanEffect(
-					new IEffect[] {inflict1More, pierce},
-					(IApplicableEffect) burn);
+			IEffect gainLifelink = new AddWordEffect(
+					new Target(new TargetConstraint[0], TargetType.CHOICE), Word.ACID);
 			
 			IEffect[] effects = new IEffect[]
 			{
-					inflict10,
-					youCan
+					inflict,
+					gainLifelink,
+					pierce
 			};
 			
-			Card c = new Card("Consume", effects, 1);
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("card1", 7);
+			map.put("card2", 7);
+			map.put("card3", 7);
+			map.put("card4", 7);
+			map.put("card5", 7);
+			map.put("card6", 4);
 			
-			dao.addCard(c);
+			Power p = new Power("Consume", effects, 1);
 			
-			System.out.println(c.getDescription());
+			System.out.println(dao.wizardExists("firee"));
 		}
 		catch (Exception e)
 		{

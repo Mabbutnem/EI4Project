@@ -1,1 +1,37 @@
-[{"name":"Consume","effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"CHOICE"},"value":10,"moreValue":0},{"effectType":"youCanEffect","willApply":false,"effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"MORE"},"value":1,"moreValue":0},{"effectType":"wordEffect","word":"PIERCE"}],"effect":null}],"cost":1,"revealed":true},{"name":"Consume","effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"CHOICE"},"value":10,"moreValue":0},{"effectType":"youCanEffect","willApply":false,"effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"MORE"},"value":1,"moreValue":0},{"effectType":"wordEffect","word":"PIERCE"}],"effect":null}],"cost":1,"revealed":true},{"name":"Consume","effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"CHOICE"},"value":10,"moreValue":0},{"effectType":"youCanEffect","willApply":false,"effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"MORE"},"value":1,"moreValue":0},{"effectType":"wordEffect","word":"PIERCE"}],"effect":{"effectType":"burnEffect","target":{"constraints":[],"type":"YOU"},"value":1,"moreValue":0,"zoneSource":"DECK","pickSource":"TOP","zoneDest":null,"pickDest":null}}],"cost":1,"revealed":true},{"name":"Consume","effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"CHOICE"},"value":10,"moreValue":0},{"effectType":"youCanEffect","willApply":false,"effects":[{"effectType":"inflictEffect","target":{"constraints":[],"type":"MORE"},"value":1,"moreValue":0},{"effectType":"wordEffect","word":"PIERCE"}],"effect":{"effectType":"burnEffect","target":{"constraints":[],"type":"YOU"},"value":1,"moreValue":0,"zoneSource":"DECK","pickSource":"TOP","zoneDest":"BURN","pickDest":"DEFAULT"}}],"cost":1,"revealed":true}]
+[
+	{
+		"name": "Card1",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "Card2",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "Card3",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "Card4",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "Card5",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	}
+]

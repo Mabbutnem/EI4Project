@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import boardelement.Character;
@@ -13,9 +15,12 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("predictionEffect")
+@JsonIgnoreProperties({ "target" })
 public class PredictionEffect extends TargetableEffect {
 
+	@JsonIgnore
 	private RevealEffect revealEffect;
+	@JsonIgnore
 	private YouCanEffect youCanEffect;
 	
 	public PredictionEffect() {

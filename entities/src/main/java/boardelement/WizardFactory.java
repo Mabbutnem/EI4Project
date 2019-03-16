@@ -2,12 +2,10 @@ package boardelement;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
 import spell.Power;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class WizardFactory
 {
 	private String name;
@@ -21,10 +19,6 @@ public class WizardFactory
 		//Empty constructor for jackson
 	}
 	
-	
-
-	
-	
 	public WizardFactory(String name, Power basePower, Power transformedPower, Map<String, Integer> mapCardsQuantity) {
 		Preconditions.checkArgument(name.length() > 0, "name length was %s but expected strictly positive", name.length());
 		for(Map.Entry<String, Integer> entry : mapCardsQuantity.entrySet())
@@ -36,8 +30,6 @@ public class WizardFactory
 		this.transformedPower = transformedPower;
 		this.mapCardsQuantity = mapCardsQuantity;
 	}
-
-
 
 
 
@@ -55,6 +47,14 @@ public class WizardFactory
 
 	public Map<String, Integer> getMapCardsQuantity() {
 		return mapCardsQuantity;
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "WizardFactory [name=" + name + ", basePower=" + basePower + ", transformedPower=" + transformedPower
+				+ ", mapCardsQuantity=" + mapCardsQuantity + "]";
 	}
 	
 }

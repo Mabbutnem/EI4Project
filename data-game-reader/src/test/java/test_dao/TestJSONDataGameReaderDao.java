@@ -1,6 +1,6 @@
 package test_dao;
 
-import java.io.IOException;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import boardelement.MonsterFactory;
 import config.DataGameReaderConfig;
-import constant.AllConstant;
 import dao.IDataGameReaderDao;
-import game.Horde;
-import game.Level;
+import effect.TargetableEffect;
+import effect.YouCanEffect;
+import listener.ITargetRequestListener;
+import listener.IYouCanEffectListener;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= (DataGameReaderConfig.class))
@@ -25,15 +25,13 @@ public class TestJSONDataGameReaderDao
 	@Test
 	public final void test()
 	{
+		TargetableEffect.setTargetRequestListener(mock(ITargetRequestListener.class));
+		YouCanEffect.setYouCanEffectListener(mock(IYouCanEffectListener.class));
+		
 		try
 		{
-			Level[] array = dao.getLevels();
-			for(Level o : array)
-			{
-				System.out.println(o);
-			}
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			System.out.println(e.getMessage());

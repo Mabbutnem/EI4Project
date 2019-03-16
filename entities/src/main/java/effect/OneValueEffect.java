@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 import game.Game;
@@ -15,10 +16,13 @@ public abstract class OneValueEffect extends TargetableEffect
 {
 	
 	private int value;
+	@JsonIgnore
 	private int moreValue;
 	
 	public OneValueEffect() { 
 		super();
+		
+		moreValue = 0;
 	}
 
 	public OneValueEffect(Target target, int value) {

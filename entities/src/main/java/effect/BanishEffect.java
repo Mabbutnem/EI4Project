@@ -1,5 +1,6 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import target.Target;
@@ -7,10 +8,13 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("banishEffect")
+@JsonIgnoreProperties({ "zoneDest", "pickDest" })
 public class BanishEffect extends CardEffect {
 
-	public BanishEffect() { 
+	public BanishEffect() {
 		super();
+		zoneDest = ZoneType.BANISH;
+		pickDest = ZonePick.DEFAULT;
 	}
 	
 	public BanishEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {

@@ -1,5 +1,7 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import condition.FalseCondition;
 import condition.ICondition;
 import game.Game;
@@ -7,11 +9,15 @@ import spell.ISpell;
 
 public abstract class ConditionalEffect implements IApplicableEffect
 {
+	@JsonIgnore
 	protected boolean willApply;
 	protected IEffect[] effects;
 	
+	
+	
 	public ConditionalEffect() { 
 		super();
+		willApply = false;
 	}
 	
 	public ConditionalEffect(IEffect[] effects)

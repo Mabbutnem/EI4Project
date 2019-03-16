@@ -23,6 +23,7 @@ import constant.GameConstant;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import listener.ICardDAOListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -34,6 +35,8 @@ import zone.ZoneType;
 
 public class Game
 {
+	private static ICardDAOListener cardDaoListener;
+	
 	private static GameConstant gameConstant;
 
 	private int nbWizards;
@@ -51,6 +54,8 @@ public class Game
 	
 	public Game(Wizard[] wizards)
 	{
+		Preconditions.checkState(cardDaoListener != null, "cardDaoListener was not initialised (in static)");
+		
 		Preconditions.checkState(gameConstant != null, "gameConstant was not initialised (in static)");
 		
 		Preconditions.checkArgument(wizards.length == gameConstant.getNbWizard(), "wizards lenght was %s but expected %s",
@@ -74,11 +79,26 @@ public class Game
 		
 	}
 
+
 	
+	public static void setCardDaoListener(ICardDAOListener cardDAOListener) { Game.cardDaoListener = cardDAOListener; }
 	
 	public static GameConstant getGameConstant() { return gameConstant; }
 	public static void setGameConstant(GameConstant gameConstant) { Game.gameConstant = gameConstant; }
 
+	
+	
+	//Card DAO listener:
+	public Card getCard(String name)
+	{
+		return cardDaoListener.getCard(name);
+	}
+	
+	public Card[] getCards(String[] names)
+	{
+		return cardDaoListener.getCards(names);
+	}
+	
 	
 	
 	//finish and win condition

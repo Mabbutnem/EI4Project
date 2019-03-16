@@ -5,9 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import boardelement.MonsterFactory;
 import boardelement.WizardFactory;
 import constant.AllConstant;
@@ -22,19 +19,14 @@ public class JSONDataGameModifierDao extends JSONDataGameReaderDao implements ID
 	public JSONDataGameModifierDao() {
 		//Empty constructor
 	}
-	
-	
-	
-	public void addMonster(MonsterFactory mf) throws IOException {
-		add(monstersFileName, mf, MonsterFactory[].class);
+
+
+
+	@Override
+	public boolean cardExists(String name) throws IOException {
+		return getCards(c -> name.compareTo(c.getName())==0).length > 0;
 	}
 	
-	public void clearMonsters() throws IOException {
-		clear(monstersFileName);
-	}
-
-
-
 	@Override
 	public void addCard(Card card) throws IOException {
 		add(cardsFileName, card, Card[].class);
@@ -56,6 +48,11 @@ public class JSONDataGameModifierDao extends JSONDataGameReaderDao implements ID
 
 
 	@Override
+	public boolean hordeExists(String name) throws IOException {
+		return getHordes(h -> name.compareTo(h.getName())==0).length > 0;
+	}
+	
+	@Override
 	public void addHorde(Horde horde) throws IOException {
 		add(hordesFileName, horde, Horde[].class);
 	}
@@ -67,6 +64,11 @@ public class JSONDataGameModifierDao extends JSONDataGameReaderDao implements ID
 
 
 
+	@Override
+	public boolean incantationExists(String name) throws IOException {
+		return getIncantations(i -> name.compareTo(i.getName())==0).length > 0;
+	}
+	
 	@Override
 	public void addIncantation(Incantation inc) throws IOException {
 		add(incantationsFileName, inc, Incantation[].class);
@@ -88,11 +90,33 @@ public class JSONDataGameModifierDao extends JSONDataGameReaderDao implements ID
 	public void clearLevels() throws IOException {
 		clear(levelsFileName);
 	}
+	
+	
+
+	@Override
+	public boolean monsterExists(String name) throws IOException {
+		return getMonsters(mf -> name.compareTo(mf.getName())==0).length > 0;
+	}
+	
+	@Override
+	public void addMonster(MonsterFactory mf) throws IOException {
+		add(monstersFileName, mf, MonsterFactory[].class);
+	}
+
+	@Override
+	public void clearMonsters() throws IOException {
+		clear(monstersFileName);
+	}
 
 
 
 	@Override
-	public void addWizards(WizardFactory wf) throws IOException {
+	public boolean wizardExists(String name) throws IOException {
+		return getWizards(wf -> name.compareTo(wf.getName())==0).length > 0;
+	}
+	
+	@Override
+	public void addWizard(WizardFactory wf) throws IOException {
 		add(wizardsFileName, wf, WizardFactory[].class);
 	}
 
@@ -104,24 +128,21 @@ public class JSONDataGameModifierDao extends JSONDataGameReaderDao implements ID
 	
 	
 	
-	
+
 	private <T> void add(String fileName, T t, Class<T[]> tClass) throws IOException
 	{
 		File file = new File(getCompletePathFile(fileName));
-		ObjectMapper om = new ObjectMapper();
-		T[] tArray = om.readValue(file,tClass);
-		om.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+		T[] tArray = mapper.readValue(file,tClass);
 		ArrayList<T> tArrayList=new ArrayList<>(Arrays.asList(tArray));
 		tArrayList.add(t);
-		om.writeValue(file, tArrayList);
+		mapper.writeValue(file, tArrayList);
 	}
 	
 	private <T> void clear(String fileName) throws IOException
 	{
 		File file = new File(getCompletePathFile(fileName));
-		ObjectMapper om = new ObjectMapper();
 		ArrayList<T> tArrayList=new ArrayList<>();
-		om.writeValue(file, tArrayList);
+		mapper.writeValue(file, tArrayList);
 	}
 
 }

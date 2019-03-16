@@ -1,7 +1,5 @@
 package effect;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -14,6 +12,8 @@ import spell.ISpell;
 		include = As.PROPERTY,
 		property = "effectType")
 		@JsonSubTypes({
+			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addCardEffect"),
+			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addChoosenCardEffect"),
 			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addWordEffect"),
 			@JsonSubTypes.Type(value = BanishEffect.class, name = "banishEffect"),
 			@JsonSubTypes.Type(value = BurnEffect.class, name = "burnEffect"),
@@ -53,11 +53,8 @@ import spell.ISpell;
 			@JsonSubTypes.Type(value = WordEffect.class, name = "wordEffect"),
 			@JsonSubTypes.Type(value = YouCanEffect.class, name = "youCanEffect"),
 		})
-
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public interface IEffect
 {
-	@JsonIgnore
 	public String getDescription();
 	public void prepare(Game game, ISpell spell);
 	public void clean();

@@ -23,6 +23,8 @@ public class CardEffect extends OneValueEffect
 	protected ZoneType zoneDest;
 	protected ZonePick pickDest;
 
+	
+	
 	public CardEffect() { 
 		super();
 	}
@@ -43,6 +45,8 @@ public class CardEffect extends OneValueEffect
 		this.zoneDest = zoneDest;
 		this.pickDest = pickDest;
 	}
+	
+	
 	
 	@Override
 	public ICondition matchingCondition()

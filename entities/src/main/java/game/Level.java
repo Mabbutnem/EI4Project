@@ -2,10 +2,8 @@ package game;
 
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.google.common.base.Preconditions;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Level
 {
 	private int difficulty;
@@ -15,8 +13,6 @@ public class Level
 	public Level() {
 		//Empty constructor for jackson
 	}
-	
-	
 	
 	public Level(int difficulty, Map<String, Integer> mapHordesFrequencies) {
 		Preconditions.checkArgument(difficulty > 0, "difficulty was %s but expected strictly positive", difficulty);

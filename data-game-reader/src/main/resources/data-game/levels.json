@@ -1,18 +1,34 @@
 [
 	{
-		"difficulty": 10,
+		"difficulty": 1,
 		"mapHordesFrequencies": {
 			"horde1": 1,
-			"horde3": 3,
+			"horde3": 1,
+			"horde2": 1
+		}
+	},
+	{
+		"difficulty": 2,
+		"mapHordesFrequencies": {
+			"horde1": 2,
+			"horde3": 2,
 			"horde2": 2
 		}
 	},
 	{
-		"difficulty": 10,
+		"difficulty": 2,
 		"mapHordesFrequencies": {
-			"horde1": 1,
+			"horde1": 3,
 			"horde3": 3,
-			"horde2": 2
+			"horde2": 3
+		}
+	},
+	{
+		"difficulty": 2,
+		"mapHordesFrequencies": {
+			"horde1": 4,
+			"horde3": 4,
+			"horde2": 4
 		}
 	}
 ]

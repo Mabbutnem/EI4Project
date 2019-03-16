@@ -1,5 +1,7 @@
 package spell;
 
+import java.util.Arrays;
+
 import effect.ConditionalEffect;
 import effect.IEffect;
 import effect.TargetableEffect;
@@ -10,6 +12,10 @@ import utility.INamedObject;
 public class Incantation extends Spell
 {
 
+	public Incantation() {
+		super();
+	}
+	
 	public Incantation(String name, IEffect[] effects)
 	{
 		super(name, effects);
@@ -19,6 +25,8 @@ public class Incantation extends Spell
 		//				you have to set the first effect has a CHOICE target type effect
 		verifyChoiceTargetableEffectIsFirstOrNotAfter(effects, true);
 	}
+	
+	
 	
 	// !!! recursive function !!!
 	private void verifyChoiceTargetableEffectIsFirstOrNotAfter(IEffect[] effects, boolean isRoot)
@@ -70,5 +78,13 @@ public class Incantation extends Spell
 	@Override
 	public INamedObject cloneObject() {
 		return new Incantation(this);
+	}
+
+	
+	
+	@Override
+	public String toString() {
+		return "Incantation [name=" + name + ", effects=" + Arrays.toString(effects) + ", description=" + description
+				+ ", choosenTarget=" + choosenTarget + ", words=" + words + "]";
 	}
 }

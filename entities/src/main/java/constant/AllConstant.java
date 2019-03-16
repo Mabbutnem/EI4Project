@@ -1,12 +1,9 @@
 package constant;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import boardelement.Corpse;
 import boardelement.Wizard;
 import game.Game;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class AllConstant
 {
 	private WizardConstant wizardConstant;

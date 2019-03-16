@@ -1,5 +1,6 @@
 package effect;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import target.Target;
@@ -7,13 +8,18 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("discardEffect")
-public class DiscardEffect extends CardEffect {
+@JsonIgnoreProperties({ "zoneDest", "pickDest" })
+public class DiscardEffect extends CardEffect
+{
 
 	public DiscardEffect() { 
 		super();
+		zoneDest = ZoneType.DISCARD;
+		pickDest = ZonePick.DEFAULT;
 	}
 	
-	public DiscardEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource) {
+	public DiscardEffect(Target target, int value, ZoneType zoneSource, ZonePick pickSource)
+	{
 		super(target, value, zoneSource, pickSource, ZoneType.DISCARD, ZonePick.DEFAULT);
 	}
 	

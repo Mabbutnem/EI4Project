@@ -13,7 +13,8 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("castEffect")
-public class CastEffect extends CardEffect {
+public class CastEffect extends CardEffect
+{
 
 	public CastEffect() { 
 		super();
@@ -23,6 +24,8 @@ public class CastEffect extends CardEffect {
 			ZoneType zoneSource, ZonePick pickSource, ZoneType zoneDest, ZonePick pickDest) {
 		super(target, value, zoneSource, pickSource, zoneDest, pickDest);
 	}
+	
+	
 	
 	@Override
 	public String getDescription() {

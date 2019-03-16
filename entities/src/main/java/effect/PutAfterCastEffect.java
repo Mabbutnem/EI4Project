@@ -2,31 +2,33 @@ package effect;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-import boardelement.Character;
 import condition.ICondition;
 import condition.TrueCondition;
 import game.Game;
 import spell.ISpell;
-import target.Target;
 import zone.ZonePick;
 import zone.ZoneType;
 
 @JsonTypeName("putAfterCastEffect")
-public class PutAfterCastEffect extends TargetableEffect {
+public class PutAfterCastEffect implements IApplicableEffect {
 
-	private ZoneType zoneDest;
-	private ZonePick pickDest;
+	protected ZoneType zoneDest;
+	protected ZonePick pickDest;
+	
+	
 	
 	public PutAfterCastEffect() { 
 		super();
 	}
 	
-	public PutAfterCastEffect(Target target, ZoneType zoneDest, ZonePick pickDest) {
-		super(target);
+	public PutAfterCastEffect(ZoneType zoneDest, ZonePick pickDest) {
+		super();
 		this.zoneDest = zoneDest;
 		this.pickDest = pickDest;
 	}
 
+	
+	
 	@Override
 	public ICondition matchingCondition() {
 		return new TrueCondition();
@@ -48,7 +50,7 @@ public class PutAfterCastEffect extends TargetableEffect {
 	}
 
 	@Override
-	protected void applyOn(Character character, Game game, ISpell spell) {
+	public void apply(Game game, ISpell spell) {
 		game.getCastZone().setCurrentZoneTypeDest(zoneDest);
 		game.getCastZone().setCurrentZonePickDest(pickDest);
 	}
