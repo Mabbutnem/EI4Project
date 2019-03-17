@@ -23,7 +23,7 @@ import constant.GameConstant;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import listener.ICardDAOListener;
+import listener.ICardDaoListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -35,10 +35,11 @@ import zone.ZoneType;
 
 public class Game
 {
-	private static ICardDAOListener cardDaoListener;
+	private static ICardDaoListener cardDaoListener;
 	
 	private static GameConstant gameConstant;
 
+	private String name;
 	private int nbWizards;
 	private int nbMonstersAndCorpses;
 	private Character currentCharacter;
@@ -52,7 +53,7 @@ public class Game
 	
 	
 	
-	public Game(Wizard[] wizards)
+	public Game(String name, Wizard[] wizards)
 	{
 		Preconditions.checkState(cardDaoListener != null, "cardDaoListener was not initialised (in static)");
 		
@@ -62,6 +63,7 @@ public class Game
 				wizards.length, gameConstant.getNbWizard());
 		
 		
+		this.name = name;
 		nbWizards = gameConstant.getNbWizard();
 		nbMonstersAndCorpses = 0;
 		currentCharacter = null;
@@ -81,11 +83,28 @@ public class Game
 
 
 	
-	public static void setCardDaoListener(ICardDAOListener cardDAOListener) { Game.cardDaoListener = cardDAOListener; }
+	public static void setCardDaoListener(ICardDaoListener cardDaoListener) { Game.cardDaoListener = cardDaoListener; }
 	
 	public static GameConstant getGameConstant() { return gameConstant; }
 	public static void setGameConstant(GameConstant gameConstant) { Game.gameConstant = gameConstant; }
 
+	
+	
+	//Info:
+	public String getName() {
+		return name;
+	}
+	
+	public String[] getWizardsName() {
+		List<String> stringList = new LinkedList<>();
+		
+		for(Wizard w : getWizards()) {
+			stringList.add(w.getName());
+		}
+		
+		return stringList.toArray(new String[0]);
+	}
+	
 	
 	
 	//Card DAO listener:

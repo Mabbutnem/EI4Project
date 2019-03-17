@@ -29,9 +29,9 @@ import utility.Proba;
 public class JSONDataGameReaderDao implements IDataGameReaderDao
 {
 	@Autowired
-	private String directoryName;
+	private String dataGameDirectoryName;
 	@Autowired
-	private String extentionName;
+	protected String extentionName;
 	
 	@Autowired
 	protected String cardsFileName;
@@ -246,7 +246,7 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 	
 	
 	
-	private String getProjectPath() throws IOException
+	protected String getProjectPath() throws IOException
 	{
 		String projectPath = new File(".").getCanonicalPath();
 		projectPath = projectPath.substring(0, projectPath.lastIndexOf('\\'));
@@ -256,6 +256,6 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 	
 	protected String getCompletePathFile(String fileName) throws IOException
 	{
-		return getProjectPath()+directoryName+fileName+extentionName;
+		return getProjectPath()+dataGameDirectoryName+fileName+extentionName;
 	}
 }

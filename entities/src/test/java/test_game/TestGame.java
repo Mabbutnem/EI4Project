@@ -25,7 +25,7 @@ import game.Game;
 import game.Horde;
 import game.Level;
 import javafx.collections.ListChangeListener;
-import listener.ICardDAOListener;
+import listener.ICardDaoListener;
 import spell.Card;
 import spell.Incantation;
 import target.TargetConstraint;
@@ -37,6 +37,8 @@ import zone.ZoneType;
 public class TestGame
 {
 	private Game g;
+	
+	private ICardDaoListener cardDAOListener;
 	
 	private GameConstant gameConstant;
 	
@@ -60,7 +62,7 @@ public class TestGame
 	@Before
 	public void setUp() throws Exception
 	{
-		Game.setCardDaoListener(mock(ICardDAOListener.class));
+		Game.setCardDaoListener(cardDAOListener = mock(ICardDaoListener.class));
 		
 		Game.setGameConstant(gameConstant = mock(GameConstant.class));
 		when(gameConstant.getBoardLenght()).thenReturn(6);
@@ -92,13 +94,58 @@ public class TestGame
 		
 		c0 = mock(Corpse.class);
 		
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 	}
 
 	@After
 	public void tearDown() throws Exception {
 	}
 
+	
+	
+	//Info
+	@Test
+	public final void testGetName()
+	{
+		String expected = "game1";
+		String result = g.getName();
+		assertEquals(expected, result);
+	}
+
+	@Test
+	public final void testGetWizardsName()
+	{
+		String[] expected = new String[] { "w", "w0" };
+		String[] result = g.getWizardsName();
+		assertArrayEquals(expected, result);
+	}
+	
+	
+	
+	//Card DAO listener
+	@Test
+	public final void testGetCard()
+	{
+		Card card1 = mock(Card.class);
+		when(cardDAOListener.getCard("card1")).thenReturn(card1);
+		
+		Card expected = card1;
+		Card result = g.getCard("card1");
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testGetCards()
+	{
+		Card[] cards = new Card[] { mock(Card.class), mock(Card.class), mock(Card.class) };
+		String[] names = new String[] {"card1", "card2", "card5"};
+		when(cardDAOListener.getCards(names)).thenReturn(cards);
+		
+		Card[] expected = cards;
+		Card[] result = g.getCards(names);
+		assertArrayEquals(expected, result);
+	}
+	
 	
 	
 	//finish and win condition
@@ -119,7 +166,7 @@ public class TestGame
 		
 
 		//If all level completed
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		
 		g.nextEmptyLevel(); //LevelDifficulty = 1 < 5 --> not finished
 		
@@ -151,7 +198,7 @@ public class TestGame
 		
 		
 		//If wizards are remaining
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		
 		g.nextEmptyLevel();
 		g.nextEmptyLevel();
@@ -1706,7 +1753,7 @@ public class TestGame
 		
 		
 		//Si il n'y a pas suffisament de monstre à faire spawn (ici 2 par tour alors qu'il n'y en a que 1)
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		g.setMonsterToSpawn(new MonsterFactory[] {mf1} );
 		
 		g.nextMonsterWave(incantations);
@@ -1724,7 +1771,7 @@ public class TestGame
 		
 		
 		//Si le nombre de monstre à faire spawn est inférieur au nombre minimum de monstre requis (ici 2 par tour alors que le min est 3)
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		when(gameConstant.getNbMonstersMin()).thenReturn(3);
 		g.setMonsterToSpawn(new MonsterFactory[] {mf1, mf2, mf3} );
 		
@@ -1751,7 +1798,7 @@ public class TestGame
 		
 		
 		//Si le nombre de monstre à faire spawn est supérieur au nombre maximum de monstre possible (ici 2 par tour alors que le max est 1)
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		when(gameConstant.getNbMonstersMin()).thenReturn(0);
 		when(gameConstant.getNbMonstersMax()).thenReturn(1);
 		g.setMonsterToSpawn(new MonsterFactory[] {mf1, mf2, mf3} );
@@ -2091,7 +2138,7 @@ public class TestGame
 		
 
 		//If a wizard is the current character
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		g.setCurrentCharacter(w0);
 		g.clearBoard(w0);
 		
@@ -2106,7 +2153,7 @@ public class TestGame
 		
 
 		//If a monster is not the current character
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		g.spawnMonster(m);
 		g.clearBoard(m);
 
@@ -2125,7 +2172,7 @@ public class TestGame
 		
 
 		//If a monster is the current character
-		g = new Game(new Wizard[] { w, w0 });
+		g = new Game("game1", new Wizard[] { w, w0 });
 		g.spawnMonster(m0);
 		g.spawnMonster(m);
 		g.setCurrentCharacter(m);

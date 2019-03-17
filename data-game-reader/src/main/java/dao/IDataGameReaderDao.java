@@ -7,11 +7,11 @@ import boardelement.WizardFactory;
 import constant.AllConstant;
 import game.Horde;
 import game.Level;
-import listener.ICardDAOListener;
+import listener.ICardDaoListener;
 import spell.Card;
 import spell.Incantation;
 
-public interface IDataGameReaderDao extends ICardDAOListener
+public interface IDataGameReaderDao extends ICardDaoListener
 {
 	Card getCard(String name);
 	Card[] getCards(String[] names);
