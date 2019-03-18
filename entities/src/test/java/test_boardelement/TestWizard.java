@@ -70,8 +70,8 @@ public class TestWizard
 	@Before
 	public void setUp() throws Exception
 	{
-		Zone.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
-		ZoneGroup.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
+		Zone.setCardArrayRequestListener(mock(MockCardArrayDisplayListener.class));
+		ZoneGroup.setCardArrayRequestListener(mock(MockCardArrayDisplayListener.class));
 		
 		wConstant = mock(WizardConstant.class);
 		Wizard.setWizardConstant(wConstant);

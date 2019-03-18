@@ -57,7 +57,7 @@ public class TestZone
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayDisplayListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
+		Zone.setCardArrayRequestListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
 		
 		addedCards = new Card[]
 				{
@@ -97,7 +97,7 @@ public class TestZone
 	@Test (expected = IllegalStateException.class)
 	public final void testZoneException1() {
 		//cardArrayRequestListener n'a pas été initialisé
-		Zone.setCardArrayDisplayListener(null);
+		Zone.setCardArrayRequestListener(null);
 		zone = new Zone(cards, ZoneType.BURN, ZonePick.TOP);
 	}
 	

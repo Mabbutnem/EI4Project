@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 import characterlistener.IManaListener;
@@ -19,6 +20,7 @@ public class Wizard extends Character
 {
 	private static WizardConstant wizardConstant;
 	
+	@JsonIgnore
 	private final ListChangeListener<Card> deathWhenDeckIsEmptyListener;
 	
 	private int mana;

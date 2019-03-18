@@ -1,34 +1,48 @@
 [
 	{
-		"name": "Card1",
+		"name": "card1",
 		"effects": [
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "Card2",
+		"name": "card2",
 		"effects": [
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "Card3",
+		"name": "card3",
 		"effects": [
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "Card4",
+		"name": "card4",
 		"effects": [
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "Card5",
+		"name": "card5",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "card6",
+		"effects": [
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "card7",
 		"effects": [
 		],
 		"cost": 1,

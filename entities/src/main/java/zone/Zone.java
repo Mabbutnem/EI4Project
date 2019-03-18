@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import javafx.collections.FXCollections;
@@ -18,6 +20,7 @@ public class Zone implements IZone
 	
 	private static ICardArrayRequestListener cardArrayDisplayListener;
 	
+	@JsonIgnore
 	private ObservableList<Card> cards;
 	private final ZoneType zoneType;
 	private final ZonePick defaultZonePick;
@@ -48,7 +51,7 @@ public class Zone implements IZone
 	
 	
 	
-	public static void setCardArrayDisplayListener(ICardArrayRequestListener cardArrayDisplayListener) {
+	public static void setCardArrayRequestListener(ICardArrayRequestListener cardArrayDisplayListener) {
 		Zone.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
 	
@@ -198,6 +201,7 @@ public class Zone implements IZone
 		}
 	}
 
+    @JsonProperty("cards")
 	public Card[] getCards() {
 		return cards.toArray(new Card[0]);
 	}

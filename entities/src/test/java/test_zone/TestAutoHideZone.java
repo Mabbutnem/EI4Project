@@ -54,7 +54,7 @@ public class TestAutoHideZone
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayDisplayListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
+		Zone.setCardArrayRequestListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
 		
 		addedCards = new Card[]
 				{

@@ -44,7 +44,7 @@ public class TestAutoRevealZone
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayDisplayListener(mock(MockCardArrayDisplayListener.class));
+		Zone.setCardArrayRequestListener(mock(MockCardArrayDisplayListener.class));
 		
 		addedCards = new Card[]
 				{

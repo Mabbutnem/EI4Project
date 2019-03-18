@@ -47,7 +47,7 @@ public class ZoneGroup
 	
 
 	
-	public static void setCardArrayDisplayListener(ICardArrayRequestListener cardArrayDisplayListener) {
+	public static void setCardArrayRequestListener(ICardArrayRequestListener cardArrayDisplayListener) {
 		ZoneGroup.cardArrayDisplayListener = cardArrayDisplayListener;
 	}
 

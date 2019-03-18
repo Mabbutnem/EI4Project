@@ -36,6 +36,7 @@ public class Card extends ManaCostSpell
 	public Card(Card c)
 	{
 		super(c.getName(), c.getEffects(), c.getCost());
+		listeners = new EventListenerList();
 		revealed = c.isRevealed();
 	}
 	

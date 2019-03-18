@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.event.EventListenerList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 import characterlistener.*;
@@ -26,7 +27,8 @@ public abstract class Character implements IBoardElement
 	private boolean hasDashed;
 	private boolean freeze;
 	private List<Word> words;
-	
+
+	@JsonIgnore
 	protected EventListenerList listeners;
 	
 	

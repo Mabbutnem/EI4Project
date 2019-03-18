@@ -1,6 +1,7 @@
 package game;
 
 import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Booleans;
 
@@ -33,6 +36,7 @@ import zone.CastZone;
 import zone.ZonePick;
 import zone.ZoneType;
 
+
 public class Game
 {
 	private static ICardDaoListener cardDaoListener;
@@ -43,15 +47,31 @@ public class Game
 	private int nbWizards;
 	private int nbMonstersAndCorpses;
 	private Character currentCharacter;
+	@JsonIgnore
 	private ObservableList<IBoardElement> board;
+	@JsonIgnore
 	private ObservableList<Boolean> wizardsRange;
+	@JsonIgnore
 	private ObservableList<Boolean> currentCharacterRange;
 	private boolean wizardsTurn;
 	private CastZone castZone;
+	@JsonIgnore
 	private Queue<MonsterFactory> monstersToSpawn;
 	private int levelDifficulty;
 	
 	
+	
+	public Game()
+	{
+		board = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { board.add(null); }
+		wizardsRange = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { wizardsRange.add(false); }
+		currentCharacterRange = FXCollections.observableArrayList();
+		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { currentCharacterRange.add(false); }
+		
+		monstersToSpawn = new LinkedBlockingQueue<>();
+	}
 	
 	public Game(String name, Wizard[] wizards)
 	{
@@ -94,7 +114,8 @@ public class Game
 	public String getName() {
 		return name;
 	}
-	
+
+	@JsonIgnore
 	public String[] getWizardsName() {
 		List<String> stringList = new LinkedList<>();
 		
@@ -108,11 +129,13 @@ public class Game
 	
 	
 	//Card DAO listener:
+	@JsonIgnore
 	public Card getCard(String name)
 	{
 		return cardDaoListener.getCard(name);
 	}
-	
+
+	@JsonIgnore
 	public Card[] getCards(String[] names)
 	{
 		return cardDaoListener.getCards(names);
@@ -121,11 +144,13 @@ public class Game
 	
 	
 	//finish and win condition
+	@JsonIgnore
 	public boolean isFinished()
 	{
 		return nbWizards == 0 || levelDifficulty > gameConstant.getLevelMaxDifficulty();
 	}
-	
+
+	@JsonIgnore
 	public boolean isVictory()
 	{
 		Preconditions.checkState(isFinished(), "To check if it's a victory, the game must be finished");
@@ -139,19 +164,21 @@ public class Game
 	public Character getCurrentCharacter() {
 		return currentCharacter;
 	}
-	
+
 	public void setCurrentCharacter(Character character) {
 		this.currentCharacter = character;
 		refreshCurrentCharacterRange();
 	}
 
+	@JsonIgnore
 	public void setCurrentCharacter(int currentCharacterIdx)
 	{
 		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
 		
 		setCurrentCharacter((Character) board.get(currentCharacterIdx));
 	}
-	
+
+	@JsonIgnore
 	public void setFirstWizardAsCurrentCharacter()
 	{
 		int i = 0;
@@ -205,7 +232,8 @@ public class Game
 		
 		return characters.toArray(new Character[0]);
 	}
-	
+
+	@JsonIgnore
 	public Character getRandomAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
 		Character[] characters = getAllAvailableTargetForCurrentCharacter(constraints);
@@ -215,23 +243,27 @@ public class Game
 		
 		return characters[Proba.nextInt(characters.length)];
 	}
-	
+
+	@JsonIgnore
 	public Character[] getAllAvailableTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
 		return filterTargetByConstraintForCurrentCharacter(getAllVisibleTargetForCurrentCharacter(), constraints);
 	}
-	
+
+	@JsonIgnore
 	public boolean isValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
 	{
 		return Arrays.asList(getAllAvailableTargetForCurrentCharacter(constraints)).contains(character);
 	}
-	
+
+	@JsonIgnore
 	public boolean hasValidTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
 		return getAllAvailableTargetForCurrentCharacter(constraints).length > 0;
 	}
 	
 	//Targets for the AI of monsters
+	@JsonIgnore
 	public Character[] getAllPossibleTargetForCurrentCharacter(TargetConstraint[] constraints)
 	{
 		int currentCharacterIdx = getBoardElementIdx(getCurrentCharacter());
@@ -271,15 +303,18 @@ public class Game
 			}
 		}
 	}
-	
+
+    @JsonProperty("currentCharacterRange")
 	public boolean[] getCurrentCharacterRange() {
 		return Booleans.toArray(currentCharacterRange);
 	}
-	
+
+	@JsonIgnore
 	public void addCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
 		currentCharacterRange.addListener(listener);
 	}
-	
+
+	@JsonIgnore
 	public void removeCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
 		currentCharacterRange.removeListener(listener);
 	}
@@ -306,15 +341,18 @@ public class Game
 		}
 		
 	}
-	
+
+    @JsonProperty("wizardsRange")
 	public boolean[] getWizardsRange() {
 		return Booleans.toArray(wizardsRange);
 	}
-	
+
+	@JsonIgnore
 	public void addWizardsRangeListener(ListChangeListener<Boolean> listener) {
 		wizardsRange.addListener(listener);
 	}
-	
+
+	@JsonIgnore
 	public void removeWizardsRangeListener(ListChangeListener<Boolean> listener) {
 		wizardsRange.removeListener(listener);
 	}
@@ -322,17 +360,21 @@ public class Game
 
 
 	//The board
+    @JsonProperty("board")
 	public IBoardElement[] getBoard() {
 		return board.toArray(new IBoardElement[0]);
 	}
-	
+
+	@JsonIgnore
 	public void addBoardListener(ListChangeListener<IBoardElement> listener) {
 		board.addListener(listener);
 	}
-	
+
+	@JsonIgnore
 	public void removeBoardListener(ListChangeListener<IBoardElement> listener) {
 		board.removeListener(listener);
 	}
+	
 
 	public void setBoard(IBoardElement[] board)
 	{
@@ -355,7 +397,8 @@ public class Game
 		refreshCurrentCharacterRange();
 		refreshWizardsRange();
 	}
-	
+
+	@JsonIgnore
 	public int nbBoardElements()
 	{
 		return nbWizards + nbMonstersAndCorpses;
@@ -364,6 +407,7 @@ public class Game
 	
 	
 	//The movements
+	@JsonIgnore
 	public int elementaryMove(Character character, int delta) //return statement : the actual delta you have done
 	{
 		int characterIdx = getBoardElementIdx(character);
@@ -407,7 +451,8 @@ public class Game
 		
 		return delta;
 	}
-	
+
+	@JsonIgnore
 	public void rightWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, 1);
@@ -415,7 +460,8 @@ public class Game
 		character.loseMove(actualDelta);
 		if(actualDelta > 0) { refreshRange(character); }
 	}
-	
+
+	@JsonIgnore
 	public void leftWalk(Character character)
 	{
 		int actualDelta = elementaryMove(character, -1);
@@ -423,7 +469,8 @@ public class Game
 		character.loseMove(actualDelta);
 		if(actualDelta > 0) { refreshRange(character); }
 	}
-	
+
+	@JsonIgnore
 	public void rightDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, character.getDash());
@@ -435,7 +482,8 @@ public class Game
 			refreshRange(character);
 		}
 	}
-	
+
+	@JsonIgnore
 	public void leftDash(Character character)
 	{
 		int actualDelta = elementaryMove(character, -character.getDash());
@@ -447,7 +495,8 @@ public class Game
 			refreshRange(character);
 		}
 	}
-	
+
+	@JsonIgnore
 	public void push(Character referenceCharacter, Character[] characters, int delta)
 	{
 		Preconditions.checkArgument(characters != null, "characters was null but expected not null");
@@ -491,7 +540,8 @@ public class Game
 		if(currentCharacterDetected) {refreshCurrentCharacterRange();}
 		if(wizardDetected) {refreshWizardsRange();}
 	}
-	
+
+	@JsonIgnore
 	public void pull(Character referenceCharacter, Character[] characters, int delta)
 	{
 		Preconditions.checkArgument(characters != null, "characters was null but expected not null");
@@ -542,7 +592,8 @@ public class Game
 	public boolean isWizardsTurn() {
 		return wizardsTurn;
 	}
-	
+
+	@JsonIgnore
 	public void beginWizardsTurn()
 	{
 		Preconditions.checkState(!isWizardsTurn(), "in order to begin wizard's turn, it has to not be wizard's turn");
@@ -557,7 +608,8 @@ public class Game
 			w.getZoneGroup().transfer(ZoneType.DECK, ZonePick.TOP, ZoneType.HAND, ZonePick.DEFAULT, 1);
 		}
 	}
-	
+
+	@JsonIgnore
 	public void endWizardsTurn()
 	{
 		Preconditions.checkState(isWizardsTurn(), "in order to end wizard's turn, it has to be wizard's turn");
@@ -577,22 +629,26 @@ public class Game
 		
 		nextMonster();
 	}
-	
+
+	@JsonIgnore
 	public boolean currentCharacterInWizardsRange()
 	{
 		return getCurrentCharacter() != null && wizardsRange.get(getBoardElementIdx(getCurrentCharacter())); 
 	}
-	
+
+	@JsonIgnore
 	public void playMonstersTurnPart1()
 	{
 		//TODO
 	}
-	
+
+	@JsonIgnore
 	public void playMonstersTurnPart2()
 	{
 		//TODO
 	}
-	
+
+	@JsonIgnore
 	public void nextMonster()
 	{
 		Preconditions.checkState(!isWizardsTurn(), "in order to fetch next monster's index, it has to be monster's turn");
@@ -660,7 +716,8 @@ public class Game
 			}
 		}
 	}
-	
+
+	@JsonIgnore
 	public boolean monstersTurnEnded()
 	{
 		return getCurrentCharacter() == null && !isWizardsTurn();
@@ -767,6 +824,7 @@ public class Game
 	
 	
 	//Monster's spawn
+	@JsonProperty("monstersToSpawn")
 	public MonsterFactory[] getMonstersToSpawn()
 	{
 		return monstersToSpawn.toArray(new MonsterFactory[0]);
@@ -801,13 +859,14 @@ public class Game
 			}
 		}
 	}
-	
+
 	public void setMonsterToSpawn(MonsterFactory[] monsterFactory) //For the tests
 	{
 		monstersToSpawn.clear();
 		for( MonsterFactory mf : monsterFactory) { monstersToSpawn.add(mf); }
 	}
-	
+
+	@JsonIgnore
 	public void spawnMonster(Monster monster) //In public for the tests
 	{
 		Preconditions.checkState(nbBoardElements() < board.size(), "No space for an additional monster");
@@ -838,7 +897,8 @@ public class Game
 		//On incrémente le nombre de monstres ou de cadavres sur le board
 		nbMonstersAndCorpses++;
 	}
-	
+
+	@JsonIgnore
 	public void nextMonsterWave(Incantation[] incantations)
 	//incantations : all incantations from the JSON file
 	{
@@ -882,12 +942,14 @@ public class Game
 	public int getLevelDifficulty() {
 		return levelDifficulty;
 	}
-	
+
+	@JsonIgnore
 	public boolean levelFinished()
 	{
 		return nbMonstersAndCorpses == 0 && monstersToSpawn.isEmpty();
 	}
-	
+
+	@JsonIgnore
 	public void nextLevel(Level level, Horde[] hordes, MonsterFactory[] monsterFactory, WizardFactory[] wizardFactory, Card[] cards)
 	//hordes : all hordes from the JSON file
 	//monsterFactory : all monsterFactories from the JSON file
@@ -910,7 +972,8 @@ public class Game
 		moveWizardsToTheirSpawns();
 		resetWizardsForNextLevel(wizardFactory, cards);
 	}
-	
+
+	@JsonIgnore
 	public void nextEmptyLevel() //For the tests
 	{
 		levelDifficulty++;
@@ -919,6 +982,7 @@ public class Game
 
 
 	//Triggered methods
+	@JsonIgnore
 	public void clearBoard(Character character)
 	{
 		int idx = getBoardElementIdx(character);

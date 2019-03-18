@@ -83,9 +83,9 @@ public class TestZoneGroup
 
 	@Before
 	public void setUp() throws Exception {
-		Zone.setCardArrayDisplayListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
+		Zone.setCardArrayRequestListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
 		
-		ZoneGroup.setCardArrayDisplayListener(cardArrayDisplayListener);
+		ZoneGroup.setCardArrayRequestListener(cardArrayDisplayListener);
 		
 		cards = new Card[]
 				{
@@ -150,7 +150,7 @@ public class TestZoneGroup
 	@Test (expected = IllegalStateException.class)
 	public final void testZoneGroupException()
 	{
-		ZoneGroup.setCardArrayDisplayListener(null);
+		ZoneGroup.setCardArrayRequestListener(null);
 		zoneGroup = new ZoneGroup(cards);
 	}
 	
