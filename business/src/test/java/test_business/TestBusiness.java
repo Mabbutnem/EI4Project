@@ -2,12 +2,17 @@ package test_business;
 
 import static org.mockito.Mockito.mock;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import boardelement.Wizard;
+import boardelement.WizardFactory;
 import business.IBusiness;
 import config.BusinessConfig;
 import game.Game;
@@ -20,8 +25,8 @@ import zone.ZoneGroup;
 @ContextConfiguration(classes= (BusinessConfig.class))
 public class TestBusiness
 {
-	//@Autowired
-	//IBusiness business;
+	@Autowired
+	IBusiness business;
 
 	@Test
 	public final void test()
@@ -33,7 +38,6 @@ public class TestBusiness
 		
 		try
 		{
-			//System.out.println(business);
 		}
 		catch (Exception e)
 		{

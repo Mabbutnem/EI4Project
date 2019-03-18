@@ -11,12 +11,13 @@ import zone.CastZone;
 public interface IBusiness
 {
 	//Gestion des games
+	public void initAllConstant() throws IOException;
 	public Game[] getGames() throws IOException;
 	public boolean gameExists(String name) throws IOException;
 	public WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException;
 	public void newGame(Game game) throws IOException;
-	public Game loadGame(String name) throws IOException;
-	public void saveGame(Game game) throws IOException;
+	public void loadGame(String name) throws IOException;
+	public void saveGame() throws IOException;
 	public void deleteGame(Game game) throws IOException;
 	
 	/*

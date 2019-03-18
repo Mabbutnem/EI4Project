@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Preconditions;
+
 import boardelement.IBoardElement;
 import boardelement.WizardFactory;
 import boardelement.Character;
@@ -21,16 +23,10 @@ public class Business implements IBusiness
 	
 	
 	
-	public Business()
-	{
-		try { dao.getConstant().initAllConstant(); }
-		catch (IOException e) {
-			throw new IllegalStateException("Constants were not well initialised");
-		}
+	
+	public void initAllConstant() throws IOException {
+		dao.getConstant().initAllConstant();
 	}
-
-	
-	
 	
 	public Game[] getGames() throws IOException {
 		return dao.getGames();
@@ -46,18 +42,22 @@ public class Business implements IBusiness
 
 	public void newGame(Game game) throws IOException {
 		dao.newGame(game);
+		loadGame(game.getName());
 	}
 
-	public Game loadGame(String name) throws IOException {
-		return dao.loadGame(name);
+	public void loadGame(String name) throws IOException {
+		this.game = dao.loadGame(name);
 	}
 
-	public void saveGame(Game game) throws IOException {
+	public void saveGame() throws IOException {
+		Preconditions.checkState(game != null, "game was null be expected not null");
+		
 		dao.saveGame(game);
 	}
 
 	public void deleteGame(Game game) throws IOException {
 		dao.deleteGame(game);
+		if(game == this.game) { this.game = null; }
 	}
 
 	
