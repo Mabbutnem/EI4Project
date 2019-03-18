@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import boardelement.Wizard;
+import boardelement.Character;
+import boardelement.Monster;
 import config.DaoConfig;
 import dao.IDao;
 import game.Game;
@@ -40,9 +42,16 @@ public class TestJSONDao
 			Wizard t = new Wizard(dao.getWizards()[2], dao.getCards());
 			Wizard l = new Wizard(dao.getWizards()[3], dao.getCards());
 			
-			Game g = new Game("game1", new Wizard[] { f, t, l });
+			Game g = new Game("game2", new Wizard[] { f, t, l });
+
+			g.nextLevel(dao.getRandomLevel(1), dao.getHordes(),
+					dao.getMonsters(), dao.getWizards(), dao.getCards());
 			
-			dao.newGame(g);
+			g.nextMonsterWave(dao.getIncantations());
+			
+			((Character)g.getBoard()[g.getBoard().length-1]).setAlive(false);
+			
+			dao.saveGame(g);
 		}
 		catch (Exception e)
 		{

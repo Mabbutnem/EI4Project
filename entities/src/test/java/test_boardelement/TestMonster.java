@@ -244,6 +244,7 @@ public class TestMonster {
 	
 	@Test
 	public void TestReset() {
+		m.setAlive(false);
 		m.setHealth(55);
 		m.setArmor(10);
 		m.setRange(1);
@@ -270,6 +271,10 @@ public class TestMonster {
 		
 		boolean expectedB = false;
 		boolean resultB = m.isFreeze();
+		assertEquals(expectedB, resultB);
+		
+		expectedB = true;
+		resultB = m.isAlive();
 		assertEquals(expectedB, resultB);
 		
 	}

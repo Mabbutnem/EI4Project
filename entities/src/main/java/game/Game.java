@@ -11,6 +11,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Booleans;
 
@@ -37,6 +38,7 @@ import zone.ZonePick;
 import zone.ZoneType;
 
 
+@JsonPropertyOrder({"name", "monstersToSpawn", "board", "currentCharacter", "wizardsTurn", "levelDifficulty"})
 public class Game
 {
 	private static ICardDaoListener cardDaoListener;
@@ -44,8 +46,11 @@ public class Game
 	private static GameConstant gameConstant;
 
 	private String name;
+	@JsonIgnore
 	private int nbWizards;
+	@JsonIgnore
 	private int nbMonstersAndCorpses;
+	@JsonIgnore
 	private Character currentCharacter;
 	@JsonIgnore
 	private ObservableList<IBoardElement> board;
@@ -54,6 +59,7 @@ public class Game
 	@JsonIgnore
 	private ObservableList<Boolean> currentCharacterRange;
 	private boolean wizardsTurn;
+	@JsonIgnore
 	private CastZone castZone;
 	@JsonIgnore
 	private Queue<MonsterFactory> monstersToSpawn;
@@ -69,7 +75,8 @@ public class Game
 		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { wizardsRange.add(false); }
 		currentCharacterRange = FXCollections.observableArrayList();
 		for(int i = 0; i < gameConstant.getBoardLenght(); i++) { currentCharacterRange.add(false); }
-		
+
+		castZone = new CastZone();
 		monstersToSpawn = new LinkedBlockingQueue<>();
 	}
 	
@@ -161,21 +168,34 @@ public class Game
 
 
 	//Current character
+	@JsonIgnore
 	public Character getCurrentCharacter() {
 		return currentCharacter;
 	}
 
+	@JsonIgnore
 	public void setCurrentCharacter(Character character) {
 		this.currentCharacter = character;
 		refreshCurrentCharacterRange();
 	}
 
-	@JsonIgnore
+	@JsonProperty("currentCharacter")
+	public int getCurrentCharacterIdx()
+	{
+		return getCurrentCharacter() == null ? -1 : getBoardElementIdx(getCurrentCharacter());
+	}
+	
+	@JsonProperty("currentCharacter")
 	public void setCurrentCharacter(int currentCharacterIdx)
 	{
-		Preconditions.checkArgument(indexCorrespondToCharacter(currentCharacterIdx), "currentCharacterIdx don't correspond to a character");
-		
-		setCurrentCharacter((Character) board.get(currentCharacterIdx));
+		if(currentCharacterIdx < 0)
+		{
+			setCurrentCharacter(null);
+		}
+		else
+		{
+			setCurrentCharacter((Character) board.get(currentCharacterIdx));
+		}
 	}
 
 	@JsonIgnore
@@ -194,6 +214,7 @@ public class Game
 	
 	
 	//Targets for current character
+	@JsonIgnore
 	private List<Character> getAllVisibleTargetForCurrentCharacter()
 	{
 		List<Character> lc = new LinkedList<>();
@@ -304,7 +325,7 @@ public class Game
 		}
 	}
 
-    @JsonProperty("currentCharacterRange")
+	@JsonIgnore
 	public boolean[] getCurrentCharacterRange() {
 		return Booleans.toArray(currentCharacterRange);
 	}
@@ -342,7 +363,7 @@ public class Game
 		
 	}
 
-    @JsonProperty("wizardsRange")
+	@JsonIgnore
 	public boolean[] getWizardsRange() {
 		return Booleans.toArray(wizardsRange);
 	}
@@ -393,7 +414,6 @@ public class Game
 			nbWizards += elem instanceof Wizard ? 1 : 0;
 		}
 		
-		setFirstWizardAsCurrentCharacter();
 		refreshCurrentCharacterRange();
 		refreshWizardsRange();
 	}
@@ -726,6 +746,7 @@ public class Game
 
 
 	//Cast zone
+	@JsonIgnore
 	public CastZone getCastZone() {
 		return castZone;
 	}
@@ -860,7 +881,8 @@ public class Game
 		}
 	}
 
-	public void setMonsterToSpawn(MonsterFactory[] monsterFactory) //For the tests
+	@JsonProperty("monstersToSpawn")
+	public void setMonstersToSpawn(MonsterFactory[] monsterFactory) //For the tests
 	{
 		monstersToSpawn.clear();
 		for( MonsterFactory mf : monsterFactory) { monstersToSpawn.add(mf); }
@@ -1019,11 +1041,6 @@ public class Game
 	private boolean indexInBoardBounds(int idx)
 	{
 		return idx >= 0 && idx < board.size();
-	}
-	
-	private boolean indexCorrespondToCharacter(int idx)
-	{
-		return indexInBoardBounds(idx) && board.get(idx) instanceof Character;
 	}
 	
 	private int getBoardElementIdx(IBoardElement boardElement)

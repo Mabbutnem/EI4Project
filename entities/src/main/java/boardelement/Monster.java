@@ -2,12 +2,14 @@ package boardelement;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import spell.Incantation;
 import utility.MapConverter;
 import utility.Proba;
 
+@JsonTypeName("monster")
 public class Monster extends Character
 {
 	private boolean played;
@@ -22,6 +24,11 @@ public class Monster extends Character
 	private float[] incantationProbabilities;
 	
 	
+	
+	public Monster()
+	{
+		super();
+	}
 	
 	//incantations: all the incantations from the JSON file
 	public Monster(MonsterFactory monsterFactory, Incantation[] incantations)
@@ -117,6 +124,7 @@ public class Monster extends Character
 
 	public void reset()
 	{
+		setAlive(true);
 		resetHealth();
 		resetArmor();
 		resetMove();

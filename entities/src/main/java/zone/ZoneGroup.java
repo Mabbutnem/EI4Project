@@ -27,6 +27,11 @@ public class ZoneGroup
 	
 	
 	
+	public ZoneGroup()
+	{
+		
+	}
+	
 	public ZoneGroup(Card[] cards)
 	{
 		Preconditions.checkState(ZoneGroup.cardArrayDisplayListener != null, "cardArrayDisplayListener"

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import characterlistener.IManaListener;
@@ -16,6 +17,7 @@ import utility.MapConverter;
 import zone.ZoneGroup;
 import zone.ZoneType;
 
+@JsonTypeName("wizard")
 public class Wizard extends Character
 {
 	private static WizardConstant wizardConstant;
@@ -32,6 +34,20 @@ public class Wizard extends Character
 	private ZoneGroup zoneGroup;
 
 	
+	
+	public Wizard()
+	{
+		super();
+		
+		deathWhenDeckIsEmptyListener = (arg0 -> 
+		{
+			arg0.next();
+			if(arg0.wasRemoved() && arg0.getList().isEmpty())
+			{
+				setAlive(false);
+			}
+		});
+	}
 	
 	//cards: all the cards from the JSON file
 	public Wizard(WizardFactory wizardFactory, Card[] cards)

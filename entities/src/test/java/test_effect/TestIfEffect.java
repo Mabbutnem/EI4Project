@@ -164,7 +164,7 @@ public class TestIfEffect
 
 	@Test
 	public final void testGetDescription() {
-		String expected = "if you have less than 5 HP :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards, draw 1 card";
+		String expected = "if you have less than 5 HP :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards and draw 1 card";
 		String result = ifEffect.getDescription();
 		
 		assertEquals(expected, result);

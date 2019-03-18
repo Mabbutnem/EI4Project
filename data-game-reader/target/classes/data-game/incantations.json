@@ -1,6 +1,60 @@
 [
 	{
-		"name": "Consume",
+		"name": "inc1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "addWordEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"word": "ACID"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		]
+	},
+	{
+		"name": "inc2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "addWordEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"word": "ACID"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		]
+	},
+	{
+		"name": "inc3",
 		"effects": [
 			{
 				"effectType": "inflictEffect",

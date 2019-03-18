@@ -1,10 +1,12 @@
 package boardelement;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import constant.CorpseConstant;
 import utility.Proba;
 
+@JsonTypeName("corpse")
 public class Corpse implements IBoardElement
 {
 	private static CorpseConstant corpseConstant;
@@ -14,6 +16,11 @@ public class Corpse implements IBoardElement
 	private int counterToReborn;
 	
 	
+	
+	public Corpse()
+	{
+		super();
+	}
 	
 	public Corpse(Monster monster)
 	{

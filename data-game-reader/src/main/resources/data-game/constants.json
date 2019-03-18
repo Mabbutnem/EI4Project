@@ -9,7 +9,7 @@
 			"nbInitCard": 4
 		},
 		"corpseConstant": {
-			"nbTurnToReborn": 1
+			"nbTurnToReborn": 3
 		},
 		"gameConstant": {
 			"boardLenght": 30,

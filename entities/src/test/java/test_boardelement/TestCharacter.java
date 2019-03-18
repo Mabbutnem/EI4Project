@@ -157,7 +157,6 @@ public class TestCharacter
 		
 		reset(healthListener);
 		character.removeHealthListener(healthListener);
-		System.out.println(healthListener);
 		character.setHealth(50);
 		character.gainHealth(10);
 		character.loseHealth(10);

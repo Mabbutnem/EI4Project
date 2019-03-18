@@ -1,5 +1,6 @@
 package zone;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -22,10 +23,17 @@ public class Zone implements IZone
 	
 	@JsonIgnore
 	private ObservableList<Card> cards;
-	private final ZoneType zoneType;
-	private final ZonePick defaultZonePick;
+	private ZoneType zoneType;
+	private ZonePick defaultZonePick;
 	
 	
+	
+	public Zone()
+	{
+		super();
+		
+		cards = FXCollections.observableArrayList();
+	}
 	
 	public Zone(Card[] cards, ZoneType zoneType, ZonePick defaultZonePick)
 	{
@@ -205,6 +213,11 @@ public class Zone implements IZone
 	public Card[] getCards() {
 		return cards.toArray(new Card[0]);
 	}
+
+    @JsonProperty("cards")
+    public void setCards(Card[] card) {
+    	cards.addAll(Arrays.asList(card));
+    }
 	
 	public void reveal(int nbCard, ZonePick zonePick)
 	{

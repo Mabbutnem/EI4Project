@@ -4,7 +4,11 @@ import spell.Card;
 
 public class AutoRevealZone extends Zone
 {
-
+	public AutoRevealZone()
+	{
+		super();
+	}
+	
 	public AutoRevealZone(Card[] cards, ZoneType zoneType, ZonePick defaultZonePick) {
 		super(cards, zoneType, defaultZonePick);
 	}

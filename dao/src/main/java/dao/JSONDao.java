@@ -30,6 +30,7 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 	private ObjectMapper mapperForGame;
 	
 	
+	
 	public JSONDao()
 	{
 		mapperForGame = new ObjectMapper();
@@ -63,7 +64,7 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 
 	@Override
 	public void newGame(Game game) throws IOException {
-		Preconditions.checkArgument(!gameExists(game), "A game with this same name already exists");
+		Preconditions.checkArgument(!gameExists(game), "A game with the same name already exists");
 		
 		add(savesFileName, game, Game[].class);
 	}
@@ -71,7 +72,11 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 	@Override
 	public Game loadGame(String name) throws IOException
 	{
-		return getGames(g->name.compareTo(g.getName())==0)[0];
+		Game[] games = getGames(g->name.compareTo(g.getName())==0);
+		
+		Preconditions.checkArgument(games.length > 0, "No game with this name found");
+		
+		return games[0];
 	}
 
 	@Override

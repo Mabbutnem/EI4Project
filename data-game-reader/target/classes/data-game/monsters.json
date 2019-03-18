@@ -24,5 +24,18 @@
 			"inc2": 100
 		},
 		"rebornProbability": 0.4
+	},
+	{
+		"name": "monstre3",
+		"maxHealth": 1,
+		"initArmor": 20,
+		"baseMove": 3,
+		"baseRange": 4,
+		"mapIncantationsFrequencies": {
+			"inc1": 50,
+			"inc3": 200,
+			"inc2": 100
+		},
+		"rebornProbability": 0.4
 	}
 ]

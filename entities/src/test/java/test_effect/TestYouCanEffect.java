@@ -240,7 +240,7 @@ public class TestYouCanEffect
 
 	@Test
 	public final void testGetDescription() {
-		String expected = "you can heal 20 HP if you do :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards, draw 1 card";
+		String expected = "you can heal 20 HP if you do :\ninflict 5 damage, inflict 3 damage, heal 4 HP to yourself, heal 2 HP, draw 2 cards and draw 1 card";
 		String result = youCanEffect.getDescription();
 		
 		assertEquals(expected, result);
