@@ -111,14 +111,6 @@ public class TestGame
 		String result = g.getName();
 		assertEquals(expected, result);
 	}
-
-	@Test
-	public final void testGetWizardsName()
-	{
-		String[] expected = new String[] { "w", "w0" };
-		String[] result = g.getWizardsName();
-		assertArrayEquals(expected, result);
-	}
 	
 	
 	

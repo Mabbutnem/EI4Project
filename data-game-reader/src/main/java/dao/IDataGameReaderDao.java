@@ -13,21 +13,21 @@ import spell.Incantation;
 
 public interface IDataGameReaderDao extends ICardDaoListener
 {
-	Card getCard(String name);
-	Card[] getCards(String[] names);
-	Card[] getCards() throws IOException;
+	public Card getCard(String name);
+	public Card[] getCards(String[] names);
+	public Card[] getCards() throws IOException;
 	
-	AllConstant getConstant() throws IOException;
+	public AllConstant getConstant() throws IOException;
 	
-	Horde[] getHordes() throws IOException;
+	public Horde[] getHordes() throws IOException;
 	
-	Incantation[] getIncantations() throws IOException;
+	public Incantation[] getIncantations() throws IOException;
 	
-	Level getRandomLevel(int levelDifficulty) throws IOException;
-	Level[] getLevels() throws IOException;
+	public Level getRandomLevel(int levelDifficulty) throws IOException;
+	public Level[] getLevels() throws IOException;
 	
-	MonsterFactory[] getMonsters() throws IOException;
+	public MonsterFactory[] getMonsters() throws IOException;
 	
-	WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException;
-	WizardFactory[] getWizards() throws IOException;
+	public WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException;
+	public WizardFactory[] getWizards() throws IOException;
 }

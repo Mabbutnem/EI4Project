@@ -3,6 +3,32 @@
 		"name": "game2",
 		"monstersToSpawn": [
 			{
+				"name": "monstre1",
+				"maxHealth": 50,
+				"initArmor": 20,
+				"baseMove": 3,
+				"baseRange": 4,
+				"mapIncantationsFrequencies": {
+					"inc1": 100,
+					"inc3": 50,
+					"inc2": 100
+				},
+				"rebornProbability": 0.4
+			},
+			{
+				"name": "monstre1",
+				"maxHealth": 50,
+				"initArmor": 20,
+				"baseMove": 3,
+				"baseRange": 4,
+				"mapIncantationsFrequencies": {
+					"inc1": 100,
+					"inc3": 50,
+					"inc2": 100
+				},
+				"rebornProbability": 0.4
+			},
+			{
 				"name": "monstre2",
 				"maxHealth": 50,
 				"initArmor": 20,
@@ -11,32 +37,6 @@
 				"mapIncantationsFrequencies": {
 					"inc1": 50,
 					"inc3": 200,
-					"inc2": 100
-				},
-				"rebornProbability": 0.4
-			},
-			{
-				"name": "monstre1",
-				"maxHealth": 50,
-				"initArmor": 20,
-				"baseMove": 3,
-				"baseRange": 4,
-				"mapIncantationsFrequencies": {
-					"inc1": 100,
-					"inc3": 50,
-					"inc2": 100
-				},
-				"rebornProbability": 0.4
-			},
-			{
-				"name": "monstre1",
-				"maxHealth": 50,
-				"initArmor": 20,
-				"baseMove": 3,
-				"baseRange": 4,
-				"mapIncantationsFrequencies": {
-					"inc1": 100,
-					"inc3": 50,
 					"inc2": 100
 				},
 				"rebornProbability": 0.4
@@ -127,6 +127,27 @@
 								"revealed": false
 							},
 							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
 								"name": "card3",
 								"effects": [
 								],
@@ -141,14 +162,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
+								"name": "card1",
 								"effects": [
 								],
 								"cost": 1,
@@ -169,7 +183,182 @@
 								"revealed": false
 							},
 							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
 								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card6",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card6",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card6",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
 								"effects": [
 								],
 								"cost": 1,
@@ -197,196 +386,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
 								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card6",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card6",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card6",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -503,21 +503,7 @@
 						"defaultZonePick": "TOP",
 						"cards": [
 							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
 								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
 								"effects": [
 								],
 								"cost": 1,
@@ -532,48 +518,6 @@
 							},
 							{
 								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card6",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
 								"effects": [
 								],
 								"cost": 1,
@@ -594,6 +538,27 @@
 								"revealed": false
 							},
 							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
 								"name": "card1",
 								"effects": [
 								],
@@ -608,6 +573,27 @@
 								"revealed": false
 							},
 							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
 								"name": "card1",
 								"effects": [
 								],
@@ -623,6 +609,62 @@
 							},
 							{
 								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
 								"effects": [
 								],
 								"cost": 1,
@@ -636,83 +678,6 @@
 								"revealed": false
 							},
 							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
 								"name": "card5",
 								"effects": [
 								],
@@ -720,35 +685,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
+								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -762,7 +699,56 @@
 								"revealed": false
 							},
 							{
-								"name": "card1",
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
 								"effects": [
 								],
 								"cost": 1,
@@ -770,6 +756,20 @@
 							},
 							{
 								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card6",
 								"effects": [
 								],
 								"cost": 1,
@@ -886,27 +886,6 @@
 						"defaultZonePick": "TOP",
 						"cards": [
 							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
 								"name": "card6",
 								"effects": [
 								],
@@ -928,21 +907,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
+								"name": "card5",
 								"effects": [
 								],
 								"cost": 1,
@@ -956,7 +921,63 @@
 								"revealed": false
 							},
 							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
 								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
 								"effects": [
 								],
 								"cost": 1,
@@ -971,6 +992,69 @@
 							},
 							{
 								"name": "card3",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card5",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card1",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card4",
 								"effects": [
 								],
 								"cost": 1,
@@ -998,7 +1082,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card5",
+								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -1006,6 +1090,13 @@
 							},
 							{
 								"name": "card2",
+								"effects": [
+								],
+								"cost": 1,
+								"revealed": false
+							},
+							{
+								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -1019,70 +1110,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card2",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
 								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card4",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -1103,7 +1131,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card4",
+								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -1117,7 +1145,7 @@
 								"revealed": false
 							},
 							{
-								"name": "card5",
+								"name": "card3",
 								"effects": [
 								],
 								"cost": 1,
@@ -1125,34 +1153,6 @@
 							},
 							{
 								"name": "card6",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card5",
-								"effects": [
-								],
-								"cost": 1,
-								"revealed": false
-							},
-							{
-								"name": "card1",
 								"effects": [
 								],
 								"cost": 1,
@@ -1215,114 +1215,6 @@
 			null,
 			null,
 			null,
-			{
-				"type": "monster",
-				"alive": true,
-				"health": 50,
-				"armor": 20,
-				"move": 3,
-				"dash": 0,
-				"range": 4,
-				"hasDashed": false,
-				"freeze": false,
-				"words": [
-				],
-				"played": false,
-				"maxHealth": 50,
-				"initArmor": 20,
-				"baseMove": 3,
-				"baseRange": 4,
-				"name": "monstre1",
-				"rebornProbability": 0.4,
-				"incantations": [
-					{
-						"name": "inc1",
-						"effects": [
-							{
-								"effectType": "inflictEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"value": 10
-							},
-							{
-								"effectType": "addCardEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"word": "ACID"
-							},
-							{
-								"effectType": "wordEffect",
-								"word": "ACID"
-							}
-						]
-					},
-					{
-						"name": "inc3",
-						"effects": [
-							{
-								"effectType": "inflictEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"value": 10
-							},
-							{
-								"effectType": "addCardEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"word": "ACID"
-							},
-							{
-								"effectType": "wordEffect",
-								"word": "ACID"
-							}
-						]
-					},
-					{
-						"name": "inc2",
-						"effects": [
-							{
-								"effectType": "inflictEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"value": 10
-							},
-							{
-								"effectType": "addCardEffect",
-								"target": {
-									"constraints": [
-									],
-									"type": "CHOICE"
-								},
-								"word": "ACID"
-							},
-							{
-								"effectType": "wordEffect",
-								"word": "ACID"
-							}
-						]
-					}
-				],
-				"incantationProbabilities": [
-					0.4,
-					0.6,
-					1.0
-				]
-			},
 			{
 				"type": "monster",
 				"alive": true,
@@ -1449,6 +1341,114 @@
 				"baseMove": 3,
 				"baseRange": 4,
 				"name": "monstre3",
+				"rebornProbability": 0.4,
+				"incantations": [
+					{
+						"name": "inc1",
+						"effects": [
+							{
+								"effectType": "inflictEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"value": 10
+							},
+							{
+								"effectType": "addCardEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"word": "ACID"
+							},
+							{
+								"effectType": "wordEffect",
+								"word": "ACID"
+							}
+						]
+					},
+					{
+						"name": "inc3",
+						"effects": [
+							{
+								"effectType": "inflictEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"value": 10
+							},
+							{
+								"effectType": "addCardEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"word": "ACID"
+							},
+							{
+								"effectType": "wordEffect",
+								"word": "ACID"
+							}
+						]
+					},
+					{
+						"name": "inc2",
+						"effects": [
+							{
+								"effectType": "inflictEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"value": 10
+							},
+							{
+								"effectType": "addCardEffect",
+								"target": {
+									"constraints": [
+									],
+									"type": "CHOICE"
+								},
+								"word": "ACID"
+							},
+							{
+								"effectType": "wordEffect",
+								"word": "ACID"
+							}
+						]
+					}
+				],
+				"incantationProbabilities": [
+					0.14285715,
+					0.71428573,
+					1.0
+				]
+			},
+			{
+				"type": "monster",
+				"alive": true,
+				"health": 50,
+				"armor": 20,
+				"move": 3,
+				"dash": 0,
+				"range": 4,
+				"hasDashed": false,
+				"freeze": false,
+				"words": [
+				],
+				"played": false,
+				"maxHealth": 50,
+				"initArmor": 20,
+				"baseMove": 3,
+				"baseRange": 4,
+				"name": "monstre2",
 				"rebornProbability": 0.4,
 				"incantations": [
 					{

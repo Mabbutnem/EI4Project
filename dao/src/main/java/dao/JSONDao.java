@@ -58,13 +58,13 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 	}
 
 	@Override
-	public boolean gameExists(Game game) throws IOException {
-		return getGames(g -> g.getName().compareTo(game.getName())==0).length > 0;
+	public boolean gameExists(String name) throws IOException {
+		return getGames(g -> g.getName().compareTo(name)==0).length > 0;
 	}
 
 	@Override
 	public void newGame(Game game) throws IOException {
-		Preconditions.checkArgument(!gameExists(game), "A game with the same name already exists");
+		Preconditions.checkArgument(!gameExists(game.getName()), "A game with the same name already exists");
 		
 		add(savesFileName, game, Game[].class);
 	}

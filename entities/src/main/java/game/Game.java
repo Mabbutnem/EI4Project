@@ -121,17 +121,6 @@ public class Game
 	public String getName() {
 		return name;
 	}
-
-	@JsonIgnore
-	public String[] getWizardsName() {
-		List<String> stringList = new LinkedList<>();
-		
-		for(Wizard w : getWizards()) {
-			stringList.add(w.getName());
-		}
-		
-		return stringList.toArray(new String[0]);
-	}
 	
 	
 	
