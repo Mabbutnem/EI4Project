@@ -94,6 +94,10 @@ public class Business implements IBusiness
 				dao.getHordes(), dao.getMonsters(), dao.getWizards(), dao.getCards());
 	}
 
+	public boolean isWizardsTurn() {
+		return game.isWizardsTurn();
+	}
+	
 	public void beginWizardsTurn() {
 		game.beginWizardsTurn();
 	}

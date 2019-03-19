@@ -31,6 +31,7 @@ public interface IBusiness
 	public boolean levelFinished();
 	public void nextLevel() throws IOException;
 	
+	public boolean isWizardsTurn();
 	public void beginWizardsTurn();
 	public void rightWalk();
 	public void leftWalk();
