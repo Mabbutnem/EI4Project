@@ -12,5 +12,5 @@ public interface IDao extends IDataGameReaderDao
 	public void newGame(Game game) throws IOException;
 	public Game loadGame(String name) throws IOException;
 	public void saveGame(Game game) throws IOException;
-	public void deleteGame(Game game) throws IOException;
+	public void deleteGame(String name) throws IOException;
 }

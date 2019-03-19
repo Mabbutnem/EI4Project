@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import boardelement.Wizard;
 import boardelement.WizardFactory;
 import business.IBusiness;
 import config.BusinessConfig;
@@ -38,6 +37,51 @@ public class TestBusiness
 		
 		try
 		{
+			business.initAllConstant();
+			
+			List<WizardFactory> alreadyChoosens = new LinkedList<>();
+			
+			WizardFactory[] choice = business.getRandomWizards(1, alreadyChoosens.toArray(new WizardFactory[0]));
+			alreadyChoosens.add(choice[0]);
+			
+			choice = business.getRandomWizards(2, alreadyChoosens.toArray(new WizardFactory[0]));
+			alreadyChoosens.add(choice[0]);
+			
+			choice = business.getRandomWizards(3, alreadyChoosens.toArray(new WizardFactory[0]));
+			alreadyChoosens.add(choice[0]);
+			
+			Game g = new Game("thibault", business.createWizards(alreadyChoosens.toArray(new WizardFactory[0])));
+			
+			business.newGame(g);
+			
+			while(!business.isFinished())
+			{
+				if(business.levelFinished())
+				{
+					business.nextLevel();
+				}
+				
+				business.beginWizardsTurn();
+				
+				business.saveGame(); //SAVE
+				
+				business.endWizardsTurn();
+				
+				business.nextMonsterWave();
+				
+				while(!business.monstersTurnEnded())
+				{
+					business.playMonstersTurnPart1();
+					business.playMonstersTurnPart2();
+					business.nextMonster();
+					
+					business.saveGame(); //SAVE
+				}
+
+				business.saveGame(); //SAVE
+			}
+			
+			System.out.println(business.isVictory() ? "you win" : "you loose");
 		}
 		catch (Exception e)
 		{

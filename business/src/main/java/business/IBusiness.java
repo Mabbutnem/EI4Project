@@ -3,6 +3,7 @@ package business;
 import java.io.IOException;
 
 import boardelement.IBoardElement;
+import boardelement.Wizard;
 import boardelement.WizardFactory;
 import boardelement.Character;
 import game.Game;
@@ -15,10 +16,11 @@ public interface IBusiness
 	public Game[] getGames() throws IOException;
 	public boolean gameExists(String name) throws IOException;
 	public WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException;
+	public Wizard[] createWizards(WizardFactory[] alreadyChoosens) throws IOException;
 	public void newGame(Game game) throws IOException;
 	public void loadGame(String name) throws IOException;
 	public void saveGame() throws IOException;
-	public void deleteGame(Game game) throws IOException;
+	public void deleteGame(String name) throws IOException;
 	
 	/*
 	 * Ordre d'appel en jeu:
@@ -30,6 +32,8 @@ public interface IBusiness
 	public void nextLevel() throws IOException;
 	
 	public void beginWizardsTurn();
+	public void rightWalk();
+	public void leftWalk();
 	public void rightDash();
 	public void leftDash();
 	public void endWizardsTurn();

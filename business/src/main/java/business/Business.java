@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.google.common.base.Preconditions;
 
 import boardelement.IBoardElement;
+import boardelement.Wizard;
 import boardelement.WizardFactory;
 import boardelement.Character;
 import dao.IDao;
@@ -39,6 +40,18 @@ public class Business implements IBusiness
 	public WizardFactory[] getRandomWizards(int number, WizardFactory[] alreadyChoosens) throws IOException {
 		return dao.getRandomWizards(number, alreadyChoosens);
 	}
+	
+	public Wizard[] createWizards(WizardFactory[] alreadyChoosens) throws IOException
+	{
+		Wizard[] wizards = new Wizard[alreadyChoosens.length];
+		
+		for(int i = 0; i < alreadyChoosens.length; i++)
+		{
+			wizards[i] = new Wizard(alreadyChoosens[i], dao.getCards());
+		}
+		
+		return wizards;
+	}
 
 	public void newGame(Game game) throws IOException {
 		dao.newGame(game);
@@ -55,9 +68,9 @@ public class Business implements IBusiness
 		dao.saveGame(game);
 	}
 
-	public void deleteGame(Game game) throws IOException {
-		dao.deleteGame(game);
-		if(game == this.game) { this.game = null; }
+	public void deleteGame(String name) throws IOException {
+		dao.deleteGame(name);
+		if(game.getName().compareTo(name)==0) { this.game = null; }
 	}
 
 	
@@ -83,6 +96,14 @@ public class Business implements IBusiness
 
 	public void beginWizardsTurn() {
 		game.beginWizardsTurn();
+	}
+	
+	public void rightWalk() {
+		game.rightWalk(getCurrentCharacter());
+	}
+	
+	public void leftWalk() {
+		game.leftWalk(getCurrentCharacter());
 	}
 
 	public void rightDash() {

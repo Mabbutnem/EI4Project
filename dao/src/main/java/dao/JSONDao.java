@@ -81,16 +81,16 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 
 	@Override
 	public void saveGame(Game game) throws IOException {
-		deleteGame(game);
+		deleteGame(game.getName());
 		newGame(game);
 	}
 
 	@Override
-	public void deleteGame(Game game) throws IOException {
+	public void deleteGame(String name) throws IOException {
 		File file = new File(getCompleteDaoPathFile(savesFileName));
 		Game[] array = mapperForGame.readValue(file,Game[].class);
 		Stream<Game> stream=Stream.of(array);
-		stream=stream.filter(g->g.getName().compareTo(game.getName())!=0);
+		stream=stream.filter(g->g.getName().compareTo(name)!=0);
 		List<Game> list=stream.collect(Collectors.toList());
 		mapper.writeValue(file, list);
 	}
