@@ -455,6 +455,30 @@ public class TestWizard
 	}
 	
 	@Test
+	public final void testConvertArmorToHealth()
+	{
+		w.setHealth(50);
+		w.setArmor(10);
+		w.convertArmorToHealth();
+		int expected = 60;
+		int result = w.getHealth();
+		assertEquals(expected, result);
+		expected = 0;
+		result = w.getArmor();
+		assertEquals(expected, result);
+		
+		w.setHealth(60);
+		w.setArmor(15);
+		w.convertArmorToHealth();
+		expected = 70;
+		result = w.getHealth();
+		assertEquals(expected, result);
+		expected = 5;
+		result = w.getArmor();
+		assertEquals(expected, result);
+	}
+	
+	@Test
 	public final void setAliveToFalseWhen0CardInDeck()
 	{
 		w = new Wizard(wFactory, cards);

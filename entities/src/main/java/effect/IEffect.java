@@ -20,6 +20,7 @@ import spell.ISpell;
 			@JsonSubTypes.Type(value = BurnItselfEffect.class, name = "burnItselfEffect"),
 			@JsonSubTypes.Type(value = CardEffect.class, name = "cardEffect"),
 			@JsonSubTypes.Type(value = CastEffect.class, name = "castEffect"),
+			@JsonSubTypes.Type(value = ConvertArmorToHealthEffect.class, name = "convertArmorToHealthEffect"),
 			@JsonSubTypes.Type(value = DiscardEffect.class, name = "discardEffect"),
 			@JsonSubTypes.Type(value = DrawEffect.class, name = "drawEffect"),
 			@JsonSubTypes.Type(value = FreezeEffect.class, name = "freezeEffect"),

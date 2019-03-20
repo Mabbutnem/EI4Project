@@ -57,8 +57,21 @@ public class AddChoosenCardEffect extends OneValueEffect
 
 	@Override
 	public String getDescription() {
-		// TODO Anthony
-		return null;
+		switch(getTarget().getType())
+		{
+		case AREA:
+			return "all targets choose a card and add it " + (getValue() > 1? getValue() + " times ":"") + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+		case CHOICE:
+			return "a chosen target choose a card and add it " + (getValue() > 1? getValue() + " times ":"") + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+		case MORE:
+			return "choose a card and add it " + getValue() + " more time" + (getValue() > 1? "s ":" ") + destPick.getDescriptionDest()  + destZone.getDescription();
+		case RANDOM:
+			return "a random target choose a card and add it " + (getValue() > 1? getValue() + " times ":"") + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+		case YOU:
+			return "choose a card and add it " + (getValue() > 1? getValue() + " times ":"") + destPick.getDescriptionDest()  + destZone.getDescription();
+		default:
+			return "";		
+		}
 	}
 
 	@Override

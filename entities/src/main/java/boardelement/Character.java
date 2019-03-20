@@ -273,7 +273,7 @@ public abstract class Character implements IBoardElement
 		}
 	}
 
-	
+	public abstract void convertArmorToHealth();
 	
 	
 	public int getMove() {
