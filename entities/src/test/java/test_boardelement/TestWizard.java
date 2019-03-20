@@ -161,6 +161,10 @@ public class TestWizard
 		Power expectedP = power;
 		Power resultP = w.getPower();
 		assertEquals(expectedP, resultP);
+		
+		boolean expectedB = false;
+		boolean resultB = w.isPowerUsed();
+		assertEquals(expectedB, resultB);
 
 		int nbCard1Expected = 2;
 		int nbCard2Expected = 3;
@@ -416,6 +420,21 @@ public class TestWizard
 	public final void testGetPower() {
 		Power expected = power;
 		Power result = w.getPower();
+		assertEquals(expected, result);
+		
+		w.transform();
+
+		expected = transformedPower;
+		result = w.getPower();
+		assertEquals(expected, result);
+	}
+	
+	@Test
+	public final void testSetPowerUsed() {
+		w.setPowerUsed(true);
+		
+		boolean expected = true;
+		boolean result = w.isPowerUsed();
 		assertEquals(expected, result);
 	}
 

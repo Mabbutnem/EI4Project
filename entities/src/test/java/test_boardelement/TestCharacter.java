@@ -362,6 +362,30 @@ public class TestCharacter
 	public final void testGainMoveException() {
 		character.gainMove(-10);
 	}
+	
+	@Test
+	public final void testCanMove() {
+		boolean expected = true;
+		boolean result = character.canMove();
+		assertEquals(expected, result);
+		
+		
+		
+		character.setMove(0);
+		
+		expected = false;
+		result = character.canMove();
+		assertEquals(expected, result);
+		
+		
+		
+		character.setMove(5);
+		character.setFreeze(true);
+		
+		expected = false;
+		result = character.canMove();
+		assertEquals(expected, result);
+	}
 
 	@Test
 	public final void testMoveListener(){
@@ -433,6 +457,29 @@ public class TestCharacter
 	@Test (expected = IllegalArgumentException.class)
 	public final void testGainDashException() {
 		character.gainDash(-10);
+	}
+	
+	@Test
+	public final void testCanDash() {
+		boolean expected = false;
+		boolean result = character.canDash();
+		assertEquals(expected, result);
+		
+		
+		
+		character.setDash(5);
+		
+		expected = true;
+		result = character.canDash();
+		assertEquals(expected, result);
+		
+		
+		
+		character.setHasDashed(true);
+		
+		expected = false;
+		result = character.canDash();
+		assertEquals(expected, result);
 	}
 
 	@Test

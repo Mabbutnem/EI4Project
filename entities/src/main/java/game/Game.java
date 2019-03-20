@@ -632,6 +632,8 @@ public class Game
 			w.getZoneGroup().unvoid();
 			w.getZoneGroup().unbanish();
 			w.clearWords();
+			w.setPowerUsed(false);
+			w.setHasDashed(false);
 		}
 		
 		wizardsTurn = false;

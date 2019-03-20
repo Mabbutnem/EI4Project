@@ -1431,6 +1431,8 @@ public class TestGame
 		verify(wZoneGroup, times(1)).unvoid();
 		verify(wZoneGroup, times(1)).unbanish();
 		verify(w, times(1)).clearWords();
+		verify(w, times(1)).setPowerUsed(false);
+		verify(w, times(1)).setHasDashed(false);
 		
 		verify(w0, times(1)).resetFreeze();
 		verify(w0, times(1)).resetMana();
@@ -1439,6 +1441,8 @@ public class TestGame
 		verify(w0ZoneGroup, times(1)).unvoid();
 		verify(w0ZoneGroup, times(1)).unbanish();
 		verify(w0, times(1)).clearWords();
+		verify(w0, times(1)).setPowerUsed(false);
+		verify(w0, times(1)).setHasDashed(false);
 		
 		Character expectedC = m;
 		Character resultC = g.getCurrentCharacter();

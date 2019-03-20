@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 import boardelement.Character;
@@ -87,6 +88,12 @@ public abstract class Spell implements ISpell
 	@Override
 	public IEffect[] getEffects() {
 		return effects;
+	}
+	
+	@JsonProperty("effects")
+	public void setEffects(IEffect[] effects) {
+		this.effects = effects;
+		setDescription();
 	}
 	
 	public void setDescription()

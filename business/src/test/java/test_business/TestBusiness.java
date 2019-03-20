@@ -1,6 +1,6 @@
 package test_business;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +12,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import boardelement.WizardFactory;
+import boardelement.Character;
+import boardelement.Wizard;
 import business.IBusiness;
 import config.BusinessConfig;
 import game.Game;
 import listener.ICardArrayRequestListener;
 import listener.ICardDaoListener;
+import spell.Card;
 import zone.Zone;
 import zone.ZoneGroup;
+import zone.ZoneType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= (BusinessConfig.class))
@@ -30,8 +34,11 @@ public class TestBusiness
 	@Test
 	public final void test()
 	{
-		Zone.setCardArrayRequestListener(mock(ICardArrayRequestListener.class));
-		ZoneGroup.setCardArrayRequestListener(mock(ICardArrayRequestListener.class));
+		ICardArrayRequestListener listener = mock(ICardArrayRequestListener.class);
+		when(listener.chooseCards(any())).thenReturn(new Card[0]);
+		
+		Zone.setCardArrayRequestListener(listener);
+		ZoneGroup.setCardArrayRequestListener(listener);
 		
 		Game.setCardDaoListener(mock(ICardDaoListener.class));
 		
@@ -63,7 +70,17 @@ public class TestBusiness
 				
 				business.beginWizardsTurn();
 				
-				business.saveGame(); //SAVE
+				business.setSelectedCharacter((Character) business.getBoard()[2]);
+				((Wizard) business.getSelectedCharacter()).setDash(20);
+				if(business.canDash()) {
+					business.rightDash();
+				}
+				((Wizard) business.getSelectedCharacter()).setDash(15);
+				if(business.canDash()) {
+					business.leftDash();
+				}
+				
+				business.saveGame();
 				
 				business.endWizardsTurn();
 				
@@ -74,11 +91,7 @@ public class TestBusiness
 					business.playMonstersTurnPart1();
 					business.playMonstersTurnPart2();
 					business.nextMonster();
-					
-					business.saveGame(); //SAVE
 				}
-
-				business.saveGame(); //SAVE
 			}
 			
 			System.out.println(business.isVictory() ? "you win" : "you loose");

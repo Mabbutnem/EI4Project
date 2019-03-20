@@ -2,6 +2,21 @@
 	{
 		"name": "card1",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -9,6 +24,21 @@
 	{
 		"name": "card2",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -16,6 +46,21 @@
 	{
 		"name": "card3",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -23,6 +68,21 @@
 	{
 		"name": "card4",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -30,6 +90,21 @@
 	{
 		"name": "card5",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -37,6 +112,21 @@
 	{
 		"name": "card6",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true
@@ -44,6 +134,21 @@
 	{
 		"name": "card7",
 		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "AREA"
+				},
+				"value": 80
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest" : "HAND",
+				"pickDest" : "DEFAULT"
+			}
 		],
 		"cost": 1,
 		"revealed": true

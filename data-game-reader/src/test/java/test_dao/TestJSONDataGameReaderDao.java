@@ -12,8 +12,11 @@ import config.DataGameReaderConfig;
 import dao.IDataGameReaderDao;
 import effect.TargetableEffect;
 import effect.YouCanEffect;
+import listener.ICardArrayRequestListener;
 import listener.ITargetRequestListener;
 import listener.IYouCanEffectListener;
+import zone.Zone;
+import zone.ZoneGroup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= (DataGameReaderConfig.class))
@@ -27,6 +30,8 @@ public class TestJSONDataGameReaderDao
 	{
 		TargetableEffect.setTargetRequestListener(mock(ITargetRequestListener.class));
 		YouCanEffect.setYouCanEffectListener(mock(IYouCanEffectListener.class));
+		ZoneGroup.setCardArrayRequestListener(mock(ICardArrayRequestListener.class));
+		Zone.setCardArrayRequestListener(mock(ICardArrayRequestListener.class));
 		
 		try
 		{

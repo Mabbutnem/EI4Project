@@ -302,6 +302,10 @@ public abstract class Character implements IBoardElement
 		setMove(getMove() + gain);
 	}
 	
+	public boolean canMove() {
+		return !isFreeze() && getMove() > 0;
+	}
+	
 	public abstract void resetMove();
 	
 	public void addMoveListener(IMoveListener listener)
@@ -373,8 +377,8 @@ public abstract class Character implements IBoardElement
 		this.hasDashed = hasDashed;
 	}
 
-	public boolean hasDashed() {
-		return hasDashed;
+	public boolean canDash() {
+		return !hasDashed && getDash() > 0;
 	}
 
 	public void resetHasDashed() {

@@ -30,6 +30,7 @@ public class Wizard extends Character
 	private String name;
 	private Power basePower;
 	private Power transformedPower;
+	private boolean powerUsed;
 	@Autowired
 	private ZoneGroup zoneGroup;
 
@@ -68,6 +69,7 @@ public class Wizard extends Character
 		name = wizardFactory.getName();
 		basePower = wizardFactory.getBasePower();
 		transformedPower = wizardFactory.getTransformedPower();
+		powerUsed = false;
 		
 		//On créé zoneGroup
 		zoneGroup = new ZoneGroup(
@@ -233,6 +235,14 @@ public class Wizard extends Character
 	public Power getPower()
 	{
 		return transformed ? transformedPower : basePower;
+	}
+	
+	public boolean isPowerUsed() {
+		return powerUsed;
+	}
+	
+	public void setPowerUsed(boolean powerUsed) {
+		this.powerUsed = powerUsed;
 	}
 	
 	

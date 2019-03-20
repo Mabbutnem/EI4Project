@@ -12,7 +12,11 @@ import boardelement.WizardFactory;
 import boardelement.Character;
 import dao.IDao;
 import game.Game;
-import zone.CastZone;
+import javafx.collections.ListChangeListener;
+import spell.Card;
+import spell.ISpell;
+import spell.Power;
+import zone.ZoneType;
 
 public class Business implements IBusiness
 {
@@ -21,10 +25,64 @@ public class Business implements IBusiness
 	
 	private Game game;
 	
+	private Character selectedCharacter;
+	private ZoneType selectedZone;
+	private Card selectedCard;
 	
 	
 	
 	
+	
+	public Character getSelectedCharacter() {
+		return selectedCharacter;
+	}
+
+	public void setSelectedCharacter(Character selectedCharacter)
+	{
+		if(selectedCharacter == null) {
+			return;
+		}
+		
+		if(this.selectedCharacter != selectedCharacter)
+		{
+			selectedCard = null;
+			selectedZone = null;
+			
+			if(game.isWizardsTurn() && selectedCharacter instanceof Wizard) {
+				game.setCurrentCharacter(selectedCharacter);
+				selectedZone = ZoneType.HAND;
+			}
+		}
+		
+		this.selectedCharacter = selectedCharacter;
+	}
+
+	public ZoneType getSelectedZone() {
+		return selectedZone;
+	}
+
+	public void setSelectedZone(ZoneType selectedZone)
+	{
+		if(this.selectedZone != selectedZone)
+		{
+			selectedCard = null;
+		}
+		
+		this.selectedZone = selectedZone;
+	}
+
+	public Card getSelectedCard() {
+		return selectedCard;
+	}
+
+	public void setSelectedCard(Card selectedCard) {
+		this.selectedCard = selectedCard;
+	}
+	
+	
+	
+	
+
 	public void initAllConstant() throws IOException {
 		dao.getConstant().initAllConstant();
 	}
@@ -102,20 +160,70 @@ public class Business implements IBusiness
 		game.beginWizardsTurn();
 	}
 	
+	public boolean canMove() {
+		return game.getCurrentCharacter().canMove();
+	}
+	
 	public void rightWalk() {
-		game.rightWalk(getCurrentCharacter());
+		game.rightWalk(game.getCurrentCharacter());
 	}
 	
 	public void leftWalk() {
-		game.leftWalk(getCurrentCharacter());
+		game.leftWalk(game.getCurrentCharacter());
 	}
-
+	
+	public boolean canDash() {
+		return game.getCurrentCharacter().canDash();
+	}
+	
 	public void rightDash() {
 		game.rightDash(game.getCurrentCharacter());
 	}
 
 	public void leftDash() {
 		game.leftDash(game.getCurrentCharacter());
+	}
+	
+	public boolean isPowerUsed() {
+		return ((Wizard) game.getCurrentCharacter()).isPowerUsed();
+	}
+	
+	public void usePower() {
+		Power power = ((Wizard) game.getCurrentCharacter()).getPower();
+		
+		Wizard currentWizard = (Wizard) game.getCurrentCharacter();
+		
+		Preconditions.checkState(currentWizard.getMana() >= power.getCost(), "Not enought mana to cast your power");
+		
+		currentWizard.loseMana(power.getCost());
+		currentWizard.setPowerUsed(true);
+		
+		game.getCastZone().add(power);
+	}
+	
+	public void addSelectedCardToCast() {
+		Preconditions.checkState(selectedCard != null, "A card must be selected");
+		Preconditions.checkState(selectedZone == ZoneType.HAND, "Selected card must be in the hand");
+		
+		Wizard currentWizard = (Wizard) game.getCurrentCharacter();
+		
+		Preconditions.checkState(currentWizard.getMana() >= selectedCard.getCost(),
+				"Not enought mana to cast this card");
+
+		currentWizard.loseMana(selectedCard.getCost());
+		currentWizard.getZoneGroup().remove(selectedCard, selectedZone);
+		
+		game.getCastZone().add(selectedCard, currentWizard);
+		
+		selectedCard = null;
+	}
+	
+	public void castNextSpell() {
+		game.getCastZone().cast(game);
+	}
+	
+	public boolean castZoneIsEmpty() {
+		return game.getCastZone().isEmpty();
 	}
 
 	public void endWizardsTurn() {
@@ -149,10 +257,6 @@ public class Business implements IBusiness
 	
 	
 	
-	
-	public Game getGame() {
-		return game;
-	}
 
 	public Character getCurrentCharacter() {
 		return game.getCurrentCharacter();
@@ -161,16 +265,40 @@ public class Business implements IBusiness
 	public boolean[] getCurrentCharacterRange() {
 		return game.getCurrentCharacterRange();
 	}
+	
+	public void addCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
+		game.addCurrentCharacterRangeListener(listener);
+	}
+	
+	public void removeCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
+		game.removeCurrentCharacterRangeListener(listener);
+	}
 
 	public boolean[] getWizardsRange() {
 		return game.getWizardsRange();
+	}
+	
+	public void addWizardsRangeListener(ListChangeListener<Boolean> listener) {
+		game.addWizardsRangeListener(listener);
+	}
+	
+	public void removeWizardsRangeListener(ListChangeListener<Boolean> listener) {
+		game.removeWizardsRangeListener(listener);
 	}
 
 	public IBoardElement[] getBoard() {
 		return game.getBoard();
 	}
+	
+	public void addBoardListener(ListChangeListener<IBoardElement> listener) {
+		game.addBoardListener(listener);
+	}
+	
+	public void removeBoardListener(ListChangeListener<IBoardElement> listener) {
+		game.removeBoardListener(listener);
+	}
 
-	public CastZone getCastZone() {
-		return game.getCastZone();
+	public ISpell getNextSpellToCast() {
+		return game.getCastZone().getCurrentSpell();
 	}
 }
