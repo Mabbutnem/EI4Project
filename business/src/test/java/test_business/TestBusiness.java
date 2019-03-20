@@ -22,7 +22,6 @@ import listener.ICardDaoListener;
 import spell.Card;
 import zone.Zone;
 import zone.ZoneGroup;
-import zone.ZoneType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= (BusinessConfig.class))
