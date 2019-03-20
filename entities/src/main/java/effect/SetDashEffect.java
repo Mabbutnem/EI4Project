@@ -30,15 +30,15 @@ public class SetDashEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ dash to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ dash to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set dash to " + getValue() + getConstraintsDescription();
+			return "Set dash to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " more dash";
+			return "Set " + getValue() + " more dash";
 		case RANDOM:
-			return "set a random target’s dash to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s dash to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your dash to " + getValue();
+			return "Set your dash to " + getValue();
 		default:
 			return "";
 		}

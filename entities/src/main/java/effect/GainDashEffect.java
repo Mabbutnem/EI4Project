@@ -30,15 +30,15 @@ public class GainDashEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " dash to all targets" + getConstraintsDescription();
+			return "Give " + getValue() + " dash to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " dash" + getConstraintsDescription();
+			return "Give " + getValue() + " dash" + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more dash";
+			return "Give " + getValue() + " more dash";
 		case RANDOM:
-			return "give " + getValue() + " dash to a random target" + getConstraintsDescription();
+			return "Give " + getValue() + " dash to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " dash";
+			return "Gain " + getValue() + " dash";
 		default:
 			return "";		
 		}

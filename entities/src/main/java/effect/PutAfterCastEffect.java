@@ -36,7 +36,7 @@ public class PutAfterCastEffect implements IApplicableEffect {
 
 	@Override
 	public String getDescription() {
-		return "return it " + pickDest.getDescriptionDest() + zoneDest.getDescription();
+		return "Return it " + pickDest.getDescriptionDest() + zoneDest.getDescription();
 	}
 
 	@Override

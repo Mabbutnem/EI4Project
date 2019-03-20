@@ -30,15 +30,15 @@ public class SetHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ health to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ health to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set health to " + getValue() + getConstraintsDescription();
+			return "Set health to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " more health";
+			return "Set " + getValue() + " more health";
 		case RANDOM:
-			return "set a random target’s health to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s health to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your health to " + getValue();
+			return "Set your health to " + getValue();
 		default:
 			return "";
 		}

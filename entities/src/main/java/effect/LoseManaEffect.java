@@ -31,15 +31,15 @@ public class LoseManaEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "remove " + getValue() + " mana from all targets" + getConstraintsDescription();
+			return "Remove " + getValue() + " mana from all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "remove " + getValue() + " mana" + getConstraintsDescription();
+			return "Remove " + getValue() + " mana" + getConstraintsDescription();
 		case MORE:
-			return "remove " + getValue() + " more mana";
+			return "Remove " + getValue() + " more mana";
 		case RANDOM:
-			return "remove " + getValue() + " mana from a random target" + getConstraintsDescription();
+			return "Remove " + getValue() + " mana from a random target" + getConstraintsDescription();
 		case YOU:
-			return "lose " + getValue() + " mana";
+			return "Lose " + getValue() + " mana";
 		default:
 			return "";
 		}

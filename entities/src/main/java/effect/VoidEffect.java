@@ -24,7 +24,7 @@ public class VoidEffect extends CardEffect {
 	@Override
 	public String getDescription()
 	{
-		return "void " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "Void " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

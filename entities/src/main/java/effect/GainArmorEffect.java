@@ -30,15 +30,15 @@ public class GainArmorEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " armor to all targets" + getConstraintsDescription();
+			return "Give " + getValue() + " armor to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " armor" + getConstraintsDescription();
+			return "Give " + getValue() + " armor" + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more armor";
+			return "Give " + getValue() + " more armor";
 		case RANDOM:
-			return "give " + getValue() + " armor to a random target" + getConstraintsDescription();
+			return "Give " + getValue() + " armor to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " armor";
+			return "Gain " + getValue() + " armor";
 		default:
 			return "";		
 		}

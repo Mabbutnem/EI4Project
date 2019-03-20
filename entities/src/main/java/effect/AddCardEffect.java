@@ -50,15 +50,15 @@ public class AddCardEffect extends OneValueEffect
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "all targets add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+			return "All targets add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
 		case CHOICE:
-			return "a chosen target add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+			return "A chosen target add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
 		case MORE:
-			return "add " + getValue() + " more " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription();
+			return "Add " + getValue() + " more " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription();
 		case RANDOM:
-			return "a random target add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
+			return "A random target add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription() + getConstraintsDescription();
 		case YOU:
-			return "add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription();
+			return "Add " + getValue() + " " + cardName + " " + destPick.getDescriptionDest()  + destZone.getDescription();
 		default:
 			return "";		
 		}

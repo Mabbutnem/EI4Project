@@ -30,15 +30,15 @@ public class SetMoveEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ move to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ move to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set move to " + getValue() + getConstraintsDescription();
+			return "Set move to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " move more";
+			return "Set " + getValue() + " move more";
 		case RANDOM:
-			return "set a random target’s move to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s move to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your move to " + getValue();
+			return "Set your move to " + getValue();
 		default:
 			return "";
 		}

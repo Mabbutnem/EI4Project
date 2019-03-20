@@ -30,15 +30,15 @@ public class LoseDashEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "remove " + getValue() + " dash from all targets" + getConstraintsDescription();
+			return "Remove " + getValue() + " dash from all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "remove " + getValue() + " dash" + getConstraintsDescription();
+			return "Remove " + getValue() + " dash" + getConstraintsDescription();
 		case MORE:
-			return "remove " + getValue() + " more dash";
+			return "Remove " + getValue() + " more dash";
 		case RANDOM:
-			return "remove " + getValue() + " dash from a random target" + getConstraintsDescription();
+			return "Remove " + getValue() + " dash from a random target" + getConstraintsDescription();
 		case YOU:
-			return "lose " + getValue() + " dash";
+			return "Lose " + getValue() + " dash";
 		default:
 			return "";
 		}

@@ -24,7 +24,7 @@ public class BanishEffect extends CardEffect {
 	@Override
 	public String getDescription()
 	{
-		return "banish " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "Banish " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

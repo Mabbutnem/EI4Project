@@ -30,7 +30,7 @@ public class DrawEffect extends CardEffect
 	@Override
 	public String getDescription()
 	{
-		return "draw " + getValue() + " card" + (getValue()>1? "s":"");
+		return "Draw " + getValue() + " card" + (getValue()>1? "s":"");
 	}
 
 }

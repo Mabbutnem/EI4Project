@@ -31,15 +31,15 @@ public class SetManaEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ mana to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ mana to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set mana to " + getValue() + getConstraintsDescription();
+			return "Set mana to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " more mana";
+			return "Set " + getValue() + " more mana";
 		case RANDOM:
-			return "set a random target’s mana to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s mana to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your mana to " + getValue();
+			return "Set your mana to " + getValue();
 		default:
 			return "";
 		}

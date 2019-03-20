@@ -30,15 +30,15 @@ public class LoseRangeEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "remove " + getValue() + " range from all targets" + getConstraintsDescription();
+			return "Remove " + getValue() + " range from all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "remove " + getValue() + " range" + getConstraintsDescription();
+			return "Remove " + getValue() + " range" + getConstraintsDescription();
 		case MORE:
-			return "remove " + getValue() + " more range";
+			return "Remove " + getValue() + " more range";
 		case RANDOM:
-			return "remove " + getValue() + " range from a random target" + getConstraintsDescription();
+			return "Remove " + getValue() + " range from a random target" + getConstraintsDescription();
 		case YOU:
-			return "lose " + getValue() + " range";
+			return "Lose " + getValue() + " range";
 		default:
 			return "";
 		}

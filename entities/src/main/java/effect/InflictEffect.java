@@ -32,15 +32,15 @@ public class InflictEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") +  "to all targets" + getConstraintsDescription();
+			return "Inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") +  "to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "inflict " + getValue() + " damage" + (getValue() > 1 ? "s" : "") + getConstraintsDescription();
+			return "Inflict " + getValue() + " damage" + (getValue() > 1 ? "s" : "") + getConstraintsDescription();
 		case MORE:
-			return "inflict " + getValue() + " more damage" + (getValue() > 1 ? "s" : "") ;
+			return "Inflict " + getValue() + " more damage" + (getValue() > 1 ? "s" : "") ;
 		case RANDOM:
-			return "inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") + "to a random target" + getConstraintsDescription();
+			return "Inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") + "to a random target" + getConstraintsDescription();
 		case YOU:
-			return "inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") + "to you";
+			return "Inflict " + getValue() + " damage" + (getValue() > 1 ? "s " : " ") + "to you";
 		default:
 			return "";		
 		}

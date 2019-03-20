@@ -26,7 +26,7 @@ public class DiscardEffect extends CardEffect
 	@Override
 	public String getDescription()
 	{
-		return "discard " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "Discard " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

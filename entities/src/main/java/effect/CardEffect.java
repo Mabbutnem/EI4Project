@@ -59,9 +59,9 @@ public class CardEffect extends OneValueEffect
 	{
 		String desc = "";
 		if(getTarget().getType() == TargetType.AREA) {
-			desc += "all targets ";
+			desc += "All targets ";
 		}
-		desc += "put " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		desc += "Put " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription() 
 				+ pickDest.getDescriptionDest()  + zoneDest.getDescription();
 		return desc;

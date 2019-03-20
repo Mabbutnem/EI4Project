@@ -39,7 +39,7 @@ public class PredictionEffect extends TargetableEffect {
 
 	@Override
 	public String getDescription() {
-		return "prediction";
+		return "Prediction";
 	}
 
 	@Override

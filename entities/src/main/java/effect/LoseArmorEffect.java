@@ -30,15 +30,15 @@ public class LoseArmorEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "remove " + getValue() + " armor from all targets" + getConstraintsDescription();
+			return "Remove " + getValue() + " armor from all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "remove " + getValue() + " armor" + getConstraintsDescription();
+			return "Remove " + getValue() + " armor" + getConstraintsDescription();
 		case MORE:
-			return "remove " + getValue() + " more armor";
+			return "Remove " + getValue() + " more armor";
 		case RANDOM:
-			return "remove " + getValue() + " armor from a random target" + getConstraintsDescription();
+			return "Remove " + getValue() + " armor from a random target" + getConstraintsDescription();
 		case YOU:
-			return "lose " + getValue() + " armor";
+			return "Lose " + getValue() + " armor";
 		default:
 			return "";
 		}

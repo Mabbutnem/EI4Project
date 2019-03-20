@@ -16,7 +16,7 @@ public class BurnItselfEffect extends PutAfterCastEffect {
 	
 	@Override
 	public String getDescription() {
-		return "burn itself";
+		return "Burn itself";
 	}
 
 }

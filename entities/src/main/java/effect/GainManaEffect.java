@@ -31,15 +31,15 @@ public class GainManaEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " mana to all targets" + getConstraintsDescription();
+			return "Give " + getValue() + " mana to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " mana" + getConstraintsDescription();
+			return "Give " + getValue() + " mana" + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more mana";
+			return "Give " + getValue() + " more mana";
 		case RANDOM:
-			return "give " + getValue() + " mana to a random target" + getConstraintsDescription();
+			return "Give " + getValue() + " mana to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " mana";
+			return "Gain " + getValue() + " mana";
 		default:
 			return "";		
 		}

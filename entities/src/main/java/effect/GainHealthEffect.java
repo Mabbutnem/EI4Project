@@ -30,15 +30,15 @@ public class GainHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "give " + getValue() + " health to all targets" + getConstraintsDescription();
+			return "Give " + getValue() + " health to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + getValue() + " health" + getConstraintsDescription();
+			return "Give " + getValue() + " health" + getConstraintsDescription();
 		case MORE:
-			return "give " + getValue() + " more health";
+			return "Give " + getValue() + " more health";
 		case RANDOM:
-			return "give " + getValue() + " health to a random target" + getConstraintsDescription();
+			return "Give " + getValue() + " health to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + getValue() + " health";
+			return "Gain " + getValue() + " health";
 		default:
 			return "";		
 		}

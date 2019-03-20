@@ -37,15 +37,15 @@ public class AddWordEffect extends TargetableEffect
 		switch(getTarget().getType()) 
 		{
 		case AREA:
-			return "give " + word.name() + " to all targets" + getConstraintsDescription();
+			return "Give " + word.name() + " to all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "give " + word.name() + getConstraintsDescription();
+			return "Give " + word.name() + getConstraintsDescription();
 		case MORE:
 			return "";
 		case RANDOM:
-			return "give " + word.name() + " to a random target" + getConstraintsDescription();
+			return "Give " + word.name() + " to a random target" + getConstraintsDescription();
 		case YOU:
-			return "gain " + word.name();
+			return "Gain " + word.name();
 		default:
 			return "";
 		}

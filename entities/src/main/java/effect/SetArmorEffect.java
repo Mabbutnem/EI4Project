@@ -30,15 +30,15 @@ public class SetArmorEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ armor to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ armor to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set armor to " + getValue() + getConstraintsDescription();
+			return "Set armor to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " more armor";
+			return "Set " + getValue() + " more armor";
 		case RANDOM:
-			return "set a random target’s armor to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s armor to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your armor to " + getValue();
+			return "Set your armor to " + getValue();
 		default:
 			return "";
 		}

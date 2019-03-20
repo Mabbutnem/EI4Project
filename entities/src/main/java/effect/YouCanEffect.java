@@ -39,7 +39,7 @@ public class YouCanEffect extends ConditionalEffect
 	public String getDescription() {
 		StringBuilder strBld = new StringBuilder();
 		
-		strBld.append("you can ").append(conditionalEffect.getDescription());
+		strBld.append("You can ").append(conditionalEffect.getDescription());
 		if(effects.length > 0) { strBld.append(" if you do :\n"); }
 		
 		for(IEffect e : effects) {

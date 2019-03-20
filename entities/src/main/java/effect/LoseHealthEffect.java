@@ -30,15 +30,15 @@ public class LoseHealthEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "remove " + getValue() + " health from all targets" + getConstraintsDescription();
+			return "Remove " + getValue() + " health from all targets" + getConstraintsDescription();
 		case CHOICE:
-			return "remove " + getValue() + " health" + getConstraintsDescription();
+			return "Remove " + getValue() + " health" + getConstraintsDescription();
 		case MORE:
-			return "remove " + getValue() + " more health";
+			return "Remove " + getValue() + " more health";
 		case RANDOM:
-			return "remove " + getValue() + " health from a random target" + getConstraintsDescription();
+			return "Remove " + getValue() + " health from a random target" + getConstraintsDescription();
 		case YOU:
-			return "lose " + getValue() + " health";
+			return "Lose " + getValue() + " health";
 		default:
 			return "";
 		}

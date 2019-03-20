@@ -35,7 +35,7 @@ public class RevealEffect extends OneValueEffect {
 
 	@Override
 	public String getDescription() {
-		return "reveal " + getValue() + " card" + (getValue()>1? "s ":" ") 
+		return "Reveal " + getValue() + " card" + (getValue()>1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

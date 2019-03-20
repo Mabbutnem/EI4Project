@@ -30,15 +30,15 @@ public class SetRangeEffect extends OneValueEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "set all targets’ range to " + getValue() + getConstraintsDescription();
+			return "Set all targets’ range to " + getValue() + getConstraintsDescription();
 		case CHOICE:
-			return "set range to " + getValue() + getConstraintsDescription();
+			return "Set range to " + getValue() + getConstraintsDescription();
 		case MORE:
-			return "set " + getValue() + " more range";
+			return "Set " + getValue() + " more range";
 		case RANDOM:
-			return "set a random target’s range to " + getValue() + getConstraintsDescription();
+			return "Set a random target’s range to " + getValue() + getConstraintsDescription();
 		case YOU:
-			return "set your range to " + getValue();
+			return "Set your range to " + getValue();
 		default:
 			return "";
 		}

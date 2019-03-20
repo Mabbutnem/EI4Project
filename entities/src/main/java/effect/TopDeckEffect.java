@@ -24,7 +24,7 @@ public class TopDeckEffect extends CardEffect {
 	@Override
 	public String getDescription()
 	{
-		return "topdeck " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		return "Topdeck " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription();
 	}
 

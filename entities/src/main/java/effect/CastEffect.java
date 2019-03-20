@@ -31,9 +31,9 @@ public class CastEffect extends CardEffect
 	public String getDescription() {
 		String desc = "";
 		if(getTarget().getType() == TargetType.AREA) {
-			desc += "all targets ";
+			desc += "All targets ";
 		}
-		desc += "play " + getValue() + " card" + (getValue() > 1? "s ":" ") 
+		desc += "Play " + getValue() + " card" + (getValue() > 1? "s ":" ") 
 				+ pickSource.getDescriptionSource() + zoneSource.getDescription() + "and return " + (getValue() >1? "them ":"it ")
 				+ pickDest.getDescriptionDest()  + zoneDest.getDescription();
 		return desc;

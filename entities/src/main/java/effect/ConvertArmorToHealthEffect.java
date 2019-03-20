@@ -30,15 +30,15 @@ public class ConvertArmorToHealthEffect extends TargetableEffect {
 		switch(getTarget().getType())
 		{
 		case AREA:
-			return "all targets convert their armor to health" + getConstraintsDescription();
+			return "All targets convert their armor to health" + getConstraintsDescription();
 		case CHOICE:
-			return "convert the armor to health" + getConstraintsDescription();
+			return "Convert the armor to health" + getConstraintsDescription();
 		case MORE:
 			return "";
 		case RANDOM:
-			return "a random target convert his armor to health" + getConstraintsDescription();
+			return "A random target convert his armor to health" + getConstraintsDescription();
 		case YOU:
-			return "convert your armor to health";
+			return "Convert your armor to health";
 		default:
 			return "";		
 		}
