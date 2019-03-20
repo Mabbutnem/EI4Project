@@ -39,6 +39,10 @@ public class TestCharacter
 
 		@Override
 		public void resetArmor() {}
+
+		@Override
+		public void convertArmorToHealth() {
+		}
 	}
 	
 	private RealCharacter character;

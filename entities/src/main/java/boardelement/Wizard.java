@@ -263,7 +263,17 @@ public class Wizard extends Character
 		zoneGroup.addListener(deathWhenDeckIsEmptyListener, ZoneType.DECK);
 	}
 
-
+	@Override
+	public void convertArmorToHealth() {
+		if(getHealth() + getArmor() <= wizardConstant.getMaxHealth())
+		{
+			gainHealth(getArmor());
+			setArmor(0);
+		}else {
+			loseArmor(wizardConstant.getMaxHealth() - getHealth());
+			setHealth(wizardConstant.getMaxHealth());
+		}
+	}
 	
 	@Override
 	public void resetHealth() {

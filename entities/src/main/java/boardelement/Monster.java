@@ -120,7 +120,17 @@ public class Monster extends Character
 		super.setHealth(Math.min(health, maxHealth));
 	}
 
-
+	@Override
+	public void convertArmorToHealth() {
+		if(getHealth() + getArmor() <= maxHealth)
+		{
+			gainHealth(getArmor());
+			setArmor(0);
+		}else {
+			loseArmor(maxHealth - getHealth());
+			setHealth(maxHealth);
+		}
+	}
 
 	public void reset()
 	{

@@ -219,6 +219,30 @@ public class TestMonster {
 	}
 	
 	@Test
+	public final void testConvertArmorToHealth()
+	{
+		m.setHealth(50);
+		m.setArmor(10);
+		m.convertArmorToHealth();
+		int expected = 60;
+		int result = m.getHealth();
+		assertEquals(expected, result);
+		expected = 0;
+		result = m.getArmor();
+		assertEquals(expected, result);
+		
+		m.setHealth(60);
+		m.setArmor(15);
+		m.convertArmorToHealth();
+		expected = 70;
+		result = m.getHealth();
+		assertEquals(expected, result);
+		expected = 5;
+		result = m.getArmor();
+		assertEquals(expected, result);
+	}
+	
+	@Test
 	public void TestResetHealth() {
 		m.setHealth(1);
 		
