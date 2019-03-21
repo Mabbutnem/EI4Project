@@ -32,6 +32,10 @@ public class UISpell extends JPanel
 	private static final Color mouseEnteredColor = new Color(237, 237, 150);
 	private static final Color selectedColor = new Color(135, 206, 235);
 	
+	public static final int SIZE_X = 120;
+	public static final int SIZE_Y = 170;
+	private static final int SIZE_HEADER = 34;
+	
 	private JLabel costLabel;
 	private JLabel nameLabel;
 	private JTextPane descriptionTextPane;
@@ -53,7 +57,7 @@ public class UISpell extends JPanel
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setLayout(null);
-		setSize(120, 200);
+		setSize(SIZE_X, SIZE_Y);
 
 		if(spell instanceof ManaCostSpell) {
 			costLabel = new JLabel();
@@ -61,7 +65,7 @@ public class UISpell extends JPanel
 			costLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 			costLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			costLabel.setBorder(new MatteBorder(0, 0, 2, 1, (Color) new Color(0, 0, 0)));
-			costLabel.setBounds(0, 0, 37, 37);
+			costLabel.setBounds(0, 0, SIZE_HEADER, SIZE_HEADER);
 			add(costLabel);
 		}
 		
@@ -70,8 +74,8 @@ public class UISpell extends JPanel
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		nameLabel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		if(spell instanceof ManaCostSpell) { nameLabel.setBounds(37, 0, 83, 37); }
-		else { nameLabel.setBounds(0, 0, 120, 37); }
+		if(spell instanceof ManaCostSpell) { nameLabel.setBounds(SIZE_HEADER, 0, SIZE_X - SIZE_HEADER, SIZE_HEADER); }
+		else { nameLabel.setBounds(0, 0, SIZE_X, SIZE_HEADER); }
 		add(nameLabel);
 
 		descriptionTextPane = new JTextPane();
@@ -89,7 +93,8 @@ public class UISpell extends JPanel
 		//Centrer le texte fin
 		descriptionTextPane.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		descriptionTextPane.setBorder(null);
-		descriptionTextPane.setBounds(4, 40, 112, 160);
+		descriptionTextPane.setLocation(5, SIZE_HEADER + 5);
+		descriptionTextPane.setSize(SIZE_X - 10, SIZE_Y - SIZE_HEADER);
 		add(descriptionTextPane);
 		
 		addMouseListener(getUISpellSelectionMouseListener());
