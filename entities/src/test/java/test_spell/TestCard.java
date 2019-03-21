@@ -97,8 +97,8 @@ public class TestCard
 		boolean result = c.isRevealed();
 		assertEquals(expected, result);
 		
-		verify(listener1, times(1)).onRevealedChange();
-		verify(listener2, times(1)).onRevealedChange();
+		verify(listener1, times(1)).onRevealedChange(false);
+		verify(listener2, times(1)).onRevealedChange(false);
 		
 		
 		
@@ -112,8 +112,8 @@ public class TestCard
 		result = c.isRevealed();
 		assertEquals(expected, result);
 		
-		verify(listener1, times(1)).onRevealedChange();
-		verify(listener2, times(1)).onRevealedChange();
+		verify(listener1, times(1)).onRevealedChange(true);
+		verify(listener2, times(1)).onRevealedChange(true);
 		
 		
 		
@@ -124,8 +124,8 @@ public class TestCard
 		c.setRevealed(true);
 		
 		//The value is the same, it don't trigger the listeners
-		verify(listener1, never()).onRevealedChange();
-		verify(listener2, never()).onRevealedChange();
+		verify(listener1, never()).onRevealedChange(anyBoolean());
+		verify(listener2, never()).onRevealedChange(anyBoolean());
 	}
 
 	@Test

@@ -78,7 +78,7 @@ public class Card extends ManaCostSpell
 		{
 			for(ICardListener listener : getCardListeners())
 			{
-				listener.onRevealedChange();
+				listener.onRevealedChange(actualRevealed);
 			}
 		}
 	}

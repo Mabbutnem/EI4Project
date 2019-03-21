@@ -3,9 +3,12 @@ package test_ui_entities;
 import static org.mockito.Mockito.mock;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import effect.FreezeEffect;
@@ -16,12 +19,11 @@ import effect.YouCanEffect;
 import listener.ITargetRequestListener;
 import listener.IYouCanEffectListener;
 import spell.Card;
+import spell.Incantation;
 import ui_entities.UISpell;
-import spell.ISpell;
 import target.Target;
 import target.TargetConstraint;
 import target.TargetType;
-import java.awt.Color;
 
 public class TestUISpell {
 
@@ -57,7 +59,7 @@ public class TestUISpell {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 347);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -70,27 +72,66 @@ public class TestUISpell {
 						new FreezeEffect(new Target(new TargetConstraint[0], TargetType.YOU))
 				};
 		
-		Card card1 = new Card("Name", effects, 1);
+		Card card1 = new Card("Card1", effects, 1);
 		card1.setDescription();
 		
-		Card card2 = new Card("Carte 2", effects, 100);
-		card1.setDescription();
+		Card card2 = new Card("Card2", effects, 1);
+		card2.setDescription();
 		
-		spell = new UISpell[4];
+		Card card3 = new Card("Card3", effects, 1);
+		card3.setDescription();
+		card3.setRevealed(false);
+		
+		Incantation inc1 = new Incantation("Incantation", effects);
+		inc1.setDescription();
+		
+		spell = new UISpell[]
+				{
+						new UISpell(card1),
+						new UISpell(card2),
+						new UISpell(card3),
+						new UISpell(inc1)
+				};
 		
 		for(int i = 0; i < spell.length; i++)
 		{
-			spell[i] = new UISpell(card1);
-			spell[i].setBackground(new Color(211, 211, 211));
 			spell[i].setLocation(38 + i*150, 29);
+			spell[i].addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+					for(int i = 0; i < spell.length; i++) {
+						if(spell[i].isWaitingToConfirmSelected()) {
+							spell[i].confirmSelected();
+						}
+						else if(spell[i].isSelected()) {
+							spell[i].setSelected(false);
+						}
+					}
+				}
+			});
 			frame.getContentPane().add(spell[i]);
 		}
-		frame.getContentPane().remove(spell[1]);
-		spell[1] = new UISpell(card2);
-		spell[1].setBackground(new Color(211, 211, 211));
-		spell[1].setLocation(38 + 1*150, 29);
-		frame.getContentPane().add(spell[1]);
 		
+		JButton buttonHide = new JButton("Hide card2");
+		buttonHide.setBounds(10, 274, 115, 23);
+		buttonHide.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				((Card) spell[1].getSpell()).setRevealed(false);
+			}
+			
+		});
+		frame.getContentPane().add(buttonHide);
 		
+		JButton buttonReveal = new JButton("Reveal card2");
+		buttonReveal.setBounds(135, 274, 115, 23);
+		buttonReveal.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				((Card) spell[1].getSpell()).setRevealed(true);
+			}
+			
+		});
+		frame.getContentPane().add(buttonReveal);
 	}
 }

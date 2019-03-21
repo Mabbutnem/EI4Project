@@ -4,5 +4,5 @@ import java.util.EventListener;
 
 public interface ICardListener extends EventListener
 {
-	public void onRevealedChange();
+	public void onRevealedChange(boolean actual);
 }
