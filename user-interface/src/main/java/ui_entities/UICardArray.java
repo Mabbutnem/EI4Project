@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import spell.Card;
@@ -24,10 +25,13 @@ public class UICardArray extends JPanel
 	private static final long serialVersionUID = -5065484882461285196L;
 
 	private static final int NB_CARDS_DISPLAYED = 6;
-	private static final int DIST_TO_BORDER_Y = 20;
+	private static final int TOP_DIST_TO_BORDER_Y = 34;
+	private static final int BOTTOM_DIST_TO_BORDER_Y = 20;
 	private static final int DIST_CARD_TO_CARD = 18;
 	
 	private ListChangeListener<Card> zoneListener;
+	
+	private Border border;
 	
 	private Zone zone;
 	private UISpell[] uispells;
@@ -49,11 +53,11 @@ public class UICardArray extends JPanel
 		initialize(cards);
 	}
 	
-	public UICardArray(Zone zone)
+	public UICardArray(Zone zoneToDisplay)
 	{
-		this.zone = zone;
+		this.zone = zoneToDisplay;
 		
-		initialize(zone.getCards());
+		initialize(zoneToDisplay.getCards());
 		
 		zoneListener = new ListChangeListener<Card>() {
 
@@ -72,7 +76,7 @@ public class UICardArray extends JPanel
 						addedList.add(new UISpell(arg0.getAddedSubList().get(i)));
 						addedList.get(i).setLocation(
 								UIChoiceArrow.SIZE_X + (i+arg0.getFrom())*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD,
-								DIST_TO_BORDER_Y);
+								TOP_DIST_TO_BORDER_Y);
 						addedList.get(i).addMouseListener(getUICardArrayMouseListener());
 						add(addedList.get(i));
 					}
@@ -100,13 +104,15 @@ public class UICardArray extends JPanel
 					uispells = list.toArray(new UISpell[0]);
 				}
 				
+				((TitledBorder) border).setTitle(zone.getZoneType() + " (" + zone.size() + ")");
+				
 				//On déselectionne tout
 				nbSelected = 0;
 				for(int i = 0; i < uispells.length; i++) {
 					uispells[i].setSelected(false);
 				}
 				
-				refreshArrowsVisibility();
+				refreshArrows();
 				refreshUISpellsVisibility();
 				
 				repaint(); //On redéssine le tout !
@@ -114,7 +120,9 @@ public class UICardArray extends JPanel
 			
 		};
 		
-		zone.addListener(zoneListener);
+		zoneToDisplay.addListener(zoneListener);
+
+		((TitledBorder) border).setTitle(zoneToDisplay.getZoneType() + " (" + zoneToDisplay.size() + ")");
 	}
 	
 	private void initialize(Card[] cards)
@@ -122,16 +130,18 @@ public class UICardArray extends JPanel
 		nbSelected = 0;
 		nbCanBeSelected = 1;
 		
-		setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "Zone", TitledBorder.TRAILING, TitledBorder.BELOW_TOP, null, new Color(0, 0, 0)));
+		border = new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "", TitledBorder.TRAILING, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0));
+		setBorder(border);
 		setLayout(null);
-		setSize( 2*UIChoiceArrow.SIZE_X + NB_CARDS_DISPLAYED*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 3*DIST_CARD_TO_CARD , 2*DIST_TO_BORDER_Y + UISpell.SIZE_Y);
+		setSize( 2*UIChoiceArrow.SIZE_X + NB_CARDS_DISPLAYED*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 3*DIST_CARD_TO_CARD,
+				TOP_DIST_TO_BORDER_Y + BOTTOM_DIST_TO_BORDER_Y + UISpell.SIZE_Y);
 		
 		initializeUISpells(cards);
 		
 		actualDisplayedFirstIdx = 0;
 		
 		leftArrow = new UIChoiceArrow();
-		leftArrow.setLocation(DIST_CARD_TO_CARD, DIST_TO_BORDER_Y);
+		leftArrow.setLocation(DIST_CARD_TO_CARD, TOP_DIST_TO_BORDER_Y);
 		leftArrow.setToLeftChoiceArrow();
 		leftArrow.addArrowActionListener(new ActionListener() {
 			
@@ -148,7 +158,7 @@ public class UICardArray extends JPanel
 		add(leftArrow);
 		
 		rightArrow = new UIChoiceArrow();
-		rightArrow.setLocation(UIChoiceArrow.SIZE_X + NB_CARDS_DISPLAYED*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD, DIST_TO_BORDER_Y);
+		rightArrow.setLocation(UIChoiceArrow.SIZE_X + NB_CARDS_DISPLAYED*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD, TOP_DIST_TO_BORDER_Y);
 		rightArrow.setToRightChoiceArrow();
 		rightArrow.addArrowActionListener(new ActionListener() {
 			
@@ -164,7 +174,7 @@ public class UICardArray extends JPanel
 		});
 		add(rightArrow);
 		
-		refreshArrowsVisibility();
+		refreshArrows();
 	}
 	
 	private void initializeUISpells(Card[] cards)
@@ -174,7 +184,7 @@ public class UICardArray extends JPanel
 		for(int i = 0; i < uispells.length; i++)
 		{
 			uispells[i] = new UISpell(cards[i]);
-			uispells[i].setLocation( UIChoiceArrow.SIZE_X + i*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD, DIST_TO_BORDER_Y);
+			uispells[i].setLocation( UIChoiceArrow.SIZE_X + i*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD, TOP_DIST_TO_BORDER_Y);
 			uispells[i].addMouseListener(getUICardArrayMouseListener());
 			if(i >= NB_CARDS_DISPLAYED) { uispells[i].setVisible(false); }
 			add(uispells[i]);
@@ -237,14 +247,17 @@ public class UICardArray extends JPanel
 			uispells[i].setVisible(actualDisplayedFirstIdx <= i && i < actualDisplayedFirstIdx+NB_CARDS_DISPLAYED);
 		}
 		
-		refreshArrowsVisibility();
+		refreshArrows();
 		
 		repaint();
 	}
 	
-	private void refreshArrowsVisibility() {
+	private void refreshArrows() {
 		leftArrow.setVisible(actualDisplayedFirstIdx > 0);
+		leftArrow.setNbNotDisplayedElements(actualDisplayedFirstIdx);
+		
 		rightArrow.setVisible(actualDisplayedFirstIdx < uispells.length - NB_CARDS_DISPLAYED);
+		rightArrow.setNbNotDisplayedElements(uispells.length - NB_CARDS_DISPLAYED - actualDisplayedFirstIdx);
 	}
 	
 	private void refreshUISpellsVisibility() { //Seulement utilisée dans zone listener

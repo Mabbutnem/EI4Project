@@ -14,9 +14,9 @@ public class TestZonePick
 	{
 		String[] expected = new String[]
 				{
-						"choice",
-						"default",
-						"bottom",
+						"Choice",
+						"Default",
+						"Bottom",
 				};
 		
 		String[] result = new String[]

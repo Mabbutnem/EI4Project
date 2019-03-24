@@ -14,9 +14,9 @@ public class TestZoneType
 	{
 		String[] expected = new String[]
 				{
-						"deck",
-						"void",
-						"banish",
+						"Deck",
+						"Void",
+						"Banish",
 				};
 		
 		String[] result = new String[]

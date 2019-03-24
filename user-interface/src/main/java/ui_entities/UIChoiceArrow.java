@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class UIChoiceArrow extends JPanel
 {
@@ -17,7 +19,7 @@ public class UIChoiceArrow extends JPanel
 	private static final int DIST_ARROW_TO_ARROW = 20;
 	
 	private JButton arrow;
-	
+	private JLabel nbNotDisplayedElementsLabel;
 	private JButton directArrow;
 
 	public UIChoiceArrow()
@@ -46,6 +48,12 @@ public class UIChoiceArrow extends JPanel
 		});
 		add(arrow);
 		
+		nbNotDisplayedElementsLabel = new JLabel("0");
+		nbNotDisplayedElementsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		nbNotDisplayedElementsLabel.setLocation(0, UISpell.SIZE_Y - DIST_ARROW_TO_ARROW - SIZE_X);
+		nbNotDisplayedElementsLabel.setSize(SIZE_X, DIST_ARROW_TO_ARROW);
+		add(nbNotDisplayedElementsLabel);
+		
 		directArrow = new JButton();
 		directArrow.setFont(new Font("Tahoma", Font.BOLD, 11));
 		directArrow.setBorder(new LineBorder(new Color(0, 0, 0), 2));
@@ -64,7 +72,6 @@ public class UIChoiceArrow extends JPanel
 			}
 		});
 		add(directArrow);
-		
 	}
 	
 	public void addArrowActionListener(ActionListener l) {
@@ -83,5 +90,9 @@ public class UIChoiceArrow extends JPanel
 	public void setToRightChoiceArrow() {
 		arrow.setText(">");
 		directArrow.setText(">|");
+	}
+	
+	public void setNbNotDisplayedElements(int nbNotDisplayedElements) {
+		nbNotDisplayedElementsLabel.setText(Integer.toString(nbNotDisplayedElements));
 	}
 }
