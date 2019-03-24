@@ -91,7 +91,7 @@ public class Zone implements IZone
 			
 		case RANDOM:
 			Random r = new Random();
-			for(Card c : cards) { this.cards.add(r.nextInt(this.cards.size()), c);}
+			for(Card c : cards) { this.cards.add(r.nextInt(this.cards.size()+1), c);}
 			break;
 			
 		default:

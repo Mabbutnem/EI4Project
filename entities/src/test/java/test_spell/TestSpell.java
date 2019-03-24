@@ -113,7 +113,7 @@ public class TestSpell
 		Character resultC = spell.getChoosenTarget();
 		assertEquals(expectedC, resultC);
 		
-		String expectedS = "effect to add value\nnon applicable effect\nuseless effect\nconditional effect\n";
+		String expectedS = "effect to add value.\nnon applicable effect.\nuseless effect.\nconditional effect.\n";
 		String resultS = spell.getDescription();
 		assertEquals(expectedS, resultS);
 		

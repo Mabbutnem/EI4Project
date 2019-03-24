@@ -28,9 +28,9 @@ public class UISpell extends JPanel
 {
 	private static final long serialVersionUID = 7970067395778858488L;
 	
-	private static final Color baseColor = new Color(211, 211, 211);
-	private static final Color mouseEnteredColor = new Color(237, 237, 150);
-	private static final Color selectedColor = new Color(135, 206, 235);
+	public static final Color BASE_COLOR = new Color(211, 211, 211);
+	public static final Color MOUSE_ENTERED_COLOR = new Color(237, 237, 150);
+	private static final Color SELECTED_COLOR = new Color(135, 206, 235);
 	
 	public static final int SIZE_X = 120;
 	public static final int SIZE_Y = 170;
@@ -39,6 +39,8 @@ public class UISpell extends JPanel
 	private JLabel costLabel;
 	private JLabel nameLabel;
 	private JTextPane descriptionTextPane;
+	
+	private ICardListener cardListener;
 
 	private ISpell spell;
 	
@@ -99,16 +101,18 @@ public class UISpell extends JPanel
 		
 		addMouseListener(getUISpellSelectionMouseListener());
 		
-		setAllBackgrounds(baseColor);
+		setAllBackgrounds(BASE_COLOR);
 		
 		if(spell instanceof Card) {
-			((Card) spell).addCardListener(new ICardListener() {
+			
+			cardListener = new ICardListener() {
 
 				public void onRevealedChange(boolean actual) {
 					setRevealed(actual);
 				}
-				
-			});
+			};
+			
+			((Card) spell).addCardListener(cardListener);
 			
 			setRevealed(((Card) spell).isRevealed());
 		}
@@ -120,7 +124,7 @@ public class UISpell extends JPanel
 			public void mouseEntered(MouseEvent arg0) {
 				if(!canBeSelected) { return; }
 				if(!selected) {
-					setAllBackgrounds(mouseEnteredColor);
+					setAllBackgrounds(MOUSE_ENTERED_COLOR);
 				}
 			}
 			
@@ -128,7 +132,7 @@ public class UISpell extends JPanel
 			public void mouseExited(MouseEvent arg0) {
 				if(!canBeSelected) { return; }
 				if(!selected) {
-					setAllBackgrounds(baseColor);
+					setAllBackgrounds(BASE_COLOR);
 				}
 			}
 			
@@ -137,7 +141,7 @@ public class UISpell extends JPanel
 				if(!canBeSelected) { return; }
 				if(selected) {
 					setSelected(false);
-					setAllBackgrounds(mouseEnteredColor);
+					setAllBackgrounds(MOUSE_ENTERED_COLOR);
 				}
 				else {
 					waitingToConfirmSelected = true;
@@ -149,6 +153,12 @@ public class UISpell extends JPanel
 	private void setAllBackgrounds(Color color) {
 		setBackground(color);
 		descriptionTextPane.setBackground(color);
+	}
+	
+	public void clearListeners() {
+		if(spell instanceof Card) {
+			((Card) spell).removeCardListener(cardListener);
+		}
 	}
 	
 	public void setRevealed(boolean revealed) {
@@ -178,16 +188,21 @@ public class UISpell extends JPanel
 		setSelected(true);
 	}
 	
+	public void cancelSelected() {
+		waitingToConfirmSelected = false;
+		selected = false;
+	}
+	
 	public boolean isSelected() {
 		return selected;
 	}
 
 	public void setSelected(boolean selected) {
 		if(selected) {
-			setAllBackgrounds(selectedColor);
+			setAllBackgrounds(SELECTED_COLOR);
 		}
 		else {
-			setAllBackgrounds(baseColor);
+			setAllBackgrounds(BASE_COLOR);
 		}
 		
 		this.selected = selected;

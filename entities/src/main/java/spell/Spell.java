@@ -102,7 +102,7 @@ public abstract class Spell implements ISpell
 		
 		for(IEffect e : effects)
 		{
-			bld.append(e.getDescription()).append("\n");
+			bld.append(e.getDescription()).append(".\n");
 		}
 		
 		description = bld.toString();
