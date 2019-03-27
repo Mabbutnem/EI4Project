@@ -5,6 +5,7 @@ import java.io.IOException;
 import boardelement.IBoardElement;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
+import dao.IDao;
 import boardelement.Character;
 import game.Game;
 import javafx.collections.ListChangeListener;
@@ -80,4 +81,5 @@ public interface IBusiness
 	public void addBoardListener(ListChangeListener<IBoardElement> listener);
 	public void removeBoardListener(ListChangeListener<IBoardElement> listener);
 	public ISpell getNextSpellToCast();
+	public IDao getDao();
 }

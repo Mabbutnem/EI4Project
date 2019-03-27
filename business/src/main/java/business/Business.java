@@ -301,4 +301,8 @@ public class Business implements IBusiness
 	public ISpell getNextSpellToCast() {
 		return game.getCastZone().getCurrentSpell();
 	}
+
+	public IDao getDao() {
+		return dao;
+	}
 }

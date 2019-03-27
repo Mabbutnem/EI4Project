@@ -1997,10 +1997,12 @@ public class TestGame
 		verify(w, times(1)).resetCards(wFact, cards);
 		verify(w, times(1)).resetHealth();
 		verify(w, times(1)).resetArmor();
+		verify(w, times(1)).mulligan();
 		
 		verify(w0, times(1)).resetCards(w0Fact, cards);
 		verify(w0, times(1)).untransform();
 		verify(w0, times(1)).resetArmor();
+		verify(w0, times(1)).mulligan();
 		
 		
 		

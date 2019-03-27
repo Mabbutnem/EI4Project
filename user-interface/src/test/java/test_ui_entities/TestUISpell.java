@@ -78,7 +78,7 @@ public class TestUISpell {
 		Card card2 = new Card("Card2", effects, 1);
 		card2.setDescription();
 		
-		Card card3 = new Card("Card3", effects, 1);
+		final Card card3 = new Card("Card3", effects, 1);
 		card3.setDescription();
 		card3.setRevealed(false);
 		

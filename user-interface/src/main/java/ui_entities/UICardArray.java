@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
@@ -16,9 +17,12 @@ import javax.swing.border.LineBorder;
 import spell.Card;
 import spell.ISpell;
 import zone.Zone;
+import zone.ZoneType;
+
 import javax.swing.border.TitledBorder;
 
 import javafx.collections.ListChangeListener;
+import javax.swing.SwingConstants;
 
 public class UICardArray extends JPanel
 {
@@ -43,6 +47,10 @@ public class UICardArray extends JPanel
 	private int actualDisplayedFirstIdx;
 	private UIChoiceArrow leftArrow;
 	private UIChoiceArrow rightArrow;
+
+	private JLabel bottomLabel;
+	private JLabel topLabel;
+	
 	
 
 	/**
@@ -104,16 +112,17 @@ public class UICardArray extends JPanel
 					uispells = list.toArray(new UISpell[0]);
 				}
 				
-				((TitledBorder) border).setTitle(zone.getZoneType() + " (" + zone.size() + ")");
-				
 				//On déselectionne tout
 				nbSelected = 0;
 				for(int i = 0; i < uispells.length; i++) {
 					uispells[i].setSelected(false);
 				}
-				
+
+				((TitledBorder) border).setTitle(zone.getZoneType() + " (" + zone.size() + ")");
+				refreshTopLabel();
 				refreshArrows();
 				refreshUISpellsVisibility();
+				refreshPanelSize();
 				
 				repaint(); //On redéssine le tout !
 			}
@@ -123,6 +132,9 @@ public class UICardArray extends JPanel
 		zoneToDisplay.addListener(zoneListener);
 
 		((TitledBorder) border).setTitle(zoneToDisplay.getZoneType() + " (" + zoneToDisplay.size() + ")");
+		
+		bottomLabel.setVisible(zoneToDisplay.getZoneType() == ZoneType.DECK);
+		topLabel.setVisible(zoneToDisplay.getZoneType() == ZoneType.DECK);
 	}
 	
 	private void initialize(Card[] cards)
@@ -133,8 +145,21 @@ public class UICardArray extends JPanel
 		border = new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), "", TitledBorder.TRAILING, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0));
 		setBorder(border);
 		setLayout(null);
-		setSize( 2*UIChoiceArrow.SIZE_X + NB_CARDS_DISPLAYED*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 3*DIST_CARD_TO_CARD,
-				TOP_DIST_TO_BORDER_Y + BOTTOM_DIST_TO_BORDER_Y + UISpell.SIZE_Y);
+		
+		bottomLabel = new JLabel("Bottom");
+		bottomLabel.setVerticalAlignment(SwingConstants.TOP);
+		bottomLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		bottomLabel.setSize(UIChoiceArrow.SIZE_X + 2*DIST_CARD_TO_CARD, BOTTOM_DIST_TO_BORDER_Y);
+		bottomLabel.setLocation(0, TOP_DIST_TO_BORDER_Y + UISpell.SIZE_Y);
+		bottomLabel.setVisible(false);
+		add(bottomLabel);
+		
+		topLabel = new JLabel("Top");
+		topLabel.setVerticalAlignment(SwingConstants.TOP);
+		topLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		topLabel.setSize(UIChoiceArrow.SIZE_X + 2*DIST_CARD_TO_CARD, BOTTOM_DIST_TO_BORDER_Y);
+		topLabel.setVisible(false);
+		add(topLabel);
 		
 		initializeUISpells(cards);
 		
@@ -174,7 +199,12 @@ public class UICardArray extends JPanel
 		});
 		add(rightArrow);
 		
+
+
+		refreshTopLabel();
 		refreshArrows();
+		refreshUISpellsVisibility();
+		refreshPanelSize();
 	}
 	
 	private void initializeUISpells(Card[] cards)
@@ -186,7 +216,6 @@ public class UICardArray extends JPanel
 			uispells[i] = new UISpell(cards[i]);
 			uispells[i].setLocation( UIChoiceArrow.SIZE_X + i*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD, TOP_DIST_TO_BORDER_Y);
 			uispells[i].addMouseListener(getUICardArrayMouseListener());
-			if(i >= NB_CARDS_DISPLAYED) { uispells[i].setVisible(false); }
 			add(uispells[i]);
 		}
 	}
@@ -217,7 +246,7 @@ public class UICardArray extends JPanel
 			if(uispells[j].isWaitingToConfirmSelected()) {
 				uispells[j].confirmSelected();
 			}
-			else {
+			else if(uispells[j].isSelected()) {
 				uispells[j].setSelected(false);
 			}
 		}
@@ -266,11 +295,22 @@ public class UICardArray extends JPanel
 		}
 	}
 	
+	private void refreshPanelSize() {
+		setSize( 2*UIChoiceArrow.SIZE_X + Math.min(NB_CARDS_DISPLAYED, uispells.length)*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 3*DIST_CARD_TO_CARD,
+				TOP_DIST_TO_BORDER_Y + BOTTOM_DIST_TO_BORDER_Y + UISpell.SIZE_Y);
+	}
+	
+	private void refreshTopLabel() {
+		topLabel.setLocation(
+				UIChoiceArrow.SIZE_X + Math.min(NB_CARDS_DISPLAYED, uispells.length)*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + DIST_CARD_TO_CARD,
+				TOP_DIST_TO_BORDER_Y + UISpell.SIZE_Y);
+	}
+	
 	public void clearListeners() {
 		for(UISpell uispell : uispells) {
 			uispell.clearListeners();
 		}
-		zone.removeListener(zoneListener);
+		if(zone != null) { zone.removeListener(zoneListener); }
 	}
 	
 	
@@ -281,6 +321,11 @@ public class UICardArray extends JPanel
 
 	public void setNbCanBeSelected(int nbCanBeSelected) {
 		this.nbCanBeSelected = nbCanBeSelected;
+	}
+	
+	public void setTitle(String title) {
+		border = new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), title, TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0));
+		setBorder(border);
 	}
 
 	public ISpell getFirstSelectedSpell()

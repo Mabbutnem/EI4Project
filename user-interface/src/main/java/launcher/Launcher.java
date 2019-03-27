@@ -10,10 +10,9 @@ public class Launcher
 	public static void main(String[] args)
 	{
 		IUI ui = null;
-		AnnotationConfigApplicationContext ctx = null;
-		try
+		
+		try(AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(UIConfig.class))
 		{
-			ctx = new AnnotationConfigApplicationContext(UIConfig.class);
 			ui = ctx.getBean(IUI.class);
 			ui.set();
 			ui.run();
@@ -23,6 +22,5 @@ public class Launcher
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		finally{ if(ctx!=null) ctx.close();}
 	}
 }

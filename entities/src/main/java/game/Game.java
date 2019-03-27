@@ -828,6 +828,9 @@ public class Game
 				
 				//Reset the armor of wizards
 				w.resetArmor();
+				
+				//Mulligan
+				w.mulligan();
 			}
 		}
 		
