@@ -2,10 +2,17 @@ package condition;
 
 import java.util.function.Predicate;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import game.Game;
 
+@JsonTypeName("higherMoveCondition")
 public class HigherMoveCondition extends OneValueCondition {
 
+	public HigherMoveCondition() {
+		super();
+	}
+	
 	public HigherMoveCondition(int value) {
 		super(value);
 	}

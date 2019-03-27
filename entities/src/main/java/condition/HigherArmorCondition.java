@@ -2,10 +2,17 @@ package condition;
 
 import java.util.function.Predicate;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import game.Game;
 
+@JsonTypeName("higherArmorCondition")
 public class HigherArmorCondition extends OneValueCondition {
 
+	public HigherArmorCondition() {
+		super();
+	}
+	
 	public HigherArmorCondition(int value) {
 		super(value);
 	}
