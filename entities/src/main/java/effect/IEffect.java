@@ -12,8 +12,8 @@ import spell.ISpell;
 		include = As.PROPERTY,
 		property = "effectType")
 		@JsonSubTypes({
-			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addCardEffect"),
-			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addChoosenCardEffect"),
+			@JsonSubTypes.Type(value = AddCardEffect.class, name = "addCardEffect"),
+			@JsonSubTypes.Type(value = AddChoosenCardEffect.class, name = "addChoosenCardEffect"),
 			@JsonSubTypes.Type(value = AddWordEffect.class, name = "addWordEffect"),
 			@JsonSubTypes.Type(value = BanishEffect.class, name = "banishEffect"),
 			@JsonSubTypes.Type(value = BurnEffect.class, name = "burnEffect"),
