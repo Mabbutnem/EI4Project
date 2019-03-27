@@ -28,10 +28,6 @@ public class UISpell extends JPanel
 {
 	private static final long serialVersionUID = 7970067395778858488L;
 	
-	public static final Color BASE_COLOR = new Color(211, 211, 211);
-	public static final Color MOUSE_ENTERED_COLOR = new Color(237, 237, 150);
-	private static final Color SELECTED_COLOR = new Color(135, 206, 235);
-	
 	public static final int SIZE_X = 120;
 	public static final int SIZE_Y = 170;
 	private static final int SIZE_HEADER = 34;
@@ -73,8 +69,8 @@ public class UISpell extends JPanel
 		
 		nameLabel = new JLabel();
 		nameLabel.setText(spell.getName());
-		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		nameLabel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
 		if(spell instanceof ManaCostSpell) { nameLabel.setBounds(SIZE_HEADER, 0, SIZE_X - SIZE_HEADER, SIZE_HEADER); }
 		else { nameLabel.setBounds(0, 0, SIZE_X, SIZE_HEADER); }
@@ -101,7 +97,7 @@ public class UISpell extends JPanel
 		
 		addMouseListener(getUISpellSelectionMouseListener());
 		
-		setAllBackgrounds(BASE_COLOR);
+		setAllBackgrounds(UIConstants.BASE_COLOR);
 		
 		if(spell instanceof Card) {
 			
@@ -124,7 +120,7 @@ public class UISpell extends JPanel
 			public void mouseEntered(MouseEvent arg0) {
 				if(!canBeSelected) { return; }
 				if(!selected) {
-					setAllBackgrounds(MOUSE_ENTERED_COLOR);
+					setAllBackgrounds(UIConstants.MOUSE_ENTERED_COLOR);
 				}
 			}
 			
@@ -132,7 +128,7 @@ public class UISpell extends JPanel
 			public void mouseExited(MouseEvent arg0) {
 				if(!canBeSelected) { return; }
 				if(!selected) {
-					setAllBackgrounds(BASE_COLOR);
+					setAllBackgrounds(UIConstants.BASE_COLOR);
 				}
 			}
 			
@@ -141,7 +137,7 @@ public class UISpell extends JPanel
 				if(!canBeSelected) { return; }
 				if(selected) {
 					setSelected(false);
-					setAllBackgrounds(MOUSE_ENTERED_COLOR);
+					setAllBackgrounds(UIConstants.MOUSE_ENTERED_COLOR);
 				}
 				else {
 					waitingToConfirmSelected = true;
@@ -199,10 +195,10 @@ public class UISpell extends JPanel
 
 	public void setSelected(boolean selected) {
 		if(selected) {
-			setAllBackgrounds(SELECTED_COLOR);
+			setAllBackgrounds(UIConstants.SELECTED_COLOR);
 		}
 		else {
-			setAllBackgrounds(BASE_COLOR);
+			setAllBackgrounds(UIConstants.BASE_COLOR);
 		}
 		
 		this.selected = selected;

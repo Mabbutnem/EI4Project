@@ -32,18 +32,18 @@ public class UIChoiceArrow extends JPanel
 		arrow = new JButton();
 		arrow.setFont(new Font("Tahoma", Font.BOLD, 11));
 		arrow.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		arrow.setBackground(UISpell.BASE_COLOR);
+		arrow.setBackground(UIConstants.BASE_COLOR);
 		arrow.setLocation(0, 0);
 		arrow.setSize(SIZE_X, UISpell.SIZE_Y - DIST_ARROW_TO_ARROW - SIZE_X);
 		arrow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				arrow.setBackground(UISpell.MOUSE_ENTERED_COLOR);
+				arrow.setBackground(UIConstants.MOUSE_ENTERED_COLOR);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				arrow.setBackground(UISpell.BASE_COLOR);
+				arrow.setBackground(UIConstants.BASE_COLOR);
 			}
 		});
 		add(arrow);
@@ -57,18 +57,18 @@ public class UIChoiceArrow extends JPanel
 		directArrow = new JButton();
 		directArrow.setFont(new Font("Tahoma", Font.BOLD, 11));
 		directArrow.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		directArrow.setBackground(UISpell.BASE_COLOR);
+		directArrow.setBackground(UIConstants.BASE_COLOR);
 		directArrow.setLocation(0, 140);
 		directArrow.setSize(SIZE_X, SIZE_X);
 		directArrow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				directArrow.setBackground(UISpell.MOUSE_ENTERED_COLOR);
+				directArrow.setBackground(UIConstants.MOUSE_ENTERED_COLOR);
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				directArrow.setBackground(UISpell.BASE_COLOR);
+				directArrow.setBackground(UIConstants.BASE_COLOR);
 			}
 		});
 		add(directArrow);
