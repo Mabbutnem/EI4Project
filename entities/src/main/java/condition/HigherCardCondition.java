@@ -2,13 +2,20 @@ package condition;
 
 import java.util.function.Predicate;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import boardelement.Wizard;
 import game.Game;
 import zone.ZoneType;
 
+@JsonTypeName("higherCardCCondition")
 public class HigherCardCondition extends CardCondition
 {
 
+	public HigherCardCondition() {
+		super();
+	}
+	
 	public HigherCardCondition(int value, ZoneType zoneType)
 	{
 		super(value, zoneType);

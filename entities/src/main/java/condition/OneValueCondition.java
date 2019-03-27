@@ -6,7 +6,9 @@ public abstract class OneValueCondition implements ICondition
 {
 	protected int value;
 	
-	
+	public OneValueCondition() {
+		
+	}
 	
 	public OneValueCondition(int value)
 	{

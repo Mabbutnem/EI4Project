@@ -76,14 +76,21 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 
 	@Override
 	public Card getCard(String name){
+		
+		Card[] cards;
+		
 		try
 		{
-			return getCards(c -> name.compareTo(c.getName())==0)[0];
+			cards = getCards(c -> name.compareTo(c.getName())==0);
 		}
 		catch (IOException e)
 		{
-			throw new IllegalArgumentException("No card named \"" + name + "\"");
+			throw new IllegalStateException(e.getMessage());
 		}
+		
+		Preconditions.checkArgument(cards.length > 0, "No card named \"" + name + "\"");
+		
+		return cards[0];
 	}
 
 	@Override

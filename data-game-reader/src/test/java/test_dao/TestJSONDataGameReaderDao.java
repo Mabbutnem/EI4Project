@@ -35,6 +35,7 @@ public class TestJSONDataGameReaderDao
 		
 		try
 		{
+			System.out.print(dao.getCard("fireCard2").getDescription());
 		}
 		catch (Exception e)
 		{

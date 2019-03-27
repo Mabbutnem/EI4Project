@@ -8,7 +8,9 @@ public abstract class CardCondition extends OneValueCondition
 {
 	protected ZoneType zoneType;
 
-	
+	public CardCondition() {
+		super();
+	}
 	
 	public CardCondition(int value, ZoneType zoneType)
 	{

@@ -6,16 +6,10 @@
 				"effectType": "inflictEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "CHOICE"
 				},
-				"value": 80
-			},
-			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"value": 10
 			}
 		],
 		"cost": 1,
@@ -25,19 +19,14 @@
 		"name": "card2",
 		"effects": [
 			{
-				"effectType": "inflictEffect",
+				"effectType": "gainArmorEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
+						
 					],
-					"type": "AREA"
+					"type": "YOU"
 				},
-				"value": 80
-			},
-			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"value": 12
 			}
 		],
 		"cost": 1,
@@ -47,107 +36,289 @@
 		"name": "card3",
 		"effects": [
 			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "shadowCard1",
+		"effects": [
+			{
+				"effectType": "loseHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 8
+			},
+			{
 				"effectType": "inflictEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "CHOICE"
 				},
-				"value": 80
-			},
-			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"value": 16
 			}
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "card4",
+		"name": "shadowCard2",
 		"effects": [
+			{
+				"effectType": "loseHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 8
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
 			{
 				"effectType": "inflictEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "CHOICE"
 				},
-				"value": 80
-			},
-			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"value": 10
 			}
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "card5",
+		"name": "shadowCard3",
+		"effects": [
+			{
+				"effectType": "loseHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 8
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "shadowCard4",
 		"effects": [
 			{
 				"effectType": "inflictEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "CHOICE"
 				},
-				"value": 80
+				"value": 10
 			},
 			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "gainManaEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+						},
+						"value": 1
+					}
+				],
+				"conditionalEffect": {
+					"effectType": "loseHealthEffect",
+					"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+					},
+					"value": 8
+				}
 			}
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "card6",
+		"name": "shadowCard5",
 		"effects": [
 			{
-				"effectType": "inflictEffect",
+				"effectType": "gainArmorEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "YOU"
 				},
-				"value": 80
+				"value": 13
 			},
 			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"effectType": "setRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 0
+			},
+			{
+				"effectType": "gainMoveEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
 			}
 		],
 		"cost": 1,
 		"revealed": true
 	},
 	{
-		"name": "card7",
+		"name": "shadowCard6",
 		"effects": [
 			{
 				"effectType": "inflictEffect",
 				"target": {
 					"constraints": [
-						"NOTYOU"
 					],
-					"type": "AREA"
+					"type": "CHOICE"
 				},
-				"value": 80
+				"value": 10
 			},
 			{
-				"effectType": "putAfterCastEffect",
-				"zoneDest" : "HAND",
-				"pickDest" : "DEFAULT"
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "MORE"
+						},
+						"value": 6
+					}
+				],
+				"condition":
+					{
+						"conditionType": "lowerHealthCondition",
+						"value": 25
+					}				
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "shadowCard7",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "wordEffect",
+						"word": "LIFELINK"
+					}
+				],
+				"condition":
+					{
+						"conditionType": "lowerHealthCondition",
+						"value": 25
+					}				
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard1",
+		"effects": [
+			{
+				"effectType": "burnEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"zoneSource": "DECK",
+				"pickSource": "TOP"
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 12		
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard2",
+		"effects": [
+			{
+				"effectType": "burnEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"zoneSource": "HAND",
+				"pickSource": "CHOICE"
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 15	
 			}
 		],
 		"cost": 1,
