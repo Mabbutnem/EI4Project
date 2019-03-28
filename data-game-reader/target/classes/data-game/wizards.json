@@ -1,8 +1,9 @@
 [
 	{
-		"name": "shadow",
+		"name": "Shadow",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -19,11 +20,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -40,22 +41,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "fire",
+		"name": "Fire",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -72,11 +68,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -93,22 +89,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "thunder",
+		"name": "Thunder",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -125,11 +116,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -146,22 +137,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "light",
+		"name": "Light",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -178,11 +164,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -199,22 +185,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "life",
+		"name": "Life",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -231,11 +212,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -252,22 +233,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "pestilence",
+		"name": "Pestilence",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -284,11 +260,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -305,22 +281,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "water",
+		"name": "Water",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -337,11 +308,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -358,22 +329,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "ice",
+		"name": "Ice",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -390,11 +356,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -411,22 +377,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "wind",
+		"name": "Wind",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -443,11 +404,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -464,22 +425,17 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	},
 	{
-		"name": "mist",
+		"name": "Mist",
 		"basePower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -496,11 +452,11 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"transformedPower": {
 			"name": "Consume",
+			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
@@ -517,16 +473,10 @@
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
-			],
-			"cost": 1
+			]
 		},
 		"mapCardsQuantity": {
-			"card1": 7,
-			"card2": 7,
-			"card3": 7,
-			"card4": 7,
-			"card5": 7,
-			"card6": 4
+			"card1": 100
 		}
 	}
 ]

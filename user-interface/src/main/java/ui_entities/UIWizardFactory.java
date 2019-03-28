@@ -25,15 +25,15 @@ public class UIWizardFactory extends JPanel
 	
 	
 	
-	public UIWizardFactory(WizardFactory wizardFactory)
+	public UIWizardFactory(WizardFactory wf)
 	{
-		this.wizardFactory = wizardFactory;
+		this.wizardFactory = wf;
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		setLayout(null);
 		setSize(SIZE_X, SIZE_Y);
 		
-		JLabel lblNewLabel = new JLabel(wizardFactory.getName());
+		JLabel lblNewLabel = new JLabel(wf.getName());
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(0, 0, SIZE_X, SIZE_Y);
 		add(lblNewLabel);

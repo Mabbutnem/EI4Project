@@ -56,11 +56,11 @@ public class TestBusiness
 			choice = business.getRandomWizards(3, alreadyChoosens.toArray(new WizardFactory[0]));
 			alreadyChoosens.add(choice[0]);
 			
-			Game g = new Game("thibault", business.createWizards(alreadyChoosens.toArray(new WizardFactory[0])));
+			Game g = new Game("someone", business.createWizards(alreadyChoosens.toArray(new WizardFactory[0])));
 			
 			business.newGame(g);
 			
-			while(!business.isFinished())
+			//while(!business.isFinished())
 			{
 				if(business.levelFinished())
 				{
