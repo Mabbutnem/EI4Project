@@ -53,7 +53,7 @@ public class UISwing extends JFrame implements IUI{
 	public UISwing() {
 		super();
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 300); 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		
