@@ -323,5 +323,981 @@
 		],
 		"cost": 1,
 		"revealed": true
+	},
+	{
+		"name": "fireCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "MORE"
+						},
+						"value": 1
+					},
+					{
+						"effectType": "wordEffect",
+						"word": "PIERCE"
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "burnEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1,
+						"zoneSource": "DECK",
+						"pickSource": "TOP"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard4",
+		"effects": [
+			{
+				"effectType": "burnEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2,
+				"zoneSource": "HAND",
+				"pickSource": "CHOICE"
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "fireCard5",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 13
+			},
+			{
+				"effectType": "burnItselfEffect"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard6",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "drawEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+						},
+						"value": 1
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "burnEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard7",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "MORE"
+						},
+						"value": 10
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "burnEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "fireCard8",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "gainArmorEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+						},
+						"value": 10
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "burnEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 3,
+						"zoneSource": "DISCARD",
+						"pickSource": "CHOICE"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "Bolt",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 5
+			},
+			{
+				"effectType": "burnItselfEffect"
+			}
+		],
+		"cost": 0,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 9
+			},
+			{
+				"effectType": "gainMoveEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "voidEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+						},
+						"value": 1,
+						"zoneSource": "DECK",
+						"pickSource": "TOP"
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "voidEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 2,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard3",
+		"effects": [
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+						"constraints": [
+						],
+						"type": "CHOICE"
+						},
+						"value": 15
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "voidEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 3,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+				}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 5
+			},
+			{
+				"effectType": "addCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"cardName": "Bolt",
+				"destZone": "HAND",
+				"destPick": "DEFAULT"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard5",
+		"effects": [
+			{
+				"effectType": "gainMoveEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "addCardEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 2,
+						"cardName": "Bolt",
+						"destZone": "HAND",
+						"destPick": "DEFAULT"
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "voidEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard6",
+		"effects": [
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "voidEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 3,
+						"zoneSource": "DECK",
+						"pickSource": "TOP"
+					},
+					{
+						"effectType": "gainMoveEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 3
+					}
+				],
+				"conditionalEffect": 
+					{
+						"effectType": "voidEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 4,
+						"zoneSource": "HAND",
+						"pickSource": "CHOICE"
+					}
+			}
+		],
+		"cost": 3,
+		"revealed": true
+	},
+	{
+		"name": "thunderCard7",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "gainMoveEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard1",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "predictionEffect"
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard2",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 7
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "LIFELINK"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard3",
+		"effects": [
+			{
+				"effectType": "predictionEffect"
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "predictionEffect"
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "lightCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "predictionEffect"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard5",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 7
+			},
+			{
+				"effectType": "loseRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 4
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard6",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "addChoosenCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"cardNames": [
+					"otherLightCard1",
+					"otherLightCard2"
+				],
+				"destZone": "VOID",
+				"destPick": "DEFAULT"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "otherLightCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTALLY"
+					],
+					"type": "AREA"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "LIFELINK"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "PIERCE"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "otherLightCard2",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 13
+			},
+			{
+				"effectType": "loseRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 4
+			},
+			{
+				"effectType": "burnEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3,
+				"zoneSource": "DECK",
+				"pickSource": "TOP"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard7",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 0
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 0
+			},
+			{
+				"effectType": "loseRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 0
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 11
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"zoneSource": "DECK",
+				"pickSource": "TOP",
+				"zoneDest": "DISCARD",
+				"pickDest": "DEFAULT"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 14
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 7
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"zoneSource": "DISCARD",
+				"pickSource": "CHOICE",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 7
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "POISON"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard5",
+		"effects": [
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2,
+				"zoneSource": "DISCARD",
+				"pickSource": "CHOICE",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT"
+			},
+			{
+				"effectType": "burnItselfEffect"
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard6",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "loseMoveEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 2
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard7",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "addWordEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"word": "ACID"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "ACID"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "pestilenceCard8",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "gainArmorEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 4
+					}
+				],
+				"conditionalEffect":
+					{
+						"effectType": "cardEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 4,
+						"zoneSource": "DECK",
+						"pickSource": "TOP",
+						"zoneDest": "DISCARD",
+						"pickDest": "DEFAULT"
+					}
+						
+			}
+		],
+		"cost": 1,
+		"revealed": true
 	}
 ]
