@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
 
 import characterlistener.IManaListener;
+import characterlistener.ITransformedListener;
 import constant.WizardConstant;
 import javafx.collections.ListChangeListener;
 import spell.Card;
@@ -27,7 +28,6 @@ public class Wizard extends Character
 	
 	private int mana;
 	private boolean transformed;
-	private String name;
 	private Power basePower;
 	private Power transformedPower;
 	private boolean powerUsed;
@@ -114,14 +114,22 @@ public class Wizard extends Character
 	
 	
 	
+	private void setTransformed(boolean transformed) {
+		boolean prevTransformed = this.transformed;
+		
+		this.transformed = transformed;
+		
+		fireTransformedChanged(prevTransformed, transformed);
+	}
+	
 	public void untransform()
 	{
-		transformed = false;
+		setTransformed(false);
 	}
 	
 	public void transform()
 	{
-		transformed = true;
+		setTransformed(true);
 		resetHealth();
 		
 		//Le deck peut être vidé mais il ne faut pas tuer le wizard !!
@@ -138,10 +146,30 @@ public class Wizard extends Character
 		return transformed;
 	}
 	
+	public void addTransformedListener(ITransformedListener listener)
+	{
+		listeners.add(ITransformedListener.class, listener);
+	}
 	
+	public void removeTransformedListener(ITransformedListener listener)
+	{
+		listeners.remove(ITransformedListener.class, listener);
+	}
 	
-	public String getName() {
-		return name;
+	public ITransformedListener[] getTransformedListeners()
+	{
+		return listeners.getListeners(ITransformedListener.class);
+	}
+	
+	private void fireTransformedChanged(boolean prevTransformed, boolean actualTransformed)
+	{
+		if(prevTransformed != actualTransformed)
+		{
+			for(ITransformedListener listener : getTransformedListeners())
+			{
+				listener.onChange(this, actualTransformed);
+			}
+		}
 	}
 
 	

@@ -18,6 +18,7 @@ public abstract class Character implements IBoardElement
 	protected static final String GAIN_ILLEGAL_VALUE_ERROR_MESSAGE = "Gain was %s but expected positive";
 	private static final String DAMAGE_ILLEGAL_VALUE_ERROR_MESSAGE = "Damage was %s but expected positive";
 
+	protected String name;
 	private boolean alive;
 	private int health;
 	private int armor;
@@ -46,6 +47,11 @@ public abstract class Character implements IBoardElement
 
 
 
+	
+	public String getName() {
+		return name;
+	}
+	
 
 	public boolean isAlive() {
 		return alive;

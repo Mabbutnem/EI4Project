@@ -17,7 +17,6 @@ public class Monster extends Character
 	private int initArmor;
 	private int baseMove;
 	private int baseRange;
-	private String name;
 	private float rebornProbability;
 	
 	private Incantation[] incantations;
@@ -55,12 +54,6 @@ public class Monster extends Character
 		incantationProbabilities = Proba.convertFrequencyToProbability(
 				MapConverter.getFrequenciesFromMapNamesFrequencies(monsterFactory.getMapIncantationsFrequencies(), this.incantations));
 		
-	}
-	
-	
-	
-	public String getName() {
-		return name;
 	}
 
 	
