@@ -128,7 +128,7 @@ public class Business implements IBusiness
 
 	public void deleteGame(String name) throws IOException {
 		dao.deleteGame(name);
-		if(game.getName().compareTo(name)==0) { this.game = null; }
+		if(game != null && game.getName().compareTo(name)==0) { this.game = null; }
 	}
 
 	

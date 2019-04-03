@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.google.common.base.Preconditions;
+
 import boardelement.WizardFactory;
 
 public class UIWizardFactoryChoice
@@ -26,6 +28,10 @@ public class UIWizardFactoryChoice
 	
 	public WizardFactory chooseWizardFactory(WizardFactory[] wizardFactories)
 	{
+		Preconditions.checkArgument(wizardFactories.length > 0, "wizardFactories is empty");
+		
+		if(wizardFactories.length == 1) { return wizardFactories[0]; }
+		
 		UIWizardFactoryArray uiWfArray = new UIWizardFactoryArray(wizardFactories);
 		
 		uiWfArray.setTitle("Choose among the " + wizardFactories.length + " wizards");

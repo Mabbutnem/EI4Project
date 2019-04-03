@@ -74,8 +74,9 @@ public class TestUIWizardFactoryArray {
 			business.initAllConstant();
 			
 			
-			
-			choosenWf.add(business.getRandomWizards(1, new WizardFactory[0])[0]);
+
+			choosenWf.add(wizardFactoryChoice.chooseWizardFactory(
+					business.getRandomWizards(1, choosenWf.toArray(new WizardFactory[0]))));
 			
 			frame.getContentPane().remove(uiWfArray);
 			uiWfArray = new UIWizardFactoryArray(choosenWf.toArray(new WizardFactory[0]));

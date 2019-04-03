@@ -72,6 +72,8 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 	@Override
 	public Game loadGame(String name) throws IOException
 	{
+		Preconditions.checkArgument(name != null, "You must select a game");
+		
 		Game[] games = getGames(g->name.compareTo(g.getName())==0);
 		
 		Preconditions.checkArgument(games.length > 0, "No game with this name found");
@@ -87,6 +89,8 @@ public class JSONDao extends JSONDataGameReaderDao implements IDao
 
 	@Override
 	public void deleteGame(String name) throws IOException {
+		Preconditions.checkArgument(name != null, "You must select a game");
+		
 		File file = new File(getCompleteDaoPathFile(savesFileName));
 		Game[] array = mapperForGame.readValue(file,Game[].class);
 		Stream<Game> stream=Stream.of(array);
