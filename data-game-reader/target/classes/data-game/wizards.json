@@ -2,433 +2,616 @@
 	{
 		"name": "Shadow",
 		"basePower": {
-			"name": "Consume",
+			"name": "shadowPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "loseHealthEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 8
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "drawEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "shadowTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "addWordEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
-				},
-				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"word": "LIFELINK"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"shadowCard1": 10,
+			"shadowCard2": 10,
+			"shadowCard3": 5,
+			"shadowCard4": 10,
+			"shadowCard5": 10,
+			"shadowCard6": 10,
+			"shadowCard7": 20
 		}
 	},
 	{
 		"name": "Fire",
 		"basePower": {
-			"name": "Consume",
+			"name": "firePower",
 			"cost": 1,
 			"effects": [
+				{
+					"effectType": "burnEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "DECK",
+					"pickSource": "TOP"
+				},
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 5
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "wordEffect",
+					"word": "PIERCE"
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "fireTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "castEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
-				},
-				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
+					"value": 1,
+					"zoneSource": "DECK",
+					"pickSource": "TOP",
+					"zoneDest": "BURN",
 					"pickDest": "DEFAULT"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"fireCard1": 10,
+			"fireCard2": 10,
+			"fireCard3": 10,
+			"fireCard4": 5,
+			"fireCard5": 10,
+			"fireCard6": 10,
+			"fireCard7": 10,
+			"fireCard8": 10
 		}
 	},
 	{
 		"name": "Thunder",
 		"basePower": {
-			"name": "Consume",
+			"name": "thunderPower",
 			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 2
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "gainMoveEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 2
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "thunderTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 3
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "gainMoveEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 3
+				},
+				{
+					"effectType": "drawEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"thunderCard1": 10,
+			"thunderCard2": 10,
+			"thunderCard3": 10,
+			"thunderCard4": 10,
+			"thunderCard5": 10,
+			"thunderCard6": 5,
+			"thunderCard7": 10
 		}
 	},
 	{
 		"name": "Light",
 		"basePower": {
-			"name": "Consume",
+			"name": "lightPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainRangeEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 2
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "predictionEffect"
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "lightTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainRangeEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 3
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "predictionEffect"
+				},
+				{
+					"effectType": "drawEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"lightCard1": 10,
+			"lightCard2": 10,
+			"lightCard3": 5,
+			"lightCard4": 10,
+			"lightCard5": 10,
+			"lightCard6": 10,
+			"lightCard7": 10,
+			"lightCard8": 10
 		}
 	},
 	{
 		"name": "Life",
 		"basePower": {
-			"name": "Consume",
+			"name": "lifePower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainHealthEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 2
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "gainArmorEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 2
+				},
+				{
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "DECK",
+					"pickSource": "CHOICE",
+					"zoneDest": "DECK",
+					"pickDest": "TOP"
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "lifeTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "drawEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 1
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "addChoosenCardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"cardNames": [
+						"life1",
+						"life2",
+						"life3",
+						"life4"
+					],
+					"destZone": "DECK",
+					"destPick": "TOP"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"lifeCard1": 10,
+			"lifeCard2": 10,
+			"lifeCard3": 10,
+			"lifeCard4": 10,
+			"lifeCard5": 10,
+			"lifeCard6": 10,
+			"lifeCard7": 10,
+			"lifeCard8": 5
 		}
 	},
 	{
 		"name": "Pestilence",
 		"basePower": {
-			"name": "Consume",
+			"name": "pestilencePower",
 			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 4
 				},
 				{
-					"effectType": "putAfterCastEffect",
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "DISCARD",
+					"pickSource": "CHOICE",
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
+				},
+				{
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "HAND",
+					"pickSource": "CHOICE",
+					"zoneDest": "DISCARD",
+					"pickDest": "DEFAULT"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "pestilenceTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 4
 				},
 				{
-					"effectType": "putAfterCastEffect",
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "DISCARD",
+					"pickSource": "CHOICE",
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
+				},
+				{
+					"effectType": "wordEffect",
+					"word": "ACID"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"pestilenceCard1": 10,
+			"pestilenceCard2": 10,
+			"pestilenceCard3": 10,
+			"pestilenceCard4": 10,
+			"pestilenceCard5": 5,
+			"pestilenceCard6": 10,
+			"pestilenceCard7": 10,
+			"pestilenceCard8": 10
 		}
 	},
 	{
 		"name": "Water",
 		"basePower": {
-			"name": "Consume",
+			"name": "waterPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainHealthEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
-				},
-				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"value": 6
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "waterTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
 					"effectType": "inflictEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "CHOICE"
 					},
-					"value": 80
+					"value": 6
 				},
 				{
-					"effectType": "putAfterCastEffect",
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "DECK",
+					"pickSource": "BOTTOM",
 					"zoneDest": "HAND",
 					"pickDest": "DEFAULT"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"waterCard1": 10,
+			"waterCard2": 10,
+			"waterCard3": 10,
+			"waterCard4": 10,
+			"waterCard5": 10,
+			"waterCard6": 10,
+			"waterCard7": 10,
+			"waterCard8": 5
 		}
 	},
 	{
 		"name": "Ice",
 		"basePower": {
-			"name": "Consume",
+			"name": "icePower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainArmorEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
-				},
-				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"value": 7
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "iceTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainArmorEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 14
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "drawEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1
+				},
+				{
+					"effectType": "cardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"zoneSource": "HAND",
+					"pickSource": "DEFAULT",
+					"zoneDest": "DECK",
+					"pickDest": "TOP"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"iceCard1": 10,
+			"iceCard2": 10,
+			"iceCard3": 10,
+			"iceCard4": 10,
+			"iceCard5": 10,
+			"iceCard6": 10,
+			"iceCard7": 10,
+			"iceCard8": 5
 		}
 	},
 	{
 		"name": "Wind",
 		"basePower": {
-			"name": "Consume",
-			"cost": 1,
+			"name": "windPower",
+			"cost": 0,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainDashEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
-				},
-				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"value": 1
 				}
 			]
 		},
 		"transformedPower": {
-			"name": "Consume",
+			"name": "windTransformedPower",
 			"cost": 1,
 			"effects": [
 				{
-					"effectType": "inflictEffect",
+					"effectType": "gainDashEffect",
 					"target": {
 						"constraints": [
-							"NOTYOU"
 						],
-						"type": "AREA"
+						"type": "YOU"
 					},
-					"value": 80
+					"value": 1
 				},
 				{
-					"effectType": "putAfterCastEffect",
-					"zoneDest": "HAND",
-					"pickDest": "DEFAULT"
+					"effectType": "addCardEffect",
+					"target": {
+						"constraints": [
+						],
+						"type": "YOU"
+					},
+					"value": 1,
+					"cardName": "tempest",
+					"destZone": "HAND",
+					"destPick": "DEFAULT"
 				}
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"windCard1": 10,
+			"windCard2": 10,
+			"windCard3": 10,
+			"windCard4": 10,
+			"windCard5": 10,
+			"windCard6": 10,
+			"windCard7": 10,
+			"windCard8": 5
 		}
 	},
 	{
@@ -445,7 +628,7 @@
 						],
 						"type": "AREA"
 					},
-					"value": 80
+					"value": 8
 				},
 				{
 					"effectType": "putAfterCastEffect",
@@ -466,7 +649,7 @@
 						],
 						"type": "AREA"
 					},
-					"value": 80
+					"value": 40
 				},
 				{
 					"effectType": "putAfterCastEffect",
@@ -476,7 +659,11 @@
 			]
 		},
 		"mapCardsQuantity": {
-			"card1": 100
+			"card1": 12,
+			"card2": 18,
+			"card3": 5,
+			"mistCard1": 10,
+			"mistCard2": 10
 		}
 	}
 ]

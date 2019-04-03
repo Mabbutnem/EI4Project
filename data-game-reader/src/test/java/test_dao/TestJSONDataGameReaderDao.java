@@ -2,7 +2,8 @@ package test_dao;
 
 import static org.mockito.Mockito.mock;
 
-import java.awt.Color;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import boardelement.WizardFactory;
 import config.DataGameReaderConfig;
 import dao.IDataGameReaderDao;
 import effect.TargetableEffect;
@@ -37,7 +39,10 @@ public class TestJSONDataGameReaderDao
 		
 		try
 		{
-			System.out.println(new Color(255, 0, 0));
+			LinkedList<WizardFactory> list = new LinkedList<>(Arrays.asList(dao.getWizards()));
+			list.stream().filter(wf -> wf.getName().compareTo("Fire")==0);
+			System.out.println(list.get(8).getBasePower().getDescription());
+			System.out.println(list.get(8).getTransformedPower().getDescription());
 		}
 		catch (Exception e)
 		{
