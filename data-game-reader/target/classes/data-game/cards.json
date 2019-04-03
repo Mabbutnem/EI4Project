@@ -1299,5 +1299,1153 @@
 		],
 		"cost": 1,
 		"revealed": true
+	},
+	{
+		"name": "life1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 16
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "life2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "life3",
+		"effects": [
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 10
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "life4",
+		"effects": [
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard1",
+		"effects": [
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 12
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard2",
+		"effects": [
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "gainArmorEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 6
+					}
+				],
+				"condition":
+					{
+						"conditionType": "lowerCardCondition",
+						"value": 1,
+						"zoneType": "HAND"
+					}				
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "drawEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1
+					}
+				],
+				"condition":
+					{
+						"conditionType": "lowerCardCondition",
+						"value": 1,
+						"zoneType": "HAND"
+					}				
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 6
+					}
+				],
+				"condition":
+					{
+						"conditionType": "lowerCardCondition",
+						"value": 1,
+						"zoneType": "HAND"
+					}				
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard5",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "addChoosenCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"cardNames": [
+					"life1",
+					"life2",
+					"life3",
+					"life4"
+				],
+				"destZone": "DECK",
+				"destPick": "TOP"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard6",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 2
+					},
+					{
+						"effectType": "wordEffect",
+						"word": "LIFELINK"
+					}
+				],
+				"conditionalEffect":
+					{
+						"effectType": "setRangeEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 1
+					}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard7",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 6
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"zoneSource": "DECK",
+				"pickSource": "CHOICE",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lifeCard8",
+		"effects": [
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "waterCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "FLOW"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 8
+			},
+			{
+				"effectType": "pullEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 2
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "FLOW"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 6
+			},
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 6
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "FLOW"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 14
+			},
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+						"NOTALLY"
+					],
+					"type": "AREA"
+				},
+				"value": 2
+			},
+			{
+				"effectType": "putAfterCastEffect",
+				"zoneDest": "DECK",
+				"pickDest": "BOTTOM"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard5",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "HAND",
+				"pickSource": "CHOICE",
+				"zoneDest": "DECK",
+				"pickDest": "BOTTOM",
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard6",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 5
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "DECK",
+				"pickSource": "BOTTOM",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT",
+				"value": 1
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "FLOW"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard7",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 8
+			},
+			{
+				"effectType": "convertArmorToHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				}
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "DECK",
+				"pickSource": "BOTTOM",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT",
+				"value": 1
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "HAND",
+				"pickSource": "CHOICE",
+				"zoneDest": "DECK",
+				"pickDest": "BOTTOM",
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "waterCard8",
+		"effects": [
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "DECK",
+				"pickSource": "BOTTOM",
+				"zoneDest": "HAND",
+				"pickDest": "DEFAULT",
+				"value": 1
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "iceCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "PIERCE"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 5
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "PIERCE"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 2
+					},
+					{
+						"effectType": "wordEffect",
+						"word": "PIERCE"
+					}
+				],
+				"conditionalEffect":
+					{
+						"effectType": "freezeEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						}
+					}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard4",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 14
+			},
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 6
+			},
+			{
+				"effectType": "freezeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard5",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 14
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard6",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 7
+			},
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 7
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard7",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "freezeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "iceCard8",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 14
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2
+			},
+			{
+				"effectType": "cardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"zoneSource": "HAND",
+				"pickSource": "CHOICE",
+				"zoneDest": "DECK",
+				"pickDest": "TOP",
+				"value": 1
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "tempest",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 12
+			},
+			{
+				"effectType": "pushEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 4
+			},
+			{
+				"effectType": "gainDashEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 11
+			},
+			{
+				"effectType": "pushEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard2",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "gainDashEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard3",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 9
+			},
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard4",
+		"effects": [
+			{
+				"effectType": "gainArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "gainDashEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 3
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard5",
+		"effects": [
+			{
+				"effectType": "pushEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "addCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"cardName": "tempest",
+				"destZone": "HAND",
+				"destPick": "DEFAULT"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard6",
+		"effects": [
+			{
+				"effectType": "gainHealthEffect",
+				"target": {
+					"constraints": [
+						"NOTYOU"
+					],
+					"type": "CHOICE"
+				},
+				"value": 11
+			},
+			{
+				"effectType": "pushEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 2
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard7",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "youCanEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 3
+					}
+				],
+				"conditionalEffect":
+					{
+						"effectType": "loseDashEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "YOU"
+						},
+						"value": 3
+					}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "windCard8",
+		"effects": [
+			{
+				"effectType": "addCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 2,
+				"cardName": "tempest",
+				"destZone": "HAND",
+				"destPick": "DEFAULT"
+			}
+		],
+		"cost": 2,
+		"revealed": true
+	},
+	{
+		"name": "steam",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 3
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "PIERCE"
+			},
+			{
+				"effectType": "burnItselfEffect"
+			}
+		],
+		"cost": 0,
+		"revealed": true
+	},
+	{
+		"name": "mistCard1",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 6
+			},
+			{
+				"effectType": "addCardEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1,
+				"cardName": "steam",
+				"destZone": "HAND",
+				"destPick": "DEFAULT"
+			},
+			{
+				"effectType": "wordEffect",
+				"word": "PIERCE"
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "mistCard2",
+		"effects": [
+			{
+				"effectType": "setArmorEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 15
+			}
+		],
+		"cost": 1,
+		"revealed": true
 	}
 ]

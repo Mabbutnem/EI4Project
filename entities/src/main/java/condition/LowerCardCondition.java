@@ -25,8 +25,7 @@ public class LowerCardCondition extends CardCondition
 
 	@Override
 	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.getDescription() + value + " card" + (value>1? "s":"") + " or less in you hand";
 	}
 
 	@Override
