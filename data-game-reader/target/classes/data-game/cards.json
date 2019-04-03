@@ -815,19 +815,16 @@
 					],
 					"type": "YOU"
 				},
-				"value": 3
+				"value": 2
 			},
 			{
-				"effectType": "predictionEffect"
-			},
-			{
-				"effectType": "drawEffect",
+				"effectType": "gainHealthEffect",
 				"target": {
 					"constraints": [
 					],
-					"type": "YOU"
+					"type": "CHOICE"
 				},
-				"value": 1
+				"value": 11
 			}
 		],
 		"cost": 1,
@@ -969,6 +966,78 @@
 		"revealed": true
 	},
 	{
+		"name": "lightCard7",
+		"effects": [
+			{
+				"effectType": "gainRangeEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			},
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 5
+			},
+			{
+				"effectType": "predictionEffect"
+			},
+			{
+				"effectType": "drawEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "YOU"
+				},
+				"value": 1
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
+		"name": "lightCard8",
+		"effects": [
+			{
+				"effectType": "inflictEffect",
+				"target": {
+					"constraints": [
+					],
+					"type": "CHOICE"
+				},
+				"value": 10
+			},
+			{
+				"effectType": "ifEffect",
+				"effects": [
+					{
+						"effectType": "inflictEffect",
+						"target": {
+							"constraints": [
+							],
+							"type": "MORE"
+						},
+						"value": 3
+					}
+				],
+				"condition":
+					{
+						"conditionType": "HigherRangeCondition",
+						"value": 9
+					}
+			}
+		],
+		"cost": 1,
+		"revealed": true
+	},
+	{
 		"name": "otherLightCard1",
 		"effects": [
 			{
@@ -1033,40 +1102,6 @@
 				"value": 3,
 				"zoneSource": "DECK",
 				"pickSource": "TOP"
-			}
-		],
-		"cost": 1,
-		"revealed": true
-	},
-	{
-		"name": "lightCard7",
-		"effects": [
-			{
-				"effectType": "gainRangeEffect",
-				"target": {
-					"constraints": [
-					],
-					"type": "YOU"
-				},
-				"value": 0
-			},
-			{
-				"effectType": "inflictEffect",
-				"target": {
-					"constraints": [
-					],
-					"type": "CHOICE"
-				},
-				"value": 0
-			},
-			{
-				"effectType": "loseRangeEffect",
-				"target": {
-					"constraints": [
-					],
-					"type": "YOU"
-				},
-				"value": 0
 			}
 		],
 		"cost": 1,
