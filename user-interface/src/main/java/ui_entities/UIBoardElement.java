@@ -22,7 +22,6 @@ public abstract class UIBoardElement extends JPanel
 	public static final int SIZE_X = 136;
 	public static final int SIZE_Y = 170;
 	protected static final int SIZE_HEADER = 34;
-	protected static final int SIZE_INFO_TEXT = 15;
 	protected static final int SIZE_TITLE = 34;
 	protected static final int SIZE_ARROW = 34;
 	
@@ -122,7 +121,7 @@ public abstract class UIBoardElement extends JPanel
 		}
 		else {
 			state = State.WIZARD_DONT_SEE;
-			selected = false;
+			setSelected(false);
 		}
 		
 		if(previousState == state) { return; }

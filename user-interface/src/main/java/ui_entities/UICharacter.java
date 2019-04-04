@@ -60,7 +60,7 @@ public abstract class UICharacter extends UIBoardElement
 		
 		moveValue = new UIValue(SIZE_HEADER, SIZE_HEADER, 0, "Move");
 		moveValue.setAllForeground(new Color(0, 0, 0));
-		moveValue.setLocation(SIZE_X/2 - SIZE_HEADER/2, SIZE_Y-SIZE_HEADER);
+		moveValue.setLocation((SIZE_X - SIZE_HEADER)/2, SIZE_Y-SIZE_HEADER);
 		moveValue.setVisible(false);
 		add(moveValue);
 		

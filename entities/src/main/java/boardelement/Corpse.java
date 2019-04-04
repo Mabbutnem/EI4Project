@@ -2,8 +2,10 @@ package boardelement;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.google.common.base.Preconditions;
-
 import constant.CorpseConstant;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
 import utility.Proba;
 
 @JsonTypeName("corpse")
@@ -13,7 +15,7 @@ public class Corpse implements IBoardElement
 	
 	private Monster monster;
 	private boolean willReborn;
-	private int counterToReborn;
+	private IntegerProperty counterToReborn;
 	
 	
 	
@@ -31,7 +33,7 @@ public class Corpse implements IBoardElement
 		monster.reset();
 		this.monster = monster;
 		willReborn = Proba.willHappen(monster.getRebornProbability());
-		counterToReborn = 0;
+		counterToReborn = new SimpleIntegerProperty(0);
 	}
 
 
@@ -54,15 +56,23 @@ public class Corpse implements IBoardElement
 
 
 	public int getCounterToReborn() {
-		return counterToReborn;
+		return counterToReborn.intValue();
+	}
+
+	public void addListener(ChangeListener<Number> l) {
+		counterToReborn.addListener(l);
+	}
+
+	public void removeListener(ChangeListener<Number> l) {
+		counterToReborn.removeListener(l);
 	}
 	
 	public void incrCounterToReborn() {
-		counterToReborn++;
+		counterToReborn.set(counterToReborn.intValue()+1);
 	}
 	
 	public boolean counterReachedReborn() {
-		return counterToReborn >= corpseConstant.getNbTurnToReborn();
+		return counterToReborn.intValue() >= corpseConstant.getNbTurnToReborn();
 	}
 	
 	

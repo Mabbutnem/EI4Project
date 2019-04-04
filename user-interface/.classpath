@@ -28,6 +28,7 @@
 		</attributes>
 		<accessrules>
 			<accessrule kind="accessible" pattern="javafx/collections/**"/>
+			<accessrule kind="accessible" pattern="javafx/**"/>
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">

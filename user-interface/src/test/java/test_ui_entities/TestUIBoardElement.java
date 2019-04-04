@@ -8,10 +8,12 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
+import boardelement.Corpse;
 import boardelement.Monster;
 import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
+import constant.CorpseConstant;
 import constant.WizardConstant;
 import effect.FreezeEffect;
 import effect.IEffect;
@@ -28,6 +30,7 @@ import target.Target;
 import target.TargetConstraint;
 import target.TargetType;
 import ui_entities.UIBoardElement;
+import ui_entities.UICorpse;
 import ui_entities.UIMonster;
 import ui_entities.UIWizard;
 import zone.Zone;
@@ -80,7 +83,7 @@ public class TestUIBoardElement {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 377);
+		frame.setBounds(100, 100, 505, 377);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -92,6 +95,7 @@ public class TestUIBoardElement {
 		Zone.setCardArrayRequestListener(cardArrayRequestListener);
 		
 		Wizard.setWizardConstant(new WizardConstant(80, 0, 3, 6, 3, 4));
+		Corpse.setCorpseConstant(new CorpseConstant(3));
 		
 		final IEffect[] effects = new IEffect[]
 				{
@@ -133,7 +137,9 @@ public class TestUIBoardElement {
 		MonsterFactory mf = new MonsterFactory("Monster1", 80, 20, 3, 6, map, 0f);
 		final Monster monster = new Monster(mf, incantations);
 		
-		uiBoardElement = new UIWizard(wizard);
+		final Corpse corpse = new Corpse(monster);
+		
+		uiBoardElement = new UICorpse(corpse);
 		uiBoardElement.setState(false, false);
 		frame.getContentPane().add(uiBoardElement);
 		
@@ -145,6 +151,7 @@ public class TestUIBoardElement {
 				}
 			}
 		});
+		//((UIWizard) uiBoardElement).setCanMoveWithArrow(true);
 		
 		textField = new JTextField();
 		textField.setBounds(227, 11, 107, 20);
@@ -212,5 +219,14 @@ public class TestUIBoardElement {
 			}
 		});
 		frame.getContentPane().add(button_1);
+		
+		JButton btnIncr = new JButton("Incr");
+		btnIncr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				corpse.incrCounterToReborn();
+			}
+		});
+		btnIncr.setBounds(390, 110, 89, 23);
+		frame.getContentPane().add(btnIncr);
 	}
 }

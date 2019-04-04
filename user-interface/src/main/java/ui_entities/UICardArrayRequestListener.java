@@ -56,6 +56,8 @@ public class UICardArrayRequestListener implements ICardArrayRequestListener
 		
 		}while(selectedSpells.length != nbCard);
 		
+		uiCardArray.clearListeners();
+		
 		
 		
 		Card[] choosenCards = new Card[selectedSpells.length];
@@ -81,6 +83,7 @@ public class UICardArrayRequestListener implements ICardArrayRequestListener
 		
 		
 		ISpell[] selectedSpells = uiCardArray.getSelectedSpells();
+		uiCardArray.clearListeners();
 		Card[] choosenCards = new Card[selectedSpells.length];
 		for(int i = 0; i < choosenCards.length; i++) {
 			choosenCards[i] = (Card) selectedSpells[i];
