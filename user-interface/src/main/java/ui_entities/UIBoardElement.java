@@ -63,16 +63,16 @@ public abstract class UIBoardElement extends JPanel
 		setSize(SIZE_X, SIZE_Y);
 		
 		nameLabel = new JLabel();
-		nameLabel.setBorder(new MatteBorder(1, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		nameLabel.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(0, 0, 0)));
 		nameLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		nameLabel.setSize(SIZE_X, SIZE_TITLE);
 		nameLabel.setLocation(0, SIZE_HEADER);
 		add(nameLabel);
 		
-		putImageHereLabel = new JLabel("-0-");
+		putImageHereLabel = new JLabel();
 		putImageHereLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		putImageHereLabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(0, 0, 0)));
+		putImageHereLabel.setBorder(new MatteBorder(1, 0, 1, 0, (Color) new Color(0, 0, 0)));
 		putImageHereLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 		putImageHereLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		putImageHereLabel.setSize(SIZE_X, SIZE_Y-SIZE_HEADER-SIZE_TITLE-SIZE_ARROW);
@@ -114,22 +114,18 @@ public abstract class UIBoardElement extends JPanel
 
 	public void setState(boolean inWizardsRange, boolean inCurrentCharacterRange)
 	{
-		State previousState = state;
-		
 		if(inWizardsRange) {
 			state = inCurrentCharacterRange ? State.WIZARD_SEE_AND_CURRENT_SEE : State.WIZARD_SEE_AND_CURRENT_DONT_SEE;
 		}
 		else {
 			state = State.WIZARD_DONT_SEE;
-			setSelected(false);
 		}
-		
-		if(previousState == state) { return; }
 		
 		setCanBeSelected(inWizardsRange);
 		
 		refreshUIInFunctionOfTheState();
 	}
+	
 	
 	protected Color getStateBaseColor() {
 		switch(state) {
@@ -156,7 +152,7 @@ public abstract class UIBoardElement extends JPanel
 		putImageHereLabel.setVisible(getStateUIVisible());
 	}
 	
-	private void setAllBackgrounds(Color color) {
+	protected void setAllBackgrounds(Color color) {
 		setBackground(color);
 	}
 	

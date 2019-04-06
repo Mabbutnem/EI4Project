@@ -31,8 +31,6 @@ import target.TargetConstraint;
 import target.TargetType;
 import ui_entities.UIBoardElement;
 import ui_entities.UICorpse;
-import ui_entities.UIMonster;
-import ui_entities.UIWizard;
 import zone.Zone;
 import zone.ZoneGroup;
 

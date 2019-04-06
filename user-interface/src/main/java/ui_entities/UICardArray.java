@@ -102,6 +102,7 @@ public class UICardArray extends JPanel
 					for(UISpell uispell : uispells) {
 						if(arg0.getRemoved().contains(uispell.getSpell())){
 							removedList.add(uispell);
+							uispell.clearListeners();
 							remove(uispell);
 						}
 					}

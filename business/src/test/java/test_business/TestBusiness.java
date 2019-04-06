@@ -69,7 +69,7 @@ public class TestBusiness
 				
 				business.beginWizardsTurn();
 				
-				business.setSelectedCharacter((Character) business.getBoard()[2]);
+				business.setSelectedCharacter((Character) business.getGame().getBoard()[2]);
 				((Wizard) business.getSelectedCharacter()).setDash(20);
 				if(business.canDash()) {
 					business.rightDash();

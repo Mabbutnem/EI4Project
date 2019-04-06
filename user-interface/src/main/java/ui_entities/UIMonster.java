@@ -81,8 +81,8 @@ public class UIMonster extends UICharacter
 				Monster m = (Monster) boardElement;
 				boolean uiVisible = getStateUIVisible();
 				
-				rangeValue.setVisible(uiVisible && m.getRange() != m.getBaseRange());
-				moveValue.setVisible(uiVisible && m.getMove() != m.getBaseMove());
+				rangeValue.setVisible(uiVisible && (selected || m.getRange() != m.getBaseRange()));
+				moveValue.setVisible(uiVisible && (selected || m.getMove() != m.getBaseMove()));
 			}
 		};
 	}
@@ -95,10 +95,10 @@ public class UIMonster extends UICharacter
 		Monster m = (Monster) this.boardElement;
 		boolean uiVisible = getStateUIVisible();
 			
-		rangeValue.setVisible(uiVisible && m.getRange() != m.getBaseRange());
-		armorValue.setVisible(uiVisible && m.getArmor() > 0);
+		rangeValue.setVisible(uiVisible && (selected || m.getRange() != m.getBaseRange()));
+		armorValue.setVisible(uiVisible && (selected || m.getArmor() > 0));
 		healthValue.setVisible(uiVisible);
-		moveValue.setVisible(uiVisible && m.getMove() != m.getBaseMove());
+		moveValue.setVisible(uiVisible && (selected || m.getMove() != m.getBaseMove()));
 	}
 
 }

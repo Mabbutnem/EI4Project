@@ -2,13 +2,11 @@ package business;
 
 import java.io.IOException;
 
-import boardelement.IBoardElement;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import dao.IDao;
 import boardelement.Character;
 import game.Game;
-import javafx.collections.ListChangeListener;
 import spell.Card;
 import spell.ISpell;
 import zone.ZoneType;
@@ -71,15 +69,7 @@ public interface IBusiness
 	
 	//D'autres getters et listeners utiles
 	public Character getCurrentCharacter();
-	public boolean[] getCurrentCharacterRange();
-	public void addCurrentCharacterRangeListener(ListChangeListener<Boolean> listener);
-	public void removeCurrentCharacterRangeListener(ListChangeListener<Boolean> listener);
-	public boolean[] getWizardsRange();
-	public void addWizardsRangeListener(ListChangeListener<Boolean> listener);
-	public void removeWizardsRangeListener(ListChangeListener<Boolean> listener);
-	public IBoardElement[] getBoard();
-	public void addBoardListener(ListChangeListener<IBoardElement> listener);
-	public void removeBoardListener(ListChangeListener<IBoardElement> listener);
+	public Game getGame();
 	public ISpell getNextSpellToCast();
 	public IDao getDao();
 }

@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
-import boardelement.IBoardElement;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import boardelement.Character;
 import dao.IDao;
 import game.Game;
-import javafx.collections.ListChangeListener;
 import spell.Card;
 import spell.ISpell;
 import spell.Power;
@@ -262,40 +260,8 @@ public class Business implements IBusiness
 		return game.getCurrentCharacter();
 	}
 
-	public boolean[] getCurrentCharacterRange() {
-		return game.getCurrentCharacterRange();
-	}
-	
-	public void addCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
-		game.addCurrentCharacterRangeListener(listener);
-	}
-	
-	public void removeCurrentCharacterRangeListener(ListChangeListener<Boolean> listener) {
-		game.removeCurrentCharacterRangeListener(listener);
-	}
-
-	public boolean[] getWizardsRange() {
-		return game.getWizardsRange();
-	}
-	
-	public void addWizardsRangeListener(ListChangeListener<Boolean> listener) {
-		game.addWizardsRangeListener(listener);
-	}
-	
-	public void removeWizardsRangeListener(ListChangeListener<Boolean> listener) {
-		game.removeWizardsRangeListener(listener);
-	}
-
-	public IBoardElement[] getBoard() {
-		return game.getBoard();
-	}
-	
-	public void addBoardListener(ListChangeListener<IBoardElement> listener) {
-		game.addBoardListener(listener);
-	}
-	
-	public void removeBoardListener(ListChangeListener<IBoardElement> listener) {
-		game.removeBoardListener(listener);
+	public Game getGame() {
+		return game;
 	}
 
 	public ISpell getNextSpellToCast() {
