@@ -73,9 +73,9 @@ public class UICardArrayRequestListener implements ICardArrayRequestListener
 	{
 		UICardArray uiCardArray = new UICardArray(cards);
 		uiCardArray.setNbCanBeSelected(cards.length);
-		uiCardArray.setTitle("Choose any number of cards");
-		
-		UIManager.put("OptionPane.minimumSize", new Dimension(1000, 400));
+		uiCardArray.setTitle("Choose any number of cards to mulligan");
+
+		UIManager.put("OptionPane.minimumSize", new Dimension(uiCardArray.getWidth() + DIALOG_SIZE_X, uiCardArray.getHeight() + DIALOG_SIZE_Y));
 		
 		JOptionPane.showInternalConfirmDialog(container, uiCardArray, "Make a choice and confirm", 
 				JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null);

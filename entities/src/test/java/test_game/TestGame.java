@@ -531,6 +531,13 @@ public class TestGame
 		expected = false;
 		result = g.isValidTargetForCurrentCharacter(w0, new TargetConstraint[] {TargetConstraint.NOTYOU, TargetConstraint.NOTENEMY});
 		assertEquals(expected, result);
+		
+		
+		
+		//Null target
+		expected = false;
+		result = g.isValidTargetForCurrentCharacter(null, new TargetConstraint[0]);
+		assertEquals(expected, result);
 	}
 	
 	@Test

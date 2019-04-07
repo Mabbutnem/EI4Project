@@ -117,7 +117,7 @@ public abstract class TargetableEffect implements IApplicableEffect
 	{
 		if(spell.getChoosenTarget() == null && game.hasValidTargetForCurrentCharacter(target.getConstraints()))
 		{
-			spell.setChoosenTarget(targetRequestListener.chooseTarget(game));
+			spell.setChoosenTarget(targetRequestListener.chooseTarget(game, target.getConstraints()));
 		}
 		if(spell.getChoosenTarget() != null)
 		{

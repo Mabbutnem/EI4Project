@@ -37,10 +37,6 @@ public class Business implements IBusiness
 
 	public void setSelectedCharacter(Character selectedCharacter)
 	{
-		if(selectedCharacter == null) {
-			return;
-		}
-		
 		if(this.selectedCharacter != selectedCharacter)
 		{
 			selectedCard = null;

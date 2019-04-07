@@ -186,7 +186,7 @@ public class TestTargetableEffect
 	{
 		when(target.getType()).thenReturn(TargetType.CHOICE);
 		
-		when(targetRequestListener.chooseTarget(game)).thenReturn(c0);
+		when(targetRequestListener.chooseTarget(game, target.getConstraints())).thenReturn(c0);
 		
 		when(game.hasValidTargetForCurrentCharacter(constraints)).thenReturn(true);
 		

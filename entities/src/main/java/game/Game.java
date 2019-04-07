@@ -263,6 +263,10 @@ public class Game
 	@JsonIgnore
 	public boolean isValidTargetForCurrentCharacter(Character character, TargetConstraint[] constraints)
 	{
+		if(character == null) {
+			return false;
+		}
+		
 		return Arrays.asList(getAllAvailableTargetForCurrentCharacter(constraints)).contains(character);
 	}
 

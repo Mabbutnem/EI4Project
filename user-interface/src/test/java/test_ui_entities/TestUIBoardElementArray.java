@@ -13,8 +13,6 @@ import javax.swing.JFrame;
 import boardelement.Character;
 import boardelement.Corpse;
 import boardelement.IBoardElement;
-import boardelement.Monster;
-import boardelement.MonsterFactory;
 import boardelement.Wizard;
 import boardelement.WizardFactory;
 import constant.CorpseConstant;
@@ -39,7 +37,6 @@ import target.TargetType;
 import ui_entities.UIBoardElementArray;
 import zone.Zone;
 import zone.ZoneGroup;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -130,8 +127,6 @@ public class TestUIBoardElementArray {
 		map.put("Inc0", 100);
 		
 		WizardFactory wf = new WizardFactory("Wizard1", power, power, map);
-		
-		MonsterFactory mf = new MonsterFactory("Monster1", 80, 20, 3, 6, map, 0f);
 		
 		final Wizard w1 = new Wizard(wf, cards);
 		

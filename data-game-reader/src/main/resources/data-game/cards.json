@@ -1029,7 +1029,7 @@
 				],
 				"condition":
 					{
-						"conditionType": "HigherRangeCondition",
+						"conditionType": "higherRangeCondition",
 						"value": 9
 					}
 			}
