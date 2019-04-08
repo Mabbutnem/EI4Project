@@ -299,5 +299,16 @@ public class UIBoardElementArray extends JPanel
 			}
 		}
 	}
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+		
+		for(UIBoardElement uiBE : uiBoardElements)
+		{
+			uiBE.setEnabled(enabled);
+		}
+	}
 
 }

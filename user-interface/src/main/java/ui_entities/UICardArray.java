@@ -35,6 +35,8 @@ public class UICardArray extends JPanel
 	
 	private ListChangeListener<Card> zoneListener;
 	
+	private MouseAdapter businessChangeMouseListener;
+	
 	private Border border;
 	
 	private Zone zone;
@@ -86,6 +88,7 @@ public class UICardArray extends JPanel
 								UIChoiceArrow.SIZE_X + (i+arg0.getFrom())*(UISpell.SIZE_X+DIST_CARD_TO_CARD) + 2*DIST_CARD_TO_CARD,
 								TOP_DIST_TO_BORDER_Y);
 						addedList.get(i).addMouseListener(getUICardArrayMouseListener());
+						addedList.get(i).addMouseListener(businessChangeMouseListener);
 						add(addedList.get(i));
 					}
 					
@@ -354,10 +357,11 @@ public class UICardArray extends JPanel
 		return list.toArray(new ISpell[0]);
 	}
 	
-
-	public void addMouseListenerToUISpells(MouseAdapter mouseAdapter) {
-		for(UISpell uispell : uispells) {
-			uispell.addMouseListener(mouseAdapter);
+	public void setBusinessChangeMouseListener(MouseAdapter l) {
+		businessChangeMouseListener = l;
+		
+		for(UISpell uiSpell : uispells) {
+			uiSpell.addMouseListener(l);
 		}
 	}
 }

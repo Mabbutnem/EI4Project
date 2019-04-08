@@ -191,7 +191,7 @@ public class ZoneGroup
 	
 	
 	
-	private Zone getZone(ZoneType zoneType)
+	public Zone getZone(ZoneType zoneType)
 	{
 		Preconditions.checkArgument(zoneType != null, "zoneType was null but expected not null");
 		

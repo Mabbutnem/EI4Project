@@ -260,5 +260,16 @@ public class UIWizard extends UICharacter
 	public void addRightArrowButtonListener(ActionListener l) {
 		rightArrowButton.addActionListener(l);
 	}
+	
+	
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+		
+		leftArrowButton.setEnabled(enabled);
+		rightArrowButton.setEnabled(enabled);
+	}
 
 }

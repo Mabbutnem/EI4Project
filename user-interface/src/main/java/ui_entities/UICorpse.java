@@ -72,5 +72,5 @@ public class UICorpse extends UIBoardElement
 			
 		counterToReachRebornValue.setVisible(uiVisible);
 	}
-
+	
 }
