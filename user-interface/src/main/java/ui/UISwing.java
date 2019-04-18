@@ -17,6 +17,7 @@ import effect.IEffect;
 import effect.TargetableEffect;
 import effect.YouCanEffect;
 import game.Game;
+import javafx.collections.ListChangeListener;
 import listener.ICardArrayRequestListener;
 import spell.Card;
 import spell.Incantation;
@@ -50,6 +51,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import java.awt.Dimension;
+import javax.swing.SwingConstants;
 
 public class UISwing extends JFrame implements IUI{
 
@@ -75,13 +78,13 @@ public class UISwing extends JFrame implements IUI{
 	private UIBoardElementArray uiBoard;
 	private UICardArray uiCards;
 	private UISpell uiCastZone;
+	private JLabel deckLabel;
 	private UISpell uiDeck;
+	private JLabel discardZoneLabel;
 	private UISpell uiDiscardZone;
 	private JButton continueButton;
 	
 	private JButton handButton;
-	private JButton deckButton; //TODO remove
-	private JButton discardZoneButton; //TODO remove
 	private JButton burnZoneButton;
 	private JButton voidZoneButton;
 	private JButton banishZoneButton;
@@ -159,7 +162,7 @@ public class UISwing extends JFrame implements IUI{
 
 					business.nextLevel();
 					business.beginWizardsTurn();
-					
+
 					initGameMenu();
 					setGameMenuVisible(true);
 					
@@ -183,7 +186,6 @@ public class UISwing extends JFrame implements IUI{
 						business.loadGame(gameNameJList.getSelectedValue());
 
 						setMainMenuVisible(false);
-						
 						initGameMenu();
 						setGameMenuVisible(true);
 					} catch (Exception e) {
@@ -212,6 +214,7 @@ public class UISwing extends JFrame implements IUI{
 		getContentPane().add(deleteGameButton);
 		
 		endTurnButton = new JButton("End turn");
+		endTurnButton.setBorder(new LineBorder(new Color(153, 204, 0)));
 		endTurnButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -221,11 +224,14 @@ public class UISwing extends JFrame implements IUI{
 
 					while(!business.monstersTurnEnded())
 					{
+						business.setSelectedCharacter(business.getCurrentCharacter());
+						uiBoard.setSelectedCharacter(business.getSelectedCharacter());
+						
 						business.playMonstersTurnPart1();
 						if(business.currentCharacterInWizardsRange())
 						{
 							refreshUICastZone();
-							break;
+							return;
 						}
 						while(!business.castZoneIsEmpty())
 						{
@@ -239,6 +245,9 @@ public class UISwing extends JFrame implements IUI{
 					if(business.monstersTurnEnded())
 					{
 						business.beginWizardsTurn();
+
+						business.setSelectedCharacter(business.getCurrentCharacter());
+						uiBoard.setSelectedCharacter(business.getSelectedCharacter());
 					}
 					
 				} catch (Exception e) {
@@ -248,7 +257,7 @@ public class UISwing extends JFrame implements IUI{
 			}
 		});
 		endTurnButton.setSize(89, 23);
-		endTurnButton.setLocation((int)(0.9*screenSize.getWidth()), (int)(0.9*screenSize.getHeight()));
+		endTurnButton.setLocation(1460, 248);
 		endTurnButton.setVisible(false);
 		getContentPane().add(endTurnButton);
 		
@@ -261,16 +270,20 @@ public class UISwing extends JFrame implements IUI{
 						business.castNextSpell();
 						refreshUICastZone();
 					}
+					
 					business.playMonstersTurnPart2();
 					business.nextMonster();
 					
 					while(!business.monstersTurnEnded())
 					{
+						business.setSelectedCharacter(business.getCurrentCharacter());
+						uiBoard.setSelectedCharacter(business.getSelectedCharacter());
+						
 						business.playMonstersTurnPart1();
 						if(business.currentCharacterInWizardsRange())
 						{
 							refreshUICastZone();
-							break;
+							return;
 						}
 						while(!business.castZoneIsEmpty())
 						{
@@ -284,6 +297,10 @@ public class UISwing extends JFrame implements IUI{
 					if(business.monstersTurnEnded())
 					{
 						business.beginWizardsTurn();
+
+						refreshUICastZone();
+						business.setSelectedCharacter(business.getCurrentCharacter());
+						uiBoard.setSelectedCharacter(business.getSelectedCharacter());
 					}
 				
 				} catch (Exception e) {
@@ -292,73 +309,79 @@ public class UISwing extends JFrame implements IUI{
 				}
 			}
 		});
-		continueButton.setBounds(1419, 666, 89, 23);
+		continueButton.setBounds(982, 525, 89, 23);
 		continueButton.setVisible(false);
 		getContentPane().add(continueButton);
 		
+		deckLabel = new JLabel("Deck");
+		deckLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		deckLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		deckLabel.setSize(40, 14);
+		deckLabel.setVisible(false);
+		getContentPane().add(deckLabel);
+		
+		discardZoneLabel = new JLabel("Discard zone");
+		discardZoneLabel.setHorizontalTextPosition(SwingConstants.CENTER);
+		discardZoneLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		discardZoneLabel.setSize(90, 14);
+		discardZoneLabel.setVisible(false);
+		getContentPane().add(discardZoneLabel);
+		
 		handButton = new JButton("Hand");
+		handButton.setBorder(new LineBorder(new Color(0, 0, 0)));
 		handButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				business.setSelectedZone(ZoneType.HAND);
 				refreshUICards();
+				refreshUIDeck();
+				refreshUIDiscardZone();
 			}
 		});
-		handButton.setBounds(10, 727, 89, 23);
+		handButton.setSize(114, 23);
+		handButton.setLocation((int)(screenSize.getWidth()-handButton.getWidth())/2,
+								(int)(0.65*(screenSize.getHeight()-handButton.getHeight())));
 		handButton.setVisible(false);
 		getContentPane().add(handButton);
 
-		deckButton = new JButton("Deck");
-		deckButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				business.setSelectedZone(ZoneType.DECK);
-				refreshUICards();
-			}
-		});
-		deckButton.setBounds(10, 761, 89, 23);
-		deckButton.setVisible(false);
-		getContentPane().add(deckButton);
-
-		discardZoneButton = new JButton("Discard zone");
-		discardZoneButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				business.setSelectedZone(ZoneType.DISCARD);
-				refreshUICards();
-			}
-		});
-		discardZoneButton.setBounds(10, 693, 89, 23);
-		discardZoneButton.setVisible(false);
-		getContentPane().add(discardZoneButton);
-
 		burnZoneButton = new JButton("Burn zone");
+		burnZoneButton.setBorder(new LineBorder(new Color(255, 102, 0)));
 		burnZoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				business.setSelectedZone(ZoneType.BURN);
 				refreshUICards();
+				refreshUIDeck();
+				refreshUIDiscardZone();
 			}
 		});
-		burnZoneButton.setBounds(109, 761, 89, 23);
+		burnZoneButton.setBounds(1460, 446, 114, 23);
 		burnZoneButton.setVisible(false);
 		getContentPane().add(burnZoneButton);
 
 		voidZoneButton = new JButton("Void zone");
+		voidZoneButton.setBorder(new LineBorder(new Color(102, 0, 102)));
 		voidZoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				business.setSelectedZone(ZoneType.VOID);
 				refreshUICards();
+				refreshUIDeck();
+				refreshUIDiscardZone();
 			}
 		});
-		voidZoneButton.setBounds(109, 693, 89, 23);
+		voidZoneButton.setBounds(1460, 480, 114, 23);
 		voidZoneButton.setVisible(false);
 		getContentPane().add(voidZoneButton);
 
 		banishZoneButton = new JButton("Banish zone");
+		banishZoneButton.setBorder(new LineBorder(new Color(255, 255, 255)));
 		banishZoneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				business.setSelectedZone(ZoneType.BANISH);
 				refreshUICards();
+				refreshUIDeck();
+				refreshUIDiscardZone();
 			}
 		});
-		banishZoneButton.setBounds(109, 727, 89, 23);
+		banishZoneButton.setBounds(1460, 514, 114, 23);
 		banishZoneButton.setVisible(false);
 		getContentPane().add(banishZoneButton);
 	}
@@ -444,7 +467,30 @@ public class UISwing extends JFrame implements IUI{
 			public void mousePressed(MouseEvent e) {
 				business.setSelectedCharacter(uiBoard.getSelectedCharacter());
 				
+				if(uiBoard.getSelectedCharacter() instanceof Wizard) {
+					
+					((Wizard) uiBoard.getSelectedCharacter()).getZoneGroup().addListener(
+							new ListChangeListener<Card>() {
+								@Override
+								public void onChanged(Change<? extends Card> arg0) {
+									refreshUIDeck();
+								}
+							},
+							ZoneType.DECK);
+
+					((Wizard) uiBoard.getSelectedCharacter()).getZoneGroup().addListener(
+							new ListChangeListener<Card>() {
+								@Override
+								public void onChanged(Change<? extends Card> arg0) {
+									refreshUIDiscardZone();
+								}
+							},
+							ZoneType.DISCARD);
+				}
+				
 				refreshUICards();
+				refreshUIDeck();
+				refreshUIDiscardZone();
 			}
 		});
 		uiBoard.setLocation((int)(screenSize.getWidth()-uiBoard.getWidth())/2, 0);
@@ -452,9 +498,15 @@ public class UISwing extends JFrame implements IUI{
 		
 		uiCards = new UICardArray(new Card[0]);
 		getContentPane().add(uiCards);
+		refreshUICards();
+		
 		uiDeck = new UISpell(new Incantation("Empty deck", new IEffect[0]));
 		getContentPane().add(uiDeck);
-		refreshUICards();
+		refreshUIDeck();
+		
+		uiDiscardZone = new UISpell(new Incantation("Empty discard zone", new IEffect[0]));
+		getContentPane().add(uiDiscardZone);
+		refreshUIDiscardZone();
 		
 		uiCastZone = new UISpell(new Incantation("Cast zone", new IEffect[0]));
 		getContentPane().add(uiCastZone);
@@ -470,8 +522,6 @@ public class UISwing extends JFrame implements IUI{
 		endTurnButton.setVisible(arg);
 		
 		handButton.setVisible(arg);
-		deckButton.setVisible(arg);
-		discardZoneButton.setVisible(arg);
 		burnZoneButton.setVisible(arg);
 		voidZoneButton.setVisible(arg);
 		banishZoneButton.setVisible(arg);
@@ -480,7 +530,6 @@ public class UISwing extends JFrame implements IUI{
 	private void refreshUICards()
 	{
 		getContentPane().remove(uiCards);
-		getContentPane().remove(uiDeck);
 		
 		if(business.getSelectedCharacter() instanceof Wizard)
 		{
@@ -499,15 +548,31 @@ public class UISwing extends JFrame implements IUI{
 				}
 			});
 			getContentPane().add(uiCards);
-			
-			if(w.getZoneGroup().size(ZoneType.DECK) > 0) {
-				uiDeck = new UISpell(w.getZoneGroup().getCards(ZoneType.DECK)[0]);
+		}
+
+		repaint();
+	}
+	
+	private void refreshUIDeck()
+	{
+		getContentPane().remove(uiDeck);
+		deckLabel.setVisible(false);
+		
+		if(business.getSelectedCharacter() instanceof Wizard)
+		{
+			Wizard w = (Wizard) business.getSelectedCharacter();
+
+			int size = w.getZoneGroup().size(ZoneType.DECK);
+			if(size > 0) {
+				uiDeck = new UISpell(w.getZoneGroup().getCards(ZoneType.DECK)[size-1]);
+				deckLabel.setVisible(true);
 			}
 			else {
 				uiDeck = new UISpell(new Incantation("Empty deck", new IEffect[0]));
+				uiDeck.setVisible(false);
 			}
-			uiDeck.setLocation((int)(0.1*(screenSize.getWidth()-uiDeck.getWidth())), 
-								(int)(0.5*(screenSize.getHeight()-uiDeck.getHeight())));
+			uiDeck.setLocation((int)(0.075*(screenSize.getWidth()-uiDeck.getWidth())), 
+								(int)(0.9*(screenSize.getHeight()-uiDeck.getHeight())));
 			uiDeck.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
@@ -516,9 +581,51 @@ public class UISwing extends JFrame implements IUI{
 					refreshUICards();
 				}
 			});
+			
+			deckLabel.setLocation(uiDeck.getX() + (uiDeck.getWidth()-deckLabel.getWidth())/2, 
+									uiDeck.getY() - deckLabel.getHeight());
+		
 			getContentPane().add(uiDeck);
 		}
+		
+		repaint();
+	}
+	
+	private void refreshUIDiscardZone()
+	{
+		getContentPane().remove(uiDiscardZone);
+		discardZoneLabel.setVisible(false);
+		
+		if(business.getSelectedCharacter() instanceof Wizard)
+		{
+			Wizard w = (Wizard) business.getSelectedCharacter();
+		
+			int size = w.getZoneGroup().size(ZoneType.DISCARD);
+			if(size > 0) {
+				uiDiscardZone = new UISpell(w.getZoneGroup().getCards(ZoneType.DISCARD)[size-1]);
+				discardZoneLabel.setVisible(true);
+			}
+			else {
+				uiDiscardZone = new UISpell(new Incantation("Empty dicard zone", new IEffect[0]));
+				uiDiscardZone.setVisible(false);
+			}
+			uiDiscardZone.setLocation((int)(0.925*(screenSize.getWidth()-uiDiscardZone.getWidth())), 
+								(int)(0.9*(screenSize.getHeight()-uiDiscardZone.getHeight())));
+			uiDiscardZone.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
 
+					business.setSelectedZone(ZoneType.DISCARD);
+					refreshUICards();
+				}
+			});
+			
+			discardZoneLabel.setLocation(uiDiscardZone.getX() + (uiDiscardZone.getWidth()-discardZoneLabel.getWidth())/2, 
+									uiDiscardZone.getY() - discardZoneLabel.getHeight());
+		
+			getContentPane().add(uiDiscardZone);
+		}
+		
 		repaint();
 	}
 	
@@ -540,6 +647,7 @@ public class UISwing extends JFrame implements IUI{
 					public void mousePressed(MouseEvent e) {
 						business.addSelectedCardToCast();
 						refreshUICastZone();
+						refreshUICards();
 						while(!business.castZoneIsEmpty())
 						{
 							business.castNextSpell();
@@ -562,6 +670,7 @@ public class UISwing extends JFrame implements IUI{
 			if(business.getNextSpellToCast() == null)
 			{
 				uiCastZone = new UISpell(new Incantation("No incantation thrown", new IEffect[0]));
+				uiCastZone.setVisible(false);
 			}
 			else
 			{
@@ -570,7 +679,7 @@ public class UISwing extends JFrame implements IUI{
 		}
 
 		uiCastZone.setLocation((int)(screenSize.getWidth() - uiCastZone.getWidth())/2, 
-								(int)(0.5*(screenSize.getHeight() - uiCastZone.getHeight())));
+								(int)(0.4*(screenSize.getHeight() - uiCastZone.getHeight())));
 		getContentPane().add(uiCastZone);
 
 		repaint();

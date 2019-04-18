@@ -266,6 +266,36 @@ public class UIBoardElementArray extends JPanel
 		border = new TitledBorder(new LineBorder(new Color(0, 0, 0), 2), title, TitledBorder.CENTER, TitledBorder.ABOVE_TOP, null, new Color(0, 0, 0));
 		setBorder(border);
 	}
+	
+	public void unsetSelectedCharacter()
+	{
+		for(int j = 0; j < uiBoardElements.length; j++) {
+			if(uiBoardElements[j].isSelected()) {
+				uiBoardElements[j].setSelected(false);
+			}
+		}
+		selectedCharacter = null;
+	}
+	
+	public void setSelectedCharacter(Character character)
+	{
+		for(int j = 0; j < uiBoardElements.length; j++) {
+			if(uiBoardElements[j].getBoardElement() == character) {
+				uiBoardElements[j].setSelected(true);
+			}
+			else if(uiBoardElements[j].isSelected()) {
+				uiBoardElements[j].setSelected(false);
+			}
+		}
+		
+		for(int j = 0; j < uiBoardElements.length; j++) {
+			if(uiBoardElements[j].isSelected() && uiBoardElements[j] instanceof UICharacter) {
+				selectedCharacter = (Character) uiBoardElements[j].getBoardElement();
+				return;
+			}
+		}
+		selectedCharacter = null;
+	}
 
 	public Character getSelectedCharacter()
 	{
