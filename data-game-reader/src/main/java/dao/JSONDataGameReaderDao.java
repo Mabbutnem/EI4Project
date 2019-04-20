@@ -69,7 +69,7 @@ public class JSONDataGameReaderDao implements IDataGameReaderDao
 		Card[] array = mapper.readValue(file,Card[].class);
 		Stream<Card> stream=Stream.of(array);
 		stream=stream.filter(predicate);
-		List<Card> list=stream.collect(Collectors.toList());
+		List<Card> list= stream.collect(Collectors.toList());
 		list.forEach(Card::setDescription);
 		return list.toArray(new Card[0]);
 	}

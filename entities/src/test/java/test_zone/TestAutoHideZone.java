@@ -38,8 +38,6 @@ public class TestAutoHideZone
 	private Card card3;
 	private Card card4;
 	private Card card5;
-	
-	private Card[] addedCards;
 
 	private MockCardArrayDisplayListener cardArrayDisplayListener;
 	
@@ -55,13 +53,6 @@ public class TestAutoHideZone
 	@Before
 	public void setUp() throws Exception {
 		Zone.setCardArrayRequestListener(cardArrayDisplayListener = mock(MockCardArrayDisplayListener.class));
-		
-		addedCards = new Card[]
-				{
-						mock(Card.class),
-						mock(Card.class),
-						mock(Card.class)
-				};
 		
 		cards = new Card[]
 				{
@@ -81,25 +72,6 @@ public class TestAutoHideZone
 
 	
 	
-	
-	@Test
-	public final void testAutoHideZone() {
-		for(Card c : zone.getCards())
-		{
-			verify(c, times(1)).setRevealed(false);
-			verifyNoMoreInteractions(c);
-		}
-	}
-	
-	@Test
-	public final void testAdd() {
-		zone.add(addedCards);
-		for(Card c : addedCards)
-		{
-			verify(c, times(1)).setRevealed(false);
-			verifyNoMoreInteractions(c);
-		}
-	}
 	
 	@Test
 	public final void testRemoveCHOICE() {

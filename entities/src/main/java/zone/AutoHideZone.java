@@ -17,13 +17,6 @@ public class AutoHideZone extends Zone
 	
 	
 	@Override
-	public void add(Card[] cards, ZonePick zonePick)
-	{
-		for(Card c : cards) { c.setRevealed(false);}
-		super.add(cards, zonePick);
-	}
-	
-	@Override
 	protected Card[] removeByChoice(int nbCard)
 	{
 		Card[] removedCards = super.removeByChoice(nbCard);
